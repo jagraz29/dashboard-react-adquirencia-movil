@@ -14,22 +14,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
-
-    /**
-     * @var GrantUserRepository
-     */
-    private $grantUserRepository;
-    /**
-     * @var ClientKeyRepository
-     */
-    private $clientKeyRepository;
-
-    public function __construct(GrantUserRepository $grantUserRepository, ClientKeyRepository $clientKeyRepository)
-    {
-        $this->grantUserRepository = $grantUserRepository;
-        $this->clientKeyRepository = $clientKeyRepository;
-    }
-
     /**
      * Symfony calls this method if you use features like switch_user
      * or remember_me.
@@ -41,33 +25,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      */
     public function loadUserByUsername($username): UserInterface
     {
-        $grantUser = $this->grantUserRepository->findOneBy([
-            'email' => $username,
-            'entityId' => 101111,
-        ]);
-        if (!$grantUser) {
-            throw new \Exception('TODO: fill in loadUserByUsername() inside '.__FILE__);
-        }
-
-        $clientKeys = $this->clientKeyRepository->findOneBy(['clientId' => $grantUser->getClientId()]);
-        if (!$clientKeys) {
-            throw new \Exception('TODO: fill in loadUserByUsername() inside '.__FILE__);
-        }
-
-        $apify = new Apify();
-        $apifyResponse = $apify->loginWithKeys($clientKeys->getPublicKey(), $clientKeys->getPrivateKeyDecrypt());
-        if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
-            throw new \Exception('TODO: fill in loadUserByUsername() inside '.__FILE__);
-        }
-
-        $user = new User();
-        $user->setToken($apifyResponse['token']);
-        $user->setEmail($grantUser->getEmail());
-        $user->setName($grantUser->getName());
-        $user->setLasName($grantUser->getLastName());
-        $user->setPassword($grantUser->getPassword());
-
-        return $user;
+        throw new \Exception('TODO: fill in loadUserByUsername() inside '.__FILE__);
     }
 
     /**
@@ -85,15 +43,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
-        }
-
-        return $user;
-
         // Return a User object after making sure its data is "fresh".
         // Or throw a UsernameNotFoundException if the user no longer exists.
-        //throw new \Exception('TODO: fill in refreshUser() inside '.__FILE__);
+        throw new \Exception('TODO: fill in refreshUser() inside '.__FILE__);
     }
 
     /**

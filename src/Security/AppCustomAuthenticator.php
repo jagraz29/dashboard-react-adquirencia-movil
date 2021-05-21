@@ -60,30 +60,19 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-//        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-//        if (!$this->csrfTokenManager->isTokenValid($token)) {
-//            throw new InvalidCsrfTokenException();
-//        }
-
-        $user = $userProvider->loadUserByUsername($credentials['email']);
-
-        if (!$user) {
-            throw new UsernameNotFoundException('Email could not be found.');
+        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+        if (!$this->csrfTokenManager->isTokenValid($token)) {
+            throw new InvalidCsrfTokenException();
         }
 
-        return $user;
+        throw new UsernameNotFoundException('Email could not be found.');
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
         // Check the user's password or other credentials and return true or false
         // If there are no credentials to check, you can just return true
-        // throw new \Exception('TODO: check the credentials inside '.__FILE__);
-        if (password_verify($credentials['password'], $user->getPassword())) {
-            return true;
-        }
-
-        return false;
+        throw new \Exception('TODO: check the credentials inside '.__FILE__);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -93,8 +82,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 //        }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        return new RedirectResponse($this->router->generate('test'));
+        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl()
