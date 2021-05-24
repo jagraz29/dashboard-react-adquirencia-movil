@@ -21,14 +21,16 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      * If you're not using these features, you do not need to implement
      * this method.
      *
-     * @throws UsernameNotFoundException if the user is not found
+     * @param $username
+     * @return false|UserInterface
+     * @throws \Exception
      */
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername($username)
     {
         $apify = new Apify();
         $apifyResponse = $apify->login($username['email'], $username['password']);
         if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
-            throw new \Exception('TODO: fill in loadUserByUsername() inside '.__FILE__);
+            return false;
         }
 
         $user = new User();
