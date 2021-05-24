@@ -27,29 +27,6 @@ class Apify
         ], [], ['timeout' => 60]);
     }
 
-    public function loginWithKeys(string $publicKey, string $privateKey)
-    {
-        try {
-            $auth = new Requests_Auth_Basic([
-                $publicKey,
-                $privateKey,
-            ]);
-        } catch (Requests_Exception $exception) {
-        }
-
-        $response = Requests::post($this->url . 'login', [], [], [
-            'auth' => $auth,
-        ]);
-
-        if (!$response->success || 200 !== $response->status_code) {
-            throw new Exception('Apify login error');
-        }
-
-        $body = json_decode($response->body, true);
-
-        return $body;
-    }
-
     public function login(string $user, string $password)
     {
         try {

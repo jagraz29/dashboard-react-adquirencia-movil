@@ -65,7 +65,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 //            throw new InvalidCsrfTokenException();
 //        }
 
-        $user = $userProvider->loadUserByUsername($credentials['email']);
+        $user = $userProvider->loadUserByUsername($credentials);
 
         if (!$user) {
             throw new UsernameNotFoundException('Email could not be found.');
