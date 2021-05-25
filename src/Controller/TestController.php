@@ -29,13 +29,13 @@ class TestController extends AbstractController
     ]);
   }
 
-    /**
-     * @Route("/test/consult", name="test_consult")
-     */
-    public function testConsult()
-    {
-        $consult = $this->apify->consult('banks');
+  /**
+   * @Route("/test/consult", name="test_consult")
+   */
+  public function testConsult()
+  {
+    $consult = $this->apify->consult('banks');
 
-        return $this->json($consult);
-    }
+    return $this->json($consult);
+  }
 }
