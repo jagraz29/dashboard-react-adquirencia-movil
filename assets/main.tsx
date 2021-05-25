@@ -6,7 +6,6 @@ import './styles/app.css'
 import App from './App'
 
 const store = configureStore()
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

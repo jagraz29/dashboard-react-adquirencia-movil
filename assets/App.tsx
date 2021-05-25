@@ -1,11 +1,13 @@
-import React from 'react'
-import Routes from './routes/RoutesComponent'
+import './styles/app.css'
 import { BrowserRouter as Router } from 'react-router-dom'
+import Routes from './routes/RoutesComponent'
 
-export default function App() {
+function App() {
   return (
     <Router>
       <Routes />
     </Router>
   )
 }
+
+export default App

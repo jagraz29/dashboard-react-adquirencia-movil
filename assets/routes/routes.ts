@@ -4,7 +4,7 @@ import { RouteConfig } from 'react-router-config'
 const routes: RouteConfig[] = [
   {
     path: '/test/route',
-    exact: true,
+    exact: false,
     component: Home,
   },
 ]

@@ -72,19 +72,4 @@ export class DataService {
     const api_endpoint = config.api + endpoint
     return axios.post(api_endpoint, api_body, option)
   }
-
-  validateRecaptcha(recaptchaToken: string) {
-    const recaptchaSecret = config.captchaKey
-    const url = `https://www.recaptcha.net/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`
-    let valid = false
-    const threshold = 0.6
-    axios
-      .post(url)
-      .then((response: any) => response.json())
-      .then((data: any) => {
-        console.log(data)
-        valid = data.success && data.score && data.action && data.score >= threshold
-      })
-    return valid
-  }
 }
