@@ -6,127 +6,127 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface
 {
-    private $email;
+  private $email;
 
-    private $roles = [];
+  private $roles = [];
 
-    private $token;
+  private $token;
 
-    private $name;
+  private $name;
 
-    private $lastName;
+  private $lastName;
 
-    private $password;
+  private $password;
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+  public function getEmail(): ?string
+  {
+    return $this->email;
+  }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+  public function setEmail(string $email): self
+  {
+    $this->email = $email;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
+  /**
+   * A visual identifier that represents this user.
+   *
+   * @see UserInterface
+   */
+  public function getUsername(): string
+  {
+    return (string) $this->email;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+  /**
+   * @see UserInterface
+   */
+  public function getRoles(): array
+  {
+    $roles = $this->roles;
+    // guarantee every user at least has ROLE_USER
+    $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
-    }
+    return array_unique($roles);
+  }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+  public function setRoles(array $roles): self
+  {
+    $this->roles = $roles;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
-     *
-     * @see UserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
+  /**
+   * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
+   *
+   * @see UserInterface
+   */
+  public function getPassword(): ?string
+  {
+    return $this->password;
+  }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-        return $this;
-    }
+  public function setPassword(string $password): self
+  {
+    $this->password = $password;
+    return $this;
+  }
 
-    /**
-     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
+  /**
+   * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
+   *
+   * @see UserInterface
+   */
+  public function getSalt(): ?string
+  {
+    return null;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+  /**
+   * @see UserInterface
+   */
+  public function eraseCredentials()
+  {
+    // If you store any temporary, sensitive data on the user, clear it here
+    // $this->plainPassword = null;
+  }
 
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
+  public function getToken(): ?string
+  {
+    return $this->token;
+  }
 
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
+  public function setToken(string $token): self
+  {
+    $this->token = $token;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+  public function getName(): ?string
+  {
+    return $this->name;
+  }
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+  public function setName(string $name): self
+  {
+    $this->name = $name;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
+  public function getLastName(): ?string
+  {
+    return $this->lastName;
+  }
 
-    public function setLasName(string $lastName): self
-    {
-        $this->lastName = $lastName;
+  public function setLasName(string $lastName): self
+  {
+    $this->lastName = $lastName;
 
-        return $this;
-    }
+    return $this;
+  }
 }

@@ -1,0 +1,29 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    steps:
+      - name: cleanup
+        run: sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: docker://sonarsource/sonar-scanner-cli:latest
+        with:
+          args: >-
+            -Dsonar.pullrequest.key=${{ github.event.number }}
+            -Dsonar.pullrequest.branch=${{ github.head_ref }}
+            -Dsonar.pullrequest.base=${{ github.base_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

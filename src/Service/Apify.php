@@ -12,58 +12,65 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Apify extends AbstractController
 {
-    /**
-     * @var Requests_Session
-     */
-    private $session;
+  /**
+   * @var Requests_Session
+   */
+  private $session;
 
-    private $url;
+  private $url;
 
-    public function __construct()
-    {
-        $this->url = 'https://apify.epayco.xyz/';
-        $this->session = new Requests_Session($this->url, [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-        ], [], ['timeout' => 60]);
+  public function __construct()
+  {
+    $this->url = 'https://apify.epayco.xyz/';
+    $this->session = new Requests_Session(
+      $this->url,
+      [
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/json',
+      ],
+      [],
+      ['timeout' => 60]
+    );
+  }
+
+  public function login(string $user, string $password)
+  {
+    try {
+      $auth = new Requests_Auth_Basic([$user, $password]);
+    } catch (Requests_Exception $exception) {
     }
 
-    public function login(string $user, string $password)
-    {
-        try {
-            $auth = new Requests_Auth_Basic([
-                $user,
-                $password,
-            ]);
-        } catch (Requests_Exception $exception) {
-        }
+    $response = Requests::post(
+      $this->url . 'login/mail',
+      [],
+      [],
+      [
+        'auth' => $auth,
+      ]
+    );
 
-        $response = Requests::post($this->url . 'login/mail', [], [], [
-            'auth' => $auth,
-        ]);
-
-        if (!$response->success || 200 !== $response->status_code) {
-            throw new Exception('Apify login error');
-        }
-
-        $body = json_decode($response->body, true);
-
-        return $body;
+    if (!$response->success || 200 !== $response->status_code) {
+      throw new Exception('Apify login error');
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     * @param array $headers
-     * @return array
-     */
-    public function consult(string $path, $data = [], $headers = []): array
-    {
-        $user = $this->getUser();
+    $body = json_decode($response->body, true);
 
-        $this->session->headers = array_merge($this->session->headers, [
-            'Authorization' => 'Bearer ' . $user->getToken(),
-        ]);
+    return $body;
+  }
+
+  /**
+   * @param string $path
+   * @param array $data
+   * @param array $headers
+   * @return array
+   */
+  public function consult(string $path, $data = [], $headers = []): array
+  {
+    $user = $this->getUser();
+
+    $this->session->headers = array_merge($this->session->headers, [
+      'Authorization' => 'Bearer ' . $user->getToken(),
+    ]);
 
         $response = $this->session->request($this->url . $path, $headers, $data);
         $body = json_decode($response->body, true);
