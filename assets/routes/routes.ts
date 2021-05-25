@@ -7,7 +7,6 @@ const routes: RouteConfig[] = [
     exact: true,
     component: Home,
   },
-
 ]
 
 export default routes

@@ -6,5 +6,5 @@ use Laminas\EventManager\Event;
 
 class ApifyUnauthorizedEvent extends Event
 {
-    const NAME = 'apify.unauthorized';
+  const NAME = 'apify.unauthorized';
 }
