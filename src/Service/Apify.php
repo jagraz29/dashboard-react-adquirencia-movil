@@ -19,9 +19,9 @@ class Apify extends AbstractController
 
   private $url;
 
-  public function __construct()
+  public function __construct(string $url)
   {
-    $this->url = 'https://apify.epayco.xyz/';
+    $this->url = $url;
     $this->session = new Requests_Session(
       $this->url,
       [

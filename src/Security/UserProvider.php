@@ -11,6 +11,16 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
   /**
+   * @var Apify
+   */
+  private $apify;
+
+  public function __construct(Apify $apify)
+  {
+    $this->apify = $apify;
+  }
+
+  /**
    * Symfony calls this method if you use features like switch_user
    * or remember_me.
    *
@@ -23,8 +33,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    */
   public function loadUserByUsername($username)
   {
-    $apify = new Apify();
-    $apifyResponse = $apify->login($username['email'], $username['password']);
+    $apifyResponse = $this->apify->login($username['email'], $username['password']);
     if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
       return false;
     }
