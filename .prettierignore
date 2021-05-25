@@ -1,0 +1,14 @@
+
+bin/*
+package.json
+package-lock.json
+composer.json
+yarn.lock
+composer.lock
+composer-lock.json
+translations/*
+templates/*
+migrations/*
+vendor/*
+*.yaml
+var/*

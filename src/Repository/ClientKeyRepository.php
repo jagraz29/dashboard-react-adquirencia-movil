@@ -14,15 +14,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ClientKeyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ClientKey::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, ClientKey::class);
+  }
 
-    // /**
-    //  * @return ClientKey[] Returns an array of ClientKey objects
-    //  */
-    /*
+  // /**
+  //  * @return ClientKey[] Returns an array of ClientKey objects
+  //  */
+  /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('c')
@@ -36,7 +36,7 @@ class ClientKeyRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+  /*
     public function findOneBySomeField($value): ?ClientKey
     {
         return $this->createQueryBuilder('c')

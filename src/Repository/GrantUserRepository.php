@@ -14,15 +14,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GrantUserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, GrantUser::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, GrantUser::class);
+  }
 
-    // /**
-    //  * @return GrantUser[] Returns an array of GrantUser objects
-    //  */
-    /*
+  // /**
+  //  * @return GrantUser[] Returns an array of GrantUser objects
+  //  */
+  /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('g')
@@ -36,7 +36,7 @@ class GrantUserRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+  /*
     public function findOneBySomeField($value): ?GrantUser
     {
         return $this->createQueryBuilder('g')
