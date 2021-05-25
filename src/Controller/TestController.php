@@ -34,10 +34,8 @@ class TestController extends AbstractController
      */
     public function testConsult()
     {
-        $this->apify->consult('banks');
+        $consult = $this->apify->consult('banks');
 
-        return $this->json([
-            'hola',
-        ], 200);
+        return $this->json($consult);
     }
 }

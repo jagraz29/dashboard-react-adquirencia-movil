@@ -65,9 +65,9 @@ class Apify extends AbstractController
             'Authorization' => 'Bearer ' . $user->getToken(),
         ]);
 
-        $response = Requests::post($this->url . $path, $headers, $data);
+        $response = $this->session->request($this->url . $path, $headers, $data);
         $body = json_decode($response->body, true);
 
-        return $body;
+        return $body['data'];
     }
 }
