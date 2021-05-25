@@ -1,5 +1,6 @@
 import Home from '../views/Home'
 import { RouteConfig } from 'react-router-config'
+import { RoutesSell } from './routesSell'
 
 const routes: RouteConfig[] = [
   {
@@ -7,6 +8,7 @@ const routes: RouteConfig[] = [
     exact: false,
     component: Home,
   },
+  RoutesSell,
 ]
 
 export default routes

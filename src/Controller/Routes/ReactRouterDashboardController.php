@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Routes;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-final class ReactRouterController extends AbstractController
+final class ReactRouterDashboardController extends AbstractController
 {
   /**
    *
-   * @Route("/test/route", name="test_route")
+   * @Route("/dashboard", name="dashboard")
    *
    */
 
-  public function testRouter(Request $request)
+  public function routerDashboard(Request $request)
   {
     // en index pagina con datos generales de la app
     return $this->render('base.html.twig');
