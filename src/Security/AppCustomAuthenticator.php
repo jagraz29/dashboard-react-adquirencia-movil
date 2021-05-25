@@ -19,74 +19,78 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 {
-    use TargetPathTrait;
+  use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+  public const LOGIN_ROUTE = 'app_login';
 
-    private $urlGenerator;
-    private $csrfTokenManager;
-    private $router;
+  private $urlGenerator;
+  private $csrfTokenManager;
+  private $router;
 
-    public function __construct(
-        UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        RouterInterface $router
-    ) {
-        $this->urlGenerator = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->router = $router;
+  public function __construct(
+    UrlGeneratorInterface $urlGenerator,
+    CsrfTokenManagerInterface $csrfTokenManager,
+    RouterInterface $router
+  ) {
+    $this->urlGenerator = $urlGenerator;
+    $this->csrfTokenManager = $csrfTokenManager;
+    $this->router = $router;
+  }
+
+  public function supports(Request $request)
+  {
+    return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
+  }
+
+  public function getCredentials(Request $request)
+  {
+    $credentials = [
+      'email' => $request->request->get('email'),
+      'password' => $request->request->get('password'),
+      'csrf_token' => $request->request->get('_csrf_token'),
+    ];
+    $request->getSession()->set(Security::LAST_USERNAME, $credentials['email']);
+
+    return $credentials;
+  }
+
+  public function getUser($credentials, UserProviderInterface $userProvider)
+  {
+    $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+    if (!$this->csrfTokenManager->isTokenValid($token)) {
+      throw new InvalidCsrfTokenException();
     }
 
-    public function supports(Request $request)
-    {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+    $user = $userProvider->loadUserByUsername($credentials);
+
+    if (!$user) {
+      throw new UsernameNotFoundException('Email could not be found.');
     }
 
-    public function getCredentials(Request $request)
-    {
-        $credentials = [
-            'email' => $request->request->get('email'),
-            'password' => $request->request->get('password'),
-            //'csrf_token' => $request->request->get('_csrf_token'),
-        ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['email']
-        );
+    return $user;
+  }
 
-        return $credentials;
+  public function checkCredentials($credentials, UserInterface $user)
+  {
+    // Check the user's password or other credentials and return true or false
+    // como el login se hace desde apify y este proyecto no tiene conexion a DB, este metodo no se utiliza
+
+    return true;
+  }
+
+  public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+  {
+    if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+      return new RedirectResponse($targetPath);
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
-        }
+    // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
+    //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    return new RedirectResponse($this->router->generate('test'));
+  }
 
-        throw new UsernameNotFoundException('Email could not be found.');
-    }
-
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        // Check the user's password or other credentials and return true or false
-        // If there are no credentials to check, you can just return true
-        throw new \Exception('TODO: check the credentials inside '.__FILE__);
-    }
-
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-//        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-//            return new RedirectResponse($targetPath);
-//        }
-
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-    }
-
-    protected function getLoginUrl()
-    {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
-    }
+  protected function getLoginUrl()
+  {
+    return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+  }
 }
