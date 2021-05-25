@@ -11,9 +11,9 @@ services:
         APP_XDEBUG_HOST: '${IP_DEBUG}'
         APP_XDEBUG_PORT: '${PORT_DEBUG}'
     ports:
-      - '${PORT_LOCAL}:80'
+      - '${PORT_LOCAL}:${PORT_LOCAL}'
     working_dir: /var/www/app
-    #command: bash -c "php bin/console server:run *:8000"
+    command: bash -c "php bin/console server:run *:8000"
     volumes:
       - ./:/var/www/app
     networks:

@@ -8,14 +8,16 @@ npm install -g @commitlint/cli @commitlint/config-conventional
 
 ## docker
 
-```
-make docker-build
-```
+# build
 
 ```
-make docker-start
+make docker-compose -f docker-compose-debug.yml --env-file ./docker/api.env up -d
 ```
-
+# start
 ```
-make docker-stop
+docker-compose -f docker-compose-debug.yml --env-file ./docker/api.env start
+```
+# stop
+```
+docker-compose -f docker-compose-debug.yml --env-file ./docker/api.env stop
 ```
