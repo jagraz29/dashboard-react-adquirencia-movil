@@ -5,3 +5,17 @@ npm install -g @commitlint/cli @commitlint/config-conventional
 ```
 
 ## usar el terminal para hacer cada commit
+
+## docker
+
+```
+make docker-build
+```
+
+```
+make docker-start
+```
+
+```
+make docker-stop
+```
