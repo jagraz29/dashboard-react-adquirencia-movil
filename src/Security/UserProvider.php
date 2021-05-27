@@ -76,7 +76,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     // Return a User object after making sure its data is "fresh".
     // Or throw a UsernameNotFoundException if the user no longer exists.
-    //throw new \Exception('TODO: fill in refreshUser() inside '.__FILE__);
   }
 
   /**
@@ -92,7 +91,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    */
   public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
   {
-    // TODO: when encoded passwords are in use, this method should:
     // 1. persist the new password in the user storage
     // 2. update the $user object with $user->setPassword($newEncodedPassword);
   }
