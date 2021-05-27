@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Service\Apify;
+use Requests;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,9 +39,16 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
       return false;
     }
 
+    try {
+      $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+    } catch (\Exception $e) {
+    }
+
     $user = new User();
     $user->setToken($apifyResponse['token']);
     $user->setEmail($username['email']);
+    $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
+    $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
 
     return $user;
   }

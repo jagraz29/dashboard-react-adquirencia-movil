@@ -2,13 +2,18 @@
 
 namespace App\Service;
 
-use Doctrine\DBAL\Driver\AbstractDB2Driver;
+use App\Event\ApifyUnauthorizedEvent;
+use App\EventSubscriber\ApifyUnauthorizedSubscriber;
 use Exception;
 use Requests;
 use Requests_Auth_Basic;
 use Requests_Exception;
 use Requests_Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\RouterInterface;
 
 class Apify extends AbstractController
 {
@@ -19,8 +24,21 @@ class Apify extends AbstractController
 
   private $url;
 
-  public function __construct(string $url)
-  {
+  /**
+   * @var EventDispatcherInterface
+   */
+  private $eventDispatcher;
+
+  /**
+   * @var RouterInterface
+   */
+  private $router;
+
+  public function __construct(
+    string $url,
+    EventDispatcherInterface $eventDispatcher,
+    RouterInterface $router
+  ) {
     $this->url = $url;
     $this->session = new Requests_Session(
       $this->url,
@@ -31,6 +49,8 @@ class Apify extends AbstractController
       [],
       ['timeout' => 60]
     );
+    $this->eventDispatcher = $eventDispatcher;
+    $this->router = $router;
   }
 
   public function login(string $user, string $password)
@@ -53,18 +73,29 @@ class Apify extends AbstractController
       throw new Exception('Apify login error');
     }
 
-    $body = json_decode($response->body, true);
+    return json_decode($response->body, true);
+  }
 
-    return $body;
+  public function loginWithKeys(string $publicKey, string $privateKey)
+  {
+    $auth = new Requests_Auth_Basic([$publicKey, $privateKey]);
+    $response = $this->session->request($this->url . 'login', [], [], Requests::POST);
+
+    if ($response->status_code >= 400) {
+      return;
+    }
+
+    return json_decode($response->body, true);
   }
 
   /**
    * @param string $path
+   * @param string $method ['POST', 'GET']
    * @param array $data
    * @param array $headers
-   * @return array
+   * @throws Requests_Exception
    */
-  public function consult(string $path, $data = [], $headers = []): array
+  public function consult(string $path, $method = Requests::GET, $data = [], $headers = [])
   {
     $user = $this->getUser();
 
@@ -72,9 +103,37 @@ class Apify extends AbstractController
       'Authorization' => 'Bearer ' . $user->getToken(),
     ]);
 
-    $response = $this->session->request($this->url . $path, $headers, $data);
+    if ($method === Requests::GET) {
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
+    } elseif ($method === Requests::POST) {
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::POST);
+    } else {
+      //por default GET
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
+    }
+
+    //    if ($response->status_code === 401) {
+    //        $this->eventDispatcher->dispatch(new ApifyUnauthorizedEvent(), ApifyUnauthorizedEvent::NAME);
+    //    }
+
     $body = json_decode($response->body, true);
 
     return $body['data'];
+  }
+
+  /**
+   * @param string $token
+   * @return mixed
+   * @throws Requests_Exception
+   */
+  public function getClientKeys(string $token)
+  {
+    $this->session->headers = array_merge($this->session->headers, [
+      'Authorization' => 'Bearer ' . $token,
+    ]);
+
+    $response = $this->session->request($this->url . 'configuration/keys');
+    $body = json_decode($response->body, true);
+    return $body[0]['data'];
   }
 }
