@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Event\ApifyUnauthorizedEvent;
 use App\EventSubscriber\ApifyUnauthorizedSubscriber;
+use App\Exception\ApifyRefreshTokenException;
 use Exception;
 use Requests;
 use Requests_Auth_Basic;
@@ -110,6 +111,9 @@ class Apify extends AbstractController
       $this->eventDispatcher->dispatch(new ApifyUnauthorizedEvent(), ApifyUnauthorizedEvent::NAME);
       $this->session->headers['Authorization'] = 'Bearer ' . $user->getToken();
       $response = $this->consultApify($method, $path, $headers, $data);
+      if ($response->status_code === 401) {
+        throw new ApifyRefreshTokenException('Error in apify login');
+      }
     }
 
     return json_decode($response->body, true);

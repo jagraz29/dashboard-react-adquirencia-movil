@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Event\ApifyUnauthorizedEvent;
+use App\Exception\ApifyRefreshTokenException;
 use App\Service\Apify;
 use Doctrine\DBAL\Exception;
 use Psr\Container\ContainerInterface;
@@ -47,12 +48,12 @@ class ApifyUnauthorizedSubscriber implements EventSubscriberInterface
   {
     $user = $this->security->getUser();
     if ($user->getPrivateKey() === '' || $user->getPublicKey() === '') {
-      return;
+      throw new ApifyRefreshTokenException('The client has not keys');
     }
 
     $apifyResponse = $this->apify->loginWithKeys($user->getPublicKey(), $user->getPrivateKey());
     if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
-      return false;
+      throw new ApifyRefreshTokenException('Error in apify login');
     }
     $user->setToken($apifyResponse['token']);
     $this->userProvider->refreshUser($user);
