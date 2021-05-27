@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Service\Apify;
+use Requests;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,6 +11,16 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
+  /**
+   * @var Apify
+   */
+  private $apify;
+
+  public function __construct(Apify $apify)
+  {
+    $this->apify = $apify;
+  }
+
   /**
    * Symfony calls this method if you use features like switch_user
    * or remember_me.
@@ -23,15 +34,21 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    */
   public function loadUserByUsername($username)
   {
-    $apify = new Apify();
-    $apifyResponse = $apify->login($username['email'], $username['password']);
+    $apifyResponse = $this->apify->login($username['email'], $username['password']);
     if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
       return false;
+    }
+
+    try {
+      $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+    } catch (\Exception $e) {
     }
 
     $user = new User();
     $user->setToken($apifyResponse['token']);
     $user->setEmail($username['email']);
+    $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
+    $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
 
     return $user;
   }
