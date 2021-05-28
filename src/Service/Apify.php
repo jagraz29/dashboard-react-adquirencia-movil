@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Event\ApifyUnauthorizedEvent;
 use App\EventSubscriber\ApifyUnauthorizedSubscriber;
+use App\Exception\ApifyRefreshTokenException;
 use Exception;
 use Requests;
 use Requests_Auth_Basic;
@@ -79,7 +80,7 @@ class Apify extends AbstractController
   public function loginWithKeys(string $publicKey, string $privateKey)
   {
     $auth = new Requests_Auth_Basic([$publicKey, $privateKey]);
-    $response = $this->session->request($this->url . 'login', [], [], Requests::POST);
+    $response = Requests::post($this->url . 'login', [], [], ['auth' => $auth]);
 
     if ($response->status_code >= 400) {
       return;
@@ -103,22 +104,19 @@ class Apify extends AbstractController
       'Authorization' => 'Bearer ' . $user->getToken(),
     ]);
 
-    if ($method === Requests::GET) {
-      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
-    } elseif ($method === Requests::POST) {
-      $response = $this->session->request($this->url . $path, $headers, $data, Requests::POST);
-    } else {
-      //por default GET
-      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
+    $response = $this->consultApify($method, $path, $headers, $data);
+
+    if ($response->status_code === 401) {
+      // Refresh token apify
+      $this->eventDispatcher->dispatch(new ApifyUnauthorizedEvent(), ApifyUnauthorizedEvent::NAME);
+      $this->session->headers['Authorization'] = 'Bearer ' . $user->getToken();
+      $response = $this->consultApify($method, $path, $headers, $data);
+      if ($response->status_code === 401) {
+        throw new ApifyRefreshTokenException('Error in apify login');
+      }
     }
 
-    //    if ($response->status_code === 401) {
-    //        $this->eventDispatcher->dispatch(new ApifyUnauthorizedEvent(), ApifyUnauthorizedEvent::NAME);
-    //    }
-
-    $body = json_decode($response->body, true);
-
-    return $body['data'];
+    return json_decode($response->body, true);
   }
 
   /**
@@ -135,5 +133,26 @@ class Apify extends AbstractController
     $response = $this->session->request($this->url . 'configuration/keys');
     $body = json_decode($response->body, true);
     return $body[0]['data'];
+  }
+
+  /**
+   * @param string $method
+   * @param string $path
+   * @param array $headers
+   * @param array $data
+   * @return \Requests_Response
+   * @throws Requests_Exception
+   */
+  private function consultApify(string $method, string $path, $headers = [], $data = [])
+  {
+    if ($method === Requests::GET) {
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
+    } elseif ($method === Requests::POST) {
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::POST);
+    } else {
+      //por default GET
+      $response = $this->session->request($this->url . $path, $headers, $data, Requests::GET);
+    }
+    return $response;
   }
 }

@@ -3,8 +3,11 @@
 namespace App\EventSubscriber;
 
 use App\Event\ApifyUnauthorizedEvent;
+use App\Exception\ApifyRefreshTokenException;
 use App\Service\Apify;
 use Doctrine\DBAL\Exception;
+use Psr\Container\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
@@ -26,21 +29,12 @@ class ApifyUnauthorizedSubscriber implements EventSubscriberInterface
    * @var UserProviderInterface
    */
   private $userProvider;
-  /**
-   * @var RouterInterface
-   */
-  private $router;
 
-  public function __construct(
-    Apify $apify,
-    Security $security,
-    UserProviderInterface $userProvider,
-    RouterInterface $router
-  ) {
+  public function __construct(Apify $apify, Security $security, UserProviderInterface $userProvider)
+  {
     $this->apify = $apify;
     $this->security = $security;
     $this->userProvider = $userProvider;
-    $this->router = $router;
   }
 
   public static function getSubscribedEvents()
@@ -54,14 +48,14 @@ class ApifyUnauthorizedSubscriber implements EventSubscriberInterface
   {
     $user = $this->security->getUser();
     if ($user->getPrivateKey() === '' || $user->getPublicKey() === '') {
-      return;
+      throw new ApifyRefreshTokenException('The client has not keys');
     }
 
     $apifyResponse = $this->apify->loginWithKeys($user->getPublicKey(), $user->getPrivateKey());
     if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
-      return false;
+      throw new ApifyRefreshTokenException('Error in apify login');
     }
     $user->setToken($apifyResponse['token']);
-    //$this->userProvider->refreshUser($user);
+    $this->userProvider->refreshUser($user);
   }
 }
