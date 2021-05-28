@@ -24,7 +24,7 @@ class TestController extends BaseController
    */
   public function testConsult()
   {
-    $consult = $this->apify->consult('banks');
+    $consult = $this->apify->consult('banks', \Requests::POST);
 
     return $this->json($consult);
   }

@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Service\Apify;
 use Requests;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,10 +16,15 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    * @var Apify
    */
   private $apify;
+  /**
+   * @var SessionInterface
+   */
+  private $session;
 
-  public function __construct(Apify $apify)
+  public function __construct(Apify $apify, SessionInterface $session)
   {
     $this->apify = $apify;
+    $this->session = $session;
   }
 
   /**
@@ -71,7 +77,8 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     if (!$user instanceof User) {
       throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
     }
-
+    $this->session->migrate();
+    //$lifetime = $this->session->getMetadataBag();
     return $user;
 
     // Return a User object after making sure its data is "fresh".
