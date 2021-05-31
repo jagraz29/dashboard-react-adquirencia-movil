@@ -47,6 +47,11 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     try {
       $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+      $userData = $this->apify->consultWithoutLogin(
+        $apifyResponse['token'],
+        'client/update',
+        Requests::POST
+      );
     } catch (\Exception $e) {
     }
 
@@ -55,6 +60,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     $user->setEmail($username['email']);
     $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
     $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
+    $user->setName(isset($userData['companyName']) ? $userData['companyName'] : '');
+    $user->setCellPhone(isset($userData['cellPhone']) ? $userData['cellPhone'] : '');
+    $user->setLogo(isset($userData['logo']) ? $userData['logo'] : '');
 
     return $user;
   }
@@ -78,7 +86,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
       throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
     }
     $this->session->migrate();
-    //$lifetime = $this->session->getMetadataBag();
     return $user;
 
     // Return a User object after making sure its data is "fresh".

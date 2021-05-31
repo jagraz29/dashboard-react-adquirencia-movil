@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Event\ApifyUnauthorizedEvent;
 use App\EventSubscriber\ApifyUnauthorizedSubscriber;
+use App\Exception\ApifyException;
 use App\Exception\ApifyRefreshTokenException;
 use Exception;
 use Requests;
@@ -71,7 +72,7 @@ class Apify extends AbstractController
     );
 
     if (!$response->success || 200 !== $response->status_code) {
-      throw new Exception('Apify login error');
+      throw new ApifyException('Apify login error');
     }
 
     return json_decode($response->body, true);
@@ -83,7 +84,7 @@ class Apify extends AbstractController
     $response = Requests::post($this->url . 'login', [], [], ['auth' => $auth]);
 
     if ($response->status_code >= 400) {
-      return;
+      throw new ApifyException('Apify login error');
     }
 
     return json_decode($response->body, true);
@@ -133,6 +134,24 @@ class Apify extends AbstractController
     $response = $this->session->request($this->url . 'configuration/keys');
     $body = json_decode($response->body, true);
     return $body[0]['data'];
+  }
+
+  /**
+   * @param string $token
+   * @param string $path
+   * @param string $method
+   * @return mixed
+   * @throws Requests_Exception
+   */
+  public function consultWithoutLogin(string $token, string $path, string $method)
+  {
+    $this->session->headers = array_merge($this->session->headers, [
+      'Authorization' => 'Bearer ' . $token,
+    ]);
+
+    $response = $this->session->request($this->url . $path, [], [], $method);
+    $body = json_decode($response->body, true);
+    return $body['data'];
   }
 
   /**
