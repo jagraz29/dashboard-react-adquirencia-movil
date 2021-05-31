@@ -72,9 +72,6 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
   public function checkCredentials($credentials, UserInterface $user)
   {
-    // Check the user's password or other credentials and return true or false
-    // como el login se hace desde apify y este proyecto no tiene conexion a DB, este metodo no se utiliza
-
     return true;
   }
 
@@ -83,9 +80,6 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
       return new RedirectResponse($targetPath);
     }
-
-    // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-    //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     return new RedirectResponse($this->router->generate('dashboard'));
   }
 

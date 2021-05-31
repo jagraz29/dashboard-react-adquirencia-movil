@@ -1,24 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Service\Apify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TestController extends AbstractController
+class TestController extends BaseController
 {
-  /**
-   * @var Apify
-   */
-  private $apify;
-
-  public function __construct(Apify $apify)
-  {
-    $this->apify = $apify;
-  }
-
   /**
    * @Route("/test", name="test")
    */
@@ -34,7 +24,7 @@ class TestController extends AbstractController
    */
   public function testConsult()
   {
-    $consult = $this->apify->consult('banks');
+    $consult = $this->apify->consult('banks', \Requests::POST);
 
     return $this->json($consult);
   }

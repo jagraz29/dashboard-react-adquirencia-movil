@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Service\Apify;
+use Requests;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,6 +12,21 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
+  /**
+   * @var Apify
+   */
+  private $apify;
+  /**
+   * @var SessionInterface
+   */
+  private $session;
+
+  public function __construct(Apify $apify, SessionInterface $session)
+  {
+    $this->apify = $apify;
+    $this->session = $session;
+  }
+
   /**
    * Symfony calls this method if you use features like switch_user
    * or remember_me.
@@ -23,15 +40,29 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    */
   public function loadUserByUsername($username)
   {
-    $apify = new Apify();
-    $apifyResponse = $apify->login($username['email'], $username['password']);
+    $apifyResponse = $this->apify->login($username['email'], $username['password']);
     if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
       return false;
+    }
+
+    try {
+      $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+      $userData = $this->apify->consultWithoutLogin(
+        $apifyResponse['token'],
+        'client/update',
+        Requests::POST
+      );
+    } catch (\Exception $e) {
     }
 
     $user = new User();
     $user->setToken($apifyResponse['token']);
     $user->setEmail($username['email']);
+    $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
+    $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
+    $user->setName(isset($userData['companyName']) ? $userData['companyName'] : '');
+    $user->setCellPhone(isset($userData['cellPhone']) ? $userData['cellPhone'] : '');
+    $user->setLogo(isset($userData['logo']) ? $userData['logo'] : '');
 
     return $user;
   }
@@ -54,12 +85,11 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     if (!$user instanceof User) {
       throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
     }
-
+    $this->session->migrate();
     return $user;
 
     // Return a User object after making sure its data is "fresh".
     // Or throw a UsernameNotFoundException if the user no longer exists.
-    //throw new \Exception('TODO: fill in refreshUser() inside '.__FILE__);
   }
 
   /**
@@ -75,7 +105,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    */
   public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
   {
-    // TODO: when encoded passwords are in use, this method should:
     // 1. persist the new password in the user storage
     // 2. update the $user object with $user->setPassword($newEncodedPassword);
   }

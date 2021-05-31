@@ -18,6 +18,14 @@ class User implements UserInterface
 
   private $password;
 
+  private $privateKey;
+
+  private $publicKey;
+
+  private $cellPhone;
+
+  private $logo;
+
   public function getEmail(): ?string
   {
     return $this->email;
@@ -127,6 +135,50 @@ class User implements UserInterface
   {
     $this->lastName = $lastName;
 
+    return $this;
+  }
+
+  public function getPrivateKey(): ?string
+  {
+    return $this->privateKey;
+  }
+
+  public function setPrivateKey(string $privateKey): self
+  {
+    $this->privateKey = $privateKey;
+    return $this;
+  }
+
+  public function getPublicKey(): ?string
+  {
+    return $this->publicKey;
+  }
+
+  public function setPublicKey(string $publicKey): self
+  {
+    $this->publicKey = $publicKey;
+    return $this;
+  }
+
+  public function getCellPhone(): ?string
+  {
+    return $this->cellPhone;
+  }
+
+  public function setCellPhone(string $cellPhone): self
+  {
+    $this->cellPhone = $cellPhone;
+    return $this;
+  }
+
+  public function getLogo(): ?string
+  {
+    return $this->logo;
+  }
+
+  public function setLogo(string $logo): self
+  {
+    $this->logo = $logo;
     return $this;
   }
 }
