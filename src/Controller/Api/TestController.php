@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Dto\TestDto;
 use App\Service\Apify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,15 @@ class TestController extends BaseController
    */
   public function testConsult()
   {
+    $testDto = new TestDto();
+    $testDto->setName('name');
+    $testDto->setLastName('name');
+
+    $errors = $this->validator->validate($testDto);
+    if (count($errors) > 0) {
+      return $this->validatorErrorResponse($errors);
+    }
+
     $consult = $this->apify->consult('banks');
 
     return $this->json($consult);
