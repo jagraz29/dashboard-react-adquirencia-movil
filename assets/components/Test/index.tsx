@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default function index() {
-  return <div>'hola'</div>
+  return <div>'hola synfony'</div>
 }
