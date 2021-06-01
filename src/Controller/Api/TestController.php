@@ -26,7 +26,7 @@ class TestController extends BaseController
   public function testConsult()
   {
     $testDto = new TestDto();
-    $testDto->setName('name');
+    $testDto->setName('');
     $testDto->setLastName('name');
 
     $errors = $this->validator->validate($testDto);
@@ -36,6 +36,6 @@ class TestController extends BaseController
 
     $consult = $this->apify->consult('banks');
 
-    return $this->json($consult);
+    return $this->jsonResponse(true, $consult['data'], 'banks');
   }
 }
