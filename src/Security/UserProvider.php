@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Service\Apify;
 use Requests;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,10 +16,15 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
    * @var Apify
    */
   private $apify;
+  /**
+   * @var SessionInterface
+   */
+  private $session;
 
-  public function __construct(Apify $apify)
+  public function __construct(Apify $apify, SessionInterface $session)
   {
     $this->apify = $apify;
+    $this->session = $session;
   }
 
   /**
@@ -41,6 +47,11 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     try {
       $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+      $userData = $this->apify->consultWithoutLogin(
+        $apifyResponse['token'],
+        'client/update',
+        Requests::POST
+      );
     } catch (\Exception $e) {
     }
 
@@ -49,6 +60,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     $user->setEmail($username['email']);
     $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
     $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
+    $user->setName(isset($userData['companyName']) ? $userData['companyName'] : '');
+    $user->setCellPhone(isset($userData['cellPhone']) ? $userData['cellPhone'] : '');
+    $user->setLogo(isset($userData['logo']) ? $userData['logo'] : '');
 
     return $user;
   }
@@ -71,7 +85,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     if (!$user instanceof User) {
       throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
     }
-
+    $this->session->migrate();
     return $user;
 
     // Return a User object after making sure its data is "fresh".
