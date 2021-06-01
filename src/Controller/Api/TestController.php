@@ -27,7 +27,7 @@ class TestController extends BaseController
   {
     $testDto = new TestDto();
     $testDto->setName('');
-    $testDto->setLastName('name');
+    $testDto->setLastName('');
 
     $errors = $this->validator->validate($testDto);
     if (count($errors) > 0) {

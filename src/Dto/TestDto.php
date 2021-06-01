@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class TestDto
 {
   /**
-   * @Assert\NotBlank(message="not_blank")
+   * @Assert\NotBlank(message="name.not_blank")
    */
   private $name;
 
