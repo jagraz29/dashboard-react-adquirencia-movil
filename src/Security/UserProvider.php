@@ -49,7 +49,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
       $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
       $userData = $this->apify->consultWithoutLogin(
         $apifyResponse['token'],
-        'client/update',
+        'client/edit',
         Requests::POST
       );
     } catch (\Exception $e) {
@@ -57,11 +57,16 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     $user = new User();
     $user->setToken($apifyResponse['token']);
+    $user->setId($userData['id']);
     $user->setEmail($username['email']);
     $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
     $user->setPublicKey(isset($userkeys['publicKey']) ? $userkeys['publicKey'] : '');
     $user->setName(isset($userData['companyName']) ? $userData['companyName'] : '');
+    $user->setSocialName(isset($userData['socialName']) ? $userData['socialName'] : '');
     $user->setCellPhone(isset($userData['cellPhone']) ? $userData['cellPhone'] : '');
+    $user->setIndicative(
+      isset($userData['indicativeCountry']) ? $userData['indicativeCountry'] : ''
+    );
     $user->setLogo(isset($userData['logo']) ? $userData['logo'] : '');
 
     return $user;
