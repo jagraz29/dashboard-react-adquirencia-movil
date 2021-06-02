@@ -213,3 +213,7 @@ export const CardTableTitle = styled.span`
   flex-direction: column;
   margin: 1vw;
 `
+
+export const Ref = styled.span`
+
+`;

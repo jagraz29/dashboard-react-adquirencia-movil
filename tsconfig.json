@@ -15,5 +15,5 @@
     "isolatedModules": false,
     "jsx": "react-jsx"
   },
-  "include": ["assets/*"]
+  "include": ["assets/*", "assets/components/Footer"]
 }

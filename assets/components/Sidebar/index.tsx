@@ -8,6 +8,7 @@ import NameSidebar from '../NameSidebar'
 import { LogoEpayCo } from '../../config/configImages'
 import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './styles'
 import Avatar from '../Avatar'
+import Footer from '../Footer'
 
 const index = () => {
   const [sidebar, setSidebar] = useState(true)
@@ -35,6 +36,8 @@ const index = () => {
             </Submenu>
           </SidebarWrap>
         </SidebarNav>
+        
+        
       </Nav>
     </div>
   )

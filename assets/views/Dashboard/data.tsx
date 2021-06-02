@@ -1,17 +1,29 @@
 export const datos = [
   {
-    countryName: 'Afghanistan',
-    capital: 'Kabul',
-    currency: 'Afghani',
+    ref_payco: '124565',
+    ref_cliente: '01-153020405230',
+    descripcion: 'Lorem ipsum dolor sit amet',
+    medio_pago: '002',
+    valor: '$ 235,550,00 COP',
+    moneda: 'COP',
+    estado: 'Aprobado'
   },
   {
-    countryName: 'Albania',
-    capital: 'Tirane',
-    currency: 'Lek',
+    ref_payco: '123456',
+    ref_cliente: '01-153020401234',
+    descripcion: 'cornelio',
+    medio_pago: '004',
+    valor: '$ 100,550,00 COP',
+    moneda: 'COP',
+    estado: 'Cancelada'
   },
   {
-    countryName: 'Algeria',
-    capital: 'Algiers',
-    currency: 'Dinar',
+    ref_payco: '124565',
+    ref_cliente: '01-153020405230',
+    descripcion: 'Lorem ipsum dolor sit amet',
+    medio_pago: '002',
+    valor: '$ 235,550,00 COP',
+    moneda: 'COP',
+    estado: 'Aprobado'
   },
 ]

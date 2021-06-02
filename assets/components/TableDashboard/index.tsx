@@ -5,6 +5,9 @@ const StyledTable = styled.table`
   caption-side: top;
   border: none;
   border-collapse: collapse;
+  width: 76.5vw;
+  margin: 1vw;
+  height: 10vw;
   /* border-collapse: separate; */
   /* border-spacing: 5px 10px; */
 
@@ -22,6 +25,8 @@ const StyledTable = styled.table`
   td,
   th {
     border: none;
+    height: 3vw;
+
   }
   /* td,
   th {
@@ -34,26 +39,48 @@ const StyledTable = styled.table`
 
   tbody tr {
     :nth-of-type(odd) {
-      background-color: #efefef;
+      background-color: #F9F9F9;
     }
     :hover {
       background-color: lightpink;
     }
   }
   thead > tr {
-    background-color: #c2c2c2;
+    background-color: #F1F1F1;
   }
   caption {
     font-size: 0.9em;
     padding: 5px;
     font-weight: bold;
   }
+  header{
+    font-family: Segoe UI;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 19px;
+    color: #000000;
+  }
+  body{
+    background: none;
+    text-align: center;
+    font-family: Segoe UI;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 17px;
+
+  }
 `
 type Props = {
   data: {
-    countryName: string
-    capital: string
-    currency: string
+    ref_payco:  string,
+    ref_cliente: string,
+    descripcion: string,
+    medio_pago: string,
+    valor: string,
+    moneda: string,
+    estado: string
   }[]
 }
 
@@ -63,7 +90,6 @@ const TableDashboard: React.FC<Props> = ({ data }) => {
   return (
     <div>
       <StyledTable>
-        <caption>Culture about contries</caption>
         <colgroup>
           <col />
           <col />
@@ -71,16 +97,16 @@ const TableDashboard: React.FC<Props> = ({ data }) => {
         </colgroup>
         <thead>
           <tr>
-            {titles.map((title, index) => (
-              <th key={index}>{title}</th>
+            {titles.map((title:string, index:number) => (
+              <th key={index}><header>{title}</header></th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {data.map((item:any, index:number) => (
             <tr key={index}>
-              {titles.map((title, index) => (
-                <td key={index}>1111</td>
+              {titles.map((title:any, index:number) => (
+                <td key={index}><body>{item[title]}</body></td>
               ))}
             </tr>
           ))}
