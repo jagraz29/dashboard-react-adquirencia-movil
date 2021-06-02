@@ -8,13 +8,15 @@ class User implements UserInterface
 {
   private $email;
 
+  private $id;
+
   private $roles = [];
 
   private $token;
 
   private $name;
 
-  private $lastName;
+  private $socialName;
 
   private $password;
 
@@ -23,6 +25,8 @@ class User implements UserInterface
   private $publicKey;
 
   private $cellPhone;
+
+  private $indicative;
 
   private $logo;
 
@@ -34,6 +38,18 @@ class User implements UserInterface
   public function setEmail(string $email): self
   {
     $this->email = $email;
+
+    return $this;
+  }
+
+  public function getId(): ?string
+  {
+    return $this->id;
+  }
+
+  public function setId(int $id): self
+  {
+    $this->id = $id;
 
     return $this;
   }
@@ -126,14 +142,14 @@ class User implements UserInterface
     return $this;
   }
 
-  public function getLastName(): ?string
+  public function getSocialName(): ?string
   {
-    return $this->lastName;
+    return $this->socialName;
   }
 
-  public function setLasName(string $lastName): self
+  public function setSocialName(string $socialName): self
   {
-    $this->lastName = $lastName;
+    $this->socialName = $socialName;
 
     return $this;
   }
@@ -168,6 +184,17 @@ class User implements UserInterface
   public function setCellPhone(string $cellPhone): self
   {
     $this->cellPhone = $cellPhone;
+    return $this;
+  }
+
+  public function getIndicative(): ?string
+  {
+    return $this->indicative;
+  }
+
+  public function setIndicative(int $indicative): self
+  {
+    $this->indicative = $indicative;
     return $this;
   }
 

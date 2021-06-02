@@ -15,11 +15,15 @@ class ClientController extends BaseController
   public function clientInfo()
   {
     $user = $this->getUser();
-    return $this->json([
+    $response = [
       'email' => $user->getUsername(),
       'companyName' => $user->getName(),
+      'socialName' => $user->getSocialName(),
       'cellPhone' => $user->getCellPhone(),
+      'indicative' => $user->getIndicative(),
       'logo' => $user->getLogo(),
-    ]);
+    ];
+
+    return $this->jsonResponse(true, $response, 'client info');
   }
 }
