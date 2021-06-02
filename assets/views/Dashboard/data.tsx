@@ -6,7 +6,7 @@ export const datos = [
     medio_pago: '002',
     valor: '$ 235,550,00 COP',
     moneda: 'COP',
-    estado: 'Aprobado'
+    estado: 'Aprobado',
   },
   {
     ref_payco: '123456',
@@ -15,7 +15,7 @@ export const datos = [
     medio_pago: '004',
     valor: '$ 100,550,00 COP',
     moneda: 'COP',
-    estado: 'Cancelada'
+    estado: 'Cancelada',
   },
   {
     ref_payco: '124565',
@@ -24,6 +24,6 @@ export const datos = [
     medio_pago: '002',
     valor: '$ 235,550,00 COP',
     moneda: 'COP',
-    estado: 'Aprobado'
+    estado: 'Aprobado',
   },
 ]

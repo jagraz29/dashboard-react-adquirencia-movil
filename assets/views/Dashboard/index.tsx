@@ -60,7 +60,6 @@ const index = () => {
           <TablaDashboard data={datos} />
         </ContentTable>
       </Content>
-      
     </div>
   )
 }

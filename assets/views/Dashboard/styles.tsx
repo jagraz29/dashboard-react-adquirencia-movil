@@ -214,6 +214,4 @@ export const CardTableTitle = styled.span`
   margin: 1vw;
 `
 
-export const Ref = styled.span`
-
-`;
+export const Ref = styled.span``

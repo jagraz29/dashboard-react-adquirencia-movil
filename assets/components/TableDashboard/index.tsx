@@ -26,7 +26,6 @@ const StyledTable = styled.table`
   th {
     border: none;
     height: 3vw;
-
   }
   /* td,
   th {
@@ -39,21 +38,21 @@ const StyledTable = styled.table`
 
   tbody tr {
     :nth-of-type(odd) {
-      background-color: #F9F9F9;
+      background-color: #f9f9f9;
     }
     :hover {
       background-color: lightpink;
     }
   }
   thead > tr {
-    background-color: #F1F1F1;
+    background-color: #f1f1f1;
   }
   caption {
     font-size: 0.9em;
     padding: 5px;
     font-weight: bold;
   }
-  header{
+  header {
     font-family: Segoe UI;
     font-style: normal;
     font-weight: bold;
@@ -61,7 +60,7 @@ const StyledTable = styled.table`
     line-height: 19px;
     color: #000000;
   }
-  body{
+  body {
     background: none;
     text-align: center;
     font-family: Segoe UI;
@@ -69,17 +68,16 @@ const StyledTable = styled.table`
     font-weight: normal;
     font-size: 13px;
     line-height: 17px;
-
   }
 `
 type Props = {
   data: {
-    ref_payco:  string,
-    ref_cliente: string,
-    descripcion: string,
-    medio_pago: string,
-    valor: string,
-    moneda: string,
+    ref_payco: string
+    ref_cliente: string
+    descripcion: string
+    medio_pago: string
+    valor: string
+    moneda: string
     estado: string
   }[]
 }
@@ -97,16 +95,20 @@ const TableDashboard: React.FC<Props> = ({ data }) => {
         </colgroup>
         <thead>
           <tr>
-            {titles.map((title:string, index:number) => (
-              <th key={index}><header>{title}</header></th>
+            {titles.map((title: string, index: number) => (
+              <th key={index}>
+                <header>{title}</header>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((item:any, index:number) => (
+          {data.map((item: any, index: number) => (
             <tr key={index}>
-              {titles.map((title:any, index:number) => (
-                <td key={index}><body>{item[title]}</body></td>
+              {titles.map((title: any, index: number) => (
+                <td key={index}>
+                  <body>{item[title]}</body>
+                </td>
               ))}
             </tr>
           ))}

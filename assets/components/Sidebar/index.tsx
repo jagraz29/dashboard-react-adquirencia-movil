@@ -36,8 +36,6 @@ const index = () => {
             </Submenu>
           </SidebarWrap>
         </SidebarNav>
-        
-        
       </Nav>
     </div>
   )
