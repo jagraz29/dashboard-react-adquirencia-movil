@@ -13,7 +13,7 @@ services:
     ports:
       - '${PORT_LOCAL}:${PORT_LOCAL}'
     working_dir: /var/www/app
-    command: bash -c "php bin/console server:run *:8000"
+    #command: bash -c "php bin/console server:run *:8000"
     volumes:
       - ./:/var/www/app
     networks:
