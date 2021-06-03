@@ -16,8 +16,12 @@ COPY . .
 
 ARG APP_ENV=prod
 ARG APP_WARMUP=true
+ARG APP_DEBUG=1
+
 
 COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
+
+RUN touch .env
 
 RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-ansi --no-interaction \
     && composer clear-cache
