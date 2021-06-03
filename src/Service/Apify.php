@@ -168,6 +168,9 @@ class Apify extends AbstractController
    */
   private function consultApify(string $method, string $path, $headers = [], $data = [])
   {
-    return $this->session->request($this->url . $path, $headers, json_encode($data), $method);
+    if ($method === Requests::POST) {
+      $data = json_encode($data);
+    }
+    return $this->session->request($this->url . $path, $headers, $data, $method);
   }
 }
