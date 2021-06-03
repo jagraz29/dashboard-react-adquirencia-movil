@@ -19,13 +19,27 @@ class TransactionController extends BaseController
   {
     $filters = $request->query->all();
     $transactionTable = new TransactionTableDto();
-    $transactionTable->setFromDate(isset($filters['fromDate']) ? $filters['fromDate'] : null);
-    $transactionTable->setToDate(isset($filters['toDate']) ? $filters['toDate'] : null);
+    $transactionTable->setTransactionInitialDate(
+      isset($filters['fromDate']) ? $filters['fromDate'] : null
+    );
+    $transactionTable->setTransactionEndDate(isset($filters['toDate']) ? $filters['toDate'] : null);
+    $transactionTable->setLimit(isset($filters['limit']) ? $filters['limit'] : 15);
+    $transactionTable->setPage(isset($filters['page']) ? $filters['page'] : 1);
 
     $errors = $this->validator->validate($transactionTable);
     if (count($errors) > 0) {
       return $this->validatorErrorResponse($errors);
     }
+
+    $data = [
+      'pagination' => [
+        'page' => $transactionTable->getPerPage(),
+        'limit' => $transactionTable->getLimit(),
+      ],
+      'filter' => [],
+    ];
+
+    $transactions = $this->apify->consult('transaction', Requests::POST, $data);
 
     dd($transactionTable);
   }

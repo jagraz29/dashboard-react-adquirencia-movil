@@ -1,2 +1,3 @@
 name.not_blank: Este campo no puede estar vacio.
 date.format: Este campo debe ser una fecha tipo YYYY-MM-DD.
+positive.format: Este campo debe ser un numero entero.

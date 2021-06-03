@@ -6,61 +6,67 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class TransactionTableDto
 {
-  private $perPage;
+  /**
+   * @Assert\Positive(message="positive.format")
+   */
+  private $page;
 
-  private $currentPage;
+  /**
+   * @Assert\Positive(message="positive.format")
+   */
+  private $limit;
 
   /**
    * @Assert\Date(message="date.format")
    */
-  private $toDate;
+  public $transactionInitialDate;
 
   /**
    * @Assert\Date(message="date.format")
    */
-  private $fromDate;
+  public $transactionEndDate;
 
   public function getPerPage()
   {
-    return $this->perPage;
+    return $this->page;
   }
 
-  public function setPerPage($perPage): self
+  public function setPage($page): self
   {
-    $this->perPage = $perPage;
+    $this->page = $page;
     return $this;
   }
 
-  public function getCurrentPage()
+  public function getLimit()
   {
-    return $this->currentPage;
+    return $this->limit;
   }
 
-  public function setCurrentPage($currentPage): self
+  public function setLimit($limit): self
   {
-    $this->currentPage = $currentPage;
+    $this->limit = $limit;
     return $this;
   }
 
-  public function getToDate()
+  public function getTransactionInitialDate()
   {
-    return $this->toDate;
+    return $this->transactionInitialDate;
   }
 
-  public function setToDate($toDate): self
+  public function setTransactionInitialDate($transactionInitialDate): self
   {
-    $this->toDate = $toDate;
+    $this->transactionInitialDate = $transactionInitialDate;
     return $this;
   }
 
-  public function getFromDate()
+  public function getTransactionEndDate()
   {
-    return $this->fromDate;
+    return $this->transactionEndDate;
   }
 
-  public function setFromDate($fromDate): self
+  public function setTransactionEndDate($transactionEndDate): self
   {
-    $this->fromDate = $fromDate;
+    $this->transactionEndDate = $transactionEndDate;
     return $this;
   }
 }

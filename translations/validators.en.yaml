@@ -1,2 +1,3 @@
 name.not_blank: this field must not be empty.
 date.format: this field must be date YYYY-MM-DD format.
+positive.format: this field must be int.
