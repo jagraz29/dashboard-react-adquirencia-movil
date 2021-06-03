@@ -26,13 +26,15 @@ class TestController extends BaseController
   public function testConsult()
   {
     $testDto = new TestDto();
-    $testDto->setName('');
-    $testDto->setLastName('');
+    $testDto->setName('hi');
+    //$testDto->setLastName('hola');
 
     $errors = $this->validator->validate($testDto);
     if (count($errors) > 0) {
       return $this->validatorErrorResponse($errors);
     }
+    $dtoToArray = get_object_vars($testDto);
+    //dd($dtoToArray);
 
     $consult = $this->apify->consult('banks');
 
