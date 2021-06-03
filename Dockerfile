@@ -28,6 +28,8 @@ WORKDIR /usr/src/app
 
 COPY --from=base /var/www/app/assets assets
 COPY --from=base /var/www/app/public public
+COPY --from=base /var/www/app/src src
+COPY --from=base /var/www/app/tsconfig.json tsconfig.json
 COPY --from=base /var/www/app/package.json /var/www/app/webpack.config.js /var/www/app/yarn.lock ./
 
 RUN yarn install && yarn build
@@ -40,7 +42,7 @@ COPY docker/000-default.conf /etc/apache2/sites-enabled/
 COPY docker/app.conf /etc/apache2/conf-enabled/z-app.conf
 COPY docker/app.ini $PHP_INI_DIR/conf.d/app.ini
 
-COPY docker/docker-php-entrypoint /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-php-entrypoint
+COPY docker/docker-php-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-php-entrypoint.sh
 
 RUN a2enmod headers rewrite
