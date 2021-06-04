@@ -1,15 +1,15 @@
 import React from 'react'
 import { ContentWrapper, Wrapper, WrapperLogo, WrapperLogoEpeyco, WrapperText } from './style'
-import { LogoDavivienda, LogoEpayCo } from '../../config/configImages'
+import { IconEpeycoFooter, IconVigilado } from '../../config/configImages'
 
 const Footer = () => {
   return (
     <div>
       <Wrapper>
         <ContentWrapper>
-          <WrapperLogo src={LogoDavivienda.url} />
+          <WrapperLogo src={IconVigilado.url} />
           <WrapperText>Davivienda S.A. todos los Derechos reservados 2021</WrapperText>
-          <WrapperLogoEpeyco src={LogoDavivienda.url} />
+          <WrapperLogoEpeyco src={IconEpeycoFooter.url} />
         </ContentWrapper>
       </Wrapper>
     </div>

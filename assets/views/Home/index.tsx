@@ -5,6 +5,5 @@ import { RootState } from '../../redux/reducers/index'
 
 export default function index() {
   const viewState: RootState = useSelector((state: RootState) => state)
-  console.log(viewState)
   return <Test />
 }

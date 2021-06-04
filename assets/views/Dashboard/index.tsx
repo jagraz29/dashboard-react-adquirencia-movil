@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import AvatarDashboard from '../../components/AvatarDashboard/'
-import { IconLink } from '../../config/configImages'
+import { IconLink } from '../../config/configImages' 
+import { StorageData } from '../../services/storegeData'
 
 import {
   Content,
@@ -26,13 +27,22 @@ import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
 
 const index = () => {
+  const [dataUser, setDataUser] =  useState(new StorageData().getData())
+  
+
+  useEffect(() => {
+    setDataUser(
+      new StorageData().getData()
+    )
+  }, [dataUser])
+
   return (
     <div>
       <Content>
         <ContentPay>
           <ContentAvatar>
-            <AvatarDashboard srcImage={'https://picsum.photos/200'}></AvatarDashboard>
-            <TextWolcome>¡ Hola Paola !</TextWolcome>
+            <AvatarDashboard srcImage={dataUser.logo}></AvatarDashboard>
+            <TextWolcome>¡ Hola {dataUser.companyName} !</TextWolcome>
             <TextItem1>Ya puedes empezar a cobrar. Tipo de cuenta: Personal</TextItem1>
           </ContentAvatar>
           <ContentLink>

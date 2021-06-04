@@ -20,18 +20,24 @@ export const ContentWrapper = styled.div`
   height: 3vw;
 `
 
-export const WrapperLogo = styled.img``
+export const WrapperLogo = styled.img`
+  width: 12vw;
+  margin: 1vw;
+`;
 
-export const WrapperLogoEpeyco = styled.img``
+export const WrapperLogoEpeyco = styled.img`
+  width: 12vw;
+  margin: 1vw;
+`;
 
 export const WrapperText = styled.span`
   width: 31.7vw;
-  /* height: 2vw; */
-  left: 16vw;
-  top: 0;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.4vw;
-  line-height: 1vw;
+    left: 7.4vw;
+    top: 0.8vw;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.9vw;
+    line-height: 1vw;
+    position: absolute;
 `

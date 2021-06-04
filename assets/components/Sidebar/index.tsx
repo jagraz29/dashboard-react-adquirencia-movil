@@ -1,28 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import './styles.tsx'
-import * as FaIcons from 'react-icons/fa'
 import { MenuItems } from '../MenuItems'
 import SubMenuItems from '../SubMenuItems'
 import LogoSidebar from '../Logo'
 import NameSidebar from '../NameSidebar'
-import { LogoEpayCo } from '../../config/configImages'
 import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './styles'
 import Avatar from '../Avatar'
-import Footer from '../Footer'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/reducers/index'
+import {getDataUser } from '../../redux/actions/'
+import { StorageData } from '../../services/storegeData'
+import { IconService } from '../../config/configImages' 
 
 const index = () => {
+  const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(true)
+  const viewState: RootState = useSelector((state: RootState) => state)
+  const [storage, setStorage] = useState('')
 
-  const showSidebar = () => setSidebar(!sidebar)
+  const saveData = new StorageData().setData(viewState.captcha.userData.data)
 
-  const name = 'Paola Castellanos'
+  useEffect(()=>{
+    dispatch(getDataUser()) 
+  },[saveData])
+
+
+  console.log(viewState.captcha.userData.data)
+  const name = viewState.captcha.userData.data.companyName
+  const avatar = viewState.captcha.userData.data.logo
 
   return (
     <div>
       <Nav>
         <AvatarImg>
-          <Avatar srcImage={'https://picsum.photos/200'} size={'35px'}></Avatar>
-          <Avatar srcImage={'https://picsum.photos/100'} size={'35px'}></Avatar>
+          <Avatar srcImage={IconService.url} size={'35px'}></Avatar>
+          <Avatar srcImage={avatar} size={'35px'}></Avatar>
         </AvatarImg>
 
         <SidebarNav>

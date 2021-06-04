@@ -37,3 +37,17 @@ export const IconLink = {
   name: 'IconLink',
   url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/link+1.png',
 }
+
+export const IconVigilado = {
+  name: 'IconVigilado',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logos/superintendencia.png',
+}
+
+export const IconEpeycoFooter = {
+  name: 'IconEpeycoFooter',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logos/logoepayco.png',
+}
+export const IconService = {
+  name: 'IconService',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logo+sidebar/servicio.png',
+}

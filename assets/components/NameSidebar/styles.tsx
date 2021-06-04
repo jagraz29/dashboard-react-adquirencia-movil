@@ -13,6 +13,7 @@ export const NameContent = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
+  text-transform: capitalize;
 `
 
 export const NameText = styled.span`
