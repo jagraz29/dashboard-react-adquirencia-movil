@@ -32,3 +32,4 @@ services:
     App\Service\Apify:
         arguments:
             - '%env(URL_APIFY)%'
+            - '%env(ID_ALLIED_ENTITY)%'

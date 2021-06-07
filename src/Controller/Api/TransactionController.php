@@ -99,6 +99,5 @@ class TransactionController extends BaseController
   public function export(Request $request)
   {
     $format = $request->attributes->get('_format');
-    dd($format);
   }
 }
