@@ -25,23 +25,46 @@ class TransactionController extends BaseController
     $transactionTable->setTransactionEndDate(isset($filters['toDate']) ? $filters['toDate'] : null);
     $transactionTable->setLimit(isset($filters['limit']) ? $filters['limit'] : 15);
     $transactionTable->setPage(isset($filters['page']) ? $filters['page'] : 1);
+    $transactionTable->setStatusId(isset($filters['statusId']) ? (int) $filters['statusId'] : null);
+    $transactionTable->setSearch(isset($filters['search']) ? $filters['search'] : null);
+    $transactionTable->setPaymentMethodId(
+      isset($filters['paymentMethod']) ? $filters['paymentMethod'] : null
+    );
+    $transactionTable->setEnviromentId(
+      isset($filters['environment']) ? (int) $filters['environment'] : null
+    );
 
     $errors = $this->validator->validate($transactionTable);
     if (count($errors) > 0) {
       return $this->validatorErrorResponse($errors);
     }
 
+    $filters = $this->dtoToArray($transactionTable);
     $data = [
       'pagination' => [
         'page' => $transactionTable->getPerPage(),
         'limit' => $transactionTable->getLimit(),
       ],
-      'filter' => [],
+      'filter' => $filters,
     ];
 
     $transactions = $this->apify->consult('transaction', Requests::POST, $data);
 
-    dd($transactionTable);
+    if (isset($transactions['success']) && $transactions['success'] === true) {
+      $data = [
+        'transactions' => $transactions['data']['data'],
+        'pagination' => $transactions['data']['pagination'],
+        'aggregations' => $transactions['data']['aggregations'],
+      ];
+      return $this->jsonResponse(true, $data, $this->translator->trans('Successful query'));
+    }
+
+    return $this->jsonResponse(
+      false,
+      [],
+      isset($transactions['textResponse']) ? $transactions['textResponse'] : 'Apify error',
+      400
+    );
   }
 
   /**
@@ -68,5 +91,14 @@ class TransactionController extends BaseController
       ? $transaction['textResponse']
       : 'Error apify consult';
     return $this->jsonResponse(false, [], $message, 400);
+  }
+
+  /**
+   * @Route("/export.{_format}", requirements={"_format":"csv|xlsx"}, name="api_transaction_export", methods={"GET"})
+   */
+  public function export(Request $request)
+  {
+    $format = $request->attributes->get('_format');
+    dd($format);
   }
 }

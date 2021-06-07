@@ -26,6 +26,28 @@ class TransactionTableDto
    */
   public $transactionEndDate;
 
+  /**
+   * @Assert\Choice({1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10, 11, 12}, message="transaction.state")
+   */
+  public $statusId;
+
+  /**
+   * @Assert\Choice({1, 2}, message="transaction.enviroment")
+   */
+  public $enviromentId;
+
+  /**
+   * @Assert\Length(
+   *      min = 2,
+   *      max = 3,
+   *      minMessage = "paymentMethod",
+   *      maxMessage = "paymentMethod"
+   * )
+   */
+  public $paymentMethodId;
+
+  public $search;
+
   public function getPerPage()
   {
     return $this->page;
@@ -67,6 +89,50 @@ class TransactionTableDto
   public function setTransactionEndDate($transactionEndDate): self
   {
     $this->transactionEndDate = $transactionEndDate;
+    return $this;
+  }
+
+  public function getStatusId()
+  {
+    return $this->statusId;
+  }
+
+  public function setStatusId($statusId): self
+  {
+    $this->statusId = $statusId;
+    return $this;
+  }
+
+  public function getSearch()
+  {
+    return $this->search;
+  }
+
+  public function setSearch($search): self
+  {
+    $this->search = $search;
+    return $this;
+  }
+
+  public function getPaymentMethodId()
+  {
+    return $this->paymentMethodId;
+  }
+
+  public function setPaymentMethodId($paymentMethodId): self
+  {
+    $this->paymentMethodId = $paymentMethodId;
+    return $this;
+  }
+
+  public function getEnviromentId()
+  {
+    return $this->enviromentId;
+  }
+
+  public function setEnviromentId($environmentId): self
+  {
+    $this->enviromentId = $environmentId;
     return $this;
   }
 }

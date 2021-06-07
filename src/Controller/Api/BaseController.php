@@ -6,6 +6,7 @@ use App\Service\Apify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BaseController extends AbstractController
 {
@@ -17,11 +18,19 @@ class BaseController extends AbstractController
    * @var ValidatorInterface
    */
   protected $validator;
+  /**
+   * @var TranslatorInterface
+   */
+  protected $translator;
 
-  public function __construct(Apify $apify, ValidatorInterface $validator)
-  {
+  public function __construct(
+    Apify $apify,
+    ValidatorInterface $validator,
+    TranslatorInterface $translator
+  ) {
     $this->apify = $apify;
     $this->validator = $validator;
+    $this->translator = $translator;
   }
 
   /**
@@ -50,7 +59,7 @@ class BaseController extends AbstractController
   protected function jsonResponse(
     bool $status,
     array $data,
-    string $message,
+    string $message = '',
     int $code = 200
   ): JsonResponse {
     $response = [
