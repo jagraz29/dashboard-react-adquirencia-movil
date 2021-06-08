@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import Routes from './routes/RoutesComponent'
 import Sidebar from './components/Sidebar/'
 import Footer from './components/Footer'
-import {configureStore} from './redux/store'
+import { configureStore } from './redux/store'
 import { Provider } from 'react-redux'
 
 function App() {

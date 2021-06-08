@@ -11,14 +11,12 @@ export const setToken = (token: any) => (dispatch: any) => {
   })
 }
 
-export const getDataUser = () => async (dispatch: any) =>{
-  try{
-    const res = await dataService.get("http://localhost:8000/api/client/info");
+export const getDataUser = () => async (dispatch: any) => {
+  try {
+    const res = await dataService.get('http://localhost:8000/api/client/info')
     dispatch({
       type: GET_STATE_USER,
       payload: res.data,
     })
-  }catch(error){
-
-  }
+  } catch (error) {}
 }

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './styles.tsx'
 import { MenuItems } from '../MenuItems'
 import SubMenuItems from '../SubMenuItems'
@@ -8,9 +8,9 @@ import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './sty
 import Avatar from '../Avatar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import {getDataUser } from '../../redux/actions/'
+import { getDataUser } from '../../redux/actions/'
 import { StorageData } from '../../services/storegeData'
-import { IconService } from '../../config/configImages' 
+import { IconService } from '../../config/configImages'
 
 const index = () => {
   const dispatch = useDispatch()
@@ -20,10 +20,9 @@ const index = () => {
 
   const saveData = new StorageData().setData(viewState.captcha.userData.data)
 
-  useEffect(()=>{
-    dispatch(getDataUser()) 
-  },[saveData])
-
+  useEffect(() => {
+    dispatch(getDataUser())
+  }, [saveData])
 
   console.log(viewState.captcha.userData.data)
   const name = viewState.captcha.userData.data.companyName

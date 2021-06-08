@@ -23,21 +23,21 @@ export const ContentWrapper = styled.div`
 export const WrapperLogo = styled.img`
   width: 12vw;
   margin: 1vw;
-`;
+`
 
 export const WrapperLogoEpeyco = styled.img`
   width: 12vw;
   margin: 1vw;
-`;
+`
 
 export const WrapperText = styled.span`
   width: 31.7vw;
-    left: 7.4vw;
-    top: 0.8vw;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 0.9vw;
-    line-height: 1vw;
-    position: absolute;
+  left: 7.4vw;
+  top: 0.8vw;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.9vw;
+  line-height: 1vw;
+  position: absolute;
 `

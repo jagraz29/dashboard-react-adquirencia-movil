@@ -8,13 +8,13 @@ export type ViewReducerType = {
 
 export type UserReducerType = {
   userData: {
-    data:{
-      email: string,
-      cellPhone: string,
-      companyName: string,
-      indicative: string,
-      logo: string,
-      socialName: string,
+    data: {
+      email: string
+      cellPhone: string
+      companyName: string
+      indicative: string
+      logo: string
+      socialName: string
     }
   }
   profileImage: string

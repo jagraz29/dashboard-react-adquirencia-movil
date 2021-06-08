@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import AvatarDashboard from '../../components/AvatarDashboard/'
-import { IconLink } from '../../config/configImages' 
+import { IconLink } from '../../config/configImages'
 import { StorageData } from '../../services/storegeData'
 
 import {
@@ -27,13 +27,10 @@ import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
 
 const index = () => {
-  const [dataUser, setDataUser] =  useState(new StorageData().getData())
-  
+  const [dataUser, setDataUser] = useState(new StorageData().getData())
 
   useEffect(() => {
-    setDataUser(
-      new StorageData().getData()
-    )
+    setDataUser(new StorageData().getData())
   }, [dataUser])
 
   return (

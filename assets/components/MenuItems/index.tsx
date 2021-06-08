@@ -70,7 +70,7 @@ export const MenuItems = [
   },
   {
     title: 'Integración',
-    path: '/integracion',
+    path: '/integraciones',
     icon: IconIntegration.url,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpen: <RiIcons.RiArrowUpSFill />,

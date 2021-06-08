@@ -11,11 +11,10 @@ const initialState: UserReducerType = {
       indicative: '',
       logo: '',
       socialName: '',
-    }
+    },
   },
   profileImage: '',
   backgroundImage: '',
-
 }
 
 const captchaReducer = (state: UserReducerType = initialState, action: AnyAction) => {
@@ -29,7 +28,7 @@ const captchaReducer = (state: UserReducerType = initialState, action: AnyAction
     case GET_STATE_USER: {
       return {
         ...state,
-        userData : action.payload,
+        userData: action.payload,
       }
     }
     default: {
