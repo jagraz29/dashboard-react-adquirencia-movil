@@ -18,21 +18,7 @@ class TransactionController extends BaseController
   public function index(Request $request)
   {
     $filters = $request->query->all();
-    $transactionTable = new TransactionTableDto();
-    $transactionTable->setTransactionInitialDate(
-      isset($filters['fromDate']) ? $filters['fromDate'] : null
-    );
-    $transactionTable->setTransactionEndDate(isset($filters['toDate']) ? $filters['toDate'] : null);
-    $transactionTable->setLimit(isset($filters['limit']) ? $filters['limit'] : 15);
-    $transactionTable->setPage(isset($filters['page']) ? $filters['page'] : 1);
-    $transactionTable->setStatusId(isset($filters['statusId']) ? (int) $filters['statusId'] : null);
-    $transactionTable->setSearch(isset($filters['search']) ? $filters['search'] : null);
-    $transactionTable->setPaymentMethodId(
-      isset($filters['paymentMethod']) ? $filters['paymentMethod'] : null
-    );
-    $transactionTable->setEnviromentId(
-      isset($filters['environment']) ? (int) $filters['environment'] : null
-    );
+    $transactionTable = $this->setDataToDto($filters);
 
     $errors = $this->validator->validate($transactionTable);
     if (count($errors) > 0) {
@@ -99,5 +85,66 @@ class TransactionController extends BaseController
   public function export(Request $request)
   {
     $format = $request->attributes->get('_format');
+    $filters = $request->query->all();
+    $transactionTable = $this->setDataToDto($filters);
+
+    $errors = $this->validator->validate($transactionTable);
+    if (count($errors) > 0) {
+      return $this->validatorErrorResponse($errors);
+    }
+
+    $filters = $this->dtoToArray($transactionTable);
+    $data = [
+      'pagination' => [
+        'page' => 1,
+        'limit' => $transactionTable->getLimit(),
+      ],
+      'filter' => $filters,
+    ];
+
+    $transactions = $this->apify->consult('transaction', Requests::POST, $data);
+
+    if (isset($transactions['success']) && $transactions['success'] === true) {
+      $transactions = $transactions['data']['data'];
+    }
+
+    if ($format === 'csv') {
+      return $this->dataToCsv($transactions);
+    } else {
+      return $this->dataToXlsx($transactions);
+    }
+  }
+
+  /**
+   * @param array $filters
+   * @return TransactionTableDto
+   */
+  private function setDataToDto(array $filters): TransactionTableDto
+  {
+    $transactionTable = new TransactionTableDto();
+    $transactionTable->setTransactionInitialDate(
+      isset($filters['fromDate']) ? $filters['fromDate'] : null
+    );
+    $transactionTable->setTransactionEndDate(isset($filters['toDate']) ? $filters['toDate'] : null);
+    $transactionTable->setLimit(isset($filters['limit']) ? $filters['limit'] : 15);
+    $transactionTable->setPage(isset($filters['page']) ? $filters['page'] : 1);
+    $transactionTable->setStatusId(isset($filters['statusId']) ? (int) $filters['statusId'] : null);
+    $transactionTable->setSearch(isset($filters['search']) ? $filters['search'] : null);
+    $transactionTable->setPaymentMethodId(
+      isset($filters['paymentMethod']) ? $filters['paymentMethod'] : null
+    );
+    $transactionTable->setEnviromentId(
+      isset($filters['environment']) ? (int) $filters['environment'] : null
+    );
+
+    return $transactionTable;
+  }
+
+  private function dataToCsv(array $data)
+  {
+  }
+
+  private function dataToXlsx(array $data)
+  {
   }
 }
