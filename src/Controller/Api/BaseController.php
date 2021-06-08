@@ -24,7 +24,11 @@ class BaseController extends AbstractController
     $this->validator = $validator;
   }
 
-  protected function validatorErrorResponse($errors)
+  /**
+   * @param $errors
+   * @return JsonResponse
+   */
+  protected function validatorErrorResponse($errors): JsonResponse
   {
     $errorResponse = [];
     $errorResponse['status'] = false;
@@ -43,13 +47,28 @@ class BaseController extends AbstractController
    * @param int $code
    * @return JsonResponse
    */
-  protected function jsonResponse(bool $status, array $data, string $message, int $code = 200)
-  {
+  protected function jsonResponse(
+    bool $status,
+    array $data,
+    string $message,
+    int $code = 200
+  ): JsonResponse {
     $response = [
       'status' => $status,
       'message' => $message,
       'data' => $data,
     ];
     return $this->json($response, $code);
+  }
+
+  /**
+   * @param $dto
+   * @return array
+   */
+  protected function dtoToArray($dto): array
+  {
+    return array_filter(get_object_vars($dto), function ($data) {
+      return $data !== null;
+    });
   }
 }

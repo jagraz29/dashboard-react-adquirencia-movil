@@ -1,0 +1,16 @@
+/.env
+/.git/
+/.github/
+/.idea/
+/.php-cs.cache
+/.phpcs.cache
+/.vscode/
+/composer.phar
+/config/jwt/
+/docker-compose*.yml
+/Dockerfile*
+/node_modules/
+/public/build/
+/public/bundles/
+/var/
+/vendor/

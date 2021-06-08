@@ -3,8 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Dto\TestDto;
-use App\Service\Apify;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,13 +24,14 @@ class TestController extends BaseController
   public function testConsult()
   {
     $testDto = new TestDto();
-    $testDto->setName('');
+    $testDto->setName('sizas');
     $testDto->setLastName('');
 
     $errors = $this->validator->validate($testDto);
     if (count($errors) > 0) {
       return $this->validatorErrorResponse($errors);
     }
+    $array = $this->dtoToArray($testDto);
 
     $consult = $this->apify->consult('banks');
 

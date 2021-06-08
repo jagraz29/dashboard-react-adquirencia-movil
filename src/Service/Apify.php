@@ -114,7 +114,11 @@ class Apify extends AbstractController
       $response = $this->consultApify($method, $path, $headers, $data);
       if ($response->status_code === 401) {
         throw new ApifyRefreshTokenException('Error in apify login');
+      } elseif ($response->status_code === 500) {
+        throw new ApifyException('Apify error');
       }
+    } elseif ($response->status_code === 500) {
+      throw new ApifyException('Apify error');
     }
 
     return json_decode($response->body, true);
@@ -164,6 +168,9 @@ class Apify extends AbstractController
    */
   private function consultApify(string $method, string $path, $headers = [], $data = [])
   {
+    if ($method === Requests::POST) {
+      $data = json_encode($data);
+    }
     return $this->session->request($this->url . $path, $headers, $data, $method);
   }
 }
