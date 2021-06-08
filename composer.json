@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "phpoffice/phpspreadsheet": "^1.18",
         "rmccue/requests": "^1.8",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "4.4.*",
