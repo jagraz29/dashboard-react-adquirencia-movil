@@ -39,11 +39,11 @@ export const CardIcon = styled.div`
   position: relative;
   left: 47vw;
   top: -1.4vw;
-`;
+`
 
 export const CardContent1 = styled.div`
   height: auto;
-  display: ${props => props.theme.display};
+  display: ${(props) => props.theme.display};
   margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
@@ -52,7 +52,7 @@ export const CardContent1 = styled.div`
 
 export const CardContent2 = styled.div`
   height: auto;
-  display: ${props => props.theme.display};
+  display: ${(props) => props.theme.display};
   margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
@@ -61,7 +61,7 @@ export const CardContent2 = styled.div`
 
 export const CardContent3 = styled.div`
   height: auto;
-  display: ${props => props.theme.display};
+  display: ${(props) => props.theme.display};
   margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
@@ -91,12 +91,12 @@ export const CardSubTitle = styled.div`
 `
 
 export const ContentInput = styled.div`
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: row;
-    display: flex;
-    margin-bottom: 1vw;
-`;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  display: flex;
+  margin-bottom: 1vw;
+`
 
 export const CardContentButton = styled.div`
   height: 2vw;
@@ -105,25 +105,25 @@ export const CardContentButton = styled.div`
   justify-content: start;
   align-items: flex-start;
   flex-direction: row;
-  display: ${props => props.theme.display};
-`;
+  display: ${(props) => props.theme.display};
+`
 
 export const CardButton = styled.div`
   height: 3.4vw;
   margin: 1vw;
-`;
+`
 
 export const ButtonOk = styled.button`
   font-size: 0.8vw;
-    background: #58D3F7;
-    border: 1px solid #58D3F7;
-    box-sizing: border-box;
-    border-radius: 4px;
-    width: 11vw;
-    height: 1.9vw;
-    top: 5vw;
-    color: #FFFFFF;
-`;
+  background: #58d3f7;
+  border: 1px solid #58d3f7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 11vw;
+  height: 1.9vw;
+  top: 5vw;
+  color: #ffffff;
+`
 
 export const ButtonCancel = styled.button`
   font-size: 0.8vw;
@@ -134,21 +134,21 @@ export const ButtonCancel = styled.button`
   width: 11vw;
   height: 1.9vw;
   top: 5vw;
-  color: #58D3F7;
+  color: #58d3f7;
   margin-left: 1vw;
-`;
+`
 
 export const ContentInputCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-`;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+`
 
 export const InputGroup = styled.div`
-display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 23.3vw;
-`;
+`
