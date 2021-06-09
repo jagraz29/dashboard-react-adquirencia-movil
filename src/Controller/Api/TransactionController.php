@@ -3,6 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Dto\TransactionTableDto;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Requests;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -107,11 +110,16 @@ class TransactionController extends BaseController
     if (isset($transactions['success']) && $transactions['success'] === true) {
       $transactions = $transactions['data']['data'];
     }
+    $data = $this->setExportsHeaders($transactions);
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->fromArray($data);
 
     if ($format === 'csv') {
-      return $this->dataToCsv($transactions);
+      return $this->dataToCsv($spreadsheet);
     } else {
-      return $this->dataToXlsx($transactions);
+      return $this->dataToXlsx($spreadsheet);
     }
   }
 
@@ -140,11 +148,49 @@ class TransactionController extends BaseController
     return $transactionTable;
   }
 
-  private function dataToCsv(array $data)
+  private function dataToCsv(Spreadsheet $spreadsheet)
   {
+    $writer = new Csv($spreadsheet);
+    $writer->setEnclosure('');
+
+    // Crear archivo temporal en el sistema
+    $fileName = sprintf('%s/reporte_transactions_%s.csv', sys_get_temp_dir(), time());
+
+    // Guardar el archivo de csv en el directorio temporal del sistema
+    $writer->save($fileName);
+
+    // Retornar excel como descarga y eliminar archivo
+    return $this->file($fileName)->deleteFileAfterSend();
   }
 
-  private function dataToXlsx(array $data)
+  private function dataToXlsx(Spreadsheet $spreadsheet)
   {
+    $writer = new Xlsx($spreadsheet);
+
+    // Crear archivo temporal en el sistema
+    $fileName = sprintf('%s/reporte_transactions_%s.xlsx', sys_get_temp_dir(), time());
+
+    // Guardar el archivo de excel en el directorio temporal del sistema
+    $writer->save($fileName);
+
+    // Retornar excel como descarga y eliminar archivo
+    return $this->file($fileName)->deleteFileAfterSend();
+  }
+
+  private function setExportsHeaders(array $transactions)
+  {
+    $headers = [
+      'transaccion',
+      'factura',
+      'fecha',
+      'descripcion',
+      'franquicia',
+      'valor',
+      'estado',
+      'ambiente',
+    ];
+
+    array_unshift($transactions, $headers);
+    return $transactions;
   }
 }
