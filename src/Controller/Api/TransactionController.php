@@ -3,18 +3,42 @@
 namespace App\Controller\Api;
 
 use App\Dto\TransactionTableDto;
+use App\Service\Apify;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Requests;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/api/transaction")
  */
 class TransactionController extends BaseController
 {
+  /**
+   * @var string
+   */
+  private $urlAppRest;
+  /**
+   * @var string
+   */
+  private $appRestEnv;
+
+  public function __construct(
+    string $urlAppRest,
+    string $appRestEnv,
+    Apify $apify,
+    ValidatorInterface $validator,
+    TranslatorInterface $translator
+  ) {
+    parent::__construct($apify, $validator, $translator);
+    $this->urlAppRest = $urlAppRest;
+    $this->appRestEnv = $appRestEnv;
+  }
+
   /**
    * @Route("/", name="api_transaction_index", methods={"GET"})
    */
@@ -100,7 +124,7 @@ class TransactionController extends BaseController
     $data = [
       'pagination' => [
         'page' => 1,
-        'limit' => $transactionTable->getLimit(),
+        'limit' => 20000,
       ],
       'filter' => $filters,
     ];
@@ -121,6 +145,13 @@ class TransactionController extends BaseController
     } else {
       return $this->dataToXlsx($spreadsheet);
     }
+  }
+
+  /**
+   * @Route("/send/email/{id}/{email}", name="api_transaction_send_email", methods={"GET"})
+   */
+  public function sendEmail(int $id, string $email)
+  {
   }
 
   /**
@@ -152,6 +183,7 @@ class TransactionController extends BaseController
   {
     $writer = new Csv($spreadsheet);
     $writer->setEnclosure('');
+    $writer->setDelimiter(';');
 
     // Crear archivo temporal en el sistema
     $fileName = sprintf('%s/reporte_transactions_%s.csv', sys_get_temp_dir(), time());
