@@ -22,7 +22,9 @@ import {
   CardTransactionDetails,
   ContentTable,
   CardTableTitle,
+  SpanTitle,
 } from './styles'
+
 import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
 

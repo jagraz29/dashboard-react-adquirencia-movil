@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Title from '../../components/Title'
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import * as BsIcons from 'react-icons/bs'
@@ -72,16 +72,11 @@ const Integraciones = () => {
 
   const dispatch = useDispatch()
 
-  const [openCard, setOpenCard] = useState(false)
+  const [openCard, setOpenCard] = useState(true)
   const [openCard2, setOpenCard2] = useState(false)
   const [openCard3, setOpenCard3] = useState(false)
 
   const viewState: RootState = useSelector((state: RootState) => state)
-
-  const [openCardContent, setOpenCardContent] = useState({ display: 'none' })
-  const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
-  const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
-  const [valueIndicativo, setValueIndicativo] = useState(null)
 
   const nombre_empresa = viewState.property.cliente.nombre_empresa
   const nombre_mostrar = viewState.property.cliente.nombre
@@ -89,11 +84,26 @@ const Integraciones = () => {
   const celular = viewState.property.cliente.celular
   const indicativo = viewState.property.cliente.ind_pais
 
+  const paises = viewState.property.paises
+
+  const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
+  const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
+  const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
+  const [valueIndicativo, setValueIndicativo] = useState(null)
+  const [typeTelCel, setTypeTelCel] = useState('')
+  const [razonSocial, setRazonSocial] = useState('')
+  const [nombreMostrar, setNombreMostrar] = useState('')
+  const [telCel, settelCel] = useState('')
+
   useEffect(() => {
     dispatch(getPropertySite())
-  }, [])
+    setTypeTelCel(telefono != null ? 'Telefono' : celular != null ? 'Celular' : '')
+    setRazonSocial(nombre_empresa)
+    setNombreMostrar(nombre_mostrar)
+    settelCel(telefono != null ? telefono : celular != null ? celular : '')
+  }, [nombre_empresa])
 
-  console.log('Cliente', nombre_empresa)
+  console.log('pase por aqui ', paises)
 
   const openClose = () => {
     console.log('presiono el boton')
@@ -138,9 +148,22 @@ const Integraciones = () => {
     }
   }
 
-  const changeTelefono = (data: any) => {
-    console.log('hola ', data)
-  }
+  const changeTypeTelefono = useCallback((event) => {
+    console.log('evento ', event)
+    setTypeTelCel(event)
+  }, [])
+
+  const changeRazonSocial = useCallback((event) => {
+    setRazonSocial(event)
+  }, [])
+
+  const changeNombreMostrar = useCallback((event) => {
+    setNombreMostrar(event)
+  }, [])
+
+  const changeTelefono = useCallback((event) => {
+    settelCel(event)
+  }, [])
 
   return (
     <div>
@@ -173,7 +196,10 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Razon social'}
                     width={'22.3vw'}
-                    value={nombre_empresa}
+                    value={razonSocial}
+                    onChange={(e: any) => {
+                      changeRazonSocial(e)
+                    }}
                   />
                 </ContentInputCard>
 
@@ -184,7 +210,10 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Nombre a mostrar'}
                     width={'22.3vw'}
-                    value={nombre_mostrar}
+                    value={nombreMostrar}
+                    onChange={(e: any) => {
+                      changeNombreMostrar(e)
+                    }}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -198,26 +227,25 @@ const Integraciones = () => {
                       placeholder={telefono != null ? 'Telefono' : celular != null ? 'Celular' : ''}
                       width={'6vw'}
                       dataSelect={dataSelect}
-                      value={valueIndicativo}
                       onClick={() => {}}
-                      onChange={() => {
-                        changeTelefono(valueIndicativo)
+                      onChange={(e: any) => {
+                        changeTypeTelefono(e)
                       }}
                     />
-                    {telefono != null ? (
+                    {typeTelCel == 'Telefono' ? (
                       <InputCustumer
                         name={'indicativo'}
                         type={'number'}
                         placeholder={'Indicativo'}
                         width={'5vw'}
                         value={''}
+                        onChange={() => {}}
                       />
-                    ) : celular != null ? (
+                    ) : typeTelCel == 'Celular' ? (
                       <InputSelect
                         name={'indicativo'}
                         placeholder={indicativo}
                         width={'5vw'}
-                        value={''}
                         dataSelect={dataSelect}
                         onClick={() => {}}
                         onChange={() => {}}
@@ -231,7 +259,10 @@ const Integraciones = () => {
                       type={'number'}
                       placeholder={'Telefono'}
                       width={'9vw'}
-                      value={telefono != null ? telefono : celular != null ? celular : ''}
+                      value={telCel}
+                      onChange={(e: any) => {
+                        changeTelefono(e)
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -269,6 +300,7 @@ const Integraciones = () => {
                     placeholder={'Url donde el cliente es redireccionado al finalizar'}
                     width={'22.3vw'}
                     value={''}
+                    onChange={() => {}}
                   />
                 </ContentInputCard>
 
@@ -280,6 +312,7 @@ const Integraciones = () => {
                     placeholder={'Url donde se envia la confirmación de la transacción'}
                     width={'22.3vw'}
                     value={''}
+                    onChange={() => {}}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -292,7 +325,6 @@ const Integraciones = () => {
                       name={'idioma'}
                       placeholder={'Idioma'}
                       width={'23.3vw'}
-                      value={''}
                       dataSelect={dataIdioma}
                       onClick={() => {}}
                       onChange={() => {}}

@@ -215,3 +215,8 @@ export const CardTableTitle = styled.span`
 `
 
 export const Ref = styled.span``
+
+export const SpanTitle = styled.span`
+  color: red;
+  font-size: 2vw;
+`

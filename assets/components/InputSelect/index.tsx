@@ -7,7 +7,6 @@ type Props = {
   width: string
   onClick: any
   onChange: any
-  value: any
   dataSelect: {
     value: string
     label: string
@@ -21,11 +20,22 @@ const InputSelect: React.FC<Props> = ({
   dataSelect,
   onClick,
   onChange,
-  value,
 }) => {
   const [selectWidth, setselectWidth] = useState({ width: width })
+  const [valor, setValor] = useState('')
+
+  const handlerOnChange = (valor: any) => {
+    console.log('pasa por aqui', valor.target.value)
+    onChange(valor.target.value)
+  }
   return (
-    <Select style={selectWidth} onClick={onClick} onChange={onChange} value={value}>
+    <Select
+      style={selectWidth}
+      onClick={onClick}
+      onChange={(e) => {
+        handlerOnChange(e)
+      }}
+    >
       <option value="" hidden>
         {placeholder}
       </option>

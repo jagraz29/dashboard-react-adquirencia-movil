@@ -4,6 +4,7 @@ import { AvatarImg } from './style'
 type Props = {
   srcImage: string
 }
+
 const Avatar: React.FC<Props> = ({ srcImage }) => {
   return (
     <div>
