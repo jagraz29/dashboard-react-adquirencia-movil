@@ -63,7 +63,11 @@ class ConfigurationController extends BaseController
 
     $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult[0]['success'], $consult[0]['data'], $consult[0]['textResponse']);
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
   }
 
   /**
@@ -101,7 +105,11 @@ class ConfigurationController extends BaseController
 
     $consult = $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult[0]['success'], $consult[0]['data'], $consult[0]['textResponse']);
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
   }
 
   /**
