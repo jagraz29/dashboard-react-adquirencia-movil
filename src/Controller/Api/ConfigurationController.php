@@ -61,7 +61,9 @@ class ConfigurationController extends BaseController
       'tipoTelefonoValue' => $content['tipoTelefonoValue'],
     ];
 
-    return $this->apify->consult('/configuration/information', \Requests::POST, $data);
+    $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
+
+    return $this->jsonResponse($consult[0]['success'], $consult[0]['data'], $consult[0]['textResponse']);
   }
 
   /**
@@ -97,7 +99,9 @@ class ConfigurationController extends BaseController
       'logo' => $content['logo'],
     ];
 
-    return $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
+    $consult = $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
+
+    return $this->jsonResponse($consult[0]['success'], $consult[0]['data'], $consult[0]['textResponse']);
   }
 
   /**

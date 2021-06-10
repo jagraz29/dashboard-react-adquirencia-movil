@@ -19,13 +19,9 @@ class SecurityController extends BaseController
    */
   public function getProfileData(Request $request)
   {
-    $consult = $this->apify->consult('/client/edit',\Requests::POST, []);
+    $consult = $this->apify->consult('/client/edit', \Requests::POST, []);
 
-    return $this->jsonResponse(
-      $consult['success'],
-      $consult['data'],
-      $consult['textResponse']
-    );
+    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
 
   /**
@@ -50,10 +46,11 @@ class SecurityController extends BaseController
       '_mobilePhone' => $content['celular'],
       '_cellPhone' => $content['telefono'],
       '_indicativeCountry' => $content['indicativoPais'],
-      '_indicativeCity' => $content['indicativoCiudad']
+      '_indicativeCity' => $content['indicativoCiudad'],
     ];
+    $consult = $this->apify->consult('/client/update', \Requests::POST, $data);
 
-    return $this->apify->consult('/client/update', \Requests::POST, $data);
+    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
 
   /**
@@ -81,6 +78,8 @@ class SecurityController extends BaseController
       'passwordRepeat' => $content['newPasswordConfirmation'],
     ];
 
-    return $this->apify->consult('/client/update/password', \Requests::POST, $data);
+    $consult = $this->apify->consult('/client/update/password', \Requests::POST, $data);
+
+    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
 }
