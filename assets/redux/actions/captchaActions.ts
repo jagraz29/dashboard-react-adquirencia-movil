@@ -25,9 +25,10 @@ export const getDataUser = () => async (dispatch: any) => {
 export const getPropertySite = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/configuration/property-site')
+    console.log(res.data.data.cliente)
     dispatch({
       type: GET_PROPERTY_SITE,
-      payload: res.data,
+      payload: res.data.data.cliente,
     })
   } catch (error) {}
 }

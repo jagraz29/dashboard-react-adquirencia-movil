@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Title from '../../components/Title'
-import { IconLink } from '../../config/configImages'
 import Breadcrumbs from '../../components/Breadcrumbs/'
-import TablaDashboard from '../../components/TableDashboard'
-import * as RiIcons from 'react-icons/ri'
 import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import InputSelect from '../../components/InputSelect'
 import FileUpload from '../../components/FileUpload'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/reducers/index'
+import { getPropertySite } from '../../redux/actions/'
+import { StorageData } from '../../services/storegeData'
 import {
   Content,
   ContentCard,
@@ -44,12 +45,12 @@ const breadcrumb = [
 
 const dataSelect = [
   {
-    value: '1',
+    value: 'Celular',
     label: 'Celular',
   },
   {
-    value: '2',
-    label: 'Fijo',
+    value: 'Telefono',
+    label: 'Telefono',
   },
 ]
 
@@ -69,12 +70,30 @@ const dataIdioma = [
 const Integraciones = () => {
   let iconStyles = { color: '#d3d3d3' }
 
+  const dispatch = useDispatch()
+
   const [openCard, setOpenCard] = useState(false)
   const [openCard2, setOpenCard2] = useState(false)
   const [openCard3, setOpenCard3] = useState(false)
+
+  const viewState: RootState = useSelector((state: RootState) => state)
+
   const [openCardContent, setOpenCardContent] = useState({ display: 'none' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
+  const [valueIndicativo, setValueIndicativo] = useState(null)
+
+  const nombre_empresa = viewState.property.cliente.nombre_empresa
+  const nombre_mostrar = viewState.property.cliente.nombre
+  const telefono = viewState.property.cliente.telefono
+  const celular = viewState.property.cliente.celular
+  const indicativo = viewState.property.cliente.ind_pais
+
+  useEffect(() => {
+    dispatch(getPropertySite())
+  }, [])
+
+ console.log("Cliente", nombre_empresa)
 
   const openClose = () => {
     console.log('presiono el boton')
@@ -119,6 +138,10 @@ const Integraciones = () => {
     }
   }
 
+  const changeTelefono = (data: any) =>{
+    console.log("hola ", data)
+  }
+
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
@@ -150,6 +173,7 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Razon social'}
                     width={'22.3vw'}
+                    value={nombre_empresa}
                   />
                 </ContentInputCard>
 
@@ -160,6 +184,7 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Nombre a mostrar'}
                     width={'22.3vw'}
+                    value={nombre_mostrar}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -170,21 +195,44 @@ const Integraciones = () => {
                   <InputGroup>
                     <InputSelect
                       name={'type_telefono'}
-                      placeholder={'Tipo'}
+                      placeholder={telefono != null ? 'Telefono' : celular != null ? 'Celular' : '' }
                       width={'6vw'}
                       dataSelect={dataSelect}
+                      value={valueIndicativo}
+                      onClick = {() => {
+                        
+                      }}
+                      onChange = {() =>{
+                        changeTelefono(valueIndicativo)
+                      }}
                     />
-                    <InputCustumer
+                    {
+                      telefono != null ? <InputCustumer
                       name={'indicativo'}
                       type={'number'}
                       placeholder={'Indicativo'}
                       width={'5vw'}
-                    />
+                      value={''}
+                    /> : celular != null ? 
+                    <InputSelect
+                      name={'indicativo'}
+                      placeholder={indicativo}
+                      width={'5vw'}
+                      value={''}
+                      dataSelect={dataSelect}
+                      onClick = {() => {}}
+                      onChange = { () =>{
+                        
+                      }}
+                  /> : ''
+                    }
+                  
                     <InputCustumer
                       name={'telefono'}
                       type={'number'}
                       placeholder={'Telefono'}
                       width={'9vw'}
+                      value={telefono != null ? telefono : celular != null ? celular : '' }
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -221,6 +269,7 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Url donde el cliente es redireccionado al finalizar'}
                     width={'22.3vw'}
+                    value={''}
                   />
                 </ContentInputCard>
 
@@ -231,6 +280,7 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Url donde se envia la confirmación de la transacción'}
                     width={'22.3vw'}
+                    value={''}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -243,7 +293,12 @@ const Integraciones = () => {
                       name={'idioma'}
                       placeholder={'Idioma'}
                       width={'23.3vw'}
+                      value={''}
                       dataSelect={dataIdioma}
+                      onClick = {() => {}}
+                      onChange = { () =>{
+                        
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>

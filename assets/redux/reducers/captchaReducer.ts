@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux'
-import { CaptchaReducerType, UserReducerType } from '../../types'
+import { UserReducerType } from '../../types'
 import { SET_STATE_GLOBAL, GET_STATE_USER } from '../actions/index'
 
 const initialState: UserReducerType = {

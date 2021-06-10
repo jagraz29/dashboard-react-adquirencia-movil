@@ -1,6 +1,5 @@
 export class StorageData {
   setData(data: string) {
-    console.log('DATA STORAGE SET', data)
     localStorage.setItem('dataUser', JSON.stringify(data))
   }
   getData() {

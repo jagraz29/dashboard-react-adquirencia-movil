@@ -6,10 +6,11 @@ type Props = {
   type: string
   placeholder: string
   width: string
+  value: string
 }
 
-const InputCustumer: React.FC<Props> = ({ name, type, placeholder, width }) => {
-  return <Input type={type} placeholder={placeholder} name={name} width={width}></Input>
+const InputCustumer: React.FC<Props> = ({ name, type, placeholder, width, value }) => {
+  return <Input type={type} placeholder={placeholder} name={name} width={width} value={value}></Input>
 }
 
 export default InputCustumer
