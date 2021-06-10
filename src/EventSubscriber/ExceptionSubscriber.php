@@ -45,7 +45,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
         'status' => false,
         'message' => $message,
       ];
-      return JsonResponse::create($response, 500);
+      $jsonResponse = JsonResponse::create($response, 400);
+      $event->setResponse($jsonResponse);
     }
   }
 }

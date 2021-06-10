@@ -1,1 +1,6 @@
 name.not_blank: Este campo no puede estar vacio.
+date.format: Este campo debe ser una fecha tipo YYYY-MM-DD.
+positive.format: Este campo debe ser un numero entero.
+transaction.state: Este campo debe ser un estado de transaccion valido
+paymentMethod: Este campo debe ser un id de franquicia valido
+transaction.enviroment: Este campo debe ser un id de ambiente de transacción valido
