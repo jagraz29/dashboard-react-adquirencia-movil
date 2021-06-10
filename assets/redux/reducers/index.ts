@@ -4,8 +4,7 @@ import propertyReducer from './propertyReducer'
 
 const rootReducer = combineReducers({
   captcha: captchaReducer,
-  property: propertyReducer
-
+  property: propertyReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

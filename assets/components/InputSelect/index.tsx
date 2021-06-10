@@ -5,17 +5,24 @@ type Props = {
   name: string
   placeholder: string
   width: string
-  onClick:any
-  onChange:any,
-  value: any,
+  onClick: any
+  onChange: any
+  value: any
   dataSelect: {
     value: string
     label: string
-  }[],
-  
+  }[]
 }
 
-const InputSelect: React.FC<Props> = ({ name, placeholder, width, dataSelect, onClick, onChange, value }) => {
+const InputSelect: React.FC<Props> = ({
+  name,
+  placeholder,
+  width,
+  dataSelect,
+  onClick,
+  onChange,
+  value,
+}) => {
   const [selectWidth, setselectWidth] = useState({ width: width })
   return (
     <Select style={selectWidth} onClick={onClick} onChange={onChange} value={value}>

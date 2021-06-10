@@ -93,7 +93,7 @@ const Integraciones = () => {
     dispatch(getPropertySite())
   }, [])
 
- console.log("Cliente", nombre_empresa)
+  console.log('Cliente', nombre_empresa)
 
   const openClose = () => {
     console.log('presiono el boton')
@@ -138,8 +138,8 @@ const Integraciones = () => {
     }
   }
 
-  const changeTelefono = (data: any) =>{
-    console.log("hola ", data)
+  const changeTelefono = (data: any) => {
+    console.log('hola ', data)
   }
 
   return (
@@ -195,44 +195,43 @@ const Integraciones = () => {
                   <InputGroup>
                     <InputSelect
                       name={'type_telefono'}
-                      placeholder={telefono != null ? 'Telefono' : celular != null ? 'Celular' : '' }
+                      placeholder={telefono != null ? 'Telefono' : celular != null ? 'Celular' : ''}
                       width={'6vw'}
                       dataSelect={dataSelect}
                       value={valueIndicativo}
-                      onClick = {() => {
-                        
-                      }}
-                      onChange = {() =>{
+                      onClick={() => {}}
+                      onChange={() => {
                         changeTelefono(valueIndicativo)
                       }}
                     />
-                    {
-                      telefono != null ? <InputCustumer
-                      name={'indicativo'}
-                      type={'number'}
-                      placeholder={'Indicativo'}
-                      width={'5vw'}
-                      value={''}
-                    /> : celular != null ? 
-                    <InputSelect
-                      name={'indicativo'}
-                      placeholder={indicativo}
-                      width={'5vw'}
-                      value={''}
-                      dataSelect={dataSelect}
-                      onClick = {() => {}}
-                      onChange = { () =>{
-                        
-                      }}
-                  /> : ''
-                    }
-                  
+                    {telefono != null ? (
+                      <InputCustumer
+                        name={'indicativo'}
+                        type={'number'}
+                        placeholder={'Indicativo'}
+                        width={'5vw'}
+                        value={''}
+                      />
+                    ) : celular != null ? (
+                      <InputSelect
+                        name={'indicativo'}
+                        placeholder={indicativo}
+                        width={'5vw'}
+                        value={''}
+                        dataSelect={dataSelect}
+                        onClick={() => {}}
+                        onChange={() => {}}
+                      />
+                    ) : (
+                      ''
+                    )}
+
                     <InputCustumer
                       name={'telefono'}
                       type={'number'}
                       placeholder={'Telefono'}
                       width={'9vw'}
-                      value={telefono != null ? telefono : celular != null ? celular : '' }
+                      value={telefono != null ? telefono : celular != null ? celular : ''}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -295,10 +294,8 @@ const Integraciones = () => {
                       width={'23.3vw'}
                       value={''}
                       dataSelect={dataIdioma}
-                      onClick = {() => {}}
-                      onChange = { () =>{
-                        
-                      }}
+                      onClick={() => {}}
+                      onChange={() => {}}
                     />
                   </InputGroup>
                 </ContentInputCard>
