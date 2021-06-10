@@ -26,6 +26,10 @@ class TransactionController extends BaseController
    * @var string
    */
   private $appRestEnv;
+  /**
+   * @var Requests
+   */
+  private $requests;
 
   public function __construct(
     string $urlAppRest,
@@ -152,6 +156,37 @@ class TransactionController extends BaseController
    */
   public function sendEmail(int $id, string $email)
   {
+    $url = sprintf(
+      '%semail/transaccion?%s',
+      $this->urlAppRest . $this->appRestEnv,
+      http_build_query([
+        'transaction_id' => $id,
+        'email_adicional' => $email,
+      ])
+    );
+    $sendEmailResponse = Requests::POST(
+      $this->urlAppRest . $this->appRestEnv . 'email/transaction'
+    );
+
+    if (isset($sendEmailResponse['success']) && $sendEmailResponse['success'] === true) {
+      $message = isset($sendEmailResponse['textResponse'])
+        ? $sendEmailResponse['textResponse']
+        : 'Confirmacion enviada';
+      return $this->jsonResponse(true, [], $message);
+    }
+
+    $message = isset($sendEmailResponse['textResponse'])
+      ? $sendEmailResponse['textResponse']
+      : 'Confirmacion enviada';
+    return $this->jsonResponse(true, [], $message);
+  }
+
+  /**
+   * @Route("/send/confirmation/", name="api_transaction_send_confirmation", methods={"POST"})
+   */
+  public function sendConfirmation()
+  {
+    dd('send confirmation');
   }
 
   /**
