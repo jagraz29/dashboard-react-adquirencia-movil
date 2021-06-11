@@ -33,6 +33,8 @@ class ConfigurationController extends BaseController
   {
     $content = $request->getContent();
 
+    $content = json_decode($content, true);
+
     $propertyDto = new PropertySiteDto();
     $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
     $propertyDto->setRazonSocial($content['razonSocial']);
@@ -47,18 +49,16 @@ class ConfigurationController extends BaseController
     }
 
     $data = [
-      'nombreEmpresa' => $content['nombeEmpresa'],
+      'nombreEmpresa' => $content['nombreEmpresa'],
       'razonSocial' => $content['razonSocial'],
       'telefono' => $content['telefono'],
       'celular' => $content['celular'],
-      'telefono' => $content['telefono'],
       'indicativoPais' => $content['indicativoPais'],
       'indicativoCiudad' => $content['indicativoCiudad'],
-      'emailContacto' => $content['emailContacto'],
-      'emailContracargos' => $content['emailContracargos'],
-      'emailFacturacion' => $content['emailFacturacion'],
-      'emailTransacciones' => $content['emailTransacciones'],
       'tipoTelefonoValue' => $content['tipoTelefonoValue'],
+      'campoTelValue' => $content['campoTelValue'],
+      'valueIndicativo' => $content['valueIndicativo'],
+      'paises' => [],
     ];
 
     $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
@@ -142,7 +142,9 @@ class ConfigurationController extends BaseController
     }
 
     $data = [
-      'logo' => $content['logo'],
+      'urlConfirmacion' => $content['urlConfirmacion'],
+      'urlRespuesta' => $content['urlRespuesta'],
+      'idioma' => $content['idioma'],
     ];
 
     $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
