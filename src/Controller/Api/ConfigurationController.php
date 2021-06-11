@@ -85,7 +85,7 @@ class ConfigurationController extends BaseController
   }
 
   /**
-   * @Route("/property-site", name="api_set_config_property_site", methods={"POST"})
+   * @Route("/pay-page", name="api_set_config_pay_page", methods={"POST"})
    */
   public function setPayPage(Request $request)
   {
@@ -104,6 +104,48 @@ class ConfigurationController extends BaseController
     ];
 
     $consult = $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
+  }
+
+  /**
+   * @Route("/pay-page", name="api_config_pay_page", methods={"GET"})
+   */
+  public function getOptionGateway(Request $request)
+  {
+    $consult = $this->apify->consult('configuration/options-gateway');
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
+  }
+
+  /**
+   * @Route("/property-site", name="api_set_config_property_site", methods={"POST"})
+   */
+  public function setOptionGateway(Request $request)
+  {
+    $content = $request->getContent();
+
+    $propertyDto = new PayPageDto();
+    $propertyDto->setLogo($content['logo']);
+
+    $errors = $this->validator->validate($propertyDto);
+    if (count($errors) > 0) {
+      return $this->validatorErrorResponse($errors);
+    }
+
+    $data = [
+      'logo' => $content['logo'],
+    ];
+
+    $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
 
     return $this->jsonResponse(
       $consult[0]['success'],
