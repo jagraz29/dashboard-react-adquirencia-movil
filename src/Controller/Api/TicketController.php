@@ -41,7 +41,7 @@ class TicketController extends BaseController
     $data = [
       'idTicket' => $id,
     ];
-    $consult = $this->apify->consult('ticket/close/', \Requests::GET, $data);
+    $consult = $this->apify->consult('ticket/close', \Requests::POST, $data);
 
     return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
@@ -51,7 +51,10 @@ class TicketController extends BaseController
    */
   public function reopen(Request $request, $id)
   {
-    $consult = $this->apify->consult('ticket/reopen/?idTicket=' . $id);
+      $data = [
+          'idTicket' => $id,
+      ];
+      $consult = $this->apify->consult('ticket/reopen', \Requests::POST, $data);
 
     return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
@@ -61,7 +64,10 @@ class TicketController extends BaseController
    */
   public function detail(Request $request, $id)
   {
-    $consult = $this->apify->consult('ticket/detail/?idTicket=' . $id);
+      $data = [
+          'idTicket' => $id,
+      ];
+      $consult = $this->apify->consult('ticket/detail', \Requests::POST, $data);
 
     return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
