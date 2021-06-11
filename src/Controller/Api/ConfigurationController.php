@@ -33,7 +33,7 @@ class ConfigurationController extends BaseController
   {
     $content = $request->getContent();
 
-    $content = json_decode($content,true);
+    $content = json_decode($content, true);
 
     $propertyDto = new PropertySiteDto();
     $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
@@ -55,10 +55,10 @@ class ConfigurationController extends BaseController
       'celular' => $content['celular'],
       'indicativoPais' => $content['indicativoPais'],
       'indicativoCiudad' => $content['indicativoCiudad'],
-      "tipoTelefonoValue" => $content['tipoTelefonoValue'],
-      "campoTelValue" => $content['campoTelValue'],
-      "valueIndicativo" => $content['valueIndicativo'],
-      "paises" => []
+      'tipoTelefonoValue' => $content['tipoTelefonoValue'],
+      'campoTelValue' => $content['campoTelValue'],
+      'valueIndicativo' => $content['valueIndicativo'],
+      'paises' => [],
     ];
 
     $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
@@ -144,7 +144,7 @@ class ConfigurationController extends BaseController
     $data = [
       'urlConfirmacion' => $content['urlConfirmacion'],
       'urlRespuesta' => $content['urlRespuesta'],
-      'idioma' => $content['idioma']
+      'idioma' => $content['idioma'],
     ];
 
     $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
