@@ -1,3 +1,11 @@
 body {
-  background-color: lightgray;
+  margin: 0 0 0 0;
+  background-color: #e6e6e6;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
 }
