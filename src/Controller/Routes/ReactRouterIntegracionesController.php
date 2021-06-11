@@ -10,7 +10,7 @@ final class ReactRouterIntegracionesController extends AbstractController
 {
   /**
    *
-   * @Route("/integraciones", name="cobra")
+   * @Route("/integraciones", name="integraciones")
    *
    */
 
