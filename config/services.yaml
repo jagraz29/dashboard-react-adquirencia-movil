@@ -32,3 +32,9 @@ services:
     App\Service\Apify:
         arguments:
             - '%env(URL_APIFY)%'
+            - '%env(ID_ALLIED_ENTITY)%'
+
+    App\Controller\Api\TransactionController:
+        arguments:
+            - '%env(BASE_URL_REST)%'
+            - '%env(APP_REST_ENVIRONMENT)%'

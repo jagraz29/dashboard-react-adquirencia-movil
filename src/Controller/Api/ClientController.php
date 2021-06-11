@@ -16,6 +16,7 @@ class ClientController extends BaseController
   {
     $user = $this->getUser();
     $response = [
+      'clientId' => $user->getId(),
       'email' => $user->getUsername(),
       'companyName' => $user->getName(),
       'socialName' => $user->getSocialName(),

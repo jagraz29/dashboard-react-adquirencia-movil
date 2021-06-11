@@ -33,6 +33,8 @@ class ConfigurationController extends BaseController
   {
     $content = $request->getContent();
 
+    $content = json_decode($content, true);
+
     $propertyDto = new PropertySiteDto();
     $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
     $propertyDto->setRazonSocial($content['razonSocial']);
@@ -47,21 +49,25 @@ class ConfigurationController extends BaseController
     }
 
     $data = [
-      'nombreEmpresa' => $content['nombeEmpresa'],
+      'nombreEmpresa' => $content['nombreEmpresa'],
       'razonSocial' => $content['razonSocial'],
       'telefono' => $content['telefono'],
       'celular' => $content['celular'],
-      'telefono' => $content['telefono'],
       'indicativoPais' => $content['indicativoPais'],
       'indicativoCiudad' => $content['indicativoCiudad'],
-      'emailContacto' => $content['emailContacto'],
-      'emailContracargos' => $content['emailContracargos'],
-      'emailFacturacion' => $content['emailFacturacion'],
-      'emailTransacciones' => $content['emailTransacciones'],
       'tipoTelefonoValue' => $content['tipoTelefonoValue'],
+      'campoTelValue' => $content['campoTelValue'],
+      'valueIndicativo' => $content['valueIndicativo'],
+      'paises' => [],
     ];
 
-    return $this->apify->consult('/configuration/information', \Requests::POST, $data);
+    $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
   }
 
   /**
@@ -79,7 +85,7 @@ class ConfigurationController extends BaseController
   }
 
   /**
-   * @Route("/property-site", name="api_set_config_property_site", methods={"POST"})
+   * @Route("/pay-page", name="api_set_config_pay_page", methods={"POST"})
    */
   public function setPayPage(Request $request)
   {
@@ -97,7 +103,57 @@ class ConfigurationController extends BaseController
       'logo' => $content['logo'],
     ];
 
-    return $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
+    $consult = $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
+  }
+
+  /**
+   * @Route("/options-gateway", name="api_config_options_gateway", methods={"GET"})
+   */
+  public function getOptionGateway(Request $request)
+  {
+    $consult = $this->apify->consult('configuration/options-gateway');
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
+  }
+
+  /**
+   * @Route("/options-gateway", name="api_set_config_options_gateway", methods={"POST"})
+   */
+  public function setOptionGateway(Request $request)
+  {
+    $content = $request->getContent();
+
+    $propertyDto = new PayPageDto();
+    $propertyDto->setLogo($content['logo']);
+
+    $errors = $this->validator->validate($propertyDto);
+    if (count($errors) > 0) {
+      return $this->validatorErrorResponse($errors);
+    }
+
+    $data = [
+      'urlConfirmacion' => $content['urlConfirmacion'],
+      'urlRespuesta' => $content['urlRespuesta'],
+      'idioma' => $content['idioma'],
+    ];
+
+    $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
+
+    return $this->jsonResponse(
+      $consult[0]['success'],
+      $consult[0]['data'],
+      $consult[0]['textResponse']
+    );
   }
 
   /**

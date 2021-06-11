@@ -26,6 +26,8 @@ class Apify extends AbstractController
 
   private $url;
 
+  private $alliedEntityId;
+
   /**
    * @var EventDispatcherInterface
    */
@@ -38,6 +40,7 @@ class Apify extends AbstractController
 
   public function __construct(
     string $url,
+    string $alliedEntityId,
     EventDispatcherInterface $eventDispatcher,
     RouterInterface $router
   ) {
@@ -53,6 +56,7 @@ class Apify extends AbstractController
     );
     $this->eventDispatcher = $eventDispatcher;
     $this->router = $router;
+    $this->alliedEntityId = $alliedEntityId;
   }
 
   public function login(string $user, string $password)
@@ -64,7 +68,9 @@ class Apify extends AbstractController
 
     $response = Requests::post(
       $this->url . 'login/mail',
-      [],
+      [
+        //'parent-client' => $this->alliedEntityId,
+      ],
       [],
       [
         'auth' => $auth,
@@ -72,7 +78,11 @@ class Apify extends AbstractController
     );
 
     if (!$response->success || 200 !== $response->status_code) {
-      throw new ApifyException('Apify login error');
+      $responseApify = json_decode($response->body, true);
+      $responseApify = isset($responseApify['error'])
+        ? $responseApify['error']
+        : 'Apify login error';
+      throw new ApifyException($responseApify);
     }
 
     return json_decode($response->body, true);
@@ -84,7 +94,8 @@ class Apify extends AbstractController
     $response = Requests::post($this->url . 'login', [], [], ['auth' => $auth]);
 
     if ($response->status_code >= 400) {
-      throw new ApifyException('Apify login error');
+      $responseApify = isset($response->body->error) ? $response->body->error : 'Apify login error';
+      throw new ApifyException($responseApify);
     }
 
     return json_decode($response->body, true);
