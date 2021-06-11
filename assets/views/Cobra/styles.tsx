@@ -18,6 +18,7 @@ export const ContentTitle = styled.span`
 
 export const ButtonLink = styled.button`
   display: inline-block;
+  cursor: pointer;
   font-size: 1em;
   padding: 0.25em 1em;
   background: #ffffff;

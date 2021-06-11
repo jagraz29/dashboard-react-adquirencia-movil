@@ -14,6 +14,7 @@ import {
   ContentTable,
   CardTableTitle,
 } from './styles'
+import { useHistory } from 'react-router-dom'
 
 const breadcrumb = [
   {
@@ -26,21 +27,22 @@ const breadcrumb = [
     path: '/cobra',
     active: true,
   },
-  {
-    title: 'Cobra',
-    path: '/cobra',
-    active: false,
-  },
 ]
 
 const Cobra = () => {
+  const history = useHistory()
+
+  const redirectRoute = (path: string) => {
+    history.push(path)
+  }
+
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Cobra'}></Title>
       <Content>
         <ContentTitle>Comience a cobrar/vender.</ContentTitle>
-        <ButtonLink>
+        <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
           <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>
           <ButtonLinkImg src={IconLink.url} />
           <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
