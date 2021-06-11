@@ -5,11 +5,14 @@ import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import InputSelect from '../../components/InputSelect'
+import InputSelectPais from '../../components/InputSelectPais'
 import FileUpload from '../../components/FileUpload'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import { getPropertySite } from '../../redux/actions/'
-import { StorageData } from '../../services/storegeData'
+import { getPropertySite, setPropertySite } from '../../redux/actions/'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { datos } from './data'
 import {
   Content,
   ContentCard,
@@ -83,8 +86,9 @@ const Integraciones = () => {
   const telefono = viewState.property.cliente.telefono
   const celular = viewState.property.cliente.celular
   const indicativo = viewState.property.cliente.ind_pais
+  const id = viewState.property.cliente.Id
 
-  const paises = viewState.property.paises
+  const paises = viewState
 
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
@@ -165,11 +169,33 @@ const Integraciones = () => {
     settelCel(event)
   }, [])
 
+  const savePropiedad = () => {
+    const datos = {
+      razonSocial: 'Prueba a ver',
+      nombreEmpresa: 'prueba123',
+      telefono: '1231231',
+      celular: '3136139322',
+      indicativoCiudad: '1',
+      indicativoPais: '57',
+      tipoTelefonoValue: 'fijo',
+      campoTelValue: '1231231',
+      valueIndicativo: '1',
+      paises: [],
+    }
+
+    dispatch(setPropertySite(datos))
+    console.log('pase pues por aqui', datos)
+
+    toast.success('Wow so easy!')
+  }
+
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Integracion'}></Title>
+
       <Content>
+        <ToastContainer />
         <ContentCard>
           <Card>
             <CardHeader>
@@ -242,11 +268,11 @@ const Integraciones = () => {
                         onChange={() => {}}
                       />
                     ) : typeTelCel == 'Celular' ? (
-                      <InputSelect
+                      <InputSelectPais
                         name={'indicativo'}
                         placeholder={indicativo}
                         width={'5vw'}
-                        dataSelect={dataSelect}
+                        dataSelect={datos}
                         onClick={() => {}}
                         onChange={() => {}}
                       />
@@ -270,7 +296,13 @@ const Integraciones = () => {
             </CardContent1>
 
             <CardContentButton theme={openCardContent}>
-              <ButtonOk>Guardar Información</ButtonOk>
+              <ButtonOk
+                onClick={() => {
+                  savePropiedad()
+                }}
+              >
+                Guardar Información
+              </ButtonOk>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>

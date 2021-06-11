@@ -2,6 +2,7 @@ import { DataService } from '../../services/dataService'
 export const SET_STATE_GLOBAL = 'SET_STATE_GLOBAL'
 export const GET_STATE_USER = 'GET_STATE_USER'
 export const GET_PROPERTY_SITE = 'GET_PROPERTY_SITE'
+export const SET_PROPERTY_SITE = 'SET_PROPERTY_SITE'
 
 const dataService = new DataService()
 
@@ -25,9 +26,23 @@ export const getDataUser = () => async (dispatch: any) => {
 export const getPropertySite = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/configuration/property-site')
-    console.log(res.data.data.cliente)
     dispatch({
       type: GET_PROPERTY_SITE,
+      payload: res.data.data.cliente,
+    })
+  } catch (error) {}
+}
+
+export const setPropertySite = (data: any) => async (dispatch: any) => {
+  try {
+    console.log('POST: ')
+    const res = await dataService.post(
+      'http://localhost:8000/api/configuration/property-site',
+      data
+    )
+
+    dispatch({
+      type: SET_PROPERTY_SITE,
       payload: res.data.data.cliente,
     })
   } catch (error) {}

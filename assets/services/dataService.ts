@@ -25,7 +25,8 @@ export class DataService {
         Accept: 'application/json',
       },
     }
-    const api_endpoint = config.api + endpoint
+    //const api_endpoint = config.api + endpoint
+    const api_endpoint = endpoint
     return axios.post(api_endpoint, body, option)
   }
 
