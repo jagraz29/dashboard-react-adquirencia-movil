@@ -51,10 +51,10 @@ class TicketController extends BaseController
    */
   public function reopen(Request $request, $id)
   {
-      $data = [
-          'idTicket' => $id,
-      ];
-      $consult = $this->apify->consult('ticket/reopen', \Requests::POST, $data);
+    $data = [
+      'idTicket' => $id,
+    ];
+    $consult = $this->apify->consult('ticket/reopen', \Requests::POST, $data);
 
     return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
@@ -64,10 +64,10 @@ class TicketController extends BaseController
    */
   public function detail(Request $request, $id)
   {
-      $data = [
-          'idTicket' => $id,
-      ];
-      $consult = $this->apify->consult('ticket/detail', \Requests::POST, $data);
+    $data = [
+      'idTicket' => $id,
+    ];
+    $consult = $this->apify->consult('ticket/detail', \Requests::POST, $data);
 
     return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
   }
