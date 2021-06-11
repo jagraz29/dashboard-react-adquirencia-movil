@@ -113,7 +113,7 @@ class ConfigurationController extends BaseController
   }
 
   /**
-   * @Route("/pay-page", name="api_config_pay_page", methods={"GET"})
+   * @Route("/options-gateway", name="api_config_options_gateway", methods={"GET"})
    */
   public function getOptionGateway(Request $request)
   {
@@ -127,7 +127,7 @@ class ConfigurationController extends BaseController
   }
 
   /**
-   * @Route("/property-site", name="api_set_config_property_site", methods={"POST"})
+   * @Route("/options-gateway", name="api_set_config_options_gateway", methods={"POST"})
    */
   public function setOptionGateway(Request $request)
   {
