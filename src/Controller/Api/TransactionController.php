@@ -128,7 +128,7 @@ class TransactionController extends BaseController
     $data = [
       'pagination' => [
         'page' => 1,
-        'limit' => 20000,
+        'limit' => 1000,
       ],
       'filter' => $filters,
     ];
@@ -138,7 +138,7 @@ class TransactionController extends BaseController
     if (isset($transactions['success']) && $transactions['success'] === true) {
       $transactions = $transactions['data']['data'];
     }
-    $data = $this->setExportsHeaders($transactions);
+    $data = $this->formatDataToExport($transactions);
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -244,20 +244,35 @@ class TransactionController extends BaseController
     return $this->file($fileName)->deleteFileAfterSend();
   }
 
-  private function setExportsHeaders(array $transactions)
+  private function formatDataToExport(array $transactions)
   {
-    $headers = [
-      'transaccion',
-      'factura',
-      'fecha',
-      'descripcion',
-      'franquicia',
-      'valor',
-      'estado',
-      'ambiente',
-    ];
+    $data = [];
+    foreach ($transactions as $transaction) {
+      $row = [
+        'ref_payco' => $transaction['referencePayco'],
+        'factura' => $transaction['referenceClient'],
+        'fecha' => $transaction['transactionDate'],
+        'valor' => $transaction['amount'],
+        'iva' => $transaction['iva'],
+        'moneda' => $transaction['currency'],
+        'descripcion' => $transaction['description'],
+        'franquicia' => $transaction['paymentMethod'],
+        'banco' => $transaction['bank'],
+        'tarjeta' => $transaction['card'],
+        'estado' => $transaction['status'],
+        'respuesta' => $transaction['response'],
+        'recibo' => $transaction['receipt'],
+        'autorizacion' => $transaction['authorization'],
+        'trmDia' => $transaction['trmdia'],
+        'tipoDocUser' => $transaction['docType'],
+        'cedula' => $transaction['document'],
+        'nombres' => $transaction['names'],
+        'apellidos' => $transaction['lastnames'],
+      ];
+      array_push($data, $row);
+    }
 
-    array_unshift($transactions, $headers);
-    return $transactions;
+    array_unshift($data, array_keys($data[0]));
+    return $data;
   }
 }
