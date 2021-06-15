@@ -105,7 +105,6 @@ export const CardContentButton = styled.div`
   justify-content: start;
   align-items: flex-start;
   flex-direction: row;
-  display: ${(props) => props.theme.display};
 `
 
 export const CardButton = styled.div`
@@ -150,5 +149,5 @@ export const InputGroup = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 23.3vw;
+  width: 26.3vw;
 `

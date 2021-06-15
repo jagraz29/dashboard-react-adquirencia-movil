@@ -7,6 +7,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs/'
 import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
+import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
 import FileUpload from '../../../components/FileUpload'
 import { RootState } from '../../../redux/reducers/index'
@@ -48,20 +49,54 @@ const breadcrumb = [
 const CobraCreate = () => {
   const iconStyles = { color: '#d3d3d3' }
   const [openCard, setOpenCard] = useState(true)
+  const [openCard2, setOpenCard2] = useState(false)
+  const [openCard3, setOpenCard3] = useState(false)
 
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
+  const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
+  const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
 
-  const openClose = () => {
-    if (!openCard) {
-      setOpenCard(true)
-      setOpenCardContent({
-        display: 'block',
-      })
-    } else {
-      setOpenCard(false)
-      setOpenCardContent({
-        display: 'none',
-      })
+  const openClose = async (number:number) => {
+    switch (number) {
+      case 1:
+        if(!openCard){
+          setOpenCard(true)
+          setOpenCardContent({
+            display: 'block'
+          })
+        }else{
+          setOpenCard(false)
+          setOpenCardContent({
+            display: 'none'
+          });
+        }
+        break;
+      case 2:
+        if(!openCard2){
+          setOpenCard2(true)
+          setOpenCardContent2({
+            display: 'block'
+          })
+        }else{
+          setOpenCard2(false)
+          setOpenCardContent2({
+            display: 'none'
+          });
+        }
+      break
+      case 3:
+        if(!openCard3){
+          setOpenCard3(true)
+          setOpenCardContent3({
+            display: 'block'
+          })
+        }else{
+          setOpenCard3(false)
+          setOpenCardContent3({
+            display: 'none'
+          });
+        }
+        break;
     }
   }
 
@@ -74,13 +109,6 @@ const CobraCreate = () => {
           <Card>
             <CardHeader>
               <CardTitle>Nuevo Link de Cobro</CardTitle>
-              <CardIcon onClick={() => openClose()}>
-                {openCard == false ? (
-                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                ) : (
-                  <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                )}
-              </CardIcon>
             </CardHeader>
 
             <CardContent1 theme={openCardContent}>
@@ -118,7 +146,9 @@ const CobraCreate = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-            <hr />
+            {
+              openCardContent && <hr />
+            }
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
@@ -136,8 +166,9 @@ const CobraCreate = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-
-            <hr />
+            {
+              openCardContent && <hr />
+            }
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
@@ -146,7 +177,7 @@ const CobraCreate = () => {
                     <InputSelect
                       name={'type_telefono'}
                       placeholder={'Seleccione Moneda'}
-                      width={'6vw'}
+                      width={'12vw'}
                       dataSelect={[]}
                       onClick={() => {
                         console.log('hola')
@@ -160,7 +191,7 @@ const CobraCreate = () => {
                       name={'telefono'}
                       type={'number'}
                       placeholder={'Telefono'}
-                      width={'9vw'}
+                      width={'12vw'}
                       value={'hhhhh'}
                       onChange={(e: any) => {
                         console.log(e)
@@ -171,102 +202,115 @@ const CobraCreate = () => {
               </ContentInput>
             </CardContent1>
 
-            <CardContentButton theme={openCardContent}>
-              <ButtonOk>Guardar Información</ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
-            </CardContentButton>
+            <CardContent1 theme={openCardContent}>
+              <ContentInput>
+                <ContentInputCard>
+                <InputLabel label={'¿Desea incluir impuestos?'} />
+                  <CustomSwitch
+                    disabled={false}
+                    value={true}
+                    onChange={(e:any) => {
+                      console.log(e)
+                    }}
+                  />
+                </ContentInputCard>
+              </ContentInput>
+            </CardContent1>
           </Card>
-          {/*<Card>
-                <CardHeader>
-                <CardTitle>Opciones pasarela</CardTitle>
-                <CardSubTitle>
-                    Configura y/o predetermina parametros para personalizar la experiencia de pago.
-                </CardSubTitle>
-                <CardIcon onClick={() => openClose2()}>
-                    {openCard2 == false ? (
-                    <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                    ) : (
-                    <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                    )}
-                </CardIcon>
-                </CardHeader>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Personalizar Cobro</CardTitle>
+              <CardSubTitle>
+                  Suba imágenes, especificaciones de su producto y/o servicio de un archivo de caraterísticas, inventario y fecha de vencimiento del link de cobro.
+              </CardSubTitle>
+              <CardIcon onClick={() => openClose(2)}>
+                  {openCard2 == true ? (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                  ) : (
+                  <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                  )}
+              </CardIcon>
+            </CardHeader>
 
                 <CardContent2 theme={openCardContent2}>
-                <ContentInput>
-                    <ContentInputCard>
-                    <InputLabel label={'Url de respuesta'} />
-                    <InputCustumer
-                        name={'url_respuesta'}
-                        type={'text'}
-                        placeholder={'Url donde el cliente es redireccionado al finalizar'}
-                        width={'22.3vw'}
-                        value={''}
-                        onChange={() => {}}
-                    />
-                    </ContentInputCard>
+                  <ContentInput>
+                      <ContentInputCard>
+                      <InputLabel label={'Url de respuesta'} />
+                      <InputCustumer
+                          name={'url_respuesta'}
+                          type={'text'}
+                          placeholder={'Url donde el cliente es redireccionado al finalizar'}
+                          width={'22.3vw'}
+                          value={''}
+                          onChange={() => {console.log("holaa")}}
+                      />
+                      </ContentInputCard>
 
-                    <ContentInputCard>
-                    <InputLabel label={'Url de confirmación'} />
-                    <InputCustumer
-                        name={'url_confirmacion'}
-                        type={'text'}
-                        placeholder={'Url donde se envia la confirmación de la transacción'}
-                        width={'22.3vw'}
-                        value={''}
-                        onChange={() => {}}
-                    />
-                    </ContentInputCard>
-                </ContentInput>
-
-                <ContentInput>
-                    <ContentInputCard>
-                    <InputLabel label={'Idioma predeterminado'} />
-                    <InputGroup>
-                        <InputSelect
-                        name={'idioma'}
-                        placeholder={'Idioma'}
-                        width={'23.3vw'}
-                        dataSelect={dataIdioma}
-                        onClick={() => {}}
-                        onChange={() => {}}
-                        />
-                    </InputGroup>
-                    </ContentInputCard>
-                </ContentInput>
+                      <ContentInputCard>
+                      <InputLabel label={'Url de confirmación'} />
+                      <InputCustumer
+                          name={'url_confirmacion'}
+                          type={'text'}
+                          placeholder={'Url donde se envia la confirmación de la transacción'}
+                          width={'22.3vw'}
+                          value={''}
+                          onChange={() => {console.log("Conf")}}
+                      />
+                      </ContentInputCard>
+                  </ContentInput>
                 </CardContent2>
+          </Card>
 
-                <CardContentButton theme={openCardContent2}>
-                <ButtonOk>Guardar Información</ButtonOk>
-                <ButtonCancel>Cancelar</ButtonCancel>
-                </CardContentButton>
-            </Card>
-
-            <Card>
-                <CardHeader>
-                <CardTitle>Personalización página de pagos</CardTitle>
-                <CardSubTitle>
-                    Utilice nuestro administrador para personalizar y adaptar la pagina de pagos al
-                    diseño de su sitio web.
-                </CardSubTitle>
-                <CardIcon onClick={() => openClose3()}>
-                    {openCard3 == false ? (
-                    <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                    ) : (
-                    <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                    )}
-                </CardIcon>
-                </CardHeader>
-
-                <CardContent3 theme={openCardContent3}>
-                <FileUpload></FileUpload>
+          <Card>
+            <CardHeader>
+              <CardTitle>URL de Confirmación</CardTitle>
+              <CardSubTitle>
+                  Ingrese una página de confirmación y/o agradecimiento por la compra.
+              </CardSubTitle>
+              <CardIcon onClick={() => openClose(3)}>
+                  {openCard3 == true ? (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                  ) : (
+                  <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                  )}
+              </CardIcon>
+            </CardHeader>
+              <CardContent3 theme={openCardContent3}>
+                <ContentInput>
+                    <ContentInputCard>
+                      <InputLabel label={'Url de confirmación'} />
+                      <InputCustumer
+                          name={'url_confirmacion'}
+                          type={'text'}
+                          placeholder={'https://mi-tienda.com/page-response'}
+                          width={'22.3vw'}
+                          value={''}
+                          onChange={() => {console.log("Conf")}}
+                      />
+                      <i style={{fontSize:"0.5vw"}}>(Url donde se envia la confirmación de la transacción)</i>
+                    </ContentInputCard>
+                  </ContentInput>
+                  <ContentInput>
+                    <ContentInputCard>
+                        <InputLabel label={'Url de respuesta'} />
+                        <InputCustumer
+                            name={'url_respuesta'}
+                            type={'text'}
+                            placeholder={'https://mi-tienda.com/page-confirmation'}
+                            width={'22.3vw'}
+                            value={''}
+                            onChange={() => {console.log("holaa")}}
+                        />
+                        <i style={{fontSize:"0.5vw"}}>(Url donde el cliente es redireccionado al finalizar la transacción)</i>
+                    </ContentInputCard>
+                  </ContentInput>
                 </CardContent3>
-
-                <CardContentButton theme={openCardContent3}>
-                <ButtonOk>Guardar Información</ButtonOk>
-                <ButtonCancel>Cancelar</ButtonCancel>
-                </CardContentButton>
-            </Card>
-            */}
+          </Card>
+          <CardContentButton>
+              <ButtonOk>Guardar Información</ButtonOk>
+              <ButtonCancel>Cancelar</ButtonCancel>
+          </CardContentButton>
         </ContentCard>
       </Content>
     </div>

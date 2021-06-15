@@ -27,9 +27,15 @@ import {
 
 import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
+import { useHistory } from 'react-router-dom'
 
 const index = () => {
-  const [dataUser, setDataUser] = useState(new StorageData().getData())
+  const [dataUser, setDataUser] = useState(new StorageData().getData());
+  const history = useHistory();
+
+  const redirectRoute = (path: string) => {
+    history.push(path)
+  }
 
   useEffect(() => {
     setDataUser(new StorageData().getData())
@@ -46,7 +52,7 @@ const index = () => {
           </ContentAvatar>
           <ContentLink>
             <TitleLink>Herramienta de cobro</TitleLink>
-            <ButtonLink>
+            <ButtonLink onClick={() => redirectRoute('/cobra')}>
               <ButtonImg src={IconLink.url} />
               <ButtonText>Crear y comparti un link de cobro</ButtonText>
             </ButtonLink>
