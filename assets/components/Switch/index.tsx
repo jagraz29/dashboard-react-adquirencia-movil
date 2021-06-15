@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Switch from "react-switch";
-
+import React, { useState } from 'react'
+import Switch from 'react-switch'
 
 type Props = {
   disabled: boolean
@@ -8,7 +7,7 @@ type Props = {
   onChange: any
 }
 
-const CustomSwitch: React.FC<Props> = ({ disabled, value, onChange}) => {
+const CustomSwitch: React.FC<Props> = ({ disabled, value, onChange }) => {
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
@@ -31,7 +30,7 @@ const CustomSwitch: React.FC<Props> = ({ disabled, value, onChange}) => {
       width={45}
       className="react-switch"
       id="material-switch"
-  />
+    />
   )
 }
 

@@ -56,47 +56,47 @@ const CobraCreate = () => {
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
 
-  const openClose = async (number:number) => {
+  const openClose = async (number: number) => {
     switch (number) {
       case 1:
-        if(!openCard){
+        if (!openCard) {
           setOpenCard(true)
           setOpenCardContent({
-            display: 'block'
+            display: 'block',
           })
-        }else{
+        } else {
           setOpenCard(false)
           setOpenCardContent({
-            display: 'none'
-          });
+            display: 'none',
+          })
         }
-        break;
+        break
       case 2:
-        if(!openCard2){
+        if (!openCard2) {
           setOpenCard2(true)
           setOpenCardContent2({
-            display: 'block'
+            display: 'block',
           })
-        }else{
+        } else {
           setOpenCard2(false)
           setOpenCardContent2({
-            display: 'none'
-          });
+            display: 'none',
+          })
         }
-      break
+        break
       case 3:
-        if(!openCard3){
+        if (!openCard3) {
           setOpenCard3(true)
           setOpenCardContent3({
-            display: 'block'
+            display: 'block',
           })
-        }else{
+        } else {
           setOpenCard3(false)
           setOpenCardContent3({
-            display: 'none'
-          });
+            display: 'none',
+          })
         }
-        break;
+        break
     }
   }
 
@@ -146,9 +146,7 @@ const CobraCreate = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-            {
-              openCardContent && <hr />
-            }
+            {openCardContent && <hr />}
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
@@ -166,9 +164,7 @@ const CobraCreate = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-            {
-              openCardContent && <hr />
-            }
+            {openCardContent && <hr />}
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
@@ -205,11 +201,11 @@ const CobraCreate = () => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                <InputLabel label={'¿Desea incluir impuestos?'} />
+                  <InputLabel label={'¿Desea incluir impuestos?'} />
                   <CustomSwitch
                     disabled={false}
                     value={true}
-                    onChange={(e:any) => {
+                    onChange={(e: any) => {
                       console.log(e)
                     }}
                   />
@@ -222,94 +218,107 @@ const CobraCreate = () => {
             <CardHeader>
               <CardTitle>Personalizar Cobro</CardTitle>
               <CardSubTitle>
-                  Suba imágenes, especificaciones de su producto y/o servicio de un archivo de caraterísticas, inventario y fecha de vencimiento del link de cobro.
+                Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
+                caraterísticas, inventario y fecha de vencimiento del link de cobro.
               </CardSubTitle>
               <CardIcon onClick={() => openClose(2)}>
-                  {openCard2 == true ? (
+                {openCard2 == true ? (
                   <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                  ) : (
+                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                  )}
+                )}
               </CardIcon>
             </CardHeader>
 
-                <CardContent2 theme={openCardContent2}>
-                  <ContentInput>
-                      <ContentInputCard>
-                      <InputLabel label={'Url de respuesta'} />
-                      <InputCustumer
-                          name={'url_respuesta'}
-                          type={'text'}
-                          placeholder={'Url donde el cliente es redireccionado al finalizar'}
-                          width={'22.3vw'}
-                          value={''}
-                          onChange={() => {console.log("holaa")}}
-                      />
-                      </ContentInputCard>
+            <CardContent2 theme={openCardContent2}>
+              <ContentInput>
+                <ContentInputCard>
+                  <InputLabel label={'Url de respuesta'} />
+                  <InputCustumer
+                    name={'url_respuesta'}
+                    type={'text'}
+                    placeholder={'Url donde el cliente es redireccionado al finalizar'}
+                    width={'22.3vw'}
+                    value={''}
+                    onChange={() => {
+                      console.log('holaa')
+                    }}
+                  />
+                </ContentInputCard>
 
-                      <ContentInputCard>
-                      <InputLabel label={'Url de confirmación'} />
-                      <InputCustumer
-                          name={'url_confirmacion'}
-                          type={'text'}
-                          placeholder={'Url donde se envia la confirmación de la transacción'}
-                          width={'22.3vw'}
-                          value={''}
-                          onChange={() => {console.log("Conf")}}
-                      />
-                      </ContentInputCard>
-                  </ContentInput>
-                </CardContent2>
+                <ContentInputCard>
+                  <InputLabel label={'Url de confirmación'} />
+                  <InputCustumer
+                    name={'url_confirmacion'}
+                    type={'text'}
+                    placeholder={'Url donde se envia la confirmación de la transacción'}
+                    width={'22.3vw'}
+                    value={''}
+                    onChange={() => {
+                      console.log('Conf')
+                    }}
+                  />
+                </ContentInputCard>
+              </ContentInput>
+            </CardContent2>
           </Card>
 
           <Card>
             <CardHeader>
               <CardTitle>URL de Confirmación</CardTitle>
               <CardSubTitle>
-                  Ingrese una página de confirmación y/o agradecimiento por la compra.
+                Ingrese una página de confirmación y/o agradecimiento por la compra.
               </CardSubTitle>
               <CardIcon onClick={() => openClose(3)}>
-                  {openCard3 == true ? (
+                {openCard3 == true ? (
                   <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                  ) : (
+                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                  )}
+                )}
               </CardIcon>
             </CardHeader>
-              <CardContent3 theme={openCardContent3}>
-                <ContentInput>
-                    <ContentInputCard>
-                      <InputLabel label={'Url de confirmación'} />
-                      <InputCustumer
-                          name={'url_confirmacion'}
-                          type={'text'}
-                          placeholder={'https://mi-tienda.com/page-response'}
-                          width={'22.3vw'}
-                          value={''}
-                          onChange={() => {console.log("Conf")}}
-                      />
-                      <i style={{fontSize:"0.5vw"}}>(Url donde se envia la confirmación de la transacción)</i>
-                    </ContentInputCard>
-                  </ContentInput>
-                  <ContentInput>
-                    <ContentInputCard>
-                        <InputLabel label={'Url de respuesta'} />
-                        <InputCustumer
-                            name={'url_respuesta'}
-                            type={'text'}
-                            placeholder={'https://mi-tienda.com/page-confirmation'}
-                            width={'22.3vw'}
-                            value={''}
-                            onChange={() => {console.log("holaa")}}
-                        />
-                        <i style={{fontSize:"0.5vw"}}>(Url donde el cliente es redireccionado al finalizar la transacción)</i>
-                    </ContentInputCard>
-                  </ContentInput>
-                </CardContent3>
+            <CardContent3 theme={openCardContent3}>
+              <ContentInput>
+                <ContentInputCard>
+                  <InputLabel label={'Url de confirmación'} />
+                  <InputCustumer
+                    name={'url_confirmacion'}
+                    type={'text'}
+                    placeholder={'https://mi-tienda.com/page-response'}
+                    width={'22.3vw'}
+                    value={''}
+                    onChange={() => {
+                      console.log('Conf')
+                    }}
+                  />
+                  <i style={{ fontSize: '0.5vw' }}>
+                    (Url donde se envia la confirmación de la transacción)
+                  </i>
+                </ContentInputCard>
+              </ContentInput>
+              <ContentInput>
+                <ContentInputCard>
+                  <InputLabel label={'Url de respuesta'} />
+                  <InputCustumer
+                    name={'url_respuesta'}
+                    type={'text'}
+                    placeholder={'https://mi-tienda.com/page-confirmation'}
+                    width={'22.3vw'}
+                    value={''}
+                    onChange={() => {
+                      console.log('holaa')
+                    }}
+                  />
+                  <i style={{ fontSize: '0.5vw' }}>
+                    (Url donde el cliente es redireccionado al finalizar la transacción)
+                  </i>
+                </ContentInputCard>
+              </ContentInput>
+            </CardContent3>
           </Card>
           <CardContentButton>
-              <ButtonOk>Guardar Información</ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+            <ButtonOk>Guardar Información</ButtonOk>
+            <ButtonCancel>Cancelar</ButtonCancel>
           </CardContentButton>
         </ContentCard>
       </Content>

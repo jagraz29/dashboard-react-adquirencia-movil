@@ -30,8 +30,8 @@ import { datos } from './data'
 import { useHistory } from 'react-router-dom'
 
 const index = () => {
-  const [dataUser, setDataUser] = useState(new StorageData().getData());
-  const history = useHistory();
+  const [dataUser, setDataUser] = useState(new StorageData().getData())
+  const history = useHistory()
 
   const redirectRoute = (path: string) => {
     history.push(path)
