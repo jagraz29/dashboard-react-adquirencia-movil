@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router'
 import routes from './routes'
 
 const RoutesComponent = () => {
-  console.log(routes)
   return (
     <Switch>
       {routes.map((route, index) => (
