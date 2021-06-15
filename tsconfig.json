@@ -15,5 +15,5 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["assets/*"]
+  "include": ["assets/*", "assets/components/Footer"]
 }
