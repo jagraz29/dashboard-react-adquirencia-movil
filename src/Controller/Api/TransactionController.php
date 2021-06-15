@@ -128,7 +128,7 @@ class TransactionController extends BaseController
     $data = [
       'pagination' => [
         'page' => 1,
-        'limit' => 1000,
+        'limit' => $transactionTable->getLimit(),
       ],
       'filter' => $filters,
     ];
