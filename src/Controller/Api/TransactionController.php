@@ -188,9 +188,13 @@ class TransactionController extends BaseController
   {
     $transaction = $this->transactionDetail($id);
 
+    //    if ($transaction !== null) {
+    //      return $this->redirectToRoute('api_transaction_detail', ['id' => $id]);
+    //    }
+
     return $this->render('transaction/transactionDetail.html.twig', [
       'tr' => $transaction['data'],
-      'user' => $user = $this->getUser(),
+      'user' => $this->getUser(),
     ]);
   }
 
