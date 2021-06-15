@@ -78,22 +78,16 @@ export const CardContent4 = styled.div`
   justify-content: space-between;
 `
 
-export const CardTitle = styled.span`
+export const CardTitle = styled.h2`
   width: 30vw;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
   font-size: 1.2vw;
   line-height: 2vw;
   margin: 0.4vw 0 0 0.8vw;
   color: #23272b;
 `
 
-export const CardSubTitle = styled.div`
+export const CardSubTitle = styled.h3`
   width: 40vw;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
   font-size: 0.8vw;
   line-height: 0.3vw;
   margin: 0 0 0 0.8vw;
@@ -171,21 +165,15 @@ export const ContentKeys = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
-  padding: 0.7vw;
+  padding: 0.5vw;
 `
-export const LabelKey = styled.div`
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 0.9vw;
+export const LabelKey = styled.h2`
+  font-size: 1vw;
   margin-left: 0.5vw;
 `
-export const TitleKey = styled.div`
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: bold;
+export const TitleKey = styled.h3`
   font-size: 1vw;
-  top: 1vw;
+  top: 0vw;
 `
 export const ContentKeysItem = styled.div`
   display: flex;

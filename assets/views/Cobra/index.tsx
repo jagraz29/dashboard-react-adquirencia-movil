@@ -29,6 +29,16 @@ const breadcrumb = [
   },
 ]
 
+const dataTitle = [
+  'Ref.Payco',
+  'Ref.Client',
+  'Descripción',
+  'Medio de pago',
+  'Valor',
+  'Moneda',
+  'Estado',
+]
+
 const Cobra = () => {
   const history = useHistory()
 
@@ -49,7 +59,7 @@ const Cobra = () => {
         </ButtonLink>
         <ContentTable>
           <CardTableTitle>Cobros</CardTableTitle>
-          <TablaDashboard data={datos} />
+          <TablaDashboard data={datos} titleData={dataTitle} />
         </ContentTable>
       </Content>
     </div>

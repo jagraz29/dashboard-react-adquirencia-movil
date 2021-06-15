@@ -90,7 +90,7 @@ const Integraciones = () => {
 
   const dispatch = useDispatch()
 
-  const [openCard, setOpenCard] = useState(true)
+  const [openCard, setOpenCard] = useState(false)
   const [openCard2, setOpenCard2] = useState(false)
   const [openCard3, setOpenCard3] = useState(false)
   const [openCard4, setOpenCard4] = useState(false)
@@ -114,7 +114,7 @@ const Integraciones = () => {
   const publiKey = viewState.getKeys.keysData.data.publicKey
   const privateKey = viewState.getKeys.keysData.data.privateKey
 
-  const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
+  const [openCardContent, setOpenCardContent] = useState({ display: 'none' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
   const [openCardContent4, setOpenCardContent4] = useState({ display: 'none' })
@@ -367,7 +367,13 @@ const Integraciones = () => {
               >
                 Guardar Información
               </ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+              <ButtonCancel
+                onClick={() => {
+                  openClose()
+                }}
+              >
+                Cancelar
+              </ButtonCancel>
             </CardContentButton>
           </Card>
 
@@ -444,7 +450,13 @@ const Integraciones = () => {
               >
                 Guardar Información
               </ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+              <ButtonCancel
+                onClick={() => {
+                  openClose2()
+                }}
+              >
+                Cancelar
+              </ButtonCancel>
             </CardContentButton>
           </Card>
 
@@ -478,7 +490,13 @@ const Integraciones = () => {
 
             <CardContentButton theme={openCardContent3}>
               <ButtonOk>Guardar Información</ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+              <ButtonCancel
+                onClick={() => {
+                  openClose3()
+                }}
+              >
+                Cancelar
+              </ButtonCancel>
             </CardContentButton>
           </Card>
 
