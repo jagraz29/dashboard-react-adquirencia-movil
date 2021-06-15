@@ -182,17 +182,29 @@ class TransactionController extends BaseController
   }
 
   /**
-   * @Route("/send/confirmation/", name="api_transaction_send_confirmation", methods={"POST"})
+   * @Route("/receipt/{id}", name="api_transaction_receipt", methods={"GET"})
    */
-  public function sendConfirmation()
+  public function receipt(int $id)
   {
-    dd('send confirmation');
+    $transaction = $this->transactionDetail($id);
+
+    return $this->render('transaction/transactionDetail.html.twig', [
+      'tr' => $transaction['data'],
+      'user' => $user = $this->getUser(),
+    ]);
   }
 
-  /**
-   * @param array $filters
-   * @return TransactionTableDto
-   */
+  private function transactionDetail(int $id)
+  {
+    $data = [
+      'filter' => [
+        'referencePayco' => $id,
+      ],
+    ];
+
+    return $this->apify->consult('transaction/detail', Requests::POST, $data);
+  }
+
   private function setDataToDto(array $filters): TransactionTableDto
   {
     $transactionTable = new TransactionTableDto();
