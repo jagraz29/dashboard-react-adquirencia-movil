@@ -51,7 +51,6 @@ const CobraCreate = () => {
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
 
   const openClose = () => {
-    console.log('presiono el boton')
     if (!openCard) {
       setOpenCard(true)
       setOpenCardContent({
@@ -97,9 +96,7 @@ const CobraCreate = () => {
                     placeholder={'Razon social'}
                     width={'22.3vw'}
                     value={'hola2'}
-                    onChange={(e: any) => {
-                      console.log(e)
-                    }}
+                    onChange={(e: any) => {}}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -113,9 +110,7 @@ const CobraCreate = () => {
                     placeholder={'Nombre a mostrar'}
                     width={'22.3vw'}
                     value={'hola3'}
-                    onChange={(e: any) => {
-                      console.log(e)
-                    }}
+                    onChange={(e: any) => {}}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -129,12 +124,8 @@ const CobraCreate = () => {
                       placeholder={'Seleccione una moneda'}
                       width={'6vw'}
                       dataSelect={[]}
-                      onClick={() => {
-                        console.log('hey')
-                      }}
-                      onChange={(e: any) => {
-                        console.log(e)
-                      }}
+                      onClick={() => {}}
+                      onChange={(e: any) => {}}
                     />
 
                     <InputCustumer
@@ -143,9 +134,7 @@ const CobraCreate = () => {
                       placeholder={'Indicativo'}
                       width={'5vw'}
                       value={''}
-                      onChange={() => {
-                        console.log('hola')
-                      }}
+                      onChange={() => {}}
                     />
 
                     <InputCustumer
@@ -154,9 +143,7 @@ const CobraCreate = () => {
                       placeholder={'Telefono'}
                       width={'9vw'}
                       value={'hola'}
-                      onChange={(e: any) => {
-                        console.log(e)
-                      }}
+                      onChange={(e: any) => {}}
                     />
                   </InputGroup>
                 </ContentInputCard>

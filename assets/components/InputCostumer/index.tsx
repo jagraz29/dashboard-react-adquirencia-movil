@@ -14,7 +14,6 @@ const InputCustumer: React.FC<Props> = ({ name, type, placeholder, width, value,
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    console.log('pasa por aqui', valor.target.value)
     onChange(valor.target.value)
   }
 

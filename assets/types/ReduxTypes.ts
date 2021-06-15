@@ -117,9 +117,3 @@ export type UserReducerType = {
   profileImage: any
   backgroundImage: any
 }
-
-export type ClientePaisReducerType = {
-  paises: {
-    paises: { id: any; name: any; displayText: any; locale: any; flag: any }[]
-  }
-}

@@ -39,6 +39,7 @@ export const CardIcon = styled.div`
   position: relative;
   left: 47vw;
   top: -1.4vw;
+  width: 1vw;
 `
 
 export const CardContent1 = styled.div`
@@ -60,6 +61,15 @@ export const CardContent2 = styled.div`
 `
 
 export const CardContent3 = styled.div`
+  height: auto;
+  display: ${(props) => props.theme.display};
+  margin: 1vw;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+export const CardContent4 = styled.div`
   height: auto;
   display: ${(props) => props.theme.display};
   margin: 1vw;
@@ -151,4 +161,48 @@ export const InputGroup = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 23.3vw;
+`
+
+export const ContentKeys = styled.div`
+  width: 47.6vw;
+  height: 2.6vw;
+  background: #bdbdbd;
+  border: 1px solid #d3d3d3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  padding: 0.7vw;
+`
+export const LabelKey = styled.div`
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.9vw;
+  margin-left: 0.5vw;
+`
+export const TitleKey = styled.div`
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1vw;
+  top: 1vw;
+`
+export const ContentKeysItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 5.7vw;
+`
+
+export const FileImage = styled.img`
+  border: 8px solid #d3d3d3;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 18vw;
+  padding: 1vw;
+`
+export const ContentItemCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `

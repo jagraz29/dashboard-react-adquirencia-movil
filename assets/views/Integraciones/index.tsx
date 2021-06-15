@@ -4,12 +4,20 @@ import Breadcrumbs from '../../components/Breadcrumbs/'
 import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
+import InputLabelTitle from '../../components/InputLabelTitle'
 import InputSelect from '../../components/InputSelect'
 import InputSelectPais from '../../components/InputSelectPais'
 import FileUpload from '../../components/FileUpload'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import { getPropertySite, setPropertySite } from '../../redux/actions/'
+import {
+  getPropertySite,
+  setPropertySite,
+  getGateWay,
+  setGateWay,
+  getKeys,
+  getLogo,
+} from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { datos } from './data'
@@ -21,6 +29,7 @@ import {
   CardContent1,
   CardContent2,
   CardContent3,
+  CardContent4,
   CardTitle,
   CardSubTitle,
   CardIcon,
@@ -31,6 +40,12 @@ import {
   ButtonCancel,
   ContentInputCard,
   InputGroup,
+  ContentKeys,
+  LabelKey,
+  TitleKey,
+  ContentKeysItem,
+  FileImage,
+  ContentItemCard,
 } from './styles'
 
 const breadcrumb = [
@@ -59,11 +74,11 @@ const dataSelect = [
 
 const dataIdioma = [
   {
-    value: '1',
+    value: 'ES',
     label: 'Español',
   },
   {
-    value: '2',
+    value: 'EN',
     label: 'Ingles',
   },
 ]
@@ -78,6 +93,7 @@ const Integraciones = () => {
   const [openCard, setOpenCard] = useState(true)
   const [openCard2, setOpenCard2] = useState(false)
   const [openCard3, setOpenCard3] = useState(false)
+  const [openCard4, setOpenCard4] = useState(false)
 
   const viewState: RootState = useSelector((state: RootState) => state)
 
@@ -88,29 +104,44 @@ const Integraciones = () => {
   const indicativo = viewState.property.cliente.ind_pais
   const id = viewState.property.cliente.Id
 
-  const paises = viewState
+  const idioma = viewState.getGateWay.gateWayData.data.idiomaPredeterminado
+  const urlConfirmacion = viewState.getGateWay.gateWayData.data.urlConfirmacion
+  const urlRespuesta = viewState.getGateWay.gateWayData.data.urlRespuesta
+
+  const logo = viewState.getLogo.logoData.data.logo
+  const pcust = viewState.getKeys.keysData.data.p_cust_id_cliente
+  const pkey = viewState.getKeys.keysData.data.p_key
+  const publiKey = viewState.getKeys.keysData.data.publicKey
+  const privateKey = viewState.getKeys.keysData.data.privateKey
 
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
+  const [openCardContent4, setOpenCardContent4] = useState({ display: 'none' })
   const [valueIndicativo, setValueIndicativo] = useState(null)
   const [typeTelCel, setTypeTelCel] = useState('')
   const [razonSocial, setRazonSocial] = useState('')
   const [nombreMostrar, setNombreMostrar] = useState('')
   const [telCel, settelCel] = useState('')
+  const [typeIdioma, setTypeIdioma] = useState('')
+  const [urlConfir, setUrlConfir] = useState('')
+  const [urlResp, setUrlResp] = useState('')
 
   useEffect(() => {
     dispatch(getPropertySite())
+    dispatch(getGateWay())
+    dispatch(getKeys())
+    dispatch(getLogo())
     setTypeTelCel(telefono != null ? 'Telefono' : celular != null ? 'Celular' : '')
     setRazonSocial(nombre_empresa)
     setNombreMostrar(nombre_mostrar)
     settelCel(telefono != null ? telefono : celular != null ? celular : '')
+    setTypeIdioma(idioma)
+    setUrlConfir(urlConfirmacion)
+    setUrlResp(urlRespuesta)
   }, [nombre_empresa])
 
-  console.log('pase por aqui ', paises)
-
   const openClose = () => {
-    console.log('presiono el boton')
     if (!openCard) {
       setOpenCard(true)
       setOpenCardContent({
@@ -152,8 +183,21 @@ const Integraciones = () => {
     }
   }
 
+  const openClose4 = () => {
+    if (!openCard4) {
+      setOpenCard4(true)
+      setOpenCardContent4({
+        display: 'block',
+      })
+    } else {
+      setOpenCard4(false)
+      setOpenCardContent4({
+        display: 'none',
+      })
+    }
+  }
+
   const changeTypeTelefono = useCallback((event) => {
-    console.log('evento ', event)
     setTypeTelCel(event)
   }, [])
 
@@ -169,24 +213,44 @@ const Integraciones = () => {
     settelCel(event)
   }, [])
 
-  const savePropiedad = () => {
+  const savePropiedad = async () => {
     const datos = {
-      razonSocial: 'Prueba a ver',
-      nombreEmpresa: 'prueba123',
-      telefono: '1231231',
-      celular: '3136139322',
-      indicativoCiudad: '1',
+      razonSocial: razonSocial,
+      nombre: nombreMostrar,
+      nombreEmpresa: razonSocial,
+      telefono: telCel,
+      celular: telCel,
       indicativoPais: '57',
-      tipoTelefonoValue: 'fijo',
-      campoTelValue: '1231231',
+      tipoTelefonoValue: 'celular',
+      indicativoCiudad: '1',
+      campoTelValue: '',
       valueIndicativo: '1',
       paises: [],
     }
 
     dispatch(setPropertySite(datos))
-    console.log('pase pues por aqui', datos)
 
-    toast.success('Wow so easy!')
+    const paises = viewState.setProperty.clienData
+
+    toast.success('Guardado')
+  }
+
+  const changeUrlRespuesta = useCallback((event) => {
+    setUrlResp(event)
+  }, [])
+
+  const changeUrlConfirmar = useCallback((event) => {
+    setUrlConfir(event)
+  }, [])
+
+  const saveGateWay = async () => {
+    const datos = {
+      idiomaPredeterminado: 'ES',
+      urlConfirmacion: urlConfir,
+      urlRespuesta: urlResp,
+    }
+    dispatch(setGateWay(datos))
+    toast.success('Guardado')
   }
 
   return (
@@ -331,8 +395,10 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Url donde el cliente es redireccionado al finalizar'}
                     width={'22.3vw'}
-                    value={''}
-                    onChange={() => {}}
+                    value={urlResp}
+                    onChange={(e: any) => {
+                      changeUrlRespuesta(e)
+                    }}
                   />
                 </ContentInputCard>
 
@@ -343,8 +409,10 @@ const Integraciones = () => {
                     type={'text'}
                     placeholder={'Url donde se envia la confirmación de la transacción'}
                     width={'22.3vw'}
-                    value={''}
-                    onChange={() => {}}
+                    value={urlConfir}
+                    onChange={(e: any) => {
+                      changeUrlConfirmar(e)
+                    }}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -355,7 +423,9 @@ const Integraciones = () => {
                   <InputGroup>
                     <InputSelect
                       name={'idioma'}
-                      placeholder={'Idioma'}
+                      placeholder={
+                        typeIdioma == 'ES' ? 'Español' : typeIdioma == 'EN' ? 'Ingles' : ''
+                      }
                       width={'23.3vw'}
                       dataSelect={dataIdioma}
                       onClick={() => {}}
@@ -367,7 +437,13 @@ const Integraciones = () => {
             </CardContent2>
 
             <CardContentButton theme={openCardContent2}>
-              <ButtonOk>Guardar Información</ButtonOk>
+              <ButtonOk
+                onClick={() => {
+                  saveGateWay()
+                }}
+              >
+                Guardar Información
+              </ButtonOk>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>
@@ -389,13 +465,80 @@ const Integraciones = () => {
             </CardHeader>
 
             <CardContent3 theme={openCardContent3}>
-              <FileUpload></FileUpload>
+              <ContentItemCard>
+                <FileUpload></FileUpload>
+                <FileImage
+                  src={
+                    'https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/logos_clientes/' +
+                    logo
+                  }
+                />
+              </ContentItemCard>
             </CardContent3>
 
             <CardContentButton theme={openCardContent3}>
               <ButtonOk>Guardar Información</ButtonOk>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>llaves secretas</CardTitle>
+              <CardSubTitle>
+                Utiliza esta llaves para la integración personalizada desde su pagina web.
+              </CardSubTitle>
+              <CardIcon onClick={() => openClose4()}>
+                {openCard4 == false ? (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                ) : (
+                  <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                )}
+              </CardIcon>
+            </CardHeader>
+
+            <CardContent4 theme={openCardContent4}>
+              <ContentInputCard>
+                <InputLabelTitle label={'Llaves secretas'} />
+                <InputLabel
+                  label={
+                    'Datos de configuración para la integracion personalizada, copie estos datos y coloquelos en su formulario de envio POST.'
+                  }
+                />
+                <ContentKeysItem>
+                  <ContentKeys>
+                    <TitleKey>P_CUST_ID_CLIENT: </TitleKey>
+                    <LabelKey>{pcust}</LabelKey>
+                  </ContentKeys>
+                  <ContentKeys>
+                    <TitleKey>P_KEY:</TitleKey>
+                    <LabelKey>{pkey}</LabelKey>
+                  </ContentKeys>
+                </ContentKeysItem>
+              </ContentInputCard>
+            </CardContent4>
+            <CardContent4 theme={openCardContent4}>
+              <ContentInputCard>
+                <InputLabelTitle
+                  label={'Llaves secretas Api Rest, Onpage Checkout, Satandart Checkout'}
+                />
+                <InputLabel
+                  label={
+                    'Datos de configuración para la integracion personalizada con nuestros Api Rest, Onpage Checkout, Satandart Checkout.'
+                  }
+                />
+                <ContentKeysItem>
+                  <ContentKeys>
+                    <TitleKey>PUBLIC_KEY: </TitleKey>
+                    <LabelKey>{publiKey}</LabelKey>
+                  </ContentKeys>
+                  <ContentKeys>
+                    <TitleKey>PRIVATE_KEY:</TitleKey>
+                    <LabelKey>{privateKey}</LabelKey>
+                  </ContentKeys>
+                </ContentKeysItem>
+              </ContentInputCard>
+            </CardContent4>
           </Card>
         </ContentCard>
       </Content>

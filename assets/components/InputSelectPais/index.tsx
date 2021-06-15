@@ -28,7 +28,6 @@ const InputSelectPais: React.FC<Props> = ({
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    console.log('pasa por aqui', valor.target.value)
     onChange(valor.target.value)
   }
   return (

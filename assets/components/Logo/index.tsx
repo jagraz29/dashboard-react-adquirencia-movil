@@ -4,7 +4,6 @@ import { LogoDavivienda, LogoEpayCo } from '../../config/configImages'
 import { Logo, ContentLogoText, TextLogo, Logo2 } from './styles'
 
 function LogoSidebar() {
-  console.log(config.amazonUrl)
   return (
     <div>
       <Logo src={LogoDavivienda.url} />
