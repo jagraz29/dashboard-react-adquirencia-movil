@@ -5,7 +5,7 @@ namespace App\Common;
 final class TextResponsesCommon
 {
   const AUTHORIZATION = 'Authorization';
-  const BEARER = 'bearer';
+  const BEARER = 'Bearer';
   const DATA = 'data';
   const EMAIL = 'email';
   const FILTER = 'filter';
