@@ -1,4 +1,4 @@
-name: Push
+  name: Push
 
 on:
   push:
@@ -19,7 +19,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Extract branch name
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - uses: docker://sonarsource/sonar-scanner-cli:latest
+        with:
+          args: >-
+            -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
