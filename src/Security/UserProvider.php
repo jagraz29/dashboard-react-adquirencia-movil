@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Common\TextResponsesCommon;
 use App\Service\Apify;
 use Requests;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -41,14 +42,14 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
   public function loadUserByUsername($username)
   {
     $apifyResponse = $this->apify->login($username['email'], $username['password']);
-    if (!is_array($apifyResponse) || !isset($apifyResponse['token'])) {
+    if (!is_array($apifyResponse) || !isset($apifyResponse[TextResponsesCommon::TOKEN])) {
       return false;
     }
 
     try {
-      $userkeys = $this->apify->getClientKeys($apifyResponse['token']);
+      $userkeys = $this->apify->getClientKeys($apifyResponse[TextResponsesCommon::TOKEN]);
       $userData = $this->apify->consultWithoutLogin(
-        $apifyResponse['token'],
+        $apifyResponse[TextResponsesCommon::TOKEN],
         'client/edit',
         Requests::POST
       );
@@ -56,7 +57,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     $user = new User();
-    $user->setToken($apifyResponse['token']);
+    $user->setToken($apifyResponse[TextResponsesCommon::TOKEN]);
     $user->setId($userData['id']);
     $user->setEmail($username['email']);
     $user->setPrivateKey(isset($userkeys['privateKey']) ? $userkeys['privateKey'] : '');
