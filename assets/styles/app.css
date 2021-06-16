@@ -10,7 +10,3 @@ textarea:focus,
 button:focus {
   outline: none;
 }
-
-hr {
-  border-color: #fff;
-}
