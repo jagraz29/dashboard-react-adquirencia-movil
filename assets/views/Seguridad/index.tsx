@@ -59,38 +59,26 @@ const Seguridad = () => {
 
     const viewState: RootState = useSelector((state: RootState) => state)
 
-    const nombre_empresa = viewState.property.cliente.nombre_empresa
-    const nombre_mostrar = viewState.property.cliente.nombre
-    const telefono = viewState.property.cliente.telefono
-    const celular = viewState.property.cliente.celular
-    const indicativo = viewState.property.cliente.ind_pais
-    const id = viewState.property.cliente.Id
-
-    const paises = viewState
-
     const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
     const [openCardContent2, setOpenCardContent2] = useState({ display: 'block' })
     const [openCardContent3, setOpenCardContent3] = useState({ display: 'block' })
-    const [typeTelCel, setTypeTelCel] = useState('')
-    const [telCel, settelCel] = useState('')
-    const [nombre, setNombre] = useState('DARIANA GONZALEZ')
-    const [email, setEmail] = useState('dariana.gonzalez@payco.com')
-    const [nombreEmpresa, setNombreEmpresa] = useState('')
-    const [numMovil, setNumMovil] = useState('')
-    const [numFijo, setNumFijo] = useState('')
-    const [indicativoCiudad, setIndicativoCiudad] = useState('')
-    const [indicativoPais, setIndicativoPais] = useState('')
-    const [tipoTelefono, setTipoTelefono] = useState('movil')
-    const [web, setWeb] = useState('')
+    const [nombre, setNombre] = useState(viewState.profile.profileData.socialName)
+    const [email, setEmail] = useState(viewState.profile.profileData.emailTransaction)
+    const [nombreEmpresa, setNombreEmpresa] = useState(viewState.profile.profileData.companyName)
+    const [numMovil, setNumMovil] = useState(viewState.profile.profileData.cellPhone)
+    const [numFijo, setNumFijo] = useState(viewState.profile.profileData.mobilePhone)
+    const [indicativoCiudad, setIndicativoCiudad] = useState(viewState.profile.profileData.indicativeCity)
+    const [indicativoPais, setIndicativoPais] = useState(viewState.profile.profileData.indicativeCountry)
+    const [tipoTelefono, setTipoTelefono] = useState(viewState.profile.profileData.cellPhone == '' ? 'fijo' : 'movil')
+    const [web, setWeb] = useState(viewState.profile.profileData.domain)
     const [password, setPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
     useEffect(() => {
-        // dispatch(getPropertySite())
+        dispatch(getProfileData())
     })
 
-    console.log('pase por aqui ', paises)
 
     const changeNombreEmpresa = useCallback((event) => {
         setNombreEmpresa(event)

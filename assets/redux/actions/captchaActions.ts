@@ -3,6 +3,9 @@ export const SET_STATE_GLOBAL = 'SET_STATE_GLOBAL'
 export const GET_STATE_USER = 'GET_STATE_USER'
 export const GET_PROPERTY_SITE = 'GET_PROPERTY_SITE'
 export const SET_PROPERTY_SITE = 'SET_PROPERTY_SITE'
+export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
+export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
+export const SET_PASSWORD = 'SET_PASSWORD'
 
 const dataService = new DataService()
 
@@ -50,9 +53,9 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
 
 export const getProfileData = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('/api/profile-data')
+    const res = await dataService.get('http://localhost:8000/api/profile-data')
     dispatch({
-      type: GET_STATE_USER,
+      type: GET_PROFILE_DATA,
       payload: res.data,
     })
   } catch (error) {}
@@ -67,7 +70,7 @@ export const setProfileData = (data: any) => async (dispatch: any) => {
     )
 
     dispatch({
-      type: SET_PROPERTY_SITE,
+      type: SET_PROFILE_DATA,
       payload: res.data.data.cliente,
     })
   } catch (error) {}
@@ -82,7 +85,7 @@ export const setPassword = (data: any) => async (dispatch: any) => {
     )
 
     dispatch({
-      type: SET_PROPERTY_SITE,
+      type: SET_PASSWORD,
       payload: res.data.data.cliente,
     })
   } catch (error) {}
