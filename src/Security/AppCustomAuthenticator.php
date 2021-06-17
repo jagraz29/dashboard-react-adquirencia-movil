@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Common\TextResponsesCommon;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -45,11 +46,11 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
   public function getCredentials(Request $request)
   {
     $credentials = [
-      'email' => $request->request->get('email'),
+      TextResponsesCommon::EMAIL => $request->request->get(TextResponsesCommon::EMAIL),
       'password' => $request->request->get('password'),
       'csrf_token' => $request->request->get('_csrf_token'),
     ];
-    $request->getSession()->set(Security::LAST_USERNAME, $credentials['email']);
+    $request->getSession()->set(Security::LAST_USERNAME, $credentials[TextResponsesCommon::EMAIL]);
 
     return $credentials;
   }
