@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y unzip \
     && rm -r /var/lib/apt/lists/*
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-RUN install-php-extensions gd
+RUN install-php-extensions gd zip
 
 COPY . .
 
