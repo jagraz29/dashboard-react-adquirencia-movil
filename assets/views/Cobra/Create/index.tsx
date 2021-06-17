@@ -123,12 +123,15 @@ const CobraCreate = (props: any) => {
     setLoadImages([...currentfiles])
   }
 
-  const handleChangeInput = useCallback((e: any) => {
+  const handleChangeInput = useCallback(async (e: any) => {
     const target = e.target
     const name = target.name
     const value = target.value
 
-    setCobro({ ...cobro, [name]: value })
+    await setCobro((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
   }, [])
 
   const openClose = async (number: number) => {
@@ -191,13 +194,14 @@ const CobraCreate = (props: any) => {
               <ContentInput>
                 <ContentInputCard>
                   <InputLabel label={'¿Que cobra?'} />
-                  <Input
+                  <InputCustumer
                     name={'nombre'}
                     type={'text'}
                     placeholder={'Titulo'}
                     width={'40vw'}
                     value={cobro.nombre}
                     onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -230,6 +234,7 @@ const CobraCreate = (props: any) => {
                     width={'40vw'}
                     value={cobro.factura}
                     onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -250,6 +255,7 @@ const CobraCreate = (props: any) => {
                       ]}
                       onChange={handleChangeInput}
                       onClick={handleChangeInput}
+                      returnComplete={true}
                     />
 
                     <InputCustumer
@@ -259,6 +265,7 @@ const CobraCreate = (props: any) => {
                       width={'12vw'}
                       value={cobro.valor}
                       onChange={handleChangeInput}
+                      returnComplete={true}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -395,6 +402,7 @@ const CobraCreate = (props: any) => {
                     width={'4vw'}
                     value={cobro.cantidad}
                     onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -409,6 +417,7 @@ const CobraCreate = (props: any) => {
                     width={'40vw'}
                     value={cobro.fechaVencimiento}
                     onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                 </ContentInputCard>
               </ContentInput>
@@ -434,14 +443,13 @@ const CobraCreate = (props: any) => {
                 <ContentInputCard>
                   <InputLabel label={'Url de confirmación'} />
                   <InputCustumer
-                    name={'url_confirmacion'}
+                    name={'urlConfirmacion'}
                     type={'text'}
-                    placeholder={'https://mi-tienda.com/page-response'}
+                    placeholder={'https://mi-tienda.com/page-confirmation'}
                     width={'40vw'}
-                    value={''}
-                    onChange={() => {
-                      console.log('Conf')
-                    }}
+                    value={cobro.urlConfirmacion}
+                    onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
                     (Url donde se envia la confirmación de la transacción)
@@ -452,14 +460,13 @@ const CobraCreate = (props: any) => {
                 <ContentInputCard>
                   <InputLabel label={'Url de respuesta'} />
                   <InputCustumer
-                    name={'url_respuesta'}
+                    name={'urlRespuesta'}
                     type={'text'}
-                    placeholder={'https://mi-tienda.com/page-confirmation'}
+                    placeholder={'https://mi-tienda.com/page-response'}
                     width={'40vw'}
-                    value={''}
-                    onChange={() => {
-                      console.log('holaa')
-                    }}
+                    value={cobro.urlRespuesta}
+                    onChange={handleChangeInput}
+                    returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
                     (Url donde el cliente es redireccionado al finalizar la transacción)
