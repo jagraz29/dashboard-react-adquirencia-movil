@@ -50,7 +50,7 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const getGateWay = () => async (dispatch: any) => {
+export const getGateWaySite = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/configuration/options-gateway')
     dispatch({
@@ -73,7 +73,7 @@ export const setGateWay = (data: any) => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const getKeys = () => async (dispatch: any) => {
+export const getKeysSite = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/configuration/keys')
     dispatch({
@@ -83,7 +83,7 @@ export const getKeys = () => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const getLogo = () => async (dispatch: any) => {
+export const getLogoSite = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/configuration/pay-page')
     dispatch({

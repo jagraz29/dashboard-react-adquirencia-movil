@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, ReactNode } from 'react'
 import Title from '../../components/Title'
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import * as BsIcons from 'react-icons/bs'
@@ -7,16 +7,16 @@ import InputLabel from '../../components/InputLabel'
 import InputLabelTitle from '../../components/InputLabelTitle'
 import InputSelect from '../../components/InputSelect'
 import InputSelectPais from '../../components/InputSelectPais'
-import FileUpload from '../../components/FileUpload'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
+import LoadingBar from '../../components/LoadingBar'
 import {
   getPropertySite,
   setPropertySite,
-  getGateWay,
+  getGateWaySite,
   setGateWay,
-  getKeys,
-  getLogo,
+  getKeysSite,
+  getLogoSite,
 } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -46,7 +46,14 @@ import {
   ContentKeysItem,
   FileImage,
   ContentItemCard,
+  ButtonImageLoad,
+  DropDocArea,
+  DropLoaded,
+  LoadImage,
+  ImageShow,
+  ClosePhoto,
 } from './styles'
+import Dropzone from 'react-dropzone'
 
 const breadcrumb = [
   {
@@ -85,10 +92,25 @@ const dataIdioma = [
 //BsFillCaretUpFill
 //BsFillCaretDownFill
 
+interface arrayFileInterface {
+  lastModified: number
+  lastModifiedDate: any
+  name: string
+  path: string
+  size: number
+  type: string
+  webkitRelativePath: any
+}
+
 const Integraciones = () => {
   let iconStyles = { color: '#d3d3d3' }
 
   const dispatch = useDispatch()
+
+  const myStore: any = useSelector((state) => state)
+  const { setProperty, property, getGateWay, getLogo, getKeys } = myStore
+
+  console.log(myStore)
 
   const [openCard, setOpenCard] = useState(false)
   const [openCard2, setOpenCard2] = useState(false)
@@ -126,12 +148,16 @@ const Integraciones = () => {
   const [typeIdioma, setTypeIdioma] = useState('')
   const [urlConfir, setUrlConfir] = useState('')
   const [urlResp, setUrlResp] = useState('')
+  const [showLoadingProperty, setShowLoadingProperty] = useState(false)
+  const [showLoadingGateWay, setShowLoadingGateWay] = useState(false)
+  const [showLoadingLogo, setShowLoadingLogo] = useState(false)
+  const [showLoadingKey, setShowLoadingKey] = useState(false)
+  const [showLogoImage, setShowLogoImage] = useState(false)
+
+  const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
+  const [loadFiles, setLoadFiles] = useState<arrayFileInterface[]>([])
 
   useEffect(() => {
-    dispatch(getPropertySite())
-    dispatch(getGateWay())
-    dispatch(getKeys())
-    dispatch(getLogo())
     setTypeTelCel(telefono != null ? 'Telefono' : celular != null ? 'Celular' : '')
     setRazonSocial(nombre_empresa)
     setNombreMostrar(nombre_mostrar)
@@ -139,7 +165,46 @@ const Integraciones = () => {
     setTypeIdioma(idioma)
     setUrlConfir(urlConfirmacion)
     setUrlResp(urlRespuesta)
-  }, [nombre_empresa])
+  }, [nombre_empresa, idioma, logo, pcust])
+
+  useEffect(() => {
+    validateStatusProperty()
+    showProperty()
+    showGateWay()
+    showLogo()
+    showKeys()
+  }, [setProperty, property, getGateWay, getLogo, getKeys])
+
+  const validateStatusProperty = () => {
+    if ((setProperty.clienData.status = true)) {
+      toast.success(setProperty.clienData.message)
+    } else {
+      toast.error('Error')
+    }
+  }
+  const showProperty = () => {
+    if (id != 0) {
+      setShowLoadingProperty(true)
+    }
+  }
+
+  const showGateWay = () => {
+    if (idioma != '') {
+      setShowLoadingGateWay(true)
+    }
+  }
+
+  const showLogo = () => {
+    if (logo != '') {
+      setShowLoadingLogo(true)
+    }
+  }
+
+  const showKeys = () => {
+    if (pcust != '') {
+      setShowLoadingKey(true)
+    }
+  }
 
   const openClose = () => {
     if (!openCard) {
@@ -147,6 +212,8 @@ const Integraciones = () => {
       setOpenCardContent({
         display: 'block',
       })
+
+      dispatch(getPropertySite())
     } else {
       setOpenCard(false)
       setOpenCardContent({
@@ -161,6 +228,8 @@ const Integraciones = () => {
       setOpenCardContent2({
         display: 'block',
       })
+
+      dispatch(getGateWaySite())
     } else {
       setOpenCard2(false)
       setOpenCardContent2({
@@ -175,6 +244,8 @@ const Integraciones = () => {
       setOpenCardContent3({
         display: 'block',
       })
+
+      dispatch(getLogoSite())
     } else {
       setOpenCard3(false)
       setOpenCardContent3({
@@ -189,6 +260,7 @@ const Integraciones = () => {
       setOpenCardContent4({
         display: 'block',
       })
+      dispatch(getKeysSite())
     } else {
       setOpenCard4(false)
       setOpenCardContent4({
@@ -213,6 +285,39 @@ const Integraciones = () => {
     settelCel(event)
   }, [])
 
+  const onDropImg = (accepted: any, rejected: any) => {
+    console.log(accepted)
+    if (rejected.length > 0) {
+      console.log('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
+    } else {
+      if (accepted.length > 1 - loadImages.length) {
+        console.log('solo puede cargar hasta 3 imágenes.')
+      } else {
+        setShowLogoImage(true)
+        setLoadImages((prev) => prev.concat(accepted))
+      }
+    }
+  }
+
+  const onDropDoc = (accepted: any, rejected: any) => {
+    if (rejected.length > 0) {
+      console.log('error al subir el archivo pdf.')
+    } else {
+      setLoadFiles((prev) => prev.concat(accepted))
+    }
+  }
+
+  const deletedoc = () => {
+    setLoadFiles([])
+  }
+
+  const deleteFile = (numero: number) => {
+    const currentfiles = [...loadImages]
+    currentfiles.splice(numero, 1)
+    setLoadImages([...currentfiles])
+    setShowLogoImage(false)
+  }
+
   const savePropiedad = async () => {
     const datos = {
       razonSocial: razonSocial,
@@ -229,10 +334,6 @@ const Integraciones = () => {
     }
 
     dispatch(setPropertySite(datos))
-
-    const paises = viewState.setProperty.clienData
-
-    toast.success('Guardado')
   }
 
   const changeUrlRespuesta = useCallback((event) => {
@@ -270,111 +371,130 @@ const Integraciones = () => {
               </CardSubTitle>
               <CardIcon onClick={() => openClose()}>
                 {openCard == false ? (
-                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                ) : (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
                 )}
               </CardIcon>
             </CardHeader>
 
             <CardContent1 theme={openCardContent}>
-              <ContentInput>
-                <ContentInputCard>
-                  <InputLabel label={'Razon social'} />
-                  <InputCustumer
-                    name={'razon_social'}
-                    type={'text'}
-                    placeholder={'Razon social'}
-                    width={'22.3vw'}
-                    value={razonSocial}
-                    onChange={(e: any) => {
-                      changeRazonSocial(e)
-                    }}
-                  />
-                </ContentInputCard>
-
-                <ContentInputCard>
-                  <InputLabel label={'Nombre a mostrar'} />
-                  <InputCustumer
-                    name={'nombre_mostrar'}
-                    type={'text'}
-                    placeholder={'Nombre a mostrar'}
-                    width={'22.3vw'}
-                    value={nombreMostrar}
-                    onChange={(e: any) => {
-                      changeNombreMostrar(e)
-                    }}
-                  />
-                </ContentInputCard>
-              </ContentInput>
-
-              <ContentInput>
-                <ContentInputCard>
-                  <InputLabel label={'Telefono negocio'} />
-                  <InputGroup>
-                    <InputSelect
-                      name={'type_telefono'}
-                      placeholder={telefono != null ? 'Telefono' : celular != null ? 'Celular' : ''}
-                      width={'6vw'}
-                      dataSelect={dataSelect}
-                      onClick={() => {}}
-                      onChange={(e: any) => {
-                        changeTypeTelefono(e)
-                      }}
-                    />
-                    {typeTelCel == 'Telefono' ? (
-                      <InputCustumer
-                        name={'indicativo'}
-                        type={'number'}
-                        placeholder={'Indicativo'}
-                        width={'5vw'}
-                        value={''}
-                        onChange={() => {}}
-                      />
-                    ) : typeTelCel == 'Celular' ? (
-                      <InputSelectPais
-                        name={'indicativo'}
-                        placeholder={indicativo}
-                        width={'5vw'}
-                        dataSelect={datos}
-                        onClick={() => {}}
-                        onChange={() => {}}
-                      />
-                    ) : (
-                      ''
-                    )}
-
+              {showLoadingProperty == false ? (
+                <LoadingBar text={'Cargando...'} />
+              ) : showLoadingProperty == true ? (
+                <ContentInput>
+                  <ContentInputCard>
+                    <InputLabel label={'Razon social'} />
                     <InputCustumer
-                      name={'telefono'}
-                      type={'number'}
-                      placeholder={'Telefono'}
-                      width={'9vw'}
-                      value={telCel}
+                      name={'razon_social'}
+                      type={'text'}
+                      placeholder={'Razon social'}
+                      width={'22.3vw'}
+                      value={razonSocial}
                       onChange={(e: any) => {
-                        changeTelefono(e)
+                        changeRazonSocial(e)
                       }}
                     />
-                  </InputGroup>
-                </ContentInputCard>
-              </ContentInput>
+                  </ContentInputCard>
+
+                  <ContentInputCard>
+                    <InputLabel label={'Nombre a mostrar'} />
+                    <InputCustumer
+                      name={'nombre_mostrar'}
+                      type={'text'}
+                      placeholder={'Nombre a mostrar'}
+                      width={'22.3vw'}
+                      value={nombreMostrar}
+                      onChange={(e: any) => {
+                        changeNombreMostrar(e)
+                      }}
+                    />
+                  </ContentInputCard>
+                </ContentInput>
+              ) : (
+                ''
+              )}
+              {showLoadingProperty == false ? (
+                ''
+              ) : showLoadingProperty == true ? (
+                <ContentInput>
+                  <ContentInputCard>
+                    <InputLabel label={'Telefono negocio'} />
+                    <InputGroup>
+                      <InputSelect
+                        name={'type_telefono'}
+                        placeholder={
+                          telefono != null ? 'Telefono' : celular != null ? 'Celular' : ''
+                        }
+                        width={'6vw'}
+                        dataSelect={dataSelect}
+                        onClick={() => {}}
+                        onChange={(e: any) => {
+                          changeTypeTelefono(e)
+                        }}
+                      />
+                      {typeTelCel == 'Telefono' ? (
+                        <InputCustumer
+                          name={'indicativo'}
+                          type={'number'}
+                          placeholder={'Indicativo'}
+                          width={'5vw'}
+                          value={''}
+                          onChange={() => {}}
+                        />
+                      ) : typeTelCel == 'Celular' ? (
+                        <InputSelectPais
+                          name={'indicativo'}
+                          placeholder={indicativo}
+                          width={'5vw'}
+                          dataSelect={datos}
+                          onClick={() => {}}
+                          onChange={() => {}}
+                        />
+                      ) : (
+                        ''
+                      )}
+
+                      <InputCustumer
+                        name={'telefono'}
+                        type={'number'}
+                        placeholder={'Telefono'}
+                        width={'9vw'}
+                        value={telCel}
+                        onChange={(e: any) => {
+                          changeTelefono(e)
+                        }}
+                      />
+                    </InputGroup>
+                  </ContentInputCard>
+                </ContentInput>
+              ) : (
+                ''
+              )}
             </CardContent1>
 
-            <CardContentButton theme={openCardContent}>
-              <ButtonOk
-                onClick={() => {
-                  savePropiedad()
-                }}
-              >
-                Guardar Información
-              </ButtonOk>
-              <ButtonCancel
-                onClick={() => {
-                  openClose()
-                }}
-              >
-                Cancelar
-              </ButtonCancel>
-            </CardContentButton>
+            {showLoadingProperty == false ? (
+              ''
+            ) : showLoadingProperty == true ? (
+              <CardContentButton theme={openCardContent}>
+                <ButtonOk
+                  onClick={() => {
+                    savePropiedad()
+                  }}
+                >
+                  Guardar Información
+                </ButtonOk>
+                <ButtonCancel
+                  onClick={() => {
+                    openClose()
+                  }}
+                >
+                  Cancelar
+                </ButtonCancel>
+              </CardContentButton>
+            ) : (
+              ''
+            )}
           </Card>
 
           <Card>
@@ -385,79 +505,95 @@ const Integraciones = () => {
               </CardSubTitle>
               <CardIcon onClick={() => openClose2()}>
                 {openCard2 == false ? (
-                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                ) : (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
                 )}
               </CardIcon>
             </CardHeader>
 
             <CardContent2 theme={openCardContent2}>
-              <ContentInput>
-                <ContentInputCard>
-                  <InputLabel label={'Url de respuesta'} />
-                  <InputCustumer
-                    name={'url_respuesta'}
-                    type={'text'}
-                    placeholder={'Url donde el cliente es redireccionado al finalizar'}
-                    width={'22.3vw'}
-                    value={urlResp}
-                    onChange={(e: any) => {
-                      changeUrlRespuesta(e)
-                    }}
-                  />
-                </ContentInputCard>
-
-                <ContentInputCard>
-                  <InputLabel label={'Url de confirmación'} />
-                  <InputCustumer
-                    name={'url_confirmacion'}
-                    type={'text'}
-                    placeholder={'Url donde se envia la confirmación de la transacción'}
-                    width={'22.3vw'}
-                    value={urlConfir}
-                    onChange={(e: any) => {
-                      changeUrlConfirmar(e)
-                    }}
-                  />
-                </ContentInputCard>
-              </ContentInput>
-
-              <ContentInput>
-                <ContentInputCard>
-                  <InputLabel label={'Idioma predeterminado'} />
-                  <InputGroup>
-                    <InputSelect
-                      name={'idioma'}
-                      placeholder={
-                        typeIdioma == 'ES' ? 'Español' : typeIdioma == 'EN' ? 'Ingles' : ''
-                      }
-                      width={'23.3vw'}
-                      dataSelect={dataIdioma}
-                      onClick={() => {}}
-                      onChange={() => {}}
+              {showLoadingGateWay == false ? (
+                <LoadingBar text={'Cargando...'} />
+              ) : showLoadingGateWay == true ? (
+                <ContentInput>
+                  <ContentInputCard>
+                    <InputLabel label={'Url de respuesta'} />
+                    <InputCustumer
+                      name={'url_respuesta'}
+                      type={'text'}
+                      placeholder={'Url donde el cliente es redireccionado al finalizar'}
+                      width={'22.3vw'}
+                      value={urlResp}
+                      onChange={(e: any) => {
+                        changeUrlRespuesta(e)
+                      }}
                     />
-                  </InputGroup>
-                </ContentInputCard>
-              </ContentInput>
-            </CardContent2>
+                  </ContentInputCard>
 
-            <CardContentButton theme={openCardContent2}>
-              <ButtonOk
-                onClick={() => {
-                  saveGateWay()
-                }}
-              >
-                Guardar Información
-              </ButtonOk>
-              <ButtonCancel
-                onClick={() => {
-                  openClose2()
-                }}
-              >
-                Cancelar
-              </ButtonCancel>
-            </CardContentButton>
+                  <ContentInputCard>
+                    <InputLabel label={'Url de confirmación'} />
+                    <InputCustumer
+                      name={'url_confirmacion'}
+                      type={'text'}
+                      placeholder={'Url donde se envia la confirmación de la transacción'}
+                      width={'22.3vw'}
+                      value={urlConfir}
+                      onChange={(e: any) => {
+                        changeUrlConfirmar(e)
+                      }}
+                    />
+                  </ContentInputCard>
+                </ContentInput>
+              ) : (
+                ''
+              )}
+              {showLoadingGateWay == false ? (
+                ''
+              ) : showLoadingGateWay == true ? (
+                <ContentInput>
+                  <ContentInputCard>
+                    <InputLabel label={'Idioma predeterminado'} />
+                    <InputGroup>
+                      <InputSelect
+                        name={'idioma'}
+                        placeholder={
+                          typeIdioma == 'ES' ? 'Español' : typeIdioma == 'EN' ? 'Ingles' : ''
+                        }
+                        width={'23.3vw'}
+                        dataSelect={dataIdioma}
+                        onClick={() => {}}
+                        onChange={() => {}}
+                      />
+                    </InputGroup>
+                  </ContentInputCard>
+                </ContentInput>
+              ) : (
+                ''
+              )}
+            </CardContent2>
+            {showLoadingGateWay == false ? (
+              ''
+            ) : showLoadingGateWay == true ? (
+              <CardContentButton theme={openCardContent2}>
+                <ButtonOk
+                  onClick={() => {
+                    saveGateWay()
+                  }}
+                >
+                  Guardar Información
+                </ButtonOk>
+                <ButtonCancel
+                  onClick={() => {
+                    openClose2()
+                  }}
+                >
+                  Cancelar
+                </ButtonCancel>
+              </CardContentButton>
+            ) : (
+              ''
+            )}
           </Card>
 
           <Card>
@@ -469,35 +605,70 @@ const Integraciones = () => {
               </CardSubTitle>
               <CardIcon onClick={() => openClose3()}>
                 {openCard3 == false ? (
-                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                ) : (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
                 )}
               </CardIcon>
             </CardHeader>
 
             <CardContent3 theme={openCardContent3}>
-              <ContentItemCard>
-                <FileUpload></FileUpload>
-                <FileImage
-                  src={
-                    'https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/logos_clientes/' +
-                    logo
-                  }
-                />
-              </ContentItemCard>
+              {showLoadingLogo == false ? (
+                <LoadingBar text={'Cargando...'} />
+              ) : showLoadingLogo == true ? (
+                <ContentItemCard>
+                  <Dropzone
+                    accept="image/jpeg, image/png, image/jpg"
+                    onDrop={onDropImg}
+                    maxSize={5242880}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <ButtonImageLoad {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>
+                          Click para adjuntar <br /> <b>Logo</b> <br />( O arrastre el documento)
+                        </p>
+                      </ButtonImageLoad>
+                    )}
+                  </Dropzone>
+                  {showLogoImage == false ? (
+                    <FileImage
+                      src={
+                        'https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/logos_clientes/' +
+                        logo
+                      }
+                    ></FileImage>
+                  ) : (
+                    loadImages.map((image, index) => (
+                      <LoadImage key={`${image.name}-${index}`}>
+                        <ImageShow src={URL.createObjectURL(image)} alt="" />
+                        <ClosePhoto onClick={() => deleteFile(index)}>
+                          <small>Eliminar</small>
+                        </ClosePhoto>
+                      </LoadImage>
+                    ))
+                  )}
+                </ContentItemCard>
+              ) : (
+                ''
+              )}
             </CardContent3>
-
-            <CardContentButton theme={openCardContent3}>
-              <ButtonOk>Guardar Información</ButtonOk>
-              <ButtonCancel
-                onClick={() => {
-                  openClose3()
-                }}
-              >
-                Cancelar
-              </ButtonCancel>
-            </CardContentButton>
+            {showLoadingLogo == false ? (
+              ''
+            ) : showLoadingLogo == true ? (
+              <CardContentButton theme={openCardContent3}>
+                <ButtonOk>Guardar Información</ButtonOk>
+                <ButtonCancel
+                  onClick={() => {
+                    openClose3()
+                  }}
+                >
+                  Cancelar
+                </ButtonCancel>
+              </CardContentButton>
+            ) : (
+              ''
+            )}
           </Card>
 
           <Card>
@@ -508,55 +679,67 @@ const Integraciones = () => {
               </CardSubTitle>
               <CardIcon onClick={() => openClose4()}>
                 {openCard4 == false ? (
-                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                ) : (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                ) : (
+                  <BsIcons.BsFillCaretUpFill style={iconStyles} />
                 )}
               </CardIcon>
             </CardHeader>
 
             <CardContent4 theme={openCardContent4}>
-              <ContentInputCard>
-                <InputLabelTitle label={'Llaves secretas'} />
-                <InputLabel
-                  label={
-                    'Datos de configuración para la integracion personalizada, copie estos datos y coloquelos en su formulario de envio POST.'
-                  }
-                />
-                <ContentKeysItem>
-                  <ContentKeys>
-                    <TitleKey>P_CUST_ID_CLIENT: </TitleKey>
-                    <LabelKey>{pcust}</LabelKey>
-                  </ContentKeys>
-                  <ContentKeys>
-                    <TitleKey>P_KEY:</TitleKey>
-                    <LabelKey>{pkey}</LabelKey>
-                  </ContentKeys>
-                </ContentKeysItem>
-              </ContentInputCard>
+              {showLoadingKey == false ? (
+                <LoadingBar text={'Cargando...'} />
+              ) : showLoadingKey == true ? (
+                <ContentInputCard>
+                  <InputLabelTitle label={'Llaves secretas'} />
+                  <InputLabel
+                    label={
+                      'Datos de configuración para la integracion personalizada, copie estos datos y coloquelos en su formulario de envio POST.'
+                    }
+                  />
+                  <ContentKeysItem>
+                    <ContentKeys>
+                      <TitleKey>P_CUST_ID_CLIENT: </TitleKey>
+                      <LabelKey>{pcust}</LabelKey>
+                    </ContentKeys>
+                    <ContentKeys>
+                      <TitleKey>P_KEY:</TitleKey>
+                      <LabelKey>{pkey}</LabelKey>
+                    </ContentKeys>
+                  </ContentKeysItem>
+                </ContentInputCard>
+              ) : (
+                ''
+              )}
             </CardContent4>
-            <CardContent4 theme={openCardContent4}>
-              <ContentInputCard>
-                <InputLabelTitle
-                  label={'Llaves secretas Api Rest, Onpage Checkout, Satandart Checkout'}
-                />
-                <InputLabel
-                  label={
-                    'Datos de configuración para la integracion personalizada con nuestros Api Rest, Onpage Checkout, Satandart Checkout.'
-                  }
-                />
-                <ContentKeysItem>
-                  <ContentKeys>
-                    <TitleKey>PUBLIC_KEY: </TitleKey>
-                    <LabelKey>{publiKey}</LabelKey>
-                  </ContentKeys>
-                  <ContentKeys>
-                    <TitleKey>PRIVATE_KEY:</TitleKey>
-                    <LabelKey>{privateKey}</LabelKey>
-                  </ContentKeys>
-                </ContentKeysItem>
-              </ContentInputCard>
-            </CardContent4>
+            {showLoadingKey == false ? (
+              ''
+            ) : showLoadingKey == true ? (
+              <CardContent4 theme={openCardContent4}>
+                <ContentInputCard>
+                  <InputLabelTitle
+                    label={'Llaves secretas Api Rest, Onpage Checkout, Satandart Checkout'}
+                  />
+                  <InputLabel
+                    label={
+                      'Datos de configuración para la integracion personalizada con nuestros Api Rest, Onpage Checkout, Satandart Checkout.'
+                    }
+                  />
+                  <ContentKeysItem>
+                    <ContentKeys>
+                      <TitleKey>PUBLIC_KEY: </TitleKey>
+                      <LabelKey>{publiKey}</LabelKey>
+                    </ContentKeys>
+                    <ContentKeys>
+                      <TitleKey>PRIVATE_KEY:</TitleKey>
+                      <LabelKey>{privateKey}</LabelKey>
+                    </ContentKeys>
+                  </ContentKeysItem>
+                </ContentInputCard>
+              </CardContent4>
+            ) : (
+              ''
+            )}
           </Card>
         </ContentCard>
       </Content>
