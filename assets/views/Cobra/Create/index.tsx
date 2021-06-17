@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import * as BsIcons from 'react-icons/bs'
 
 import Title from '../../../components/Title'
@@ -37,6 +37,7 @@ import {
   DropLoaded,
   DropDocArea,
 } from './styles'
+import { toast, ToastContainer } from 'react-toastify'
 
 const breadcrumb = [
   {
@@ -59,6 +60,7 @@ interface arrayFileInterface {
   size: number
   type: string
   webkitRelativePath: any
+  base64?: string
 }
 
 interface cobroInterface {
@@ -93,22 +95,37 @@ const CobraCreate = (props: any) => {
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
 
-  const onDropImg = (accepted: any, rejected: any) => {
+  const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
-      console.log('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
+      toast.error('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
     } else {
       if (accepted.length > 3 - loadImages.length) {
-        console.log('solo puede cargar hasta 3 imágenes.')
+        toast.error('Solo puede cargar hasta 3 imágenes.')
       } else {
+        //aqui obtendremos los archivos en base 64
+
+        accepted = await Promise.all(accepted.map(fileToDataURL))
         setLoadImages((prev) => prev.concat(accepted))
       }
     }
   }
 
-  const onDropDoc = (accepted: any, rejected: any) => {
+  const fileToDataURL = (file: any) => {
+    const reader = new FileReader()
+    return new Promise(function (resolve, reject) {
+      reader.onload = function (event: any) {
+        file.base64 = event.target.result
+        resolve(file)
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const onDropDoc = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
-      console.log('error al subir el archivo pdf.')
+      toast.error('Error al subir el archivo pdf.')
     } else {
+      accepted = await Promise.all(accepted.map(fileToDataURL))
       setLoadFiles((prev) => prev.concat(accepted))
     }
   }
@@ -183,6 +200,7 @@ const CobraCreate = (props: any) => {
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Link de Cobro'}></Title>
       <Content>
+        <ToastContainer />
         <ContentCard>
           <Card>
             <CardHeader>

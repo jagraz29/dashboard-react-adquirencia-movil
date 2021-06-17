@@ -3,6 +3,7 @@ export const SET_STATE_GLOBAL = 'SET_STATE_GLOBAL'
 export const GET_STATE_USER = 'GET_STATE_USER'
 export const GET_PROPERTY_SITE = 'GET_PROPERTY_SITE'
 export const SET_PROPERTY_SITE = 'SET_PROPERTY_SITE'
+export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 
 const dataService = new DataService()
 
@@ -45,5 +46,16 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
       type: SET_PROPERTY_SITE,
       payload: res.data.data.cliente,
     })
+  } catch (error) {}
+}
+
+export const createSellLink = (data: any) => async (dispatch: any) => {
+  try {
+    const res = await dataService.post('http://localhost:8000/api/collect/create', data)
+    console.log('respuesta', res.data)
+    /*dispatch({
+      type: CREATE_SELL_LINK,
+      payload: res.data.data.cliente,
+    })*/
   } catch (error) {}
 }
