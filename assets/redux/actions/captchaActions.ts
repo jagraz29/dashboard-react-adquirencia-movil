@@ -54,6 +54,7 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
 export const getProfileData = () => async (dispatch: any) => {
   try {
     const res = await dataService.get('http://localhost:8000/api/profile-data')
+    console.log(res)
     dispatch({
       type: GET_PROFILE_DATA,
       payload: res.data,
@@ -64,10 +65,7 @@ export const getProfileData = () => async (dispatch: any) => {
 export const setProfileData = (data: any) => async (dispatch: any) => {
   try {
     console.log('POST: ')
-    const res = await dataService.post(
-        '/api/profile-data',
-        data
-    )
+    const res = await dataService.post('/api/profile-data', data)
 
     dispatch({
       type: SET_PROFILE_DATA,
@@ -79,10 +77,7 @@ export const setProfileData = (data: any) => async (dispatch: any) => {
 export const setPassword = (data: any) => async (dispatch: any) => {
   try {
     console.log('POST: ')
-    const res = await dataService.post(
-        '/api/set-password',
-        data
-    )
+    const res = await dataService.post('/api/set-password', data)
 
     dispatch({
       type: SET_PASSWORD,

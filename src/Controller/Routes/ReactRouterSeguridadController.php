@@ -8,15 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ReactRouterSeguridadController extends AbstractController
 {
-    /**
-     *
-     * @Route("/seguridad", name="seguridad")
-     *
-     */
+  /**
+   *
+   * @Route("/seguridad", name="seguridad")
+   *
+   */
 
-    public function routerIntegraciones(Request $request)
-    {
-        // en index pagina con datos generales de la app
-        return $this->render('base.html.twig');
-    }
+  public function routerIntegraciones(Request $request)
+  {
+    // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
 }

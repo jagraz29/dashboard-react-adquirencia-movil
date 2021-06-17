@@ -4,7 +4,7 @@ import { RoutesSell } from './routesSell'
 import { RoutesDashboard } from './routesDashboard'
 import { RouteCobraCreate, RoutesCobra } from './routesCobra'
 import { RoutesIntegraciones } from './routesIntegraciones'
-import {RoutesSeguridad} from "./routesSeguridad";
+import { RoutesSeguridad } from './routesSeguridad'
 
 const routes: RouteConfig[] = [
   RoutesDashboard,
