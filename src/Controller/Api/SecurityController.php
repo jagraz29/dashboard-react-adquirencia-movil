@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Common\TextResponsesCommon;
 use App\Dto\PasswordDto;
 use App\Dto\PayPageDto;
 use App\Dto\ProfileDto;
@@ -21,7 +22,11 @@ class SecurityController extends BaseController
   {
     $consult = $this->apify->consult('/client/edit', \Requests::POST, []);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -50,7 +55,11 @@ class SecurityController extends BaseController
     ];
     $consult = $this->apify->consult('/client/update', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -80,6 +89,10 @@ class SecurityController extends BaseController
 
     $consult = $this->apify->consult('/client/update/password', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 }
