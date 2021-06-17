@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Common\TextResponsesCommon;
 use App\Event\ApifyUnauthorizedEvent;
 use App\EventSubscriber\ApifyUnauthorizedSubscriber;
 use App\Exception\ApifyException;
@@ -61,10 +62,7 @@ class Apify extends AbstractController
 
   public function login(string $user, string $password)
   {
-    try {
-      $auth = new Requests_Auth_Basic([$user, $password]);
-    } catch (Requests_Exception $exception) {
-    }
+    $auth = new Requests_Auth_Basic([$user, $password]);
 
     $response = Requests::post(
       $this->url . 'login/mail',
@@ -113,7 +111,7 @@ class Apify extends AbstractController
     $user = $this->getUser();
 
     $this->session->headers = array_merge($this->session->headers, [
-      'Authorization' => 'Bearer ' . $user->getToken(),
+      TextResponsesCommon::AUTHORIZATION => TextResponsesCommon::BEARER . ' ' . $user->getToken(),
     ]);
 
     $response = $this->consultApify($method, $path, $headers, $data);
@@ -121,7 +119,8 @@ class Apify extends AbstractController
     if ($response->status_code === 401) {
       // Refresh token apify
       $this->eventDispatcher->dispatch(new ApifyUnauthorizedEvent(), ApifyUnauthorizedEvent::NAME);
-      $this->session->headers['Authorization'] = 'Bearer ' . $user->getToken();
+      $this->session->headers[TextResponsesCommon::AUTHORIZATION] =
+        TextResponsesCommon::BEARER . ' ' . $user->getToken();
       $response = $this->consultApify($method, $path, $headers, $data);
       if ($response->status_code === 401) {
         throw new ApifyRefreshTokenException('Error in apify login');
@@ -143,7 +142,7 @@ class Apify extends AbstractController
   public function getClientKeys(string $token)
   {
     $this->session->headers = array_merge($this->session->headers, [
-      'Authorization' => 'Bearer ' . $token,
+      TextResponsesCommon::AUTHORIZATION => TextResponsesCommon::BEARER . ' ' . $token,
     ]);
 
     $response = $this->session->request($this->url . 'configuration/keys');
@@ -161,7 +160,7 @@ class Apify extends AbstractController
   public function consultWithoutLogin(string $token, string $path, string $method)
   {
     $this->session->headers = array_merge($this->session->headers, [
-      'Authorization' => 'Bearer ' . $token,
+      TextResponsesCommon::AUTHORIZATION => TextResponsesCommon::BEARER . ' ' . $token,
     ]);
 
     $response = $this->session->request($this->url . $path, [], [], $method);
