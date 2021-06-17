@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Common\TextResponsesCommon;
 use App\Dto\Ticket\CreateTicketDto;
 use App\Dto\Ticket\FilterTicketDto;
 use App\Dto\Ticket\CreateTicketResponseDto;
@@ -20,7 +21,11 @@ class TicketController extends BaseController
   {
     $consult = $this->apify->consult('ticket/departments');
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -30,7 +35,11 @@ class TicketController extends BaseController
   {
     $consult = $this->apify->consult('ticket/priorities');
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -43,7 +52,11 @@ class TicketController extends BaseController
     ];
     $consult = $this->apify->consult('ticket/close', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -56,7 +69,11 @@ class TicketController extends BaseController
     ];
     $consult = $this->apify->consult('ticket/reopen', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -69,7 +86,11 @@ class TicketController extends BaseController
     ];
     $consult = $this->apify->consult('ticket/detail', \Requests::POST, $data);
 
-    return $this->jsonResponse($consult['success'], $consult['data'], $consult['textResponse']);
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 
   /**
@@ -94,9 +115,9 @@ class TicketController extends BaseController
     $consult = $this->apify->consult('ticket/list', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -107,8 +128,12 @@ class TicketController extends BaseController
   {
     $content = $request->getContent();
     $createTicketDto = new CreateTicketDto();
-    $createTicketDto->setPregunta($content['pregunta'] ? $content['pregunta'] : '');
-    $createTicketDto->setAsunto($content['asunto'] ? $content['asunto'] : '');
+    $createTicketDto->setPregunta(
+      $content[TextResponsesCommon::PREGUNTA] ? $content[TextResponsesCommon::PREGUNTA] : ''
+    );
+    $createTicketDto->setAsunto(
+      $content[TextResponsesCommon::ASUNTO] ? $content[TextResponsesCommon::ASUNTO] : ''
+    );
     $createTicketDto->setDepartamento($content['departamento']);
     $createTicketDto->setPrioridad($content['prioridad']);
     $createTicketDto->setFiles($content['files'] ? $content['files'] : []);
@@ -117,8 +142,8 @@ class TicketController extends BaseController
       return $this->validatorErrorResponse($errors);
     }
     $data = [
-      'pregunta' => $createTicketDto->getPregunta(),
-      'asunto' => $createTicketDto->getAsunto(),
+      TextResponsesCommon::PREGUNTA => $createTicketDto->getPregunta(),
+      TextResponsesCommon::ASUNTO => $createTicketDto->getAsunto(),
       'departamento' => $createTicketDto->getDepartamento(),
       'prioridad' => $createTicketDto->getPrioridad(),
       'files' => $createTicketDto->getFiles(),
@@ -126,9 +151,9 @@ class TicketController extends BaseController
     $consult = $this->apify->consult('ticket/create', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -154,9 +179,9 @@ class TicketController extends BaseController
     $consult = $this->apify->consult('ticket/save', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 }
