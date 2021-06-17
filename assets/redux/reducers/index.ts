@@ -6,6 +6,7 @@ import gateWayGetReducer from './getGateWayReducer'
 import setGateWayPostReducer from './getGateWayReducer'
 import getKeysGetReducer from './getKeysReducer'
 import getLogoReducer from './getLogoReducer'
+import profileReducer from './profileReducer'
 
 const rootReducer = combineReducers({
   captcha: captchaReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   setGateWay: setGateWayPostReducer,
   getKeys: getKeysGetReducer,
   getLogo: getLogoReducer,
+  profile: profileReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

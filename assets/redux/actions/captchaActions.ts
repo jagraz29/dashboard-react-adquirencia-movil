@@ -7,6 +7,9 @@ export const GET_GATE_WAY = 'GET_GATE_WAY'
 export const SET_GATE_WAY = 'SET_GATE_WAY'
 export const GET_KEYS = 'GET_KEYS'
 export const GET_LOGO = 'GET_LOGO'
+export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
+export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
+export const SET_PASSWORD = 'SET_PASSWORD'
 
 const dataService = new DataService()
 
@@ -89,6 +92,41 @@ export const getLogoSite = () => async (dispatch: any) => {
     dispatch({
       type: GET_LOGO,
       payload: res.data,
+    })
+  } catch (error) {}
+}
+
+export const getProfileData = () => async (dispatch: any) => {
+  try {
+    const res = await dataService.get('http://localhost:8000/api/profile-data')
+    console.log(res)
+    dispatch({
+      type: GET_PROFILE_DATA,
+      payload: res.data,
+    })
+  } catch (error) {}
+}
+
+export const setProfileData = (data: any) => async (dispatch: any) => {
+  try {
+    console.log('POST: ')
+    const res = await dataService.post('/api/profile-data', data)
+
+    dispatch({
+      type: SET_PROFILE_DATA,
+      payload: res.data.data.cliente,
+    })
+  } catch (error) {}
+}
+
+export const setPassword = (data: any) => async (dispatch: any) => {
+  try {
+    console.log('POST: ')
+    const res = await dataService.post('/api/set-password', data)
+
+    dispatch({
+      type: SET_PASSWORD,
+      payload: res.data.data.cliente,
     })
   } catch (error) {}
 }

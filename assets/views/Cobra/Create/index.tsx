@@ -5,6 +5,7 @@ import * as BsIcons from 'react-icons/bs'
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
 import InputCustumer from '../../../components/InputCostumer'
+import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import InputSelect from '../../../components/InputSelect'
 import FileUpload from '../../../components/FileUpload'
@@ -72,11 +73,7 @@ const CobraCreate = () => {
         <ContentCard>
           <Card>
             <CardHeader>
-              <CardTitle>Propiedades del sitio</CardTitle>
-              <CardSubTitle>
-                Utiliza esta propiedad para configurar el checkout con tu marca y informacion del
-                contacto.
-              </CardSubTitle>
+              <CardTitle>Nuevo Link de Cobro</CardTitle>
               <CardIcon onClick={() => openClose()}>
                 {openCard == false ? (
                   <BsIcons.BsFillCaretUpFill style={iconStyles} />
@@ -89,52 +86,74 @@ const CobraCreate = () => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Razon social'} />
+                  <InputLabel label={'¿Que cobra?'} />
                   <InputCustumer
                     name={'razon_social'}
                     type={'text'}
                     placeholder={'Razon social'}
-                    width={'22.3vw'}
+                    width={'40vw'}
                     value={'hola2'}
-                    onChange={(e: any) => {}}
+                    onChange={(e: any) => {
+                      console.log(e)
+                    }}
                   />
                 </ContentInputCard>
               </ContentInput>
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Nombre a mostrar'} />
-                  <InputCustumer
+                  <InputLabel label={'Descripción'} />
+                  <TextareaCustomer
                     name={'nombre_mostrar'}
                     type={'text'}
-                    placeholder={'Nombre a mostrar'}
+                    placeholder={
+                      'Describe el producto o servicio, sus características y disponibilidad'
+                    }
                     width={'22.3vw'}
                     value={'hola3'}
-                    onChange={(e: any) => {}}
+                    onChange={(e: any) => {
+                      console.log(e)
+                    }}
                   />
                 </ContentInputCard>
               </ContentInput>
-
+            </CardContent1>
+            <hr />
+            <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Telefono negocio'} />
+                  <InputLabel label={'# Factura'} />
+                  <InputCustumer
+                    name={'razon_social'}
+                    type={'text'}
+                    placeholder={'Ej: P0001'}
+                    width={'40vw'}
+                    value={'hola2'}
+                    onChange={(e: any) => {
+                      console.log(e)
+                    }}
+                  />
+                </ContentInputCard>
+              </ContentInput>
+            </CardContent1>
+
+            <hr />
+            <CardContent1 theme={openCardContent}>
+              <ContentInput>
+                <ContentInputCard>
+                  <InputLabel label={'¿Cuanto Vale?'} />
                   <InputGroup>
                     <InputSelect
                       name={'type_telefono'}
-                      placeholder={'Seleccione una moneda'}
+                      placeholder={'Seleccione Moneda'}
                       width={'6vw'}
                       dataSelect={[]}
-                      onClick={() => {}}
-                      onChange={(e: any) => {}}
-                    />
-
-                    <InputCustumer
-                      name={'indicativo'}
-                      type={'number'}
-                      placeholder={'Indicativo'}
-                      width={'5vw'}
-                      value={''}
-                      onChange={() => {}}
+                      onClick={() => {
+                        console.log('hola')
+                      }}
+                      onChange={(e: any) => {
+                        console.log(e)
+                      }}
                     />
 
                     <InputCustumer
@@ -142,8 +161,10 @@ const CobraCreate = () => {
                       type={'number'}
                       placeholder={'Telefono'}
                       width={'9vw'}
-                      value={'hola'}
-                      onChange={(e: any) => {}}
+                      value={'hhhhh'}
+                      onChange={(e: any) => {
+                        console.log(e)
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -155,7 +176,6 @@ const CobraCreate = () => {
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>
-
           {/*<Card>
                 <CardHeader>
                 <CardTitle>Opciones pasarela</CardTitle>

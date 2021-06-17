@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Common\TextResponsesCommon;
 use App\Dto\TransactionTableDto;
 use App\Service\Apify;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -54,20 +55,24 @@ class TransactionController extends BaseController
 
     $filters = $this->dtoToArray($transactionTable);
     $data = [
-      'pagination' => [
+      TextResponsesCommon::PAGINATION => [
         'page' => $transactionTable->getPerPage(),
-        'limit' => $transactionTable->getLimit(),
+        TextResponsesCommon::LIMIT => $transactionTable->getLimit(),
       ],
-      'filter' => $filters,
+      TextResponsesCommon::FILTER => $filters,
     ];
 
     $transactions = $this->apify->consult('transaction', Requests::POST, $data);
 
-    if (isset($transactions['success']) && $transactions['success'] === true) {
+    if (
+      isset($transactions[TextResponsesCommon::SUCCESS]) &&
+      $transactions[TextResponsesCommon::SUCCESS] === true
+    ) {
       $data = [
-        'transactions' => $transactions['data']['data'],
-        'pagination' => $transactions['data']['pagination'],
-        'aggregations' => $transactions['data']['aggregations'],
+        'transactions' => $transactions[TextResponsesCommon::DATA][TextResponsesCommon::DATA],
+        TextResponsesCommon::PAGINATION =>
+          $transactions[TextResponsesCommon::DATA][TextResponsesCommon::PAGINATION],
+        'aggregations' => $transactions[TextResponsesCommon::DATA]['aggregations'],
       ];
       return $this->jsonResponse(true, $data, $this->translator->trans('Successful query'));
     }
@@ -75,7 +80,9 @@ class TransactionController extends BaseController
     return $this->jsonResponse(
       false,
       [],
-      isset($transactions['textResponse']) ? $transactions['textResponse'] : 'Apify error',
+      isset($transactions[TextResponsesCommon::TEXT_RESPONSE])
+        ? $transactions[TextResponsesCommon::TEXT_RESPONSE]
+        : 'Apify error',
       400
     );
   }
@@ -86,22 +93,25 @@ class TransactionController extends BaseController
   public function show(int $id)
   {
     $data = [
-      'filter' => [
+      TextResponsesCommon::FILTER => [
         'referencePayco' => $id,
       ],
     ];
 
     $transaction = $this->apify->consult('transaction/detail', Requests::POST, $data);
 
-    if (isset($transaction['success']) && $transaction['success'] === true) {
-      $message = isset($transaction['textResponse'])
-        ? $transaction['textResponse']
+    if (
+      isset($transaction[TextResponsesCommon::SUCCESS]) &&
+      $transaction[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $message = isset($transaction[TextResponsesCommon::TEXT_RESPONSE])
+        ? $transaction[TextResponsesCommon::TEXT_RESPONSE]
         : 'Transaction detail';
-      return $this->jsonResponse(true, $transaction['data'], $message);
+      return $this->jsonResponse(true, $transaction[TextResponsesCommon::DATA], $message);
     }
 
-    $message = isset($transaction['textResponse'])
-      ? $transaction['textResponse']
+    $message = isset($transaction[TextResponsesCommon::TEXT_RESPONSE])
+      ? $transaction[TextResponsesCommon::TEXT_RESPONSE]
       : 'Error apify consult';
     return $this->jsonResponse(false, [], $message, 400);
   }
@@ -122,17 +132,20 @@ class TransactionController extends BaseController
 
     $filters = $this->dtoToArray($transactionTable);
     $data = [
-      'pagination' => [
+      TextResponsesCommon::PAGINATION => [
         'page' => 1,
-        'limit' => 20000,
+        TextResponsesCommon::LIMIT => 20000,
       ],
-      'filter' => $filters,
+      TextResponsesCommon::FILTER => $filters,
     ];
 
     $transactions = $this->apify->consult('transaction', Requests::POST, $data);
 
-    if (isset($transactions['success']) && $transactions['success'] === true) {
-      $transactions = $transactions['data']['data'];
+    if (
+      isset($transactions[TextResponsesCommon::SUCCESS]) &&
+      $transactions[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $transactions = $transactions[TextResponsesCommon::DATA][TextResponsesCommon::DATA];
     }
     $data = $this->setExportsHeaders($transactions);
 
@@ -165,7 +178,9 @@ class TransactionController extends BaseController
       isset($filters['fromDate']) ? $filters['fromDate'] : null
     );
     $transactionTable->setTransactionEndDate(isset($filters['toDate']) ? $filters['toDate'] : null);
-    $transactionTable->setLimit(isset($filters['limit']) ? $filters['limit'] : 15);
+    $transactionTable->setLimit(
+      isset($filters[TextResponsesCommon::LIMIT]) ? $filters[TextResponsesCommon::LIMIT] : 15
+    );
     $transactionTable->setPage(isset($filters['page']) ? $filters['page'] : 1);
     $transactionTable->setStatusId(isset($filters['statusId']) ? (int) $filters['statusId'] : null);
     $transactionTable->setSearch(isset($filters['search']) ? $filters['search'] : null);
