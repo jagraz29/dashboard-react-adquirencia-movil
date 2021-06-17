@@ -47,3 +47,43 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
     })
   } catch (error) {}
 }
+
+export const getProfileData = () => async (dispatch: any) => {
+  try {
+    const res = await dataService.get('/api/profile-data')
+    dispatch({
+      type: GET_STATE_USER,
+      payload: res.data,
+    })
+  } catch (error) {}
+}
+
+export const setProfileData = (data: any) => async (dispatch: any) => {
+  try {
+    console.log('POST: ')
+    const res = await dataService.post(
+        '/api/profile-data',
+        data
+    )
+
+    dispatch({
+      type: SET_PROPERTY_SITE,
+      payload: res.data.data.cliente,
+    })
+  } catch (error) {}
+}
+
+export const setPassword = (data: any) => async (dispatch: any) => {
+  try {
+    console.log('POST: ')
+    const res = await dataService.post(
+        '/api/set-password',
+        data
+    )
+
+    dispatch({
+      type: SET_PROPERTY_SITE,
+      payload: res.data.data.cliente,
+    })
+  } catch (error) {}
+}
