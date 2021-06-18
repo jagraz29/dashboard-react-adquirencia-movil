@@ -675,11 +675,14 @@ const CobraCreate = (props: any) => {
           <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
             <ButtonOk
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              disabled={loadButton}
               onClick={handleSubmit}
             >
               {loadButton ? <Spinner /> : 'Guardar Información'}
             </ButtonOk>
-            <ButtonCancel onClick={() => redirectRoute('/cobra')}>Cancelar</ButtonCancel>
+            <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
+              Cancelar
+            </ButtonCancel>
           </CardContentButton>
         </ContentCard>
       </Content>
