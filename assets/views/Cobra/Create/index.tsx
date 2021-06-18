@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
-import { BiLoaderCircle } from 'react-icons/bi'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
@@ -14,7 +13,6 @@ import { createSellLink } from '../../../redux/actions/'
 import Dropzone from 'react-dropzone'
 
 import {
-  Input,
   Content,
   ContentCard,
   Card,
