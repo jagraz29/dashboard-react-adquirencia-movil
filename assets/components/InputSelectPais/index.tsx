@@ -28,7 +28,6 @@ const InputSelectPais: React.FC<Props> = ({
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    console.log('pasa por aqui', valor.target.value)
     onChange(valor.target.value)
   }
   return (
@@ -43,7 +42,7 @@ const InputSelectPais: React.FC<Props> = ({
         {placeholder}
       </option>
       {dataSelect.map((item, index) => (
-        <option value={item.name}>{item.displayText}</option>
+        <option value={item.id}>{item.displayText}</option>
       ))}
     </Select>
   )
