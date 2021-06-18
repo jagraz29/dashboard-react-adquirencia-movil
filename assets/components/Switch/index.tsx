@@ -11,7 +11,7 @@ const CustomSwitch: React.FC<Props> = ({ disabled, value, onChange }) => {
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    onChange(valor.target.value)
+    onChange(valor)
   }
 
   return (

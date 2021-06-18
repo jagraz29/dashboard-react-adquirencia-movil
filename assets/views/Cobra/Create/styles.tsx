@@ -113,6 +113,7 @@ export const ButtonOk = styled.button`
   font-size: 0.8vw;
   background: #58d3f7;
   border: 1px solid #58d3f7;
+  cursor: pointer;
   box-sizing: border-box;
   border-radius: 4px;
   width: 11vw;

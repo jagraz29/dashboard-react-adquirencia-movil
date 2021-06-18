@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
 
 import Title from '../../../components/Title'
@@ -38,6 +38,7 @@ import {
   DropDocArea,
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
 const breadcrumb = [
   {
@@ -84,6 +85,14 @@ const CobraCreate = (props: any) => {
     urlConfirmacion: '',
     urlRespuesta: '',
   })
+
+  const history = useHistory()
+  const [checkTax, setCheckTax] = useState(false)
+
+  const [total, setTotal] = useState(0)
+
+  const [impuestos, setImpuestos] = useState({ consumo: '0', agregado: '0' })
+
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
   const [loadFiles, setLoadFiles] = useState<arrayFileInterface[]>([])
 
@@ -145,11 +154,26 @@ const CobraCreate = (props: any) => {
     const name = target.name
     const value = target.value
 
+    if (name == 'consumo' || name == 'agregado') {
+      await setImpuestos((prevState: any) => ({
+        ...prevState,
+        [name]: value,
+      }))
+    }
+
     await setCobro((prevState) => ({
       ...prevState,
       [name]: value,
     }))
   }, [])
+
+  const redirectRoute = (path: string) => {
+    history.push(path)
+  }
+
+  const handleSubmit = () => {
+    console.log('enviando', cobro)
+  }
 
   const openClose = async (number: number) => {
     switch (number) {
@@ -194,6 +218,26 @@ const CobraCreate = (props: any) => {
         break
     }
   }
+
+  useEffect(() => {
+    if (checkTax) {
+      const tax = Number(impuestos.consumo) + Number(impuestos.agregado)
+      setCobro((prevState) => ({
+        ...prevState,
+        impuestos: tax,
+      }))
+
+      setTotal(tax + Number(cobro.valor))
+    }
+  }, [impuestos])
+
+  useEffect(() => {
+    setTotal(Number(impuestos.consumo) + Number(impuestos.agregado) + Number(cobro.valor))
+  }, [cobro.valor])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <div>
@@ -296,14 +340,50 @@ const CobraCreate = (props: any) => {
                   <InputLabel label={'¿Desea incluir impuestos?'} />
                   <CustomSwitch
                     disabled={false}
-                    value={true}
-                    onChange={(e: any) => {
-                      console.log(e)
-                    }}
+                    value={checkTax}
+                    onChange={() => setCheckTax(!checkTax)}
                   />
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
+
+            {checkTax && (
+              <CardContent1 theme={openCardContent}>
+                <ContentInput
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
+                >
+                  <InputGroup>
+                    <ContentInputCard>
+                      <InputLabel label={'Impuesto al Consumo'} />
+                      <InputCustumer
+                        name={'consumo'}
+                        type={'number'}
+                        placeholder={'10'}
+                        width={'12vw'}
+                        value={impuestos.consumo}
+                        onChange={handleChangeInput}
+                        returnComplete={true}
+                      />
+                    </ContentInputCard>
+                    <ContentInputCard>
+                      <InputLabel label={'Impuesto al valor agregado'} />
+                      <InputCustumer
+                        name={'agregado'}
+                        type={'number'}
+                        placeholder={'10'}
+                        width={'12vw'}
+                        value={impuestos.agregado}
+                        onChange={handleChangeInput}
+                        returnComplete={true}
+                      />
+                    </ContentInputCard>
+                  </InputGroup>
+                  <span style={{ marginTop: '2vw', marginLeft: '2vw' }}>
+                    Total + Impuestos: ${total}
+                  </span>
+                </ContentInput>
+              </CardContent1>
+            )}
           </Card>
 
           <Card>
@@ -493,9 +573,9 @@ const CobraCreate = (props: any) => {
               </ContentInput>
             </CardContent3>
           </Card>
-          <CardContentButton>
-            <ButtonOk>Guardar Información</ButtonOk>
-            <ButtonCancel>Cancelar</ButtonCancel>
+          <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
+            <ButtonOk onClick={() => handleSubmit}>Guardar Información</ButtonOk>
+            <ButtonCancel onClick={() => redirectRoute('/cobra')}>Cancelar</ButtonCancel>
           </CardContentButton>
         </ContentCard>
       </Content>
