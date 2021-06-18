@@ -10,13 +10,15 @@ import InputSelectPais from '../../components/InputSelectPais'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import LoadingBar from '../../components/LoadingBar'
+import ButtonSpinner from '../../components/Button'
 import {
   getPropertySite,
   setPropertySite,
   getGateWaySite,
-  setGateWay,
+  setGateWaySite,
   getKeysSite,
   getLogoSite,
+  setLogoSite,
 } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -35,7 +37,6 @@ import {
   CardIcon,
   ContentInput,
   CardContentButton,
-  CardButton,
   ButtonOk,
   ButtonCancel,
   ContentInputCard,
@@ -47,8 +48,6 @@ import {
   FileImage,
   ContentItemCard,
   ButtonImageLoad,
-  DropDocArea,
-  DropLoaded,
   LoadImage,
   ImageShow,
   ClosePhoto,
@@ -108,10 +107,8 @@ const Integraciones = () => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
-  const { setProperty, property, getGateWay, getLogo, getKeys } = myStore
-
   console.log(myStore)
-
+  const { setProperty, property, getLogo, getKeys, setLogo, getGateWay, setGateWay } = myStore
   const [openCard, setOpenCard] = useState(false)
   const [openCard2, setOpenCard2] = useState(false)
   const [openCard3, setOpenCard3] = useState(false)
@@ -130,6 +127,8 @@ const Integraciones = () => {
   const urlConfirmacion = viewState.getGateWay.gateWayData.data.urlConfirmacion
   const urlRespuesta = viewState.getGateWay.gateWayData.data.urlRespuesta
 
+  console.log('Idioma', idioma)
+
   const logo = viewState.getLogo.logoData.data.logo
   const pcust = viewState.getKeys.keysData.data.p_cust_id_cliente
   const pkey = viewState.getKeys.keysData.data.p_key
@@ -140,7 +139,9 @@ const Integraciones = () => {
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
   const [openCardContent4, setOpenCardContent4] = useState({ display: 'none' })
-  const [valueIndicativo, setValueIndicativo] = useState(null)
+  const [valueIndicativo, setValueIndicativo] = useState(
+    telefono != '0' ? indicativo : celular != '0' ? indicativo : ''
+  )
   const [typeTelCel, setTypeTelCel] = useState('')
   const [razonSocial, setRazonSocial] = useState('')
   const [nombreMostrar, setNombreMostrar] = useState('')
@@ -153,15 +154,21 @@ const Integraciones = () => {
   const [showLoadingLogo, setShowLoadingLogo] = useState(false)
   const [showLoadingKey, setShowLoadingKey] = useState(false)
   const [showLogoImage, setShowLogoImage] = useState(false)
+  const [fileBase64, setFileBase64] = useState('')
+  const [loadingButton1, setLoadingButton1] = useState(false)
+  const [loadingButton2, setLoadingButton2] = useState(false)
+  const [loadingButton3, setLoadingButton3] = useState(false)
+  const [indicaTel, setIndicaTel] = useState(
+    telefono != '0' ? indicativo : celular != '0' ? indicativo : ''
+  )
 
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
-  const [loadFiles, setLoadFiles] = useState<arrayFileInterface[]>([])
 
   useEffect(() => {
-    setTypeTelCel(telefono != null ? 'Telefono' : celular != null ? 'Celular' : '')
+    setTypeTelCel(telefono != '0' ? 'Telefono' : celular != '0' ? 'Celular' : '')
     setRazonSocial(nombre_empresa)
     setNombreMostrar(nombre_mostrar)
-    settelCel(telefono != null ? telefono : celular != null ? celular : '')
+    settelCel(telefono != '0' ? telefono : celular != '0' ? celular : '')
     setTypeIdioma(idioma)
     setUrlConfir(urlConfirmacion)
     setUrlResp(urlRespuesta)
@@ -170,18 +177,70 @@ const Integraciones = () => {
   useEffect(() => {
     validateStatusProperty()
     showProperty()
-    showGateWay()
-    showLogo()
     showKeys()
-  }, [setProperty, property, getGateWay, getLogo, getKeys])
+  }, [setProperty, property, getKeys])
+
+  useEffect(() => {
+    console.log('esto esta pasando mucho')
+    validateStatusGateWay()
+    showGateWay()
+  }, [setGateWay, getGateWay])
+
+  useEffect(() => {
+    console.log('esto esta pasando mucho')
+    validateStatusLogo()
+    showLogo()
+  }, [getLogo, setLogo])
 
   const validateStatusProperty = () => {
-    if ((setProperty.clienData.status = true)) {
+    console.log('pasando property', setProperty.clienData)
+    if (
+      setProperty.clienData.message == 'Save data successfully' &&
+      (setProperty.clienData.status = true)
+    ) {
       toast.success(setProperty.clienData.message)
+      setLoadingButton1(false)
     } else {
-      toast.error('Error')
+      setLoadingButton1(false)
     }
   }
+
+  const validateStatusGateWay = () => {
+    console.log('pasando por el gateway', setGateWay.gateWayData)
+    if (
+      setGateWay.gateWayData.message == 'Save data successfully' &&
+      (setGateWay.gateWayData.status = true)
+    ) {
+      toast.success(setGateWay.gateWayData.message)
+      setLoadingButton2(false)
+    } else {
+      setLoadingButton2(false)
+    }
+
+    if (
+      setGateWay.gateWayData.message == 'Update Logo Successfully' &&
+      (setGateWay.gateWayData.status = true)
+    ) {
+      toast.success(setGateWay.gateWayData.message)
+      setLoadingButton3(false)
+    } else {
+      setLoadingButton3(false)
+    }
+  }
+
+  const validateStatusLogo = () => {
+    console.log('pasando por el logo', setLogo)
+    if (
+      setGateWay.gateWayData.message == 'Save data successfully' &&
+      (setGateWay.gateWayData.status = true)
+    ) {
+      toast.success(setGateWay.gateWayData.message)
+      setLoadingButton3(false)
+    } else {
+      setLoadingButton3(false)
+    }
+  }
+
   const showProperty = () => {
     if (id != 0) {
       setShowLoadingProperty(true)
@@ -223,6 +282,7 @@ const Integraciones = () => {
   }
 
   const openClose2 = () => {
+    console.log('esto que pues')
     if (!openCard2) {
       setOpenCard2(true)
       setOpenCardContent2({
@@ -271,6 +331,9 @@ const Integraciones = () => {
 
   const changeTypeTelefono = useCallback((event) => {
     setTypeTelCel(event)
+    if (event == 'Celular') {
+    }
+    console.log('Evento', event)
   }, [])
 
   const changeRazonSocial = useCallback((event) => {
@@ -283,32 +346,33 @@ const Integraciones = () => {
 
   const changeTelefono = useCallback((event) => {
     settelCel(event)
+    console.log(event)
   }, [])
 
-  const onDropImg = (accepted: any, rejected: any) => {
-    console.log(accepted)
+  const changeIndicativo = useCallback((event) => {
+    setValueIndicativo(event)
+    console.log('indicativo', event)
+  }, [])
+
+  const changeTelefonoind = useCallback((event) => {
+    setIndicaTel(event)
+    console.log(event)
+  }, [])
+
+  const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
       console.log('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
     } else {
       if (accepted.length > 1 - loadImages.length) {
         console.log('solo puede cargar hasta 3 imágenes.')
       } else {
+        accepted = await Promise.all(accepted.map(fileToDataURL))
+        console.log(accepted)
+        setFileBase64(accepted[0].base64)
         setShowLogoImage(true)
         setLoadImages((prev) => prev.concat(accepted))
       }
     }
-  }
-
-  const onDropDoc = (accepted: any, rejected: any) => {
-    if (rejected.length > 0) {
-      console.log('error al subir el archivo pdf.')
-    } else {
-      setLoadFiles((prev) => prev.concat(accepted))
-    }
-  }
-
-  const deletedoc = () => {
-    setLoadFiles([])
   }
 
   const deleteFile = (numero: number) => {
@@ -318,22 +382,52 @@ const Integraciones = () => {
     setShowLogoImage(false)
   }
 
-  const savePropiedad = async () => {
-    const datos = {
-      razonSocial: razonSocial,
-      nombre: nombreMostrar,
-      nombreEmpresa: razonSocial,
-      telefono: telCel,
-      celular: telCel,
-      indicativoPais: '57',
-      tipoTelefonoValue: 'celular',
-      indicativoCiudad: '1',
-      campoTelValue: '',
-      valueIndicativo: '1',
-      paises: [],
+  const fileToDataURL = (file: any) => {
+    const reader = new FileReader()
+    return new Promise(function (resolve, reject) {
+      reader.onload = function (event: any) {
+        file.base64 = event.target.result
+        resolve(file)
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const savePropiedad = () => {
+    let datos
+    if (typeTelCel == 'Celular') {
+      datos = {
+        razonSocial: razonSocial,
+        nombre: nombreMostrar,
+        nombreEmpresa: razonSocial,
+        telefono: '0',
+        celular: telCel,
+        indicativoPais: valueIndicativo,
+        tipoTelefonoValue: 'celular',
+        indicativoCiudad: '1',
+        campoTelValue: '',
+        valueIndicativo: '1',
+        paises: [],
+      }
+    } else {
+      datos = {
+        razonSocial: razonSocial,
+        nombre: nombreMostrar,
+        nombreEmpresa: razonSocial,
+        telefono: telCel,
+        celular: '0',
+        indicativoPais: indicaTel,
+        tipoTelefonoValue: 'celular',
+        indicativoCiudad: '1',
+        campoTelValue: '',
+        valueIndicativo: '1',
+        paises: [],
+      }
     }
 
+    console.log(datos)
     dispatch(setPropertySite(datos))
+    setLoadingButton1(true)
   }
 
   const changeUrlRespuesta = useCallback((event) => {
@@ -350,8 +444,17 @@ const Integraciones = () => {
       urlConfirmacion: urlConfir,
       urlRespuesta: urlResp,
     }
-    dispatch(setGateWay(datos))
-    toast.success('Guardado')
+    dispatch(setGateWaySite(datos))
+    setLoadingButton2(true)
+  }
+
+  const saveLogo = () => {
+    const datos = {
+      logo: fileBase64,
+    }
+
+    dispatch(setLogoSite(datos))
+    setLoadingButton3(true)
   }
 
   return (
@@ -423,9 +526,7 @@ const Integraciones = () => {
                     <InputGroup>
                       <InputSelect
                         name={'type_telefono'}
-                        placeholder={
-                          telefono != null ? 'Telefono' : celular != null ? 'Celular' : ''
-                        }
+                        placeholder={telefono != '0' ? 'Telefono' : celular != '0' ? 'Celular' : ''}
                         width={'6vw'}
                         dataSelect={dataSelect}
                         onClick={() => {}}
@@ -439,8 +540,10 @@ const Integraciones = () => {
                           type={'number'}
                           placeholder={'Indicativo'}
                           width={'5vw'}
-                          value={''}
-                          onChange={() => {}}
+                          value={indicaTel}
+                          onChange={(e: any) => {
+                            changeTelefonoind(e)
+                          }}
                         />
                       ) : typeTelCel == 'Celular' ? (
                         <InputSelectPais
@@ -449,7 +552,10 @@ const Integraciones = () => {
                           width={'5vw'}
                           dataSelect={datos}
                           onClick={() => {}}
-                          onChange={() => {}}
+                          onChange={(e: any) => {
+                            console.log('pase change', e)
+                            changeIndicativo(e)
+                          }}
                         />
                       ) : (
                         ''
@@ -477,20 +583,25 @@ const Integraciones = () => {
               ''
             ) : showLoadingProperty == true ? (
               <CardContentButton theme={openCardContent}>
-                <ButtonOk
+                <ButtonSpinner
+                  text={'Guardar Información'}
+                  loading={loadingButton1}
                   onClick={() => {
                     savePropiedad()
                   }}
-                >
-                  Guardar Información
-                </ButtonOk>
-                <ButtonCancel
-                  onClick={() => {
-                    openClose()
-                  }}
-                >
-                  Cancelar
-                </ButtonCancel>
+                  disabled={false}
+                />
+                {loadingButton1 == false ? (
+                  <ButtonCancel
+                    onClick={() => {
+                      openClose()
+                    }}
+                  >
+                    Cancelar
+                  </ButtonCancel>
+                ) : (
+                  ''
+                )}
               </CardContentButton>
             ) : (
               ''
@@ -576,20 +687,25 @@ const Integraciones = () => {
               ''
             ) : showLoadingGateWay == true ? (
               <CardContentButton theme={openCardContent2}>
-                <ButtonOk
+                <ButtonSpinner
+                  text={'Guardar Información'}
+                  loading={loadingButton2}
                   onClick={() => {
                     saveGateWay()
                   }}
-                >
-                  Guardar Información
-                </ButtonOk>
-                <ButtonCancel
-                  onClick={() => {
-                    openClose2()
-                  }}
-                >
-                  Cancelar
-                </ButtonCancel>
+                  disabled={false}
+                />
+                {loadingButton2 == false ? (
+                  <ButtonCancel
+                    onClick={() => {
+                      openClose2()
+                    }}
+                  >
+                    Cancelar
+                  </ButtonCancel>
+                ) : (
+                  ''
+                )}
               </CardContentButton>
             ) : (
               ''
@@ -657,14 +773,25 @@ const Integraciones = () => {
               ''
             ) : showLoadingLogo == true ? (
               <CardContentButton theme={openCardContent3}>
-                <ButtonOk>Guardar Información</ButtonOk>
-                <ButtonCancel
+                <ButtonSpinner
+                  text={'Guardar Información'}
+                  loading={loadingButton3}
                   onClick={() => {
-                    openClose3()
+                    saveLogo()
                   }}
-                >
-                  Cancelar
-                </ButtonCancel>
+                  disabled={false}
+                />
+                {loadingButton3 == false ? (
+                  <ButtonCancel
+                    onClick={() => {
+                      openClose3()
+                    }}
+                  >
+                    Cancelar
+                  </ButtonCancel>
+                ) : (
+                  ''
+                )}
               </CardContentButton>
             ) : (
               ''
