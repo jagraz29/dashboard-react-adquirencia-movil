@@ -6,15 +6,9 @@ import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import {
-  getPropertySite,
-  setPropertySite,
-  getProfileData,
-  setProfileData,
-} from '../../redux/actions/'
+import { getProfileData, setProfileData, setNewClientPassword } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import LoadingBar from '../../components/LoadingBar'
 import { datos } from './data'
 import {
   Content,
@@ -27,7 +21,6 @@ import {
   CardTitle,
   ContentInput,
   CardContentButton,
-  ButtonOk,
   ButtonCancel,
   ContentInputCard,
   InputGroup,
@@ -35,6 +28,7 @@ import {
 import InputNoEditable from '../../components/InputNoEditable'
 import InputSelectWithValue from '../../components/InputSelectWithValue'
 import InputSelectPaisWithValue from '../../components/InputSelectPaisWithValue'
+import ButtonSpinner from '../../components/Button'
 
 const breadcrumb = [
   {
@@ -63,7 +57,8 @@ const Seguridad = () => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
-  const { profile } = myStore
+  const setProfile = myStore.profilePost
+  const updatePassword = myStore.setPassword
   const viewState: RootState = useSelector((state: RootState) => state)
   const nombreGuardado = viewState.profile.profileData.data.socialName
   const emailGuardado = viewState.profile.profileData.data.emailTransaction
@@ -79,7 +74,6 @@ const Seguridad = () => {
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'block' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'block' })
   const [nombre, setNombre] = useState('')
-  console.log(nombreGuardado)
   const [email, setEmail] = useState('')
   const [nombreEmpresa, setNombreEmpresa] = useState('')
   const [numMovil, setNumMovil] = useState('')
@@ -91,9 +85,10 @@ const Seguridad = () => {
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [loadingButton1, setLoadingButton1] = useState(false)
+  const [loadingButton2, setLoadingButton2] = useState(false)
 
   useEffect(() => {
-    console.log(nombreGuardado)
     setNombre(nombreGuardado)
     setEmail(emailGuardado)
     setNombreEmpresa(nombreEmpresaGuardado)
@@ -108,6 +103,14 @@ const Seguridad = () => {
   useEffect(() => {
     dispatch(getProfileData())
   }, [])
+
+  useEffect(() => {
+    validateSetProfile()
+  }, [setProfile])
+
+  useEffect(() => {
+    validateSetPassword()
+  }, [updatePassword])
 
   const changeNombreEmpresa = useCallback((event) => {
     setNombreEmpresa(event)
@@ -150,6 +153,28 @@ const Seguridad = () => {
     setConfirmPassword(event)
   }, [])
 
+  const validateSetProfile = () => {
+    if (setProfile.profileData.status == true) {
+      toast.success('Datos Actualizados Correctamente')
+      setLoadingButton1(false)
+    }
+    if (setProfile.profileData.status == false) {
+      toast.error('Error al Actualizar los Datos')
+      setLoadingButton1(false)
+    }
+  }
+
+  const validateSetPassword = () => {
+    if (updatePassword.passwordData.status == true) {
+      toast.success('Contraseña Actualizada Correctamente')
+      setLoadingButton2(false)
+    }
+    if (updatePassword.passwordData.status == false) {
+      toast.error('Error al Actualizar la Contraseña')
+      setLoadingButton2(false)
+    }
+  }
+
   const savePerfil = () => {
     const datos = {
       nombreEmpresa: nombreEmpresa,
@@ -161,9 +186,18 @@ const Seguridad = () => {
     }
 
     dispatch(setProfileData(datos))
-    console.log('pase pues por aqui', datos)
+    setLoadingButton1(true)
+  }
 
-    toast.success('Wow so easy!')
+  const savePassword = () => {
+    const datos = {
+      password: password,
+      newPassword: newPassword,
+      newPasswordConfirmation: confirmPassword,
+    }
+
+    dispatch(setNewClientPassword(datos))
+    setLoadingButton2(true)
   }
 
   return (
@@ -301,13 +335,14 @@ const Seguridad = () => {
             </CardContent2>
 
             <CardContentButton theme={openCardContent2}>
-              <ButtonOk
+              <ButtonSpinner
+                text={'Guardar Información'}
+                loading={loadingButton1}
                 onClick={() => {
                   savePerfil()
                 }}
-              >
-                Guardar Información
-              </ButtonOk>
+                disabled={false}
+              ></ButtonSpinner>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>
@@ -364,8 +399,18 @@ const Seguridad = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent3>
-            <CardContentButton theme={openCardContent2}>
-              <ButtonOk>Cambiar contraseña</ButtonOk>
+            <CardContentButton
+              theme={openCardContent2}
+              style={{ marginBottom: '5vw', marginTop: '2vw' }}
+            >
+              <ButtonSpinner
+                text={'Cambiar Contraseña'}
+                loading={loadingButton2}
+                onClick={() => {
+                  savePassword()
+                }}
+                disabled={false}
+              ></ButtonSpinner>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>

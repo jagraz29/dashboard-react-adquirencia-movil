@@ -101,27 +101,34 @@ export const setLogoSite = (data: any) => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const setProfileData = (data: any) => async (dispatch: any) => {
+export const getProfileData = () => async (dispatch: any) => {
   try {
-    console.log('POST: ')
-    const res = await dataService.post('http://localhost:8000/api/security/profile-data', data)
-    console.log(res)
-
+    const res = await dataService.get('api/security/profile-data')
     dispatch({
-      type: SET_PROFILE_DATA,
-      payload: res.data.data.cliente,
+      type: GET_PROFILE_DATA,
+      payload: res.data,
     })
   } catch (error) {}
 }
 
-export const setPassword = (data: any) => async (dispatch: any) => {
+export const setProfileData = (data: any) => async (dispatch: any) => {
   try {
-    console.log('POST: ')
-    const res = await dataService.post('/api/set-password', data)
+    const res = await dataService.post('api/security/profile-data', data)
+
+    dispatch({
+      type: SET_PROFILE_DATA,
+      payload: res.data,
+    })
+  } catch (error) {}
+}
+
+export const setNewClientPassword = (data: any) => async (dispatch: any) => {
+  try {
+    const res = await dataService.post('/api/security/set-password', data)
 
     dispatch({
       type: SET_PASSWORD,
-      payload: res.data.data.cliente,
+      payload: res.data,
     })
   } catch (error) {}
 }

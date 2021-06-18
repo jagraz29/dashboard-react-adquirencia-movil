@@ -1,9 +1,9 @@
 import { AnyAction } from 'redux'
-import { ClientStatusReducerType } from '../../types/ClienteStatusReducerType'
 import { SET_PROFILE_DATA } from '../actions/index'
+import { SetPerfilReducerType } from '../../types/SetPerfilReducerType'
 
-const initialState: ClientStatusReducerType = {
-  clienData: {
+const initialState: SetPerfilReducerType = {
+  profileData: {
     data: {
       message: '',
       status: 0,
@@ -11,9 +11,10 @@ const initialState: ClientStatusReducerType = {
   },
 }
 
-const profilePostReducer = (state: ClientStatusReducerType = initialState, action: AnyAction) => {
+const profilePostReducer = (state: SetPerfilReducerType = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_PROFILE_DATA: {
+      console.log('Pa ver', action.payload)
       return {
         ...state,
         profileData: action.payload,
