@@ -11,7 +11,7 @@ const initialState: GateWayStatusReducerType = {
   },
 }
 
-const proertyPostReducer = (state: GateWayStatusReducerType = initialState, action: AnyAction) => {
+const gateWayPostReducer = (state: GateWayStatusReducerType = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_GATE_WAY: {
       return {
@@ -25,4 +25,4 @@ const proertyPostReducer = (state: GateWayStatusReducerType = initialState, acti
   }
 }
 
-export default proertyPostReducer
+export default gateWayPostReducer

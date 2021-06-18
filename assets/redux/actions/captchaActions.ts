@@ -7,6 +7,7 @@ export const GET_GATE_WAY = 'GET_GATE_WAY'
 export const SET_GATE_WAY = 'SET_GATE_WAY'
 export const GET_KEYS = 'GET_KEYS'
 export const GET_LOGO = 'GET_LOGO'
+export const SET_LOGO = 'SET_LOGO'
 export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const SET_PASSWORD = 'SET_PASSWORD'
@@ -22,7 +23,7 @@ export const setToken = (token: any) => (dispatch: any) => {
 
 export const getDataUser = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/client/info')
+    const res = await dataService.get('/api/client/info')
     dispatch({
       type: GET_STATE_USER,
       payload: res.data,
@@ -32,7 +33,7 @@ export const getDataUser = () => async (dispatch: any) => {
 
 export const getPropertySite = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/configuration/property-site')
+    const res = await dataService.get('api/configuration/property-site')
     dispatch({
       type: GET_PROPERTY_SITE,
       payload: res.data.data.cliente,
@@ -42,10 +43,7 @@ export const getPropertySite = () => async (dispatch: any) => {
 
 export const setPropertySite = (data: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.post(
-      'http://localhost:8000/api/configuration/property-site',
-      data
-    )
+    const res = await dataService.post('api/configuration/property-site', data)
     dispatch({
       type: SET_PROPERTY_SITE,
       payload: res.data,
@@ -55,7 +53,7 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
 
 export const getGateWaySite = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/configuration/options-gateway')
+    const res = await dataService.get('api/configuration/options-gateway')
     dispatch({
       type: GET_GATE_WAY,
       payload: res.data,
@@ -63,12 +61,9 @@ export const getGateWaySite = () => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const setGateWay = (data: any) => async (dispatch: any) => {
+export const setGateWaySite = (data: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.post(
-      'http://localhost:8000/api/configuration/options-gateway',
-      data
-    )
+    const res = await dataService.post('api/configuration/options-gateway', data)
     dispatch({
       type: SET_GATE_WAY,
       payload: res.data,
@@ -78,7 +73,7 @@ export const setGateWay = (data: any) => async (dispatch: any) => {
 
 export const getKeysSite = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/configuration/keys')
+    const res = await dataService.get('api/configuration/keys')
     dispatch({
       type: GET_KEYS,
       payload: res.data,
@@ -88,7 +83,7 @@ export const getKeysSite = () => async (dispatch: any) => {
 
 export const getLogoSite = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/configuration/pay-page')
+    const res = await dataService.get('api/configuration/pay-page')
     dispatch({
       type: GET_LOGO,
       payload: res.data,
@@ -96,12 +91,11 @@ export const getLogoSite = () => async (dispatch: any) => {
   } catch (error) {}
 }
 
-export const getProfileData = () => async (dispatch: any) => {
+export const setLogoSite = (data: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/security/profile-data')
-    console.log(res)
+    const res = await dataService.post('api/configuration/pay-page', data)
     dispatch({
-      type: GET_PROFILE_DATA,
+      type: SET_GATE_WAY,
       payload: res.data,
     })
   } catch (error) {}

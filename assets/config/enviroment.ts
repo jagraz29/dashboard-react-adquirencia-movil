@@ -19,4 +19,5 @@ export const config = {
   captchaKey: process.env.REACT_APP_CAPTCHA_KEY || '',
   modeCheckout: process.env.REACT_APP_CHECKOUT_MODE !== 'prod',
   urlResultCheckout: process.env.REACT_APP_URL_RESULT_CHECKOUT,
+  apiBack: process.env.API,
 }
