@@ -16,29 +16,15 @@ use Requests;
  */
 class CollectController extends BaseController
 {
-    /**
-     * @var string
-     */
-    private $urlAppRest;
-    /**
-     * @var string
-     */
-    private $appRestEnv;
+  private const TYPE_LINK = 2;
 
-    private const TYPE_LINK = 2;
-
-    public function __construct(
-        string $urlAppRest,
-        string $appRestEnv,
-        Apify $apify,
-        ValidatorInterface $validator,
-        TranslatorInterface $translator
-    ) {
-        parent::__construct($apify, $validator, $translator);
-        $this->urlAppRest = $urlAppRest;
-        $this->appRestEnv = $appRestEnv;
-    }
-
+  public function __construct(
+    Apify $apify,
+    ValidatorInterface $validator,
+    TranslatorInterface $translator
+  ) {
+    parent::__construct($apify, $validator, $translator);
+  }
 
   /**
    * @Route("/", name="api_collect_index", methods={"GET"})
@@ -112,7 +98,10 @@ class CollectController extends BaseController
       'expirationDate' => $content['fechaVencimiento'],
     ];
 
-    $response = $collectTableDto->getId() != 0 ? $this->apify->consult('collection/link/update', Requests::POST, $data) : $this->apify->consult('collection/link/create', Requests::POST, $data);
+    $response =
+      $collectTableDto->getId() != 0
+        ? $this->apify->consult('collection/link/update', Requests::POST, $data)
+        : $this->apify->consult('collection/link/create', Requests::POST, $data);
 
     if (
       isset($response[TextResponsesCommon::SUCCESS]) &&
