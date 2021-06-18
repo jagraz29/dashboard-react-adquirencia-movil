@@ -11,6 +11,7 @@ export const SET_LOGO = 'SET_LOGO'
 export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const SET_PASSWORD = 'SET_PASSWORD'
+export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 
 const dataService = new DataService()
 
@@ -99,4 +100,17 @@ export const setLogoSite = (data: any) => async (dispatch: any) => {
       payload: res.data,
     })
   } catch (error) {}
+}
+
+export const createSellLink = (data: any) => async (dispatch: any) => {
+  try {
+    await dataService.post('http://localhost:8000/api/collect/create', data)
+    dispatch({
+      type: CREATE_SELL_LINK,
+      payload: data,
+    })
+    return true
+  } catch (error) {
+    return false
+  }
 }

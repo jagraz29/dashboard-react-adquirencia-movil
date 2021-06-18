@@ -14,7 +14,7 @@ const TextareaCustomer: React.FC<Props> = ({ name, placeholder, value, onChange 
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    onChange(valor.target.value)
+    onChange(valor)
   }
 
   return (

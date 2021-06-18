@@ -64,6 +64,7 @@ export const ButtonLink = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
+  cursor: pointer;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
