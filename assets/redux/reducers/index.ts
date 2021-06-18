@@ -9,6 +9,7 @@ import getLogoReducer from './getLogoReducer'
 import setLogoReducer from './setLogoPostReducer'
 import profileReducer from './profileReducer'
 import profilePostReducer from './profilePostReducer'
+import setPasswordReducer from "./setPasswordReducer";
 
 const rootReducer = combineReducers({
   captcha: captchaReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   setLogo: setLogoReducer,
   profile: profileReducer,
   profilePost: profilePostReducer,
+  setPassword: setPasswordReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>
