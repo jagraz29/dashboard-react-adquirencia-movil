@@ -10,6 +10,7 @@ const initialState: sellLinkReducerType = {
       factura: '',
       tipoMoneda: 'COP',
       valor: 0,
+      total: 0,
       impuestos: 0,
       imagenes: [],
       archivo: null,

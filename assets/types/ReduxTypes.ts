@@ -125,6 +125,7 @@ export type sellLinkReducerType = {
     factura: string
     tipoMoneda: string
     valor: number
+    total: number
     impuestos?: number
     imagenes?: []
     archivo?: any

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
+import { BiLoaderCircle } from 'react-icons/bi'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
@@ -8,6 +9,8 @@ import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
+import { createSellLink } from '../../../redux/actions/'
+
 import Dropzone from 'react-dropzone'
 
 import {
@@ -36,9 +39,11 @@ import {
   PhotoDropLoaded,
   DropLoaded,
   DropDocArea,
+  Spinner,
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 const breadcrumb = [
   {
@@ -81,18 +86,22 @@ const CobraCreate = (props: any) => {
     imagenes: [],
     archivo: null,
     cantidad: 0,
-    fechaVencimiento: new Date(),
+    fechaVencimiento: '',
     urlConfirmacion: '',
     urlRespuesta: '',
+    total: 0,
   })
 
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const [checkTax, setCheckTax] = useState(false)
 
   const [total, setTotal] = useState(0)
 
   const [impuestos, setImpuestos] = useState({ consumo: '0', agregado: '0' })
 
+  const [loadButton, setLoadButton] = useState(false)
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
   const [loadFiles, setLoadFiles] = useState<arrayFileInterface[]>([])
 
@@ -111,8 +120,6 @@ const CobraCreate = (props: any) => {
       if (accepted.length > 3 - loadImages.length) {
         toast.error('Solo puede cargar hasta 3 imágenes.')
       } else {
-        //aqui obtendremos los archivos en base 64
-
         accepted = await Promise.all(accepted.map(fileToDataURL))
         setLoadImages((prev) => prev.concat(accepted))
       }
@@ -171,8 +178,100 @@ const CobraCreate = (props: any) => {
     history.push(path)
   }
 
-  const handleSubmit = () => {
-    console.log('enviando', cobro)
+  const validate = () => {
+    const regex = new RegExp(
+      '^(https?:\\/\\/)?' +
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+        '((\\d{1,3}\\.){3}\\d{1,3}))' +
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' +
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    )
+
+    if (cobro.nombre == '' || cobro.descripcion == '' || cobro.tipoMoneda == '') {
+      return 'Debe diligenciar todos los campos obligatorios.'
+    }
+
+    if (cobro.valor <= 0) {
+      return 'el valor total deben ser números mayores a 0.'
+    }
+
+    if (cobro.urlConfirmacion != '') {
+      if (!regex.test(cobro.urlConfirmacion)) {
+        return 'La URL de confirmación es incorrecta.'
+      }
+    }
+
+    if (cobro.urlRespuesta) {
+      if (!regex.test(cobro.urlRespuesta)) {
+        return 'La URL de respuesta es incorrecta.'
+      }
+    }
+
+    if (cobro.fechaVencimiento != '') {
+      const date = new Date(cobro.fechaVencimiento).getTime()
+      if (date <= new Date().getTime()) {
+        return 'La Fecha de vencimiento debe ser mayor a la fecha actual.'
+      }
+    }
+
+    if (checkTax) {
+      if (Number(impuestos.consumo) <= 0 && Number(impuestos.agregado) <= 0) {
+        return 'Debe ingresar valores correctos para los impuestos.'
+      }
+    }
+
+    return true
+  }
+
+  const handleSubmit = async () => {
+    const val = validate()
+    setLoadButton(true)
+    const arrImages = []
+    let file = null
+
+    if (typeof val != 'boolean') {
+      toast.error(val)
+      setLoadButton(false)
+      return false
+    }
+
+    if (loadImages.length > 0) {
+      for (const image of loadImages) {
+        arrImages.push(image.base64)
+      }
+    }
+
+    if (loadFiles.length > 0) {
+      file = loadFiles[0].base64
+    }
+
+    const data = {
+      nombre: cobro.nombre,
+      descripcion: cobro.descripcion,
+      factura: cobro.factura,
+      tipoMoneda: cobro.tipoMoneda,
+      valor: cobro.valor,
+      impuestos: cobro.impuestos,
+      cantidad: cobro.cantidad > 0 ? cobro.cantidad : 1,
+      fechaVencimiento: cobro.fechaVencimiento,
+      urlConfirmacion: cobro.urlConfirmacion,
+      urlRespuesta: cobro.urlRespuesta,
+      imagenes: arrImages,
+      archivo: file,
+      total,
+    }
+
+    const res = await dispatch(createSellLink(data))
+    if (!!res == true) {
+      toast.success('Se ha guardado correctamente el link de cobro.')
+    } else {
+      toast.error(
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+      )
+    }
+    setLoadButton(false)
   }
 
   const openClose = async (number: number) => {
@@ -574,7 +673,12 @@ const CobraCreate = (props: any) => {
             </CardContent3>
           </Card>
           <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
-            <ButtonOk onClick={() => handleSubmit}>Guardar Información</ButtonOk>
+            <ButtonOk
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={handleSubmit}
+            >
+              {loadButton ? <Spinner /> : 'Guardar Información'}
+            </ButtonOk>
             <ButtonCancel onClick={() => redirectRoute('/cobra')}>Cancelar</ButtonCancel>
           </CardContentButton>
         </ContentCard>

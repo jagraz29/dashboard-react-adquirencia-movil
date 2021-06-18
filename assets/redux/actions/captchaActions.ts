@@ -51,11 +51,13 @@ export const setPropertySite = (data: any) => async (dispatch: any) => {
 
 export const createSellLink = (data: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.post('http://localhost:8000/api/collect/create', data)
-    console.log('respuesta', res.data)
-    /*dispatch({
+    await dataService.post('http://localhost:8000/api/collect/create', data)
+    dispatch({
       type: CREATE_SELL_LINK,
-      payload: res.data.data.cliente,
-    })*/
-  } catch (error) {}
+      payload: data,
+    })
+    return true
+  } catch (error) {
+    return false
+  }
 }
