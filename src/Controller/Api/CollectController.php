@@ -16,13 +16,29 @@ use Requests;
  */
 class CollectController extends BaseController
 {
-  public function __construct(
-    Apify $apify,
-    ValidatorInterface $validator,
-    TranslatorInterface $translator
-  ) {
-    parent::__construct($apify, $validator, $translator);
-  }
+    /**
+     * @var string
+     */
+    private $urlAppRest;
+    /**
+     * @var string
+     */
+    private $appRestEnv;
+
+    private const TYPE_LINK = 2;
+
+    public function __construct(
+        string $urlAppRest,
+        string $appRestEnv,
+        Apify $apify,
+        ValidatorInterface $validator,
+        TranslatorInterface $translator
+    ) {
+        parent::__construct($apify, $validator, $translator);
+        $this->urlAppRest = $urlAppRest;
+        $this->appRestEnv = $appRestEnv;
+    }
+
 
   /**
    * @Route("/", name="api_collect_index", methods={"GET"})
@@ -66,11 +82,11 @@ class CollectController extends BaseController
     $collectTableDto->setOnePayment($content['cantidad'] > 1 ? 0 : true);
     $collectTableDto->setAmount($content['total']);
     $collectTableDto->setCurrency($content['tipoMoneda']);
-    $collectTableDto->setId(0);
+    $collectTableDto->setId(isset($content['id']) ? $content['id'] : 0);
     $collectTableDto->setBase($content['valor']);
     $collectTableDto->setDescription($content['descripcion']);
     $collectTableDto->setTitle($content['nombre']);
-    $collectTableDto->setTypeSell(2);
+    $collectTableDto->setTypeSell(self::TYPE_LINK);
     $collectTableDto->setTax($content['impuestos']);
 
     $errors = $this->validator->validate($collectTableDto);
@@ -96,7 +112,7 @@ class CollectController extends BaseController
       'expirationDate' => $content['fechaVencimiento'],
     ];
 
-    $response = $this->apify->consult('collection/link/create', Requests::POST, $data);
+    $response = $collectTableDto->getId() != 0 ? $this->apify->consult('collection/link/update', Requests::POST, $data) : $this->apify->consult('collection/link/create', Requests::POST, $data);
 
     if (
       isset($response[TextResponsesCommon::SUCCESS]) &&
@@ -125,7 +141,7 @@ class CollectController extends BaseController
       ],
     ];
 
-    $collectLink = $this->apify->consult('collection/link', Requests::GET, $filter);
+    $collectLink = $this->apify->consult('collection/link', Requests::POST, $filter);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
