@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   getKeys: getKeysGetReducer,
   getLogo: getLogoReducer,
   profile: profileReducer,
-  profilePost: profilePostReducer
+  profilePost: profilePostReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

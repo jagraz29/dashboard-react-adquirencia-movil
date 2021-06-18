@@ -6,7 +6,12 @@ import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import {getPropertySite, setPropertySite, getProfileData, setProfileData} from '../../redux/actions/'
+import {
+  getPropertySite,
+  setPropertySite,
+  getProfileData,
+  setProfileData,
+} from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import LoadingBar from '../../components/LoadingBar'
@@ -58,17 +63,17 @@ const Seguridad = () => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
-  const {profile} = myStore
+  const { profile } = myStore
   const viewState: RootState = useSelector((state: RootState) => state)
   const nombreGuardado = viewState.profile.profileData.data.socialName
   const emailGuardado = viewState.profile.profileData.data.emailTransaction
   const nombreEmpresaGuardado = viewState.profile.profileData.data.companyName
   const numMovilGuardado = viewState.profile.profileData.data.cellPhone
   const numFijoGuardado = viewState.profile.profileData.data.mobilePhone
-  const tipoTelefonoGuardado =  viewState.profile.profileData.data.cellPhone != '' ? 'movil' : 'fijo'
+  const tipoTelefonoGuardado = viewState.profile.profileData.data.cellPhone != '' ? 'movil' : 'fijo'
   const indicativoCiudadGuardado = viewState.profile.profileData.data.indicativeCity
   const indicativoPaisGuardado = viewState.profile.profileData.data.indicativeCountry
-  const webGuardado =  viewState.profile.profileData.data.domain
+  const webGuardado = viewState.profile.profileData.data.domain
 
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'block' })
@@ -87,7 +92,7 @@ const Seguridad = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(nombreGuardado)
     setNombre(nombreGuardado)
     setEmail(emailGuardado)
@@ -152,7 +157,7 @@ const Seguridad = () => {
       celular: numMovil,
       telefono: numFijo,
       indicativoCiudad: indicativoCiudad,
-      indicativoPais: indicativoPais
+      indicativoPais: indicativoPais,
     }
 
     dispatch(setProfileData(datos))
@@ -296,9 +301,11 @@ const Seguridad = () => {
             </CardContent2>
 
             <CardContentButton theme={openCardContent2}>
-              <ButtonOk onClick={() => {
-                savePerfil()
-              }}>
+              <ButtonOk
+                onClick={() => {
+                  savePerfil()
+                }}
+              >
                 Guardar Información
               </ButtonOk>
               <ButtonCancel>Cancelar</ButtonCancel>
