@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Common\TextResponsesCommon;
 use App\Dto\PayPageDto;
 use App\Dto\PropertySiteDto;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +21,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('configuration/information');
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -36,12 +37,12 @@ class ConfigurationController extends BaseController
     $content = json_decode($content, true);
 
     $propertyDto = new PropertySiteDto();
-    $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
-    $propertyDto->setRazonSocial($content['razonSocial']);
-    $propertyDto->setTelefono($content['telefono']);
-    $propertyDto->setCelular($content['celular']);
-    $propertyDto->setIndicativoCiudad($content['indicativoCiudad']);
-    $propertyDto->setIndicativoPais($content['indicativoPais']);
+    $propertyDto->setNombreEmpresa($content[TextResponsesCommon::NOMBRE_EMPRESA]);
+    $propertyDto->setRazonSocial($content[TextResponsesCommon::RAZON_SOCIAL]);
+    $propertyDto->setTelefono($content[TextResponsesCommon::TELEFONO]);
+    $propertyDto->setCelular($content[TextResponsesCommon::CELULAR]);
+    $propertyDto->setIndicativoCiudad($content[TextResponsesCommon::INDICATIVO_CIUDAD]);
+    $propertyDto->setIndicativoPais($content[TextResponsesCommon::INDICATIVO_PAIS]);
 
     $errors = $this->validator->validate($propertyDto);
     if (count($errors) > 0) {
@@ -49,12 +50,12 @@ class ConfigurationController extends BaseController
     }
 
     $data = [
-      'nombreEmpresa' => $content['nombreEmpresa'],
-      'razonSocial' => $content['razonSocial'],
-      'telefono' => $content['telefono'],
-      'celular' => $content['celular'],
-      'indicativoPais' => $content['indicativoPais'],
-      'indicativoCiudad' => $content['indicativoCiudad'],
+      TextResponsesCommon::NOMBRE_EMPRESA => $content[TextResponsesCommon::NOMBRE_EMPRESA],
+      TextResponsesCommon::RAZON_SOCIAL => $content[TextResponsesCommon::RAZON_SOCIAL],
+      TextResponsesCommon::TELEFONO => $content[TextResponsesCommon::TELEFONO],
+      TextResponsesCommon::CELULAR => $content[TextResponsesCommon::CELULAR],
+      TextResponsesCommon::INDICATIVO_PAIS => $content[TextResponsesCommon::INDICATIVO_PAIS],
+      TextResponsesCommon::INDICATIVO_CIUDAD => $content[TextResponsesCommon::INDICATIVO_CIUDAD],
       'tipoTelefonoValue' => $content['tipoTelefonoValue'],
       'campoTelValue' => $content['campoTelValue'],
       'valueIndicativo' => $content['valueIndicativo'],
@@ -64,9 +65,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('/configuration/information', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -78,9 +79,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('configuration/pay-page');
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -107,9 +108,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('/configuration/pay-page', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -121,9 +122,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('configuration/options-gateway');
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -144,9 +145,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
@@ -158,9 +159,9 @@ class ConfigurationController extends BaseController
     $consult = $this->apify->consult('configuration/keys');
 
     return $this->jsonResponse(
-      $consult[0]['success'],
-      $consult[0]['data'],
-      $consult[0]['textResponse']
+      $consult[0][TextResponsesCommon::SUCCESS],
+      $consult[0][TextResponsesCommon::DATA],
+      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 }

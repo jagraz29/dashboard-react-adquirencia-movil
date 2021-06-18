@@ -8,6 +8,9 @@ export const SET_GATE_WAY = 'SET_GATE_WAY'
 export const GET_KEYS = 'GET_KEYS'
 export const GET_LOGO = 'GET_LOGO'
 export const SET_LOGO = 'SET_LOGO'
+export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
+export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
+export const SET_PASSWORD = 'SET_PASSWORD'
 
 const dataService = new DataService()
 
