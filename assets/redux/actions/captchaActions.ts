@@ -98,7 +98,7 @@ export const getLogoSite = () => async (dispatch: any) => {
 
 export const getProfileData = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('http://localhost:8000/api/profile-data')
+    const res = await dataService.get('http://localhost:8000/api/security/profile-data')
     console.log(res)
     dispatch({
       type: GET_PROFILE_DATA,

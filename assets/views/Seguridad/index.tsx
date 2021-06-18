@@ -9,6 +9,7 @@ import { RootState } from '../../redux/reducers/index'
 import { getPropertySite, setPropertySite, getProfileData } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import LoadingBar from '../../components/LoadingBar'
 import { datos } from './data'
 import {
   Content,
@@ -56,34 +57,50 @@ const dataSelect = [
 const Seguridad = () => {
   const dispatch = useDispatch()
 
+  const myStore: any = useSelector((state) => state)
+  const {profile} = myStore
   const viewState: RootState = useSelector((state: RootState) => state)
-  console.log(viewState.profile.profileData)
+  const nombreGuardado = viewState.profile.profileData.data.socialName
+  const emailGuardado = viewState.profile.profileData.data.emailTransaction
+  const nombreEmpresaGuardado = viewState.profile.profileData.data.companyName
+  const numMovilGuardado = viewState.profile.profileData.data.cellPhone
+  const numFijoGuardado = viewState.profile.profileData.data.mobilePhone
+  const indicativoCiudadGuardado = viewState.profile.profileData.data.indicativeCity
+  const indicativoPaisGuardado = viewState.profile.profileData.data.indicativeCountry
+  const webGuardado =  viewState.profile.profileData.data.domain
 
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'block' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'block' })
-  const [nombre, setNombre] = useState(viewState.profile.profileData.data.socialName)
-  const [email, setEmail] = useState(viewState.profile.profileData.data.emailTransaction)
-  const [nombreEmpresa, setNombreEmpresa] = useState(viewState.profile.profileData.data.companyName)
-  const [numMovil, setNumMovil] = useState(viewState.profile.profileData.data.cellPhone)
-  const [numFijo, setNumFijo] = useState(viewState.profile.profileData.data.mobilePhone)
-  const [indicativoCiudad, setIndicativoCiudad] = useState(
-    viewState.profile.profileData.data.indicativeCity
-  )
-  const [indicativoPais, setIndicativoPais] = useState(
-    viewState.profile.profileData.data.indicativeCountry
-  )
-  const [tipoTelefono, setTipoTelefono] = useState(
-    viewState.profile.profileData.data.cellPhone == '' ? 'fijo' : 'movil'
-  )
-  const [web, setWeb] = useState(viewState.profile.profileData.data.domain)
+  const [nombre, setNombre] = useState('')
+  console.log(nombreGuardado)
+  const [email, setEmail] = useState('')
+  const [nombreEmpresa, setNombreEmpresa] = useState('')
+  const [numMovil, setNumMovil] = useState('')
+  const [numFijo, setNumFijo] = useState('')
+  const [indicativoCiudad, setIndicativoCiudad] = useState('')
+  const [indicativoPais, setIndicativoPais] = useState('')
+  const [tipoTelefono, setTipoTelefono] = useState('')
+  const [web, setWeb] = useState('')
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  useEffect(()=> {
+    console.log(nombreGuardado)
+    setNombre(nombreGuardado)
+    setEmail(emailGuardado)
+    setNombreEmpresa(nombreEmpresaGuardado)
+    setNumMovil(numMovilGuardado)
+    setNumFijo(numFijoGuardado)
+    setIndicativoCiudad(indicativoCiudadGuardado)
+    setIndicativoPais(indicativoPaisGuardado)
+    setWeb(webGuardado)
+  }, [nombreGuardado, emailGuardado])
+
   useEffect(() => {
     dispatch(getProfileData())
-  })
+  }, [])
 
   const changeNombreEmpresa = useCallback((event) => {
     setNombreEmpresa(event)
