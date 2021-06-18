@@ -110,7 +110,8 @@ export const getProfileData = () => async (dispatch: any) => {
 export const setProfileData = (data: any) => async (dispatch: any) => {
   try {
     console.log('POST: ')
-    const res = await dataService.post('/api/profile-data', data)
+    const res = await dataService.post('http://localhost:8000/api/security/profile-data', data)
+    console.log(res)
 
     dispatch({
       type: SET_PROFILE_DATA,

@@ -6,7 +6,7 @@ import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import { getPropertySite, setPropertySite, getProfileData } from '../../redux/actions/'
+import {getPropertySite, setPropertySite, getProfileData, setProfileData} from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import LoadingBar from '../../components/LoadingBar'
@@ -65,6 +65,7 @@ const Seguridad = () => {
   const nombreEmpresaGuardado = viewState.profile.profileData.data.companyName
   const numMovilGuardado = viewState.profile.profileData.data.cellPhone
   const numFijoGuardado = viewState.profile.profileData.data.mobilePhone
+  const tipoTelefonoGuardado =  viewState.profile.profileData.data.cellPhone != '' ? 'movil' : 'fijo'
   const indicativoCiudadGuardado = viewState.profile.profileData.data.indicativeCity
   const indicativoPaisGuardado = viewState.profile.profileData.data.indicativeCountry
   const webGuardado =  viewState.profile.profileData.data.domain
@@ -93,6 +94,7 @@ const Seguridad = () => {
     setNombreEmpresa(nombreEmpresaGuardado)
     setNumMovil(numMovilGuardado)
     setNumFijo(numFijoGuardado)
+    setTipoTelefono(tipoTelefonoGuardado)
     setIndicativoCiudad(indicativoCiudadGuardado)
     setIndicativoPais(indicativoPaisGuardado)
     setWeb(webGuardado)
@@ -119,6 +121,7 @@ const Seguridad = () => {
   }, [])
 
   const changeIndPais = useCallback((event) => {
+    console.log(event)
     setIndicativoPais(event)
   }, [])
 
@@ -142,21 +145,17 @@ const Seguridad = () => {
     setConfirmPassword(event)
   }, [])
 
-  const savePropiedad = () => {
+  const savePerfil = () => {
     const datos = {
-      razonSocial: 'Prueba a ver',
-      nombreEmpresa: 'prueba123',
-      telefono: '1231231',
-      celular: '3136139322',
-      indicativoCiudad: '1',
-      indicativoPais: '57',
-      tipoTelefonoValue: 'fijo',
-      campoTelValue: '1231231',
-      valueIndicativo: '1',
-      paises: [],
+      nombreEmpresa: nombreEmpresa,
+      dominio: web,
+      celular: numMovil,
+      telefono: numFijo,
+      indicativoCiudad: indicativoCiudad,
+      indicativoPais: indicativoPais
     }
 
-    dispatch(setPropertySite(datos))
+    dispatch(setProfileData(datos))
     console.log('pase pues por aqui', datos)
 
     toast.success('Wow so easy!')
@@ -297,7 +296,11 @@ const Seguridad = () => {
             </CardContent2>
 
             <CardContentButton theme={openCardContent2}>
-              <ButtonOk>Guardar Información</ButtonOk>
+              <ButtonOk onClick={() => {
+                savePerfil()
+              }}>
+                Guardar Información
+              </ButtonOk>
               <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>

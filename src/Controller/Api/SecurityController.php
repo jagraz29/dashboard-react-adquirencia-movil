@@ -34,11 +34,11 @@ class SecurityController extends BaseController
    */
   public function setProfileData(Request $request)
   {
-    $content = $request->getContent();
+    $content = json_decode($request->getContent());
 
     $propertyDto = new ProfileDto();
-    $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
-    $propertyDto->setDominio($content['dominio']);
+    $propertyDto->setNombreEmpresa($content->nombreEmpresa);
+    $propertyDto->setDominio($content->dominio);
 
     $errors = $this->validator->validate($propertyDto);
     if (count($errors) > 0) {
@@ -46,12 +46,12 @@ class SecurityController extends BaseController
     }
 
     $data = [
-      'companyName' => $content['nombreEmpresa'],
-      'domain' => $content['dominio'],
-      '_mobilePhone' => $content['celular'],
-      '_cellPhone' => $content['telefono'],
-      '_indicativeCountry' => $content['indicativoPais'],
-      '_indicativeCity' => $content['indicativoCiudad'],
+      'companyName' => $content->nombreEmpresa,
+      'domain' => $content->dominio,
+      '_mobilePhone' => $content->celular,
+      '_cellPhone' => $content->telefono,
+      '_indicativeCountry' => $content->indicativoPais,
+      '_indicativeCity' => $content->indicativoCiudad,
     ];
     $consult = $this->apify->consult('/client/update', \Requests::POST, $data);
 
