@@ -13,7 +13,6 @@ use Requests;
  */
 class CollectController extends BaseController
 {
-
   private const TYPE_LINK = 2;
 
   /**
@@ -22,7 +21,9 @@ class CollectController extends BaseController
   public function index($searchGeneral)
   {
     $filter = [
-      TextResponsesCommon::FILTER => isset($searchGeneral) ? ['searchGeneral' => $searchGeneral] : [],
+      TextResponsesCommon::FILTER => isset($searchGeneral)
+        ? ['searchGeneral' => $searchGeneral]
+        : [],
     ];
 
     $collectLinks = $this->apify->consult('collection/link', Requests::GET, $filter);
