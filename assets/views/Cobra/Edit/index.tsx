@@ -3,13 +3,13 @@ import * as BsIcons from 'react-icons/bs'
 import { BiLoaderCircle } from 'react-icons/bi'
 
 import Title from '../../../components/Title'
-import Breadcrumbs from '../../../components/Breadcrumbs/'
+import Breadcrumbs from '../../../components/Breadcrumbs'
 import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
-import { createSellLink } from '../../../redux/actions/'
+import { createSellLink, editSellLink } from '../../../redux/actions'
 
 import Dropzone from 'react-dropzone'
 
@@ -42,7 +42,7 @@ import {
   Spinner,
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 const breadcrumb = [
@@ -73,7 +73,7 @@ interface cobroInterface {
   [key: string]: any
 }
 
-const CobraCreate = (props: any) => {
+const CobraEdit = (props: any) => {
   const iconStyles = { color: '#d3d3d3' }
 
   const [cobro, setCobro] = useState<cobroInterface>({
@@ -94,7 +94,7 @@ const CobraCreate = (props: any) => {
 
   const history = useHistory()
   const dispatch = useDispatch()
-
+  const params: any = useParams()
   const [checkTax, setCheckTax] = useState(false)
 
   const [total, setTotal] = useState(0)
@@ -319,6 +319,12 @@ const CobraCreate = (props: any) => {
     }
   }
 
+  const getSellEdit = async () => {
+    const id = params.id
+    const res = await dispatch(editSellLink(Number(id)))
+    console.log('res', res)
+  }
+
   useEffect(() => {
     if (checkTax) {
       const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
@@ -341,6 +347,8 @@ const CobraCreate = (props: any) => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    getSellEdit()
   }, [])
 
   return (
@@ -695,4 +703,4 @@ const CobraCreate = (props: any) => {
   )
 }
 
-export default CobraCreate
+export default CobraEdit

@@ -29,4 +29,15 @@ final class ReactRouterCobraController extends AbstractController
     // en index pagina con datos generales de la app
     return $this->render('base.html.twig');
   }
+
+  /**
+   *
+   * @Route("/cobra/edit/{id}", name="cobra_edit")
+   *
+   */
+  public function routerCobraEdit(Request $request)
+  {
+    // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
 }

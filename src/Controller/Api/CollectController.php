@@ -64,7 +64,7 @@ class CollectController extends BaseController
     $collectTableDto->setDescription($content['descripcion']);
     $collectTableDto->setTitle($content['nombre']);
     $collectTableDto->setTypeSell(self::TYPE_LINK);
-    $collectTableDto->setTax($content['impuestos']);
+    $collectTableDto->setTax($content['iva']);
 
     $errors = $this->validator->validate($collectTableDto);
     if (count($errors) > 0) {
@@ -82,6 +82,7 @@ class CollectController extends BaseController
       'title' => $collectTableDto->getTitle(),
       'typeSell' => $collectTableDto->getTypeSell(),
       'tax' => $collectTableDto->getTax(),
+      'ico' => $content['ico'],
       'img' => count($content['imagenes']) > 0 ? $content['imagenes'] : null,
       'document' => $content['archivo'],
       'urlConfirmation' => $content['urlConfirmacion'],
@@ -122,6 +123,30 @@ class CollectController extends BaseController
     ];
 
     $collectLink = $this->apify->consult('collection/link', Requests::POST, $filter);
+
+    if (
+      isset($collectLink[TextResponsesCommon::SUCCESS]) &&
+      $collectLink[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+        ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+        : 'Collect detail';
+      return $this->jsonResponse(true, $collectLink[TextResponsesCommon::DATA], $message);
+    }
+
+    $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+      ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+      : 'Error apify consult';
+    return $this->jsonResponse(false, [], $message, 400);
+  }
+
+  /**
+   * @Route("/edit/{id}", name="api_collect_detail", methods={"GET"})
+   */
+  public function edit(int $id)
+  {
+    $url = "collection/link/edit/{$id}";
+    $collectLink = $this->apify->consult($url, Requests::GET);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
