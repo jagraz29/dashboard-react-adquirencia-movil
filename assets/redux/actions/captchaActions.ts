@@ -62,12 +62,12 @@ export const createSellLink = (data: any) => async (dispatch: any) => {
   }
 }
 
-export const editSellLink = (id:number) => async (dispatch: any) => {
+export const editSellLink = (id: number) => async (dispatch: any) => {
   try {
-    const {data} = await dataService.get(`http://localhost:8000/api/collect/edit/${id}`);
-    const resData = data.data;
-    console.log("esta es la data",resData);
-    return resData;
+    const { data } = await dataService.get(`http://localhost:8000/api/collect/edit/${id}`)
+    const resData = data.data
+    console.log('esta es la data', resData)
+    return resData
   } catch (error) {
     return false
   }

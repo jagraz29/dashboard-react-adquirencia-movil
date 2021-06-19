@@ -94,7 +94,7 @@ const CobraEdit = (props: any) => {
 
   const history = useHistory()
   const dispatch = useDispatch()
-  const params:any = useParams();
+  const params: any = useParams()
   const [checkTax, setCheckTax] = useState(false)
 
   const [total, setTotal] = useState(0)
@@ -320,15 +320,15 @@ const CobraEdit = (props: any) => {
   }
 
   const getSellEdit = async () => {
-    const id = params.id;
-    const res = await dispatch(editSellLink(Number(id)));
-    console.log("res",res);
+    const id = params.id
+    const res = await dispatch(editSellLink(Number(id)))
+    console.log('res', res)
   }
 
   useEffect(() => {
     if (checkTax) {
       const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
-      const tax = (taxPercent * cobro.valor)/100;
+      const tax = (taxPercent * cobro.valor) / 100
 
       setCobro((prevState) => ({
         ...prevState,
@@ -341,14 +341,14 @@ const CobraEdit = (props: any) => {
 
   useEffect(() => {
     const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
-    const tax = (taxPercent * cobro.valor)/100;
+    const tax = (taxPercent * cobro.valor) / 100
     setTotal(tax + Number(cobro.valor))
   }, [cobro.valor])
 
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    getSellEdit();
+    getSellEdit()
   }, [])
 
   return (

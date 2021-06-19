@@ -67,7 +67,7 @@ class Apify extends AbstractController
     $response = Requests::post(
       $this->url . 'login/mail',
       [
-        //'parent-client' => $this->alliedEntityId,
+        'parent-client' => $this->alliedEntityId,
       ],
       [],
       [

@@ -322,7 +322,7 @@ const CobraCreate = (props: any) => {
   useEffect(() => {
     if (checkTax) {
       const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
-      const tax = (taxPercent * cobro.valor)/100;
+      const tax = (taxPercent * cobro.valor) / 100
 
       setCobro((prevState) => ({
         ...prevState,
@@ -335,7 +335,7 @@ const CobraCreate = (props: any) => {
 
   useEffect(() => {
     const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
-    const tax = (taxPercent * cobro.valor)/100;
+    const tax = (taxPercent * cobro.valor) / 100
     setTotal(tax + Number(cobro.valor))
   }, [cobro.valor])
 
