@@ -2,7 +2,7 @@ import Home from '../views/Home'
 import { RouteConfig } from 'react-router-config'
 import { RoutesSell } from './routesSell'
 import { RoutesDashboard } from './routesDashboard'
-import { RouteCobraCreate, RoutesCobra } from './routesCobra'
+import { RouteCobraCreate, RouteCobraEdit, RoutesCobra } from './routesCobra'
 import { RoutesIntegraciones } from './routesIntegraciones'
 
 const routes: RouteConfig[] = [
@@ -10,6 +10,7 @@ const routes: RouteConfig[] = [
   RoutesCobra,
   RoutesIntegraciones,
   RouteCobraCreate,
+  RouteCobraEdit,
   {
     path: '/test/route',
     exact: false,
