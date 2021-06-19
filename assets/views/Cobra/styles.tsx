@@ -59,13 +59,14 @@ export const ButtonLinkText = styled.span`
 export const ContentTable = styled.div`
   position: relative;
   width: 79vw;
-  height: 23.2vw;
+  height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
   top: 14.1vw;
   left: 0vw;
+  overflow: scroll;
 `
 
 export const CardTableTitle = styled.span`

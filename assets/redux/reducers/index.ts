@@ -9,6 +9,7 @@ import getLogoReducer from './getLogoReducer'
 import setLogoReducer from './setLogoPostReducer'
 import profileReducer from './profileReducer'
 import sellReducer from './sellReducer'
+import getListCollectReducer from './getListCollectReducer'
 
 const rootReducer = combineReducers({
   captcha: captchaReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   setLogo: setLogoReducer,
   profile: profileReducer,
   sell: sellReducer,
+  getListCollect: getListCollectReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

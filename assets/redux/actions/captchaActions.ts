@@ -12,6 +12,7 @@ export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const SET_PASSWORD = 'SET_PASSWORD'
 export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
+export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 
 const dataService = new DataService()
 
@@ -113,4 +114,14 @@ export const createSellLink = (data: any) => async (dispatch: any) => {
   } catch (error) {
     return false
   }
+}
+
+export const getListCollect = () => async (dispatch: any) => {
+  try {
+    const res = await dataService.get('api/collect/')
+    dispatch({
+      type: GET_LIST_COLLECT,
+      payload: res.data.data,
+    })
+  } catch (error) {}
 }
