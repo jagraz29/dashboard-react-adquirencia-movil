@@ -6,7 +6,7 @@ import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import { getPropertySite, setPropertySite, getProfileData } from '../../redux/actions/'
+import { getPropertySite, setPropertySite } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import LoadingBar from '../../components/LoadingBar'
@@ -98,9 +98,7 @@ const Seguridad = () => {
     setWeb(webGuardado)
   }, [nombreGuardado, emailGuardado])
 
-  useEffect(() => {
-    dispatch(getProfileData())
-  }, [])
+  useEffect(() => {}, [])
 
   const changeNombreEmpresa = useCallback((event) => {
     setNombreEmpresa(event)

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
-import Modalcompartir from '../ModalCompartir'
-import ShowModalComp from '../modalComp'
 
 type Props = {
   data: {}[]
@@ -93,14 +91,6 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             </tr>
           </tfoot> */}
       </StyledTable>
-      <ShowModalComp
-        show={true}
-        onExit={() => setAlert(false)}
-        buttonCancel={true}
-        buttonConfirm={false}
-        title={'Compartir cobro'}
-        onLoadButton={true}
-      ></ShowModalComp>
     </div>
   )
 }
