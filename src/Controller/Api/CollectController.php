@@ -4,11 +4,8 @@ namespace App\Controller\Api;
 
 use App\Common\TextResponsesCommon;
 use App\Dto\CollectTableDto;
-use App\Service\Apify;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Requests;
 
 /**
@@ -16,37 +13,16 @@ use Requests;
  */
 class CollectController extends BaseController
 {
-    /**
-     * @var string
-     */
-    private $urlAppRest;
-    /**
-     * @var string
-     */
-    private $appRestEnv;
 
-    private const TYPE_LINK = 2;
-
-    public function __construct(
-        string $urlAppRest,
-        string $appRestEnv,
-        Apify $apify,
-        ValidatorInterface $validator,
-        TranslatorInterface $translator
-    ) {
-        parent::__construct($apify, $validator, $translator);
-        $this->urlAppRest = $urlAppRest;
-        $this->appRestEnv = $appRestEnv;
-    }
-
+  private const TYPE_LINK = 2;
 
   /**
-   * @Route("/", name="api_collect_index", methods={"GET"})
+   * @Route("/{searchGeneral}", name="api_collect_index", defaults={"searchGeneral" = null}, methods={"GET"})
    */
-  public function index()
+  public function index($searchGeneral)
   {
     $filter = [
-      TextResponsesCommon::FILTER => [],
+      TextResponsesCommon::FILTER => isset($searchGeneral) ? ['searchGeneral' => $searchGeneral] : [],
     ];
 
     $collectLinks = $this->apify->consult('collection/link', Requests::GET, $filter);
@@ -112,7 +88,10 @@ class CollectController extends BaseController
       'expirationDate' => $content['fechaVencimiento'],
     ];
 
-    $response = $collectTableDto->getId() != 0 ? $this->apify->consult('collection/link/update', Requests::POST, $data) : $this->apify->consult('collection/link/create', Requests::POST, $data);
+    $response =
+      $collectTableDto->getId() != 0
+        ? $this->apify->consult('collection/link/update', Requests::POST, $data)
+        : $this->apify->consult('collection/link/create', Requests::POST, $data);
 
     if (
       isset($response[TextResponsesCommon::SUCCESS]) &&
