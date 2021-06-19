@@ -4,11 +4,8 @@ namespace App\Controller\Api;
 
 use App\Common\TextResponsesCommon;
 use App\Dto\CollectTableDto;
-use App\Service\Apify;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Requests;
 
 /**
@@ -18,21 +15,15 @@ class CollectController extends BaseController
 {
   private const TYPE_LINK = 2;
 
-  public function __construct(
-    Apify $apify,
-    ValidatorInterface $validator,
-    TranslatorInterface $translator
-  ) {
-    parent::__construct($apify, $validator, $translator);
-  }
-
   /**
-   * @Route("/", name="api_collect_index", methods={"GET"})
+   * @Route("/{searchGeneral}", name="api_collect_index", defaults={"searchGeneral" = null}, methods={"GET"})
    */
-  public function index()
+  public function index($searchGeneral)
   {
     $filter = [
-      TextResponsesCommon::FILTER => [],
+      TextResponsesCommon::FILTER => isset($searchGeneral)
+        ? ['searchGeneral' => $searchGeneral]
+        : [],
     ];
 
     $collectLinks = $this->apify->consult('collection/link', Requests::GET, $filter);
@@ -73,7 +64,7 @@ class CollectController extends BaseController
     $collectTableDto->setDescription($content['descripcion']);
     $collectTableDto->setTitle($content['nombre']);
     $collectTableDto->setTypeSell(self::TYPE_LINK);
-    $collectTableDto->setTax($content['impuestos']);
+    $collectTableDto->setTax($content['iva']);
 
     $errors = $this->validator->validate($collectTableDto);
     if (count($errors) > 0) {
@@ -91,6 +82,7 @@ class CollectController extends BaseController
       'title' => $collectTableDto->getTitle(),
       'typeSell' => $collectTableDto->getTypeSell(),
       'tax' => $collectTableDto->getTax(),
+      'ico' => $content['ico'],
       'img' => count($content['imagenes']) > 0 ? $content['imagenes'] : null,
       'document' => $content['archivo'],
       'urlConfirmation' => $content['urlConfirmacion'],
@@ -131,6 +123,30 @@ class CollectController extends BaseController
     ];
 
     $collectLink = $this->apify->consult('collection/link', Requests::POST, $filter);
+
+    if (
+      isset($collectLink[TextResponsesCommon::SUCCESS]) &&
+      $collectLink[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+        ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+        : 'Collect detail';
+      return $this->jsonResponse(true, $collectLink[TextResponsesCommon::DATA], $message);
+    }
+
+    $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+      ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+      : 'Error apify consult';
+    return $this->jsonResponse(false, [], $message, 400);
+  }
+
+  /**
+   * @Route("/edit/{id}", name="api_collect_detail", methods={"GET"})
+   */
+  public function edit(int $id)
+  {
+    $url = "collection/link/edit/{$id}";
+    $collectLink = $this->apify->consult($url, Requests::GET);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
