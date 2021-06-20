@@ -112,7 +112,7 @@ class CollectController extends BaseController
   }
 
   /**
-   * @Route("/detail/{id}", name="api_collect_detail", methods={"GET"})
+   * @Route("/show/{id}", name="api_collect_detail", methods={"GET"})
    */
   public function show(int $id)
   {
@@ -122,7 +122,7 @@ class CollectController extends BaseController
       ],
     ];
 
-    $collectLink = $this->apify->consult('collection/link', Requests::POST, $filter);
+    $collectLink = $this->apify->consult('collection/show', Requests::GET, $filter);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
