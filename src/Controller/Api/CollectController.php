@@ -57,7 +57,7 @@ class CollectController extends BaseController
     $collectTableDto->setQuantity($content['cantidad']);
     $collectTableDto->setReference($content['factura']);
     $collectTableDto->setOnePayment($content['cantidad'] > 1 ? 0 : true);
-    $collectTableDto->setAmount($content['total']);
+    $collectTableDto->setAmount($content['valor']);
     $collectTableDto->setCurrency($content['tipoMoneda']);
     $collectTableDto->setId(isset($content['id']) ? $content['id'] : 0);
     $collectTableDto->setBase($content['valor']);
@@ -82,12 +82,13 @@ class CollectController extends BaseController
       'title' => $collectTableDto->getTitle(),
       'typeSell' => $collectTableDto->getTypeSell(),
       'tax' => $collectTableDto->getTax(),
-      'ico' => $content['ico'],
+      'icoTax' => $content['ico'],
       'img' => count($content['imagenes']) > 0 ? $content['imagenes'] : null,
       'document' => $content['archivo'],
       'urlConfirmation' => $content['urlConfirmacion'],
       'urlResponse' => $content['urlRespuesta'],
       'expirationDate' => $content['fechaVencimiento'],
+      'noCalculate' => true,
     ];
 
     $response =
