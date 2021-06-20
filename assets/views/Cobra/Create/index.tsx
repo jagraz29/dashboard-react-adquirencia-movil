@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
-import { BiLoaderCircle } from 'react-icons/bi'
+import NumberFormat from 'react-number-format'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
@@ -14,7 +14,6 @@ import { createSellLink } from '../../../redux/actions/'
 import Dropzone from 'react-dropzone'
 
 import {
-  Input,
   Content,
   ContentCard,
   Card,
@@ -162,10 +161,22 @@ const CobraCreate = (props: any) => {
     const value = target.value
 
     if (name == 'consumo' || name == 'agregado') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
+
       await setImpuestos((prevState: any) => ({
         ...prevState,
         [name]: value,
       }))
+    }
+
+    if (name == 'valor' || name == 'cantidad') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
     }
 
     await setCobro((prevState) => ({
@@ -359,11 +370,11 @@ const CobraCreate = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Que cobra?'} />
+                  <InputLabel required={true} label={'¿Qué cobra?'} />
                   <InputCustumer
                     name={'nombre'}
                     type={'text'}
-                    placeholder={'Titulo'}
+                    placeholder={'Ej: Tennis blancos, Servicios profesionales'}
                     width={'40vw'}
                     value={cobro.nombre}
                     onChange={handleChangeInput}
@@ -374,12 +385,12 @@ const CobraCreate = (props: any) => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Descripción'} />
+                  <InputLabel required={true} label={'Descripción'} />
                   <TextareaCustomer
                     name={'descripcion'}
                     type={'text'}
                     placeholder={
-                      'Describe el producto o servicio, sus características y disponibilidad'
+                      'Describa el producto o servicio, sus características y disponibilidad'
                     }
                     width={'22.3vw'}
                     value={cobro.descripcion}
@@ -402,6 +413,9 @@ const CobraCreate = (props: any) => {
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
+                  <span style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
+                    (Número de factura o referecia único por cobro)
+                  </span>
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
@@ -409,7 +423,7 @@ const CobraCreate = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Cuanto Vale?'} />
+                  <InputLabel required={true} label={'¿Cuánto vale?'} />
                   <InputGroup>
                     <InputSelect
                       name={'tipoMoneda'}
@@ -424,14 +438,20 @@ const CobraCreate = (props: any) => {
                       returnComplete={true}
                     />
 
-                    <InputCustumer
-                      name={'valor'}
-                      type={'number'}
-                      placeholder={'10'}
-                      width={'12vw'}
-                      value={cobro.valor}
-                      onChange={handleChangeInput}
-                      returnComplete={true}
+                    <NumberFormat
+                      value={`$${cobro.valor}`}
+                      thousandSeparator={true}
+                      className="numberFormat"
+                      prefix={'$'}
+                      onValueChange={(values) => {
+                        const data = {
+                          target: {
+                            name: 'valor',
+                            value: values.floatValue,
+                          },
+                        }
+                        handleChangeInput(data)
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -495,7 +515,7 @@ const CobraCreate = (props: any) => {
               <CardTitle>Personalizar Cobro</CardTitle>
               <CardSubTitle>
                 Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
-                caraterísticas del link de cobro.
+                caraterísticas, inventario, fecha de expiración del link de cobro.
               </CardSubTitle>
               <CardIcon>
                 {openCard2 == true ? (
@@ -590,7 +610,7 @@ const CobraCreate = (props: any) => {
               </ContentInput>
 
               <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
-                <ContentInputCard>
+                <ContentInputCard style={{ marginBottom: '2vw' }}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <InputLabel label={'Cantidad'} />
                     <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
@@ -616,7 +636,7 @@ const CobraCreate = (props: any) => {
                     name={'fechaVencimiento'}
                     type={'date'}
                     placeholder={'0'}
-                    width={'40vw'}
+                    width={'12vw'}
                     value={cobro.fechaVencimiento}
                     onChange={handleChangeInput}
                     returnComplete={true}
@@ -643,7 +663,7 @@ const CobraCreate = (props: any) => {
             <CardContent3 theme={openCardContent3}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de confirmación'} />
+                  <InputLabel label={'URL de confirmación'} />
                   <InputCustumer
                     name={'urlConfirmacion'}
                     type={'text'}
@@ -654,13 +674,13 @@ const CobraCreate = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde se envia la confirmación de la transacción)
+                    (URL donde se envia la confirmación de la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de respuesta'} />
+                  <InputLabel label={'URL de respuesta'} />
                   <InputCustumer
                     name={'urlRespuesta'}
                     type={'text'}
@@ -671,7 +691,7 @@ const CobraCreate = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde el cliente es redireccionado al finalizar la transacción)
+                    (URL donde el cliente es redireccionado al finalizar la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>

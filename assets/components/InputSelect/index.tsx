@@ -5,6 +5,7 @@ type Props = {
   name: string
   placeholder: string
   width: string
+  value?: any
   onClick: any
   onChange: any
   dataSelect: {
@@ -19,6 +20,7 @@ const InputSelect: React.FC<Props> = ({
   placeholder,
   width,
   dataSelect,
+  value,
   onClick,
   onChange,
   returnComplete = false,
@@ -37,6 +39,7 @@ const InputSelect: React.FC<Props> = ({
     <Select
       style={selectWidth}
       onClick={onClick}
+      value={value}
       onChange={(e) => {
         handlerOnChange(e)
       }}
