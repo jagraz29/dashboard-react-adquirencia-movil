@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
-import { BiLoaderCircle } from 'react-icons/bi'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs'
@@ -9,12 +8,12 @@ import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
+import NumberFormat from 'react-number-format'
 import { createSellLink, editSellLink } from '../../../redux/actions'
 
 import Dropzone from 'react-dropzone'
 
 import {
-  Input,
   Content,
   ContentCard,
   Card,
@@ -162,10 +161,22 @@ const CobraEdit = (props: any) => {
     const value = target.value
 
     if (name == 'consumo' || name == 'agregado') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
+
       await setImpuestos((prevState: any) => ({
         ...prevState,
         [name]: value,
       }))
+    }
+
+    if (name == 'valor' || name == 'cantidad') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
     }
 
     await setCobro((prevState) => ({
@@ -211,6 +222,7 @@ const CobraEdit = (props: any) => {
 
     if (cobro.fechaVencimiento != '') {
       const date = new Date(cobro.fechaVencimiento).getTime()
+      console.log(date, new Date().getTime())
       if (date <= new Date().getTime()) {
         return 'La Fecha de vencimiento debe ser mayor a la fecha actual.'
       }
@@ -248,6 +260,7 @@ const CobraEdit = (props: any) => {
     }
 
     const data = {
+      id: params.id,
       nombre: cobro.nombre,
       descripcion: cobro.descripcion,
       factura: cobro.factura,
@@ -321,8 +334,46 @@ const CobraEdit = (props: any) => {
 
   const getSellEdit = async () => {
     const id = params.id
-    const res = await dispatch(editSellLink(Number(id)))
-    console.log('res', res)
+    const res: any = await dispatch(editSellLink(Number(id)))
+
+    if (typeof res != 'boolean') {
+      if (res.tax || res.taxIco) {
+        setCheckTax(true)
+        const calcTax = (res.tax * 100) / res.amount
+        const calcTaxIco = (res.taxIco * 100) / res.amount
+        setImpuestos({ consumo: String(calcTaxIco), agregado: String(calcTax) })
+      }
+      let d = new Date()
+
+      if (res.expirationDate) {
+        d = new Date(res.expirationDate)
+      }
+
+      setCobro({
+        nombre: res.title,
+        descripcion: res.description,
+        factura: res.reference,
+        tipoMoneda: res.currency,
+        valor: res.amount,
+        impuestos: res.tax,
+        imagenes: [],
+        archivo: res.files,
+        cantidad: res.quantity,
+        fechaVencimiento:
+          d.getFullYear() +
+          '-' +
+          ('0' + (d.getMonth() + 1)).slice(-2) +
+          '-' +
+          ('0' + d.getDate()).slice(-2),
+        urlConfirmacion: res.urlConfirmacion,
+        urlRespuesta: res.urlRespuesta,
+        total: res.amount,
+      })
+    } else {
+      toast.error(
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+      )
+    }
   }
 
   useEffect(() => {
@@ -367,11 +418,11 @@ const CobraEdit = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Que cobra?'} />
+                  <InputLabel required={true} label={'¿Qué cobra?'} />
                   <InputCustumer
                     name={'nombre'}
                     type={'text'}
-                    placeholder={'Titulo'}
+                    placeholder={'Ej: Tennis blancos, Servicios profesionales'}
                     width={'40vw'}
                     value={cobro.nombre}
                     onChange={handleChangeInput}
@@ -382,12 +433,12 @@ const CobraEdit = (props: any) => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Descripción'} />
+                  <InputLabel required={true} label={'Descripción'} />
                   <TextareaCustomer
                     name={'descripcion'}
                     type={'text'}
                     placeholder={
-                      'Describe el producto o servicio, sus características y disponibilidad'
+                      'Describa el producto o servicio, sus características y disponibilidad'
                     }
                     width={'22.3vw'}
                     value={cobro.descripcion}
@@ -410,6 +461,9 @@ const CobraEdit = (props: any) => {
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
+                  <span style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
+                    (Número de factura o referecia único por cobro)
+                  </span>
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
@@ -417,12 +471,13 @@ const CobraEdit = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Cuanto Vale?'} />
+                  <InputLabel required={true} label={'¿Cuánto vale?'} />
                   <InputGroup>
                     <InputSelect
                       name={'tipoMoneda'}
                       placeholder={'Seleccione Moneda'}
                       width={'12vw'}
+                      value={cobro.tipoMoneda}
                       dataSelect={[
                         { value: 'COP', label: 'COP' },
                         { value: 'USD', label: 'USD' },
@@ -431,15 +486,20 @@ const CobraEdit = (props: any) => {
                       onClick={handleChangeInput}
                       returnComplete={true}
                     />
-
-                    <InputCustumer
-                      name={'valor'}
-                      type={'number'}
-                      placeholder={'10'}
-                      width={'12vw'}
-                      value={cobro.valor}
-                      onChange={handleChangeInput}
-                      returnComplete={true}
+                    <NumberFormat
+                      value={`$${cobro.valor}`}
+                      thousandSeparator={true}
+                      className="numberFormat"
+                      prefix={'$'}
+                      onValueChange={(values) => {
+                        const data = {
+                          target: {
+                            name: 'valor',
+                            value: values.floatValue,
+                          },
+                        }
+                        handleChangeInput(data)
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -503,7 +563,7 @@ const CobraEdit = (props: any) => {
               <CardTitle>Personalizar Cobro</CardTitle>
               <CardSubTitle>
                 Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
-                caraterísticas del link de cobro.
+                caraterísticas, inventario, fecha de expiración del link de cobro.
               </CardSubTitle>
               <CardIcon>
                 {openCard2 == true ? (
@@ -598,7 +658,7 @@ const CobraEdit = (props: any) => {
               </ContentInput>
 
               <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
-                <ContentInputCard>
+                <ContentInputCard style={{ marginBottom: '2vw' }}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <InputLabel label={'Cantidad'} />
                     <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
@@ -624,7 +684,7 @@ const CobraEdit = (props: any) => {
                     name={'fechaVencimiento'}
                     type={'date'}
                     placeholder={'0'}
-                    width={'40vw'}
+                    width={'12vw'}
                     value={cobro.fechaVencimiento}
                     onChange={handleChangeInput}
                     returnComplete={true}
@@ -651,7 +711,7 @@ const CobraEdit = (props: any) => {
             <CardContent3 theme={openCardContent3}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de confirmación'} />
+                  <InputLabel label={'URL de confirmación'} />
                   <InputCustumer
                     name={'urlConfirmacion'}
                     type={'text'}
@@ -662,13 +722,13 @@ const CobraEdit = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde se envia la confirmación de la transacción)
+                    (URL donde se envia la confirmación de la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de respuesta'} />
+                  <InputLabel label={'URL de respuesta'} />
                   <InputCustumer
                     name={'urlRespuesta'}
                     type={'text'}
@@ -679,7 +739,7 @@ const CobraEdit = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde el cliente es redireccionado al finalizar la transacción)
+                    (URL donde el cliente es redireccionado al finalizar la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>
