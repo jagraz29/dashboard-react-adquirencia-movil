@@ -26,7 +26,7 @@ class CollectController extends BaseController
         : [],
     ];
 
-    $collectLinks = $this->apify->consult('collection/link', Requests::GET, $filter);
+    $collectLinks = $this->apify->consult('collection/link', Requests::POST, $filter);
 
     if (
       isset($collectLinks[TextResponsesCommon::SUCCESS]) &&
@@ -123,7 +123,7 @@ class CollectController extends BaseController
       ],
     ];
 
-    $collectLink = $this->apify->consult('collection/show', Requests::GET, $filter);
+    $collectLink = $this->apify->consult('collection/show', Requests::POST, $filter);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
