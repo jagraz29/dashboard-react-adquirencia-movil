@@ -130,8 +130,7 @@ const CobraCreate = (props: any) => {
     return new Promise(function (resolve, reject) {
       reader.onload = function (event: any) {
         if (pdf) {
-          const str = event.target.result.split('base64,')
-          file.base64 = str[1]
+          file.base64 = event.target.result
         } else {
           file.base64 = event.target.result
         }
@@ -283,6 +282,7 @@ const CobraCreate = (props: any) => {
     const res = await dispatch(createSellLink(data))
     if (!!res == true) {
       toast.success('Se ha guardado correctamente el link de cobro.')
+      redirectRoute('/cobra')
     } else {
       toast.error(
         'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'

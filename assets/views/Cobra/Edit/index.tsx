@@ -285,6 +285,7 @@ const CobraEdit = (props: any) => {
     const res = await dispatch(createSellLink(data))
     if (!!res == true) {
       toast.success('Se ha guardado correctamente el link de cobro.')
+      redirectRoute('/cobra')
     } else {
       toast.error(
         'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
