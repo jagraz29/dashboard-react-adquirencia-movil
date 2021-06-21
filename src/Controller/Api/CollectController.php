@@ -113,7 +113,7 @@ class CollectController extends BaseController
   }
 
   /**
-   * @Route("/show/{id}", name="api_collect_detail", methods={"GET"})
+   * @Route("/show/{id}", name="api_collect_show", methods={"GET"})
    */
   public function show(int $id)
   {
