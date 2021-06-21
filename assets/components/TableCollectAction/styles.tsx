@@ -6,12 +6,14 @@ export const DropDownMenu = styled.div`
   flex-direction: column;
   background-color: #fff;
   border-radius: 4px;
-
+  height: 6vw;
   padding: 5px;
   position: relative;
   right: 9vw;
   width: 10vw;
   top: 2vw;
+  justify-content: center;
+  align-items: center;
 `
 
 export const DropDownContent = styled.button`
@@ -24,17 +26,20 @@ export const DropDownContent = styled.button`
 `
 
 export const DropdownItem = styled.div`
-  justify-content: flex-start;
-  height: 1.3vw;
+  height: 2.3vw;
+  top: 1vw;
   padding-right: 10px;
   padding-left: 10px;
+  justify-content: center;
+  display: flex;
   align-items: center;
+  color: blue;
 
   &:hover {
-    background-color: #00ffff;
+    background-color: #e6e6e6;
   }
   &:active {
     font-weight: 700;
-    color: #00ffff;
+    color: #e6e6e6;
   }
 `
