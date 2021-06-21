@@ -4,13 +4,10 @@ export const Content = styled.div`
   position: absolute;
   margin: 7vw 60.1vw 40.2vw 19.4vw;
 `
-export const ContentTitle = styled.span`
+export const ContentTitle = styled.h2`
   top: 1.6vw;
   position: absolute;
   width: 16vw;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
   font-size: 1.3vw;
   line-height: 2vw;
   color: #23272b;
@@ -59,19 +56,17 @@ export const ButtonLinkText = styled.span`
 export const ContentTable = styled.div`
   position: relative;
   width: 79vw;
-  height: 23.2vw;
+  height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
   top: 14.1vw;
   left: 0vw;
+  overflow: scroll;
 `
 
-export const CardTableTitle = styled.span`
-  font-family: Kanit;
-  font-style: normal;
-  font-weight: normal;
+export const CardTableTitle = styled.h2`
   font-size: 1.7vw;
   line-height: 2vw;
 

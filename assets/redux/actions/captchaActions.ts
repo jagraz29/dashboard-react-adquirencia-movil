@@ -3,7 +3,6 @@ export const SET_STATE_GLOBAL = 'SET_STATE_GLOBAL'
 export const GET_STATE_USER = 'GET_STATE_USER'
 export const GET_PROPERTY_SITE = 'GET_PROPERTY_SITE'
 export const SET_PROPERTY_SITE = 'SET_PROPERTY_SITE'
-export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 export const GET_GATE_WAY = 'GET_GATE_WAY'
 export const SET_GATE_WAY = 'SET_GATE_WAY'
 export const GET_KEYS = 'GET_KEYS'
@@ -12,6 +11,8 @@ export const SET_LOGO = 'SET_LOGO'
 export const GET_PROFILE_DATA = 'GET_PROFILE_DATA'
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const SET_PASSWORD = 'SET_PASSWORD'
+export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
+export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 
 const dataService = new DataService()
 
@@ -155,4 +156,14 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
   } catch (error) {
     return false
   }
+}
+
+export const getListCollect = () => async (dispatch: any) => {
+  try {
+    const res = await dataService.get('api/collect/')
+    dispatch({
+      type: GET_LIST_COLLECT,
+      payload: res.data.data,
+    })
+  } catch (error) {}
 }
