@@ -708,7 +708,7 @@ const CobraCreate = (props: any) => {
               disabled={loadButton}
               onClick={handleSubmit}
             >
-              {loadButton ? <Spinner /> : 'Guardar Información'}
+              {loadButton ? <Spinner /> : 'Generar link de cobro'}
             </ButtonOk>
             <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
               Cancelar

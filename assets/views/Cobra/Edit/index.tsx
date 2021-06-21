@@ -757,7 +757,7 @@ const CobraEdit = (props: any) => {
               disabled={loadButton}
               onClick={handleSubmit}
             >
-              {loadButton ? <Spinner /> : 'Guardar Información'}
+              {loadButton ? <Spinner /> : 'Editar link de cobro'}
             </ButtonOk>
             <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
               Cancelar
