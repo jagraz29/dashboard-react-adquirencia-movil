@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { DropDownMenu, DropDownContent, DropdownItem } from './styles'
+import * as RiIcons from 'react-icons/ri'
 
 type Props = {
   actions: {}[]
@@ -23,6 +24,7 @@ const TableCollectAction: React.FC<Props> = ({ actions }) => {
         handleDropdownClick()
       }}
     >
+      <RiIcons.RiArrowDownSFill />
       <DropDownMenu theme={showItem}>
         {actions.map((item: any, key: any) => (
           <DropdownItem key={key} onClick={() => item.funcion(item.value)}>

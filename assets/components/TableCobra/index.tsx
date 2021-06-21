@@ -78,7 +78,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                       validarEstado: true,
                     },
                   ]}
-                />
+                ></TableCollectAction>
               </td>
             </tr>
           ))}
