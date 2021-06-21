@@ -202,14 +202,24 @@ const Seguridad = () => {
           if (newPassword != confirmPassword) {
             toast.error('Las Contraseñas no Coinciden')
           } else {
-            const datos = {
-              password: password,
-              newPassword: newPassword,
-              newPasswordConfirmation: confirmPassword,
-            }
+            if (
+              newPassword.match(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\-!#$%&'()*+,./<=>?@[\]_`{|}~])(?=.{8,})/i
+              )
+            ) {
+              const datos = {
+                password: password,
+                newPassword: newPassword,
+                newPasswordConfirmation: confirmPassword,
+              }
 
-            dispatch(setNewClientPassword(datos))
-            setLoadingButton2(true)
+              dispatch(setNewClientPassword(datos))
+              setLoadingButton2(true)
+            } else {
+              toast.error(
+                'Nueva Contraseña Inválida, debe contener mínimo: 8 caracteres, 1 letra mayúscula, 1 número, 1 caracter especial'
+              )
+            }
           }
         }
       }

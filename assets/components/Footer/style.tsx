@@ -30,13 +30,11 @@ export const WrapperLogoEpeyco = styled.img`
   margin: 1vw;
 `
 
-export const WrapperText = styled.span`
+export const WrapperText = styled.h2`
   width: 31.7vw;
   left: 7.4vw;
   top: 0.8vw;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
+
   font-size: 0.9vw;
   line-height: 1vw;
   position: absolute;

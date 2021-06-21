@@ -292,3 +292,7 @@ export const ClosePhoto = styled.div`
   color: #ffffff;
   z-index: 2;
 `
+
+export const Alert = styled.div`
+  color: red;
+`

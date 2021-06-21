@@ -21,8 +21,8 @@ export const Button = styled.button`
 
 export const LoadingSpinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 1vw;
-  height: 1vw;
+  width: 0.8vw;
+  height: 0.8vw;
   border-radius: 50%;
   border-left-color: white;
   margin: auto;

@@ -41,7 +41,7 @@ const StyledTable = styled.table`
       background-color: #f9f9f9;
     }
     :hover {
-      background-color: lightpink;
+      background-color: #e0e0f8;
     }
   }
   thead > tr {
