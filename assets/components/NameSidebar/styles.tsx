@@ -25,4 +25,5 @@ export const NameText = styled.span`
   font-size: 1.5vw;
   line-height: 1.4vw;
   color: #ffffff;
+  overflow: hidden;
 `

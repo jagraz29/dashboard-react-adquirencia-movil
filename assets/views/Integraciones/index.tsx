@@ -20,8 +20,7 @@ import {
   getLogoSite,
   setLogoSite,
 } from '../../redux/actions/'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast, cssTransition } from 'react-toastify'
 import { datos } from './data'
 import {
   Content,
@@ -51,8 +50,10 @@ import {
   LoadImage,
   ImageShow,
   ClosePhoto,
+  Alert,
 } from './styles'
 import Dropzone from 'react-dropzone'
+import ToastAlert from '../../components/ToastAlert'
 
 const breadcrumb = [
   {
@@ -61,7 +62,7 @@ const breadcrumb = [
     active: true,
   },
   {
-    title: 'Integracion',
+    title: 'Integración',
     path: '/integracion',
     active: false,
   },
@@ -74,7 +75,7 @@ const dataSelect = [
   },
   {
     value: 'Telefono',
-    label: 'Telefono',
+    label: 'Teléfono',
   },
 ]
 
@@ -85,7 +86,7 @@ const dataIdioma = [
   },
   {
     value: 'EN',
-    label: 'Ingles',
+    label: 'Inglés',
   },
 ]
 //BsFillCaretUpFill
@@ -100,6 +101,19 @@ interface arrayFileInterface {
   type: string
   webkitRelativePath: any
 }
+
+const typeMessage = {
+  success: 1,
+  info: 2,
+  warning: 3,
+  error: 4,
+}
+
+const baja = cssTransition({
+  collapse: false,
+  enter: 'baja',
+  exit: 'sube',
+})
 
 const Integraciones = () => {
   let iconStyles = { color: '#d3d3d3' }
@@ -161,11 +175,12 @@ const Integraciones = () => {
   const [indicaTel, setIndicaTel] = useState(
     telefono != '0' ? indicativo : celular != '0' ? indicativo : ''
   )
+  const [type, settype] = useState('info')
 
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
 
   useEffect(() => {
-    setTypeTelCel(telefono != '0' ? 'Telefono' : celular != '0' ? 'Celular' : '')
+    setTypeTelCel(telefono != '0' ? 'Teléfono' : celular != '0' ? 'Celular' : '')
     setRazonSocial(nombre_empresa)
     setNombreMostrar(nombre_mostrar)
     settelCel(telefono != '0' ? telefono : celular != '0' ? celular : '')
@@ -199,6 +214,7 @@ const Integraciones = () => {
       (setProperty.clienData.status = true)
     ) {
       toast.success(setProperty.clienData.message)
+
       setLoadingButton1(false)
     } else {
       setLoadingButton1(false)
@@ -425,10 +441,35 @@ const Integraciones = () => {
       }
     }
 
-    console.log(datos)
-    dispatch(setPropertySite(datos))
-    setLoadingButton1(true)
+    if (razonSocial == null || nombreMostrar == '') {
+      toast.error('Campo obligatorio')
+    } else {
+      if (razonSocial == null || razonSocial == '') {
+        toast.error('Campo obligatorio')
+      } else {
+        if (telCel == null || telCel == '') {
+          toast.error('Campo obligatorio')
+        } else {
+          dispatch(setPropertySite(datos))
+          setLoadingButton1(true)
+          /*toast(<ToastAlert 
+            closeToast={() =>{}}
+            texto={"prueba"}
+            type={typeMessage['info']}
+            noAutoClose={false}
+            closeIt={() => handleChangeToast()}
+          />,{
+            className: "black-background",
+            draggable: true,
+            position: toast.POSITION.TOP_CENTER,
+            transition: baja
+          })*/
+        }
+      }
+    }
   }
+
+  const handleChangeToast = () => {}
 
   const changeUrlRespuesta = useCallback((event) => {
     setUrlResp(event)
@@ -464,12 +505,13 @@ const Integraciones = () => {
 
       <Content>
         <ToastContainer />
+
         <ContentCard>
           <Card>
             <CardHeader>
               <CardTitle>Propiedades del sitio</CardTitle>
               <CardSubTitle>
-                Utiliza esta propiedad para configurar el checkout con tu marca y informacion del
+                Utilice esta propiedad para configurar el checkout con su marca e información del
                 contacto.
               </CardSubTitle>
               <CardIcon onClick={() => openClose()}>
@@ -526,7 +568,7 @@ const Integraciones = () => {
                     <InputGroup>
                       <InputSelect
                         name={'type_telefono'}
-                        placeholder={telefono != '0' ? 'Telefono' : celular != '0' ? 'Celular' : ''}
+                        placeholder={telefono != '0' ? 'Teléfono' : celular != '0' ? 'Celular' : ''}
                         width={'6vw'}
                         dataSelect={dataSelect}
                         onClick={() => {}}
@@ -564,7 +606,7 @@ const Integraciones = () => {
                       <InputCustumer
                         name={'telefono'}
                         type={'number'}
-                        placeholder={'Telefono'}
+                        placeholder={'Teléfono'}
                         width={'9vw'}
                         value={telCel}
                         onChange={(e: any) => {
@@ -612,7 +654,7 @@ const Integraciones = () => {
             <CardHeader>
               <CardTitle>Opciones pasarela</CardTitle>
               <CardSubTitle>
-                Configura y/o predetermina parametros para personalizar la experiencia de pago.
+                Configure y/o predetermine parámetros para personalizar la experiencia de pago.
               </CardSubTitle>
               <CardIcon onClick={() => openClose2()}>
                 {openCard2 == false ? (
@@ -716,7 +758,7 @@ const Integraciones = () => {
             <CardHeader>
               <CardTitle>Personalización página de pagos</CardTitle>
               <CardSubTitle>
-                Utilice nuestro administrador para personalizar y adaptar la pagina de pagos al
+                Utilice nuestro administrador para personalizar y adaptar la página de pagos al
                 diseño de su sitio web.
               </CardSubTitle>
               <CardIcon onClick={() => openClose3()}>
@@ -800,9 +842,9 @@ const Integraciones = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>llaves secretas</CardTitle>
+              <CardTitle>Llaves secretas</CardTitle>
               <CardSubTitle>
-                Utiliza esta llaves para la integración personalizada desde su pagina web.
+                Utilice estas llaves para la integración personalizada desde su página web.
               </CardSubTitle>
               <CardIcon onClick={() => openClose4()}>
                 {openCard4 == false ? (
@@ -821,7 +863,7 @@ const Integraciones = () => {
                   <InputLabelTitle label={'Llaves secretas'} />
                   <InputLabel
                     label={
-                      'Datos de configuración para la integracion personalizada, copie estos datos y coloquelos en su formulario de envio POST.'
+                      'Datos de configuración para la integración personalizada, copie estos datos y colóquelos en su formulario de envio POST.'
                     }
                   />
                   <ContentKeysItem>
@@ -849,7 +891,7 @@ const Integraciones = () => {
                   />
                   <InputLabel
                     label={
-                      'Datos de configuración para la integracion personalizada con nuestros Api Rest, Onpage Checkout, Satandart Checkout.'
+                      'Datos de configuración para la integración personalizada con nuestros Api Rest, Onpage Checkout, Standard Checkout.'
                     }
                   />
                   <ContentKeysItem>

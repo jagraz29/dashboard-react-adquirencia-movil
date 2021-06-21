@@ -76,6 +76,7 @@ export const CardContent4 = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  background: red;
 `
 
 export const CardTitle = styled.h2`
@@ -291,4 +292,8 @@ export const ClosePhoto = styled.div`
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
   z-index: 2;
+`
+
+export const Alert = styled.div`
+  color: red;
 `
