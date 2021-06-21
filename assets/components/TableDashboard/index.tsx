@@ -41,7 +41,7 @@ const StyledTable = styled.table`
       background-color: #f9f9f9;
     }
     :hover {
-      background-color: lightpink;
+      background-color: #e0e0f8;
     }
   }
   thead > tr {
@@ -80,11 +80,13 @@ type Props = {
     moneda: string
     estado: string
   }[]
+
+  titleData: {}[]
 }
 
-const TableDashboard: React.FC<Props> = ({ data }) => {
-  const titles = Object.keys(data[0])
-
+const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
+  const titles = Object.keys(titleData)
+  const titless = Object.keys(data[0])
   return (
     <div>
       <StyledTable>
@@ -95,9 +97,9 @@ const TableDashboard: React.FC<Props> = ({ data }) => {
         </colgroup>
         <thead>
           <tr>
-            {titles.map((title: string, index: number) => (
+            {titleData.map((item: any, index: number) => (
               <th key={index}>
-                <header>{title}</header>
+                <header>{item}</header>
               </th>
             ))}
           </tr>
@@ -105,7 +107,7 @@ const TableDashboard: React.FC<Props> = ({ data }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {titles.map((title: any, index: number) => (
+              {titless.map((title: any, index: number) => (
                 <td key={index}>
                   <body>{item[title]}</body>
                 </td>

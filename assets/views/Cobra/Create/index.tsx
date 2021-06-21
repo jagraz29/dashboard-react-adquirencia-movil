@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
+import NumberFormat from 'react-number-format'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
@@ -124,11 +125,15 @@ const CobraCreate = (props: any) => {
     }
   }
 
-  const fileToDataURL = (file: any) => {
+  const fileToDataURL = (file: any, pdf = false) => {
     const reader = new FileReader()
     return new Promise(function (resolve, reject) {
       reader.onload = function (event: any) {
-        file.base64 = event.target.result
+        if (pdf) {
+          file.base64 = event.target.result
+        } else {
+          file.base64 = event.target.result
+        }
         resolve(file)
       }
       reader.readAsDataURL(file)
@@ -139,7 +144,7 @@ const CobraCreate = (props: any) => {
     if (rejected.length > 0) {
       toast.error('Error al subir el archivo pdf.')
     } else {
-      accepted = await Promise.all(accepted.map(fileToDataURL))
+      accepted = await Promise.all(accepted.map((acc: any) => fileToDataURL(acc, true)))
       setLoadFiles((prev) => prev.concat(accepted))
     }
   }
@@ -160,10 +165,22 @@ const CobraCreate = (props: any) => {
     const value = target.value
 
     if (name == 'consumo' || name == 'agregado') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
+
       await setImpuestos((prevState: any) => ({
         ...prevState,
         [name]: value,
       }))
+    }
+
+    if (name == 'valor' || name == 'cantidad') {
+      if (value < 0) {
+        toast.error('Debe ingresar un valor mayor a 0')
+        return 0
+      }
     }
 
     await setCobro((prevState) => ({
@@ -251,7 +268,8 @@ const CobraCreate = (props: any) => {
       factura: cobro.factura,
       tipoMoneda: cobro.tipoMoneda,
       valor: cobro.valor,
-      impuestos: cobro.impuestos,
+      iva: impuestos.agregado,
+      ico: impuestos.consumo,
       cantidad: cobro.cantidad > 0 ? cobro.cantidad : 1,
       fechaVencimiento: cobro.fechaVencimiento,
       urlConfirmacion: cobro.urlConfirmacion,
@@ -264,6 +282,7 @@ const CobraCreate = (props: any) => {
     const res = await dispatch(createSellLink(data))
     if (!!res == true) {
       toast.success('Se ha guardado correctamente el link de cobro.')
+      redirectRoute('/cobra')
     } else {
       toast.error(
         'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
@@ -318,7 +337,9 @@ const CobraCreate = (props: any) => {
 
   useEffect(() => {
     if (checkTax) {
-      const tax = Number(impuestos.consumo) + Number(impuestos.agregado)
+      const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
+      const tax = (taxPercent * cobro.valor) / 100
+
       setCobro((prevState) => ({
         ...prevState,
         impuestos: tax,
@@ -329,7 +350,9 @@ const CobraCreate = (props: any) => {
   }, [impuestos])
 
   useEffect(() => {
-    setTotal(Number(impuestos.consumo) + Number(impuestos.agregado) + Number(cobro.valor))
+    const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
+    const tax = (taxPercent * cobro.valor) / 100
+    setTotal(tax + Number(cobro.valor))
   }, [cobro.valor])
 
   useEffect(() => {
@@ -352,11 +375,11 @@ const CobraCreate = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Que cobra?'} />
+                  <InputLabel required={true} label={'¿Qué cobra?'} />
                   <InputCustumer
                     name={'nombre'}
                     type={'text'}
-                    placeholder={'Titulo'}
+                    placeholder={'Ej: Tennis blancos, Servicios profesionales'}
                     width={'40vw'}
                     value={cobro.nombre}
                     onChange={handleChangeInput}
@@ -367,12 +390,12 @@ const CobraCreate = (props: any) => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Descripción'} />
+                  <InputLabel required={true} label={'Descripción'} />
                   <TextareaCustomer
                     name={'descripcion'}
                     type={'text'}
                     placeholder={
-                      'Describe el producto o servicio, sus características y disponibilidad'
+                      'Describa el producto o servicio, sus características y disponibilidad'
                     }
                     width={'22.3vw'}
                     value={cobro.descripcion}
@@ -395,6 +418,9 @@ const CobraCreate = (props: any) => {
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
+                  <span style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
+                    (Número de factura o referecia único por cobro)
+                  </span>
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
@@ -402,7 +428,7 @@ const CobraCreate = (props: any) => {
             <CardContent1 theme={openCardContent}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'¿Cuanto Vale?'} />
+                  <InputLabel required={true} label={'¿Cuánto vale?'} />
                   <InputGroup>
                     <InputSelect
                       name={'tipoMoneda'}
@@ -417,14 +443,20 @@ const CobraCreate = (props: any) => {
                       returnComplete={true}
                     />
 
-                    <InputCustumer
-                      name={'valor'}
-                      type={'number'}
-                      placeholder={'10'}
-                      width={'12vw'}
-                      value={cobro.valor}
-                      onChange={handleChangeInput}
-                      returnComplete={true}
+                    <NumberFormat
+                      value={`$${cobro.valor}`}
+                      thousandSeparator={true}
+                      className="numberFormat"
+                      prefix={'$'}
+                      onValueChange={(values) => {
+                        const data = {
+                          target: {
+                            name: 'valor',
+                            value: values.floatValue,
+                          },
+                        }
+                        handleChangeInput(data)
+                      }}
                     />
                   </InputGroup>
                 </ContentInputCard>
@@ -488,7 +520,7 @@ const CobraCreate = (props: any) => {
               <CardTitle>Personalizar Cobro</CardTitle>
               <CardSubTitle>
                 Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
-                caraterísticas del link de cobro.
+                caraterísticas, inventario, fecha de expiración del link de cobro.
               </CardSubTitle>
               <CardIcon>
                 {openCard2 == true ? (
@@ -583,7 +615,7 @@ const CobraCreate = (props: any) => {
               </ContentInput>
 
               <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
-                <ContentInputCard>
+                <ContentInputCard style={{ marginBottom: '2vw' }}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <InputLabel label={'Cantidad'} />
                     <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
@@ -609,7 +641,7 @@ const CobraCreate = (props: any) => {
                     name={'fechaVencimiento'}
                     type={'date'}
                     placeholder={'0'}
-                    width={'40vw'}
+                    width={'12vw'}
                     value={cobro.fechaVencimiento}
                     onChange={handleChangeInput}
                     returnComplete={true}
@@ -636,7 +668,7 @@ const CobraCreate = (props: any) => {
             <CardContent3 theme={openCardContent3}>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de confirmación'} />
+                  <InputLabel label={'URL de confirmación'} />
                   <InputCustumer
                     name={'urlConfirmacion'}
                     type={'text'}
@@ -647,13 +679,13 @@ const CobraCreate = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde se envia la confirmación de la transacción)
+                    (URL donde se envia la confirmación de la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Url de respuesta'} />
+                  <InputLabel label={'URL de respuesta'} />
                   <InputCustumer
                     name={'urlRespuesta'}
                     type={'text'}
@@ -664,7 +696,7 @@ const CobraCreate = (props: any) => {
                     returnComplete={true}
                   />
                   <i style={{ fontSize: '0.7vw' }}>
-                    (Url donde el cliente es redireccionado al finalizar la transacción)
+                    (URL donde el cliente es redireccionado al finalizar la transacción)
                   </i>
                 </ContentInputCard>
               </ContentInput>
@@ -673,11 +705,14 @@ const CobraCreate = (props: any) => {
           <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
             <ButtonOk
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              disabled={loadButton}
               onClick={handleSubmit}
             >
-              {loadButton ? <Spinner /> : 'Guardar Información'}
+              {loadButton ? <Spinner /> : 'Generar link de cobro'}
             </ButtonOk>
-            <ButtonCancel onClick={() => redirectRoute('/cobra')}>Cancelar</ButtonCancel>
+            <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
+              Cancelar
+            </ButtonCancel>
           </CardContentButton>
         </ContentCard>
       </Content>

@@ -12,12 +12,12 @@ export const DropContainer = styled.div`
   margin: 0;
   width: 26vw;
   height: 12vw;
-  border: 4px dashed #4aa1f3;
+  border: 4px dashed #d3d3d3;
 `
 
 export const TextDrop = styled.div`
   text-align: center;
-  color: #4aa1f3;
+  color: #d3d3d3;
   font-family: Arial;
   font-size: 1vw;
   width: 11vw;

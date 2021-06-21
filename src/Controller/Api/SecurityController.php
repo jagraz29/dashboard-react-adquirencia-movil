@@ -34,11 +34,11 @@ class SecurityController extends BaseController
    */
   public function setProfileData(Request $request)
   {
-    $content = $request->getContent();
+    $content = json_decode($request->getContent());
 
     $propertyDto = new ProfileDto();
-    $propertyDto->setNombreEmpresa($content['nombreEmpresa']);
-    $propertyDto->setDominio($content['dominio']);
+    $propertyDto->setNombreEmpresa($content->nombreEmpresa);
+    $propertyDto->setDominio($content->dominio);
 
     $errors = $this->validator->validate($propertyDto);
     if (count($errors) > 0) {
@@ -46,12 +46,12 @@ class SecurityController extends BaseController
     }
 
     $data = [
-      'companyName' => $content['nombreEmpresa'],
-      'domain' => $content['dominio'],
-      '_mobilePhone' => $content['celular'],
-      '_cellPhone' => $content['telefono'],
-      '_indicativeCountry' => $content['indicativoPais'],
-      '_indicativeCity' => $content['indicativoCiudad'],
+      'companyName' => $content->nombreEmpresa,
+      'domain' => $content->dominio,
+      'mobilePhone' => $content->telefono,
+      'cellPhone' => $content->celular,
+      'indicativeCountry' => $content->indicativoPais,
+      'indicativeCity' => $content->indicativoCiudad,
     ];
     $consult = $this->apify->consult('/client/update', \Requests::POST, $data);
 
@@ -67,13 +67,13 @@ class SecurityController extends BaseController
    */
   public function setPassword(Request $request)
   {
-    $content = $request->getContent();
+    $content = json_decode($request->getContent());
     $user = $this->getUser();
 
     $propertyDto = new PasswordDto();
-    $propertyDto->setOldPassword($content['password']);
-    $propertyDto->setNewPassword($content['newPassword']);
-    $propertyDto->setNewPasswordConfirmation($content['newPasswordConfirmation']);
+    $propertyDto->setOldPassword($content->password);
+    $propertyDto->setNewPassword($content->newPassword);
+    $propertyDto->setNewPasswordConfirmation($content->newPasswordConfirmation);
 
     $errors = $this->validator->validate($propertyDto);
     if (count($errors) > 0) {
@@ -82,9 +82,9 @@ class SecurityController extends BaseController
 
     $data = [
       'email' => $user->getUsername(),
-      'password' => $content['password'],
-      'passwordNew' => $content['newPassword'],
-      'passwordRepeat' => $content['newPasswordConfirmation'],
+      'password' => $content->password,
+      'passwordNew' => $content->newPassword,
+      'passwordRepeat' => $content->newPasswordConfirmation,
     ];
 
     $consult = $this->apify->consult('/client/update/password', \Requests::POST, $data);

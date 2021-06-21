@@ -16,7 +16,6 @@ export const Input = styled.input`
   padding: 5px;
   background: #fafafa;
   border: 1px solid #bdbdbd;
-  margin: 1vw 0;
   border-radius: 3px;
   ::placeholder {
     color: #bdbdbd;

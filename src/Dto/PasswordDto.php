@@ -8,9 +8,7 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 class PasswordDto
 {
   /**
-   * @SecurityAssert\UserPassword(
-   *  message = "La contraseña actual es incorrecta"
-   * )
+   * @Assert\NotBlank
    */
   protected $oldPassword;
 
