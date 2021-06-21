@@ -190,14 +190,30 @@ const Seguridad = () => {
   }
 
   const savePassword = () => {
-    const datos = {
-      password: password,
-      newPassword: newPassword,
-      newPasswordConfirmation: confirmPassword,
-    }
+    if (password == '') {
+      toast.error('La Contraseña Actual es Requerida')
+    } else {
+      if (newPassword == '') {
+        toast.error('La Nueva Contraseña es Requerida')
+      } else {
+        if (confirmPassword == '') {
+          toast.error('La Confirmación de la Contraseña es Requerida')
+        } else {
+          if (newPassword != confirmPassword) {
+            toast.error('Las Contraseñas no Coinciden')
+          } else {
+            const datos = {
+              password: password,
+              newPassword: newPassword,
+              newPasswordConfirmation: confirmPassword,
+            }
 
-    dispatch(setNewClientPassword(datos))
-    setLoadingButton2(true)
+            dispatch(setNewClientPassword(datos))
+            setLoadingButton2(true)
+          }
+        }
+      }
+    }
   }
 
   return (
@@ -248,7 +264,7 @@ const Seguridad = () => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Telefono negocio'} />
+                  <InputLabel label={'Teléfono'} />
                   <InputGroup>
                     <InputSelectWithValue
                       name={'type_telefono'}
@@ -321,7 +337,7 @@ const Seguridad = () => {
                 <ContentInputCard>
                   <InputLabel label={'Sitio web'} />
                   <InputCustumer
-                    name={'weba'}
+                    name={'web'}
                     type={'text'}
                     placeholder={'Sitio Web'}
                     width={'44.6vw'}
@@ -343,7 +359,6 @@ const Seguridad = () => {
                 }}
                 disabled={false}
               ></ButtonSpinner>
-              <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>
 
@@ -411,7 +426,6 @@ const Seguridad = () => {
                 }}
                 disabled={false}
               ></ButtonSpinner>
-              <ButtonCancel>Cancelar</ButtonCancel>
             </CardContentButton>
           </Card>
         </ContentCard>
