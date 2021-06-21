@@ -76,7 +76,6 @@ export const CardContent4 = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  background: red;
 `
 
 export const CardTitle = styled.h2`
