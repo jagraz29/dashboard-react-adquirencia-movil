@@ -160,7 +160,7 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
 
 export const getListCollect = () => async (dispatch: any) => {
   try {
-    const res = await dataService.get('api/collect/')
+    const res = await dataService.get('api/collect')
     dispatch({
       type: GET_LIST_COLLECT,
       payload: res.data.data,
