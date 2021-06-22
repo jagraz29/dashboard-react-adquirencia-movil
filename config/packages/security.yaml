@@ -34,4 +34,5 @@ security:
         - { path: ^/password/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/password/change, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/auth/password-reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/auth/password-create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

@@ -10,17 +10,17 @@ class PasswordDto
   /**
    * @Assert\NotBlank
    */
-  protected $oldPassword;
+  public $oldPassword;
 
   /**
    * @Assert\NotBlank
    */
-  private $newPassword;
+  public $newPassword;
 
   /**
-   * @Assert\NotBlank
+   * @Assert\IdenticalTo(propertyPath="newPassword", message="same.password")
    */
-  private $newPasswordConfirmation;
+  public $newPasswordConfirmation;
 
   public function getOldPassword()
   {

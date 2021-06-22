@@ -33,15 +33,24 @@ class Apify extends AbstractController
    * @var EventDispatcherInterface
    */
   private $eventDispatcher;
-
   /**
    * @var RouterInterface
    */
   private $router;
+  /**
+   * @var string
+   */
+  private $publicKeyEntityAllied;
+  /**
+   * @var string
+   */
+  private $privateKeyEntityAllied;
 
   public function __construct(
     string $url,
     string $alliedEntityId,
+    string $publicKeyEntityAllied,
+    string $privateKeyEntityAllied,
     EventDispatcherInterface $eventDispatcher,
     RouterInterface $router
   ) {
@@ -58,6 +67,8 @@ class Apify extends AbstractController
     $this->eventDispatcher = $eventDispatcher;
     $this->router = $router;
     $this->alliedEntityId = $alliedEntityId;
+    $this->publicKeyEntityAllied = $publicKeyEntityAllied;
+    $this->privateKeyEntityAllied = $privateKeyEntityAllied;
   }
 
   public function login(string $user, string $password)
@@ -97,6 +108,30 @@ class Apify extends AbstractController
     }
 
     return json_decode($response->body, true);
+  }
+
+  /*
+   * consulta con las llaves de davi plata para funciones en las que el usuario no ha realizado login
+   */
+  public function consultWithAlliedEntityKeys(string $path, string $method, array $data)
+  {
+    $auth = new Requests_Auth_Basic([$this->publicKeyEntityAllied, $this->privateKeyEntityAllied]);
+    $responseLogin = Requests::post($this->url . 'login', [], [], ['auth' => $auth]);
+
+    if ($responseLogin->status_code >= 400) {
+      $responseApify = isset($responseLogin->body->error)
+        ? $responseLogin->body->error
+        : 'Apify login error';
+      throw new ApifyException($responseApify);
+    }
+
+    $responseLoginArray = json_decode($responseLogin->body, true);
+    return $this->consultWithoutLogin(
+      $responseLoginArray[TextResponsesCommon::TOKEN],
+      $path,
+      $method,
+      $data
+    );
   }
 
   /**
@@ -157,13 +192,16 @@ class Apify extends AbstractController
    * @return mixed
    * @throws Requests_Exception
    */
-  public function consultWithoutLogin(string $token, string $path, string $method)
+  public function consultWithoutLogin(string $token, string $path, string $method, $data = [])
   {
     $this->session->headers = array_merge($this->session->headers, [
       TextResponsesCommon::AUTHORIZATION => TextResponsesCommon::BEARER . ' ' . $token,
     ]);
 
-    $response = $this->session->request($this->url . $path, [], [], $method);
+    if ($method === Requests::POST) {
+      $data = json_encode($data);
+    }
+    $response = $this->session->request($this->url . $path, [], $data, $method);
     $body = json_decode($response->body, true);
     return $body['data'];
   }
