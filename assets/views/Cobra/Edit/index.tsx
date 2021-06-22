@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import * as BsIcons from 'react-icons/bs'
-import NumberFormat from 'react-number-format'
 
 import Title from '../../../components/Title'
-import Breadcrumbs from '../../../components/Breadcrumbs/'
+import Breadcrumbs from '../../../components/Breadcrumbs'
 import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
-import { createSellLink } from '../../../redux/actions/'
+import NumberFormat from 'react-number-format'
+import { createSellLink, editSellLink } from '../../../redux/actions'
 
 import Dropzone from 'react-dropzone'
 
@@ -41,7 +41,7 @@ import {
   Spinner,
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 const breadcrumb = [
@@ -72,7 +72,7 @@ interface cobroInterface {
   [key: string]: any
 }
 
-const CobraCreate = (props: any) => {
+const CobraEdit = (props: any) => {
   const iconStyles = { color: '#d3d3d3' }
 
   const [cobro, setCobro] = useState<cobroInterface>({
@@ -93,7 +93,7 @@ const CobraCreate = (props: any) => {
 
   const history = useHistory()
   const dispatch = useDispatch()
-
+  const params: any = useParams()
   const [checkTax, setCheckTax] = useState(false)
 
   const [total, setTotal] = useState(0)
@@ -222,6 +222,7 @@ const CobraCreate = (props: any) => {
 
     if (cobro.fechaVencimiento != '') {
       const date = new Date(cobro.fechaVencimiento).getTime()
+      console.log(date, new Date().getTime())
       if (date <= new Date().getTime()) {
         return 'La Fecha de vencimiento debe ser mayor a la fecha actual.'
       }
@@ -259,6 +260,7 @@ const CobraCreate = (props: any) => {
     }
 
     const data = {
+      id: params.id,
       nombre: cobro.nombre,
       descripcion: cobro.descripcion,
       factura: cobro.factura,
@@ -330,6 +332,50 @@ const CobraCreate = (props: any) => {
     }
   }
 
+  const getSellEdit = async () => {
+    const id = params.id
+    const res: any = await dispatch(editSellLink(Number(id)))
+
+    if (typeof res != 'boolean') {
+      if (res.tax || res.taxIco) {
+        setCheckTax(true)
+        const calcTax = (res.tax * 100) / res.amount
+        const calcTaxIco = (res.taxIco * 100) / res.amount
+        setImpuestos({ consumo: String(calcTaxIco), agregado: String(calcTax) })
+      }
+      let d = new Date()
+
+      if (res.expirationDate) {
+        d = new Date(res.expirationDate)
+      }
+
+      setCobro({
+        nombre: res.title,
+        descripcion: res.description,
+        factura: res.reference,
+        tipoMoneda: res.currency,
+        valor: res.amount,
+        impuestos: res.tax,
+        imagenes: [],
+        archivo: res.files,
+        cantidad: res.quantity,
+        fechaVencimiento:
+          d.getFullYear() +
+          '-' +
+          ('0' + (d.getMonth() + 1)).slice(-2) +
+          '-' +
+          ('0' + d.getDate()).slice(-2),
+        urlConfirmacion: res.urlConfirmacion,
+        urlRespuesta: res.urlRespuesta,
+        total: res.amount,
+      })
+    } else {
+      toast.error(
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+      )
+    }
+  }
+
   useEffect(() => {
     if (checkTax) {
       const taxPercent = Number(impuestos.consumo) + Number(impuestos.agregado)
@@ -352,6 +398,8 @@ const CobraCreate = (props: any) => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    getSellEdit()
   }, [])
 
   return (
@@ -429,6 +477,7 @@ const CobraCreate = (props: any) => {
                       name={'tipoMoneda'}
                       placeholder={'Seleccione Moneda'}
                       width={'12vw'}
+                      value={cobro.tipoMoneda}
                       dataSelect={[
                         { value: 'COP', label: 'COP' },
                         { value: 'USD', label: 'USD' },
@@ -437,7 +486,6 @@ const CobraCreate = (props: any) => {
                       onClick={handleChangeInput}
                       returnComplete={true}
                     />
-
                     <NumberFormat
                       value={`$${cobro.valor}`}
                       thousandSeparator={true}
@@ -715,4 +763,4 @@ const CobraCreate = (props: any) => {
   )
 }
 
-export default CobraCreate
+export default CobraEdit

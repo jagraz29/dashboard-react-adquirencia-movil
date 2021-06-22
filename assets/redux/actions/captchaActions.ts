@@ -125,3 +125,13 @@ export const getListCollect = (searchGeneral: any) => async (dispatch: any) => {
     })
   } catch (error) {}
 }
+
+export const editSellLink = (id: number) => async (dispatch: any) => {
+  try {
+    const { data } = await dataService.get(`http://localhost:8000/api/collect/edit/${id}`)
+    const resData = data.data
+    return resData
+  } catch (error) {
+    return false
+  }
+}
