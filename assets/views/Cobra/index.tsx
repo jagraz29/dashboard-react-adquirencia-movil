@@ -97,7 +97,7 @@ const Cobra = () => {
   const searchData = (value: string) => {
     console.log('esto que pues ', value)
 
-    dispatch(getListCollect('83132'))
+    dispatch(getListCollect(value))
   }
 
   return (
