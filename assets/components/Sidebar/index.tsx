@@ -11,6 +11,7 @@ import { RootState } from '../../redux/reducers/index'
 import { getDataUser } from '../../redux/actions/'
 import { StorageData } from '../../services/storegeData'
 import { IconService } from '../../config/configImages'
+import { IconSoporte} from "../../config/configImages";
 
 const index = () => {
   const dispatch = useDispatch()
@@ -32,7 +33,7 @@ const index = () => {
     <div>
       <Nav>
         <AvatarImg>
-          <Avatar srcImage={IconService.url} size={'35px'}></Avatar>
+          <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
           <Avatar srcImage={avatar} size={'35px'}></Avatar>
         </AvatarImg>
 
