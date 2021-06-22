@@ -202,7 +202,16 @@ class Apify extends AbstractController
       $data = json_encode($data);
     }
     $response = $this->session->request($this->url . $path, [], $data, $method);
+    if ($response->status_code >= 400) {
+      $responseApify = isset($response->body->error) ? $response->body->error : 'Apify error';
+      throw new ApifyException($responseApify);
+    }
+
     $body = json_decode($response->body, true);
+    if ($body['success'] === false) {
+      return $body;
+    }
+
     return $body['data'];
   }
 
