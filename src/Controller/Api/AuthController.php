@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthController extends BaseController
 {
   /**
-   * @Route("/password-reset", name="api_auth_password_reset", methods={"GET"})
+   * @Route("/password-reset", name="api_auth_password_reset", methods={"POST"})
    */
-  public function setPropertySite(Request $request)
+  public function passwordReset(Request $request)
   {
     $user = $this->getUser();
     $content = $request->getContent();

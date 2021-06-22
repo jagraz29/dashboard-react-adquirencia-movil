@@ -67,18 +67,19 @@ label {
 
 .btn-auth {
   background: #1c0e49;
+  cursor: pointer;
   color: white;
   font: bold;
   border: 0;
   border-radius: 0.2vw;
   width: 8vw;
-  height: 2vw;
+  height: 2.5vw;
 }
 
 .input-auth {
   background: #ffffff;
   height: 2.5vw;
-  width: 17vw;
+  width: 21vw;
   border: 1px solid #ced4da;
   box-sizing: border-box;
   padding: 1vw;
@@ -86,7 +87,7 @@ label {
 }
 
 .auth-input {
-  margin: 1vw 0;
+  margin: 2vw 0;
   font-weight: 500;
 }
 
@@ -123,6 +124,11 @@ label {
   bottom: 82.29%;
 }
 
+.img-send {
+  width: 112px;
+  height: 112px;
+}
+
 .img-ePayco {
   position: absolute;
   left: 8.19%;
@@ -135,7 +141,7 @@ label {
   position: absolute;
   left: 54.86%;
   right: 11.6%;
-  top: 39.79%;
+  top: 34.79%;
   bottom: 37.71%;
   font-style: normal;
   font-weight: 600;
@@ -148,4 +154,32 @@ label {
   /* white */
 
   color: #ffffff;
+}
+
+.to-login {
+  color: #1c0e49;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.input-checkbox {
+  background: #ffffff;
+  border: 1px solid #5c5b5c;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  color: #5c5b5c;
+}
+
+.policy-check {
+  font-size: 12px;
 }

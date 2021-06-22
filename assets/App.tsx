@@ -8,14 +8,21 @@ import { Provider } from 'react-redux'
 
 function App() {
   const store = configureStore()
+  const auth = false
   return (
     <Provider store={store}>
       <Router>
-        <Sidebar></Sidebar>
-        <Switch>
+        {auth ? (
+          <div>
+            <Sidebar></Sidebar>
+            <Switch>
+              <Routes />
+            </Switch>
+            <Footer></Footer>
+          </div>
+        ) : (
           <Routes />
-        </Switch>
-        <Footer></Footer>
+        )}
       </Router>
     </Provider>
   )
