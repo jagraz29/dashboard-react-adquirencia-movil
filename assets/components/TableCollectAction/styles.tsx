@@ -9,11 +9,14 @@ export const DropDownMenu = styled.div`
   height: 6vw;
   padding: 5px;
   position: relative;
-  right: 9vw;
+  right: 9.2vw;
   width: 10vw;
-  top: 2vw;
+  top: 0.8vw;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 `
 
 export const DropDownContent = styled.button`
@@ -33,7 +36,11 @@ export const DropdownItem = styled.div`
   justify-content: center;
   display: flex;
   align-items: center;
-  color: blue;
+  color: #40a8e6;
+  width: 9vw;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-size: 1.1vw;
 
   &:hover {
     background-color: #e6e6e6;

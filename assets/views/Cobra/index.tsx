@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Title from '../../components/Title'
 import { IconLink } from '../../config/configImages'
 import Breadcrumbs from '../../components/Breadcrumbs/'
@@ -13,12 +13,15 @@ import {
   ButtonLinkText,
   ContentTable,
   CardTableTitle,
+  ContentSearchTitle,
+  SearchTable,
 } from './styles'
 import { useHistory } from 'react-router-dom'
 import { getListCollect } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-
+import InputSearch from '../../components/InputSearch/'
+import Paginations from '../../components/Pagination'
 const breadcrumb = [
   {
     title: 'Inicio',
@@ -67,17 +70,34 @@ const Cobra = () => {
 
   const dataList = viewState.getListCollect.listCollectData.data
 
-  const [dataTable, setDataTable] = useState(dataInit)
+  const [dataTable, setDataTable] = useState(dataList)
   const [count, setCount] = useState(0)
-
-  console.log('DATA LIST', dataList)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
-    dispatch(getListCollect())
+    dispatch(getListCollect(search))
   }, [count])
+
+  useEffect(() => {
+    setDataTable(dataList)
+  }, [dataList])
 
   const redirectRoute = (path: string) => {
     history.push(path)
+  }
+
+  const searchChange = useCallback((event) => {
+    setSearch(event.target.value)
+  }, [])
+
+  const searchTable = useCallback((event) => {
+    searchData(event)
+  }, [])
+
+  const searchData = (value: string) => {
+    console.log('esto que pues ', value)
+
+    dispatch(getListCollect('83132'))
   }
 
   return (
@@ -92,9 +112,27 @@ const Cobra = () => {
           <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
         </ButtonLink>
         <ContentTable>
-          <CardTableTitle>Cobros</CardTableTitle>
-          {dataList && dataList.length > 0 ? (
-            <TablaCobra data={dataList} titleData={dataTitle} />
+          <Paginations />
+          <ContentSearchTitle>
+            <CardTableTitle>Cobros</CardTableTitle>
+            <InputSearch
+              type={'text'}
+              placeholder={'Buscar'}
+              name={'search'}
+              value={search}
+              onChange={(e: any) => {
+                searchChange(e)
+              }}
+              returnComplete={true}
+              width={'15vw'}
+              eventSearch={(e: any) => {
+                searchTable(e)
+              }}
+            />
+          </ContentSearchTitle>
+
+          {dataTable && dataTable.length > 0 ? (
+            <TablaCobra data={dataTable} titleData={dataTitle} />
           ) : (
             console.log('loading')
           )}

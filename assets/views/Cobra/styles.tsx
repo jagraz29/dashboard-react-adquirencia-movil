@@ -64,6 +64,7 @@ export const ContentTable = styled.div`
   top: 14.1vw;
   left: 0vw;
   overflow: scroll;
+  bottom: 5vw;
 `
 
 export const CardTableTitle = styled.h2`
@@ -75,5 +76,11 @@ export const CardTableTitle = styled.h2`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 1vw;
 `
+export const ContentSearchTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0vw 1vw 0vw 1vw;
+`
+export const SearchTable = styled.div``

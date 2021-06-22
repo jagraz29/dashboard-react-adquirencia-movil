@@ -346,7 +346,7 @@ const Integraciones = () => {
 
   const changeTelefono = useCallback((event) => {
     settelCel(event)
-    console.log(event)
+    console.log(event.target.value)
   }, [])
 
   const changeIndicativo = useCallback((event) => {

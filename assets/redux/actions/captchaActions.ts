@@ -116,9 +116,9 @@ export const createSellLink = (data: any) => async (dispatch: any) => {
   }
 }
 
-export const getListCollect = () => async (dispatch: any) => {
+export const getListCollect = (searchGeneral: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.get('api/collect/')
+    const res = await dataService.get(`api/collect/${searchGeneral}`)
     dispatch({
       type: GET_LIST_COLLECT,
       payload: res.data.data,
