@@ -14,6 +14,11 @@ button:focus {
   outline: none;
 }
 
+input,
+label {
+  display: block;
+}
+
 .numberFormat {
   font-size: 1vw;
   padding: 5px;
@@ -21,4 +26,126 @@ button:focus {
   border: 1px solid #bdbdbd;
   border-radius: 3px;
   width: 10vw;
+}
+
+.auth-background {
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('/public/img/fondo-davivienda-dashboard1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100vw;
+  height: 100vh;
+}
+
+.auth-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 8.19%;
+  right: 67.5%;
+  top: 23.78%;
+  bottom: 25.81%;
+
+  background: #ffffff;
+  box-shadow: 0px 10px 20px rgba(18, 38, 63, 0.0313726);
+  border-radius: 8px;
+}
+
+.auth-title {
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  width: 20vw;
+  margin-top: 2vw;
+
+  /* black 60% */
+
+  color: #5c5b5c;
+}
+
+.btn-auth {
+  background: #1c0e49;
+  color: white;
+  font: bold;
+  border: 0;
+  border-radius: 0.2vw;
+  width: 8vw;
+  height: 2vw;
+}
+
+.input-auth {
+  background: #ffffff;
+  height: 2.5vw;
+  width: 17vw;
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  padding: 1vw;
+  border-radius: 4px;
+}
+
+.auth-input {
+  margin: 1vw 0;
+  font-weight: 500;
+}
+
+.copyright {
+  position: absolute;
+  letter-spacing: 1.5px;
+  left: 9.03%;
+  right: 68.33%;
+  top: 76.44%;
+  bottom: 22.4%;
+  font-size: 13px;
+  line-height: 19px;
+  text-align: center;
+
+  /* white */
+
+  color: #ffffff;
+}
+
+.reset-password {
+  color: #adadad;
+  margin-left: 2vw;
+}
+
+.button-section {
+  margin-top: 2vw;
+}
+
+.img-davivienda {
+  position: absolute;
+  left: 70.21%;
+  right: 8.48%;
+  top: 5.58%;
+  bottom: 82.29%;
+}
+
+.img-ePayco {
+  position: absolute;
+  left: 8.19%;
+  right: 83.4%;
+  top: 5.17%;
+  bottom: 81.67%;
+}
+
+.right-side {
+  position: absolute;
+  left: 54.86%;
+  right: 11.6%;
+  top: 39.79%;
+  bottom: 37.71%;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 41px;
+  line-height: 54px;
+  /* or 132% */
+
+  text-align: center;
+
+  /* white */
+
+  color: #ffffff;
 }
