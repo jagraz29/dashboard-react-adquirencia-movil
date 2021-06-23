@@ -7,7 +7,7 @@ export const RoutesSendEmail = {
 }
 
 export const RoutesPasswordChange = {
-  path: '/password/change',
+  path: '/password/change/:id',
   exact: true,
   component: AuthComponent,
 }

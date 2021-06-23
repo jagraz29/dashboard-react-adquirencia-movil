@@ -25,7 +25,7 @@ final class ReactRouterAuthController extends AbstractController
 
   /**
    *
-   * @Route("/password/change", name="password_change")
+   * @Route("/password/change/{id}", name="password_change")
    *
    */
 

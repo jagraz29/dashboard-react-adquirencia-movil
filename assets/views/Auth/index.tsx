@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { toast, ToastContainer } from 'react-toastify'
 import { Spinner } from './styles'
 import { sendEmail } from '../../redux/actions'
 
 const AuthComponent = () => {
+  let { id }: any = useParams()
   const dispatch = useDispatch()
   const location = useLocation()
   const history = useHistory()
@@ -141,7 +142,7 @@ const AuthComponent = () => {
           </div>
         )}
 
-        {location.pathname === '/password/change' && (
+        {location.pathname === '/password/change/' + id && (
           <div className="auth-container" style={{ bottom: '15%' }}>
             <form method="post" style={{ padding: '0 2vw' }}>
               <h1 className="auth-title">Cree su nueva contraseña</h1>
