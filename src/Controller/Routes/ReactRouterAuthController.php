@@ -10,6 +10,21 @@ final class ReactRouterAuthController extends AbstractController
 {
   /**
    *
+   * @Route("/", name="path_pase")
+   *
+   */
+
+  public function pathBase(Request $request)
+  {
+    if ($this->getUser()) {
+      return $this->redirectToRoute('dashboard');
+    }
+
+    return $this->render('base.html.twig');
+  }
+
+  /**
+   *
    * @Route("/password/reset", name="password_reset")
    *
    */

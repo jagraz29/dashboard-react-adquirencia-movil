@@ -17,12 +17,12 @@ const App = () => {
         {
           <div>
             {location.pathname !== '/password/reset' &&
-              location.pathname !== '/password/change' && <Sidebar></Sidebar>}
+              location.pathname.indexOf('password/change') == -1 && <Sidebar></Sidebar>}
             <Switch>
               <Routes />
             </Switch>
             {location.pathname !== '/password/reset' &&
-              location.pathname !== '/password/change' && <Footer></Footer>}
+              location.pathname.indexOf('password/change') == -1 && <Footer></Footer>}
           </div>
         }
       </Router>

@@ -176,3 +176,12 @@ export const sendEmail = async (email: string) => {
     return false
   }
 }
+
+export const sendPasswords = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/auth/password-create', data)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}

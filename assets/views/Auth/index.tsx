@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { toast, ToastContainer } from 'react-toastify'
 import { Spinner } from './styles'
-import { sendEmail } from '../../redux/actions'
+import { sendEmail, sendPasswords } from '../../redux/actions'
 
 const AuthComponent = () => {
-  let { id }: any = useParams()
-  const dispatch = useDispatch()
-  const location = useLocation()
+  const { id }: any = useParams()
   const history = useHistory()
-  const redirectRoute = (path: string) => {
-    history.push(path)
-  }
+  const location = useLocation()
 
   const [email, setEmail] = useState('')
+  const [check, setCheck] = useState(false)
   const [password, setPassword] = useState({ password: '', passwordConfirm: '' })
   const [disableButton, setDisableButton] = useState(false)
   const [disableInput, setDisableInput] = useState(false)
@@ -27,9 +23,38 @@ const AuthComponent = () => {
     if (email == '') {
       return 'Debe ingresar un correo.'
     }
+
     if (!regex.test(email)) {
       return 'El correo es inválido.'
     }
+    return true
+  }
+
+  const validatePassword = () => {
+    const lowerCaseLetters = /[a-z]/g
+
+    if (!password.password.match(lowerCaseLetters)) {
+      return 'La contraseña debe tener al menos una letra en minúscula.'
+    }
+
+    const upperCaseLetters = /[A-Z]/g
+    if (!password.password.match(upperCaseLetters)) {
+      return 'La contraseña debe tener al menos una letra en mayúscula'
+    }
+
+    const numbers = /[0-9]/g
+    if (!password.password.match(numbers)) {
+      return 'La contraseña debe tener al menos un número.'
+    }
+
+    if (password.password.length < 8) {
+      return 'La contraseña debe tener una longitud mínima de 8 caracteres.'
+    }
+
+    if (password.password !== password.passwordConfirm) {
+      return 'Las contraseñas no coinciden.'
+    }
+
     return true
   }
 
@@ -57,6 +82,47 @@ const AuthComponent = () => {
     }
   }
 
+  const redirectRoute = (path: string) => {
+    history.push(path)
+  }
+
+  const handleSubmitPassword = async (e: any) => {
+    e.preventDefault()
+
+    const val = validatePassword()
+    setLoadButton(true)
+    setDisableInput(true)
+
+    if (typeof val != 'boolean') {
+      toast.error(val)
+      setLoadButton(false)
+      setDisableInput(false)
+      return false
+    }
+
+    const data = {
+      password: password.password,
+      confirmPassword: password.passwordConfirm,
+      token: id,
+    }
+
+    const res = await sendPasswords(data)
+    if (res.status == true) {
+      toast.success('Se ha actualizado correctamente la contraseña.')
+      redirectRoute('/login')
+    } else {
+      if (res.message == 'Client not found') {
+        toast.error('No se encontró el cliente.')
+        setLoadButton(false)
+        setDisableInput(false)
+      } else {
+        toast.error('Ha ocurrido un error en el servidor.')
+        setLoadButton(false)
+        setDisableInput(false)
+      }
+    }
+  }
+
   const handleChangeInput = (e: any) => {
     const target = e.target
     const name = target.name
@@ -65,7 +131,7 @@ const AuthComponent = () => {
       setEmail(value)
     }
 
-    if (name == 'password' || name == 'password-confirm') {
+    if (name == 'password' || name == 'passwordConfirm') {
       setPassword({ ...password, [name]: value })
     }
   }
@@ -168,12 +234,18 @@ const AuthComponent = () => {
                   type="password"
                   onChange={handleChangeInput}
                   value={password.passwordConfirm}
-                  name="password-confirm"
+                  name="passwordConfirm"
                   required
                 />
               </div>
               <div className="button-section" style={{ display: 'flex' }}>
-                <input className="input-checkbox" type="checkbox" name="" id="" />
+                <input
+                  className="input-checkbox"
+                  type="checkbox"
+                  onChange={() => setCheck(true)}
+                  name=""
+                  id=""
+                />
                 <span className="policy-check">
                   Confirmo que acepto los{' '}
                   <span style={{ color: 'skyblue' }}>Términos y condiciones </span> de los servicios
@@ -186,12 +258,18 @@ const AuthComponent = () => {
               </div>
               <div className="button-section">
                 <button
-                  disabled={disableButton}
-                  style={{ width: '21vw' }}
+                  disabled={disableButton || !check}
+                  onClick={handleSubmitPassword}
+                  style={{
+                    width: '21vw',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}
                   className="btn-auth"
                   type="submit"
                 >
-                  Enviar
+                  {loadButton ? <Spinner /> : 'Cambiar contraseña'}
                 </button>
               </div>
             </form>
@@ -201,7 +279,7 @@ const AuthComponent = () => {
           Con <b>Mi Negocio</b> puede administrar sus cobros y transacciones de forma rápida y
           segura
         </div>
-        {location.pathname === '/password/change' ? (
+        {location.pathname === '/password/change/' + id ? (
           <span className="copyright" style={{ top: '88.44%' }}>
             Banco Davivienda S.A. todos los derechos reservados 2020.
           </span>

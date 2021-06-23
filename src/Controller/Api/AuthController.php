@@ -93,5 +93,15 @@ class AuthController extends BaseController
       Requests::POST,
       $data
     );
+
+    if (count($consult) == 0) {
+      return $this->jsonResponse(true, [], 'Actualizado correctamente');
+    }
+
+    return $this->jsonResponse(
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
+    );
   }
 }
