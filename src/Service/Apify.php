@@ -208,7 +208,11 @@ class Apify extends AbstractController
     }
 
     $body = json_decode($response->body, true);
-    if ($body['success'] === false) {
+    if (isset($body['success'])) {
+      if ($body['success'] === false) {
+        return $body;
+      }
+    } else {
       return $body;
     }
 

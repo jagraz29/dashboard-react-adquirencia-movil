@@ -170,8 +170,8 @@ export const getListCollect = () => async (dispatch: any) => {
 
 export const sendEmail = async (email: string) => {
   try {
-    await dataService.post('/api/auth/password-reset', { email })
-    return true
+    const { data } = await dataService.post('/api/auth/password-reset', { email })
+    return data.status
   } catch (error) {
     return false
   }

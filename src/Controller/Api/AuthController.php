@@ -33,18 +33,34 @@ class AuthController extends BaseController
     }
 
     $data = [
-      TextResponsesCommon::EMAIL => $content[TextResponsesCommon::EMAIL],
-      'public_key' => $user->getPublicKey(),
-      'private_key' => $user->getPrivateKey(),
+      'email' => $content['email'] ?? '',
     ];
 
-    $consult = $this->apify->consult('/client/reset-password', Requests::POST, $data);
-
-    return $this->jsonResponse(
-      $consult[0][TextResponsesCommon::SUCCESS],
-      $consult[0][TextResponsesCommon::DATA],
-      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
+    $consult = $this->apify->consultWithAlliedEntityKeys(
+      'configuration/keys',
+      Requests::GET,
+      $data
     );
+
+    $consult = $consult[0]['data'];
+
+    if (!isset($consult['privateKey']) || !isset($consult['publicKey'])) {
+      return $this->jsonResponse(false, [], 'No existen las keys');
+    }
+
+    $data = [
+      'mail' => $content[TextResponsesCommon::EMAIL],
+      'public_key' => $consult['publicKey'],
+      'private_key' => $consult['privateKey'],
+    ];
+
+    $consult = $this->apify->consultWithAlliedEntityKeys(
+      '/client/reset-password',
+      Requests::POST,
+      $data
+    );
+
+    return $this->jsonResponse(true, [], 'Correo enviado.');
   }
 
   /**

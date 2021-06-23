@@ -46,13 +46,13 @@ const AuthComponent = () => {
       return false
     }
 
-    const res = await dispatch(sendEmail(email))
-    if (!!res == true) {
+    const res = await sendEmail(email)
+    if (res == true) {
       setShowSuccess(true)
     } else {
-      toast.error(
-        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
-      )
+      toast.error('Ha ocurrido un error en el servidor.')
+      setLoadButton(false)
+      setDisableInput(false)
     }
   }
 
@@ -156,7 +156,7 @@ const AuthComponent = () => {
                   type="password"
                   onChange={handleChangeInput}
                   value={password.password}
-                  name="email"
+                  name="password"
                   required
                 />
               </div>
@@ -164,10 +164,10 @@ const AuthComponent = () => {
                 <label>Confirme su nueva contraseña</label>
                 <input
                   className="input-auth"
-                  type="password-confirm"
+                  type="password"
                   onChange={handleChangeInput}
                   value={password.passwordConfirm}
-                  name="email"
+                  name="password-confirm"
                   required
                 />
               </div>
@@ -200,9 +200,15 @@ const AuthComponent = () => {
           Con <b>Mi Negocio</b> puede administrar sus cobros y transacciones de forma rápida y
           segura
         </div>
-        <span className="copyright" style={{ top: '88.44%' }}>
-          Banco Davivienda S.A. todos los derechos reservados 2020.
-        </span>
+        {location.pathname === '/password/change' ? (
+          <span className="copyright" style={{ top: '88.44%' }}>
+            Banco Davivienda S.A. todos los derechos reservados 2020.
+          </span>
+        ) : (
+          <span className="copyright">
+            Banco Davivienda S.A. todos los derechos reservados 2020.
+          </span>
+        )}
       </div>
     </div>
   )

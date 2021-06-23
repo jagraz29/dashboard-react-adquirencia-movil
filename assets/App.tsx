@@ -1,28 +1,30 @@
+import React, { useEffect, useState } from 'react'
 import './styles/app.css'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import Routes from './routes/RoutesComponent'
 import Sidebar from './components/Sidebar/'
 import Footer from './components/Footer'
 import { configureStore } from './redux/store'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import { getDataUser } from './redux/actions'
 
-function App() {
+const App = () => {
   const store = configureStore()
-  const auth = false
+
   return (
     <Provider store={store}>
       <Router>
-        {auth ? (
+        {
           <div>
-            <Sidebar></Sidebar>
+            {location.pathname !== '/password/reset' &&
+              location.pathname !== '/password/change' && <Sidebar></Sidebar>}
             <Switch>
               <Routes />
             </Switch>
-            <Footer></Footer>
+            {location.pathname !== '/password/reset' &&
+              location.pathname !== '/password/change' && <Footer></Footer>}
           </div>
-        ) : (
-          <Routes />
-        )}
+        }
       </Router>
     </Provider>
   )
