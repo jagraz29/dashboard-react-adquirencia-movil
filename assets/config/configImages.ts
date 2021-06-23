@@ -53,5 +53,5 @@ export const IconService = {
 }
 export const IconSoporte = {
   name: 'IconSoporte',
-  url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png'
+  url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png',
 }
