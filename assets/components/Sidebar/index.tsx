@@ -5,13 +5,15 @@ import SubMenuItems from '../SubMenuItems'
 import LogoSidebar from '../Logo'
 import NameSidebar from '../NameSidebar'
 import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './styles'
+import {Tooltip} from 'antd';
 import Avatar from '../Avatar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { getDataUser } from '../../redux/actions/'
 import { StorageData } from '../../services/storegeData'
 import { IconService } from '../../config/configImages'
-import { IconSoporte} from "../../config/configImages";
+import { IconSoporte } from '../../config/configImages'
+import {Link} from "react-router-dom";
 
 const index = () => {
   const dispatch = useDispatch()
@@ -33,10 +35,11 @@ const index = () => {
     <div>
       <Nav>
         <AvatarImg>
-          <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
+          <Link to={"/soporte"}>
+            <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
+          </Link>
           <Avatar srcImage={avatar} size={'35px'}></Avatar>
         </AvatarImg>
-
         <SidebarNav>
           <SidebarWrap>
             <LogoSidebar></LogoSidebar>
