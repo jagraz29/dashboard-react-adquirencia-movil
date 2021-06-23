@@ -4,3 +4,4 @@ positive.format: Este campo debe ser un numero entero.
 transaction.state: Este campo debe ser un estado de transaccion valido
 paymentMethod: Este campo debe ser un id de franquicia valido
 transaction.enviroment: Este campo debe ser un id de ambiente de transacción valido
+same.password: Este campo debe ser igual a la contraseña

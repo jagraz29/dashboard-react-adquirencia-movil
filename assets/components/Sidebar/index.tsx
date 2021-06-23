@@ -26,8 +26,6 @@ const index = () => {
   useEffect(() => {
     dispatch(getDataUser())
   }, [saveData])
-
-  console.log(viewState.captcha.userData.data)
   const name = viewState.captcha.userData.data.companyName
   const avatar = viewState.captcha.userData.data.logo
 

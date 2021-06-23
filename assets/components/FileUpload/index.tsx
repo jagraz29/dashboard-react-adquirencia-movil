@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ContentDropZone, DropContainer, TextDrop } from './styles'
 
 const FileUpload = () => {
+  const [selectedFiles, setSelectedFiles] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
+
   const dragOver = (e: any) => {
     e.preventDefault()
   }
@@ -16,7 +19,9 @@ const FileUpload = () => {
 
   const fileDrop = (e: any) => {
     e.preventDefault()
+
     const files = e.dataTransfer.files
+    console.log(files)
     if (files.length) {
       handleFiles(files)
     }

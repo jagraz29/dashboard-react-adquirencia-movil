@@ -8,14 +8,26 @@ type Props = {
   width: string
   value: string
   onChange: any
+  returnComplete?: boolean
 }
 
-const InputCustumer: React.FC<Props> = ({ name, type, placeholder, width, value, onChange }) => {
+const InputCustumer: React.FC<Props> = ({
+  name,
+  type,
+  placeholder,
+  width,
+  value,
+  onChange,
+  returnComplete = false,
+}) => {
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
-    console.log('pasa por aqui', valor.target.value)
-    onChange(valor.target.value)
+    if (returnComplete) {
+      onChange(valor)
+    } else {
+      onChange(valor.target.value)
+    }
   }
 
   return (

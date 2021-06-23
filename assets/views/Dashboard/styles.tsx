@@ -24,7 +24,6 @@ export const ContentAvatar = styled.div`
 
 export const ContentLink = styled.div`
   margin: 2.1vw;
-  mix-blend-mode: normal;
   border-left: 1px dashed #d3d3d3;
 `
 
@@ -64,6 +63,7 @@ export const ButtonLink = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
+  cursor: pointer;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
@@ -77,13 +77,13 @@ export const ButtonLink = styled.button`
 `
 
 export const TitleLink = styled.span`
-  position: absolute;
-  right: 6.1vw;
-  top: 1vw;
-  width: 10vw;
-  font-family: Open Sans;
+  font-family: Segoe UI;
   font-style: normal;
   font-weight: normal;
+  position: absolute;
+  right: 6.1vw;
+  width: 10vw;
+  top: 1vw;
   font-size: 1vw;
   line-height: 1vw;
   display: flex;
@@ -199,13 +199,9 @@ export const ContentTable = styled.div`
   left: 0vw;
 `
 
-export const CardTableTitle = styled.span`
-  font-family: Kanit;
-  font-style: normal;
-  font-weight: normal;
+export const CardTableTitle = styled.h2`
   font-size: 1.7vw;
   line-height: 2vw;
-
   position: relative;
   color: #000000;
   display: flex;
