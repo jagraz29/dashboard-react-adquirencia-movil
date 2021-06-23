@@ -109,7 +109,7 @@ const AuthComponent = () => {
     const res = await sendPasswords(data)
     if (res.status == true) {
       toast.success('Se ha actualizado correctamente la contraseña.')
-      redirectRoute('/login')
+      window.location.assign('/login')
     } else {
       if (res.message == 'Client not found') {
         toast.error('No se encontró el cliente.')
