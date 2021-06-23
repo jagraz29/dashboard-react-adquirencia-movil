@@ -27,10 +27,6 @@ class TransactionController extends BaseController
    * @var string
    */
   private $appRestEnv;
-  /**
-   * @var Requests
-   */
-  private $requests;
 
   public function __construct(
     string $urlAppRest,
@@ -98,7 +94,7 @@ class TransactionController extends BaseController
   {
     $data = [
       TextResponsesCommon::FILTER => [
-        'referencePayco' => $id,
+        TextResponsesCommon::REFERENCE_PAYCO => $id,
       ],
     ];
 
@@ -177,21 +173,17 @@ class TransactionController extends BaseController
         'email_adicional' => $email,
       ])
     );
-    $sendEmailResponse = Requests::POST(
-      $this->urlAppRest . $this->appRestEnv . 'email/transaction'
-    );
+    $sendEmailResponse = Requests::get($url);
 
-    if (isset($sendEmailResponse['success']) && $sendEmailResponse['success'] === true) {
-      $message = isset($sendEmailResponse['textResponse'])
-        ? $sendEmailResponse['textResponse']
-        : 'Confirmacion enviada';
+    $bodyResponse = json_decode($sendEmailResponse->body, true);
+
+    if (isset($bodyResponse['success']) && $bodyResponse['success'] == 'ok') {
+      $message = 'Confirmacion enviada';
       return $this->jsonResponse(true, [], $message);
     }
 
-    $message = isset($sendEmailResponse['textResponse'])
-      ? $sendEmailResponse['textResponse']
-      : 'Confirmacion enviada';
-    return $this->jsonResponse(true, [], $message);
+    $message = 'Error';
+    return $this->jsonResponse(true, [], $message, 400);
   }
 
   /**
@@ -201,9 +193,12 @@ class TransactionController extends BaseController
   {
     $transaction = $this->transactionDetail($id);
 
-    //    if ($transaction !== null) {
-    //      return $this->redirectToRoute('api_transaction_detail', ['id' => $id]);
-    //    }
+    if (!$transaction || $transaction['success'] === false) {
+      $message = isset($transaction['textResponse'])
+        ? $transaction['textResponse']
+        : 'Error al consultar transacción';
+      return $this->jsonResponse(false, [], $message, 400);
+    }
 
     return $this->render('transaction/transactionDetail.html.twig', [
       'tr' => $transaction['data'],
@@ -215,7 +210,7 @@ class TransactionController extends BaseController
   {
     $data = [
       'filter' => [
-        'referencePayco' => $id,
+        TextResponsesCommon::REFERENCE_PAYCO => $id,
       ],
     ];
 
@@ -236,7 +231,9 @@ class TransactionController extends BaseController
     $transactionTable->setStatusId(isset($filters['statusId']) ? (int) $filters['statusId'] : null);
     $transactionTable->setSearch(isset($filters['search']) ? $filters['search'] : null);
     $transactionTable->setPaymentMethodId(
-      isset($filters['paymentMethod']) ? $filters['paymentMethod'] : null
+      isset($filters[TextResponsesCommon::PAYMENT_METHOD])
+        ? $filters[TextResponsesCommon::PAYMENT_METHOD]
+        : null
     );
     $transactionTable->setEnviromentId(
       isset($filters['environment']) ? (int) $filters['environment'] : null
@@ -280,14 +277,14 @@ class TransactionController extends BaseController
     $data = [];
     foreach ($transactions as $transaction) {
       $row = [
-        'ref_payco' => $transaction['referencePayco'],
+        'ref_payco' => $transaction[TextResponsesCommon::REFERENCE_PAYCO],
         'factura' => $transaction['referenceClient'],
         'fecha' => $transaction['transactionDate'],
         'valor' => $transaction['amount'],
         'iva' => $transaction['iva'],
         'moneda' => $transaction['currency'],
         'descripcion' => $transaction['description'],
-        'franquicia' => $transaction['paymentMethod'],
+        'franquicia' => $transaction[TextResponsesCommon::PAYMENT_METHOD],
         'banco' => $transaction['bank'],
         'tarjeta' => $transaction['card'],
         'estado' => $transaction['status'],
