@@ -6,7 +6,7 @@ import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import InputSelect from '../../../components/InputSelect'
-import { createSellLink } from '../../../redux/actions/'
+import { createSellLink, getDepartments, getPriorities } from '../../../redux/actions/'
 
 import Dropzone from 'react-dropzone'
 
@@ -58,37 +58,26 @@ interface arrayFileInterface {
   base64?: string
 }
 
-interface cobroInterface {
+interface ticketInterface {
   [key: string]: any
 }
 
 const CreateTicket = (props: any) => {
   const iconStyles = { color: '#ADADAD' }
 
-  const [cobro, setCobro] = useState<cobroInterface>({
-    nombre: '',
-    descripcion: '',
-    factura: '',
-    tipoMoneda: 'COP',
-    valor: 0,
-    impuestos: 0,
-    imagenes: [],
-    archivo: null,
-    cantidad: 0,
-    fechaVencimiento: '',
-    urlConfirmacion: '',
-    urlRespuesta: '',
-    total: 0,
+  const [ticket, setTicket] = useState<ticketInterface>({
+    area: '',
+    impacto: '',
+    asunto: '',
+    solicitud: '',
+    documentos: [],
   })
 
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const [checkTax, setCheckTax] = useState(false)
-
-  const [total, setTotal] = useState(0)
-
-  const [impuestos, setImpuestos] = useState({ consumo: '0', agregado: '0' })
+  const [departamentos, setDepartamentos] = useState([])
+  const [prioridades, setPrioridades] = useState([])
 
   const [loadButton, setLoadButton] = useState(false)
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
@@ -96,7 +85,7 @@ const CreateTicket = (props: any) => {
 
   const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
-      toast.error('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
+      toast.error('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif o .pdf')
     } else {
       if (accepted.length > 3 - loadImages.length) {
         toast.error('Solo puede cargar hasta 3 imágenes.')
@@ -122,19 +111,6 @@ const CreateTicket = (props: any) => {
     })
   }
 
-  const onDropDoc = async (accepted: any, rejected: any) => {
-    if (rejected.length > 0) {
-      toast.error('Error al subir el archivo pdf.')
-    } else {
-      accepted = await Promise.all(accepted.map((acc: any) => fileToDataURL(acc, true)))
-      setLoadFiles((prev) => prev.concat(accepted))
-    }
-  }
-
-  const deletedoc = () => {
-    setLoadFiles([])
-  }
-
   const deleteFile = (numero: number) => {
     const currentfiles = [...loadImages]
     currentfiles.splice(numero, 1)
@@ -146,18 +122,6 @@ const CreateTicket = (props: any) => {
     const name = target.name
     const value = target.value
 
-    if (name == 'consumo' || name == 'agregado') {
-      if (value < 0) {
-        toast.error('Debe ingresar un valor mayor a 0')
-        return 0
-      }
-
-      await setImpuestos((prevState: any) => ({
-        ...prevState,
-        [name]: value,
-      }))
-    }
-
     if (name == 'valor' || name == 'cantidad') {
       if (value < 0) {
         toast.error('Debe ingresar un valor mayor a 0')
@@ -165,7 +129,7 @@ const CreateTicket = (props: any) => {
       }
     }
 
-    await setCobro((prevState) => ({
+    await setTicket((prevState) => ({
       ...prevState,
       [name]: value,
     }))
@@ -176,47 +140,10 @@ const CreateTicket = (props: any) => {
   }
 
   const validate = () => {
-    const regex = new RegExp(
-      '^(https?:\\/\\/)?' +
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
-        '((\\d{1,3}\\.){3}\\d{1,3}))' +
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
-        '(\\?[;&a-z\\d%_.~+=-]*)?' +
-        '(\\#[-a-z\\d_]*)?$',
-      'i'
-    )
-
-    if (cobro.nombre == '' || cobro.descripcion == '' || cobro.tipoMoneda == '') {
+    if (
+      (ticket.area == '' || ticket.impacto == '' || ticket.asunto == '', ticket.solicitud == '')
+    ) {
       return 'Debe diligenciar todos los campos obligatorios.'
-    }
-
-    if (cobro.valor <= 0) {
-      return 'el valor total deben ser números mayores a 0.'
-    }
-
-    if (cobro.urlConfirmacion != '') {
-      if (!regex.test(cobro.urlConfirmacion)) {
-        return 'La URL de confirmación es incorrecta.'
-      }
-    }
-
-    if (cobro.urlRespuesta) {
-      if (!regex.test(cobro.urlRespuesta)) {
-        return 'La URL de respuesta es incorrecta.'
-      }
-    }
-
-    if (cobro.fechaVencimiento != '') {
-      const date = new Date(cobro.fechaVencimiento).getTime()
-      if (date <= new Date().getTime()) {
-        return 'La Fecha de vencimiento debe ser mayor a la fecha actual.'
-      }
-    }
-
-    if (checkTax) {
-      if (Number(impuestos.consumo) <= 0 && Number(impuestos.agregado) <= 0) {
-        return 'Debe ingresar valores correctos para los impuestos.'
-      }
     }
 
     return true
@@ -245,25 +172,16 @@ const CreateTicket = (props: any) => {
     }
 
     const data = {
-      nombre: cobro.nombre,
-      descripcion: cobro.descripcion,
-      factura: cobro.factura,
-      tipoMoneda: cobro.tipoMoneda,
-      valor: cobro.valor,
-      iva: impuestos.agregado,
-      ico: impuestos.consumo,
-      cantidad: cobro.cantidad > 0 ? cobro.cantidad : 1,
-      fechaVencimiento: cobro.fechaVencimiento,
-      urlConfirmacion: cobro.urlConfirmacion,
-      urlRespuesta: cobro.urlRespuesta,
-      imagenes: arrImages,
-      archivo: file,
-      total,
+      area: ticket.area,
+      impacto: ticket.impacto,
+      asunto: ticket.asunto,
+      solicitud: ticket.solicitud,
+      documentos: [],
     }
 
     const res = await dispatch(createSellLink(data))
     if (!!res == true) {
-      toast.success('Se ha guardado correctamente el link de cobro.')
+      toast.success('Se ha guardado correctamente el link de ticket.')
       redirectRoute('/cobra')
     } else {
       toast.error(
@@ -273,8 +191,47 @@ const CreateTicket = (props: any) => {
     setLoadButton(false)
   }
 
+  const getDepartmentsBack = async () => {
+    const departments = await getDepartments()
+
+    if (typeof departments != 'boolean') {
+      const newArr = departments.map((val: any) => {
+        return {
+          value: val.id,
+          label: val.nombre,
+        }
+      })
+      setDepartamentos(newArr)
+    } else {
+      toast.error(
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+      )
+    }
+  }
+
+  const getPrioritiesBack = async () => {
+    const priorities = await getPriorities()
+
+    if (typeof priorities != 'boolean') {
+      const newArr = priorities.map((val: any) => {
+        return {
+          value: val.id,
+          label: val.nombre,
+        }
+      })
+      setPrioridades(newArr)
+    } else {
+      toast.error(
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+      )
+    }
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    getPrioritiesBack()
+    getDepartmentsBack()
   }, [])
 
   return (
@@ -304,10 +261,7 @@ const CreateTicket = (props: any) => {
                     name={'area'}
                     placeholder={'Servicio al cliente'}
                     width={'12vw'}
-                    dataSelect={[
-                      { value: 'COP', label: 'COP' },
-                      { value: 'USD', label: 'USD' },
-                    ]}
+                    dataSelect={departamentos}
                     onChange={handleChangeInput}
                     onClick={handleChangeInput}
                     returnComplete={true}
@@ -327,10 +281,7 @@ const CreateTicket = (props: any) => {
                     name={'impacto'}
                     placeholder={'Nivel de Impacto'}
                     width={'15vw'}
-                    dataSelect={[
-                      { value: 'COP', label: 'COP' },
-                      { value: 'USD', label: 'USD' },
-                    ]}
+                    dataSelect={prioridades}
                     onChange={handleChangeInput}
                     onClick={handleChangeInput}
                     returnComplete={true}
@@ -347,11 +298,11 @@ const CreateTicket = (props: any) => {
                     </i>
                   </div>
                   <InputCustumer
-                    name={'factura'}
+                    name={'asunto'}
                     type={'text'}
                     placeholder={''}
                     width={'17vw'}
-                    value={cobro.factura}
+                    value={ticket.asunto}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
@@ -370,12 +321,12 @@ const CreateTicket = (props: any) => {
                     </i>
                   </div>
                   <TextareaCustomer
-                    name={'descripcion'}
+                    name={'solicitud'}
                     type={'text'}
                     placeholder={''}
                     style={{ height: '8vw' }}
                     width={'22.3vw'}
-                    value={cobro.descripcion}
+                    value={ticket.solicitud}
                     onChange={handleChangeInput}
                   />
                 </ContentInputCard>

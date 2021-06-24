@@ -185,3 +185,21 @@ export const sendPasswords = async (data: any) => {
     return false
   }
 }
+
+export const getDepartments = async () => {
+  try {
+    const { data } = await dataService.get('/api/ticket/departments')
+    return data.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const getPriorities = async () => {
+  try {
+    const { data } = await dataService.get('/api/ticket/priorities')
+    return data.data
+  } catch (error) {
+    return false
+  }
+}
