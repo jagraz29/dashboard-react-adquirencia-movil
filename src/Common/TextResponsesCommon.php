@@ -17,9 +17,11 @@ final class TextResponsesCommon
   const LIMIT = 'limit';
   const NOMBRE_EMPRESA = 'nombreEmpresa';
   const PAGINATION = 'pagination';
+  const PAYMENT_METHOD = 'paymentMethod';
   const PASSWORD = 'password';
   const PREGUNTA = 'pregunta';
   const RAZON_SOCIAL = 'razonSocial';
+  const REFERENCE_PAYCO = 'referencePayco';
   const RESPUESTA = 'respuesta';
   const SUCCESS = 'success';
   const TELEFONO = 'telefono';
