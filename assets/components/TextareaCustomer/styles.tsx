@@ -9,6 +9,7 @@ export const ContentInput = styled.div`
 
 export const Textarea = styled.textarea`
   font-size: 1vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 5px;
   background: #fafafa;
   border: 1px solid #bdbdbd;

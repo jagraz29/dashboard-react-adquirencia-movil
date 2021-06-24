@@ -2,16 +2,22 @@ import Home from '../views/Home'
 import { RouteConfig } from 'react-router-config'
 import { RoutesSell } from './routesSell'
 import { RoutesDashboard } from './routesDashboard'
-import { RouteCobraCreate, RoutesCobra } from './routesCobra'
+import { RouteCobraCreate, RouteCobraEdit, RoutesCobra } from './routesCobra'
 import { RoutesIntegraciones } from './routesIntegraciones'
 import { RoutesSoporte } from './routesSoporte'
+import { RoutesSeguridad } from './routesSeguridad'
+import { RoutesPasswordChange, RoutesSendEmail } from './routesAuth'
 
 const routes: RouteConfig[] = [
   RoutesDashboard,
   RoutesCobra,
   RoutesIntegraciones,
+  RoutesSeguridad,
   RouteCobraCreate,
   RoutesSoporte,
+  RouteCobraEdit,
+  RoutesSendEmail,
+  RoutesPasswordChange,
   {
     path: '/test/route',
     exact: false,

@@ -27,6 +27,10 @@ class TransactionController extends BaseController
    * @var string
    */
   private $appRestEnv;
+  /**
+   * @var Requests
+   */
+  private $requests;
 
   public function __construct(
     string $urlAppRest,
@@ -147,7 +151,7 @@ class TransactionController extends BaseController
     ) {
       $transactions = $transactions[TextResponsesCommon::DATA][TextResponsesCommon::DATA];
     }
-    $data = $this->setExportsHeaders($transactions);
+    $data = $this->formatDataToExport($transactions);
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -165,12 +169,59 @@ class TransactionController extends BaseController
    */
   public function sendEmail(int $id, string $email)
   {
+    $url = sprintf(
+      '%semail/transaccion?%s',
+      $this->urlAppRest . $this->appRestEnv,
+      http_build_query([
+        'transaction_id' => $id,
+        'email_adicional' => $email,
+      ])
+    );
+    $sendEmailResponse = Requests::POST(
+      $this->urlAppRest . $this->appRestEnv . 'email/transaction'
+    );
+
+    if (isset($sendEmailResponse['success']) && $sendEmailResponse['success'] === true) {
+      $message = isset($sendEmailResponse['textResponse'])
+        ? $sendEmailResponse['textResponse']
+        : 'Confirmacion enviada';
+      return $this->jsonResponse(true, [], $message);
+    }
+
+    $message = isset($sendEmailResponse['textResponse'])
+      ? $sendEmailResponse['textResponse']
+      : 'Confirmacion enviada';
+    return $this->jsonResponse(true, [], $message);
   }
 
   /**
-   * @param array $filters
-   * @return TransactionTableDto
+   * @Route("/receipt/{id}", name="api_transaction_receipt", methods={"GET"})
    */
+  public function receipt(int $id)
+  {
+    $transaction = $this->transactionDetail($id);
+
+    //    if ($transaction !== null) {
+    //      return $this->redirectToRoute('api_transaction_detail', ['id' => $id]);
+    //    }
+
+    return $this->render('transaction/transactionDetail.html.twig', [
+      'tr' => $transaction['data'],
+      'user' => $this->getUser(),
+    ]);
+  }
+
+  private function transactionDetail(int $id)
+  {
+    $data = [
+      'filter' => [
+        'referencePayco' => $id,
+      ],
+    ];
+
+    return $this->apify->consult('transaction/detail', Requests::POST, $data);
+  }
+
   private function setDataToDto(array $filters): TransactionTableDto
   {
     $transactionTable = new TransactionTableDto();
@@ -224,20 +275,35 @@ class TransactionController extends BaseController
     return $this->file($fileName)->deleteFileAfterSend();
   }
 
-  private function setExportsHeaders(array $transactions)
+  private function formatDataToExport(array $transactions)
   {
-    $headers = [
-      'transaccion',
-      'factura',
-      'fecha',
-      'descripcion',
-      'franquicia',
-      'valor',
-      'estado',
-      'ambiente',
-    ];
+    $data = [];
+    foreach ($transactions as $transaction) {
+      $row = [
+        'ref_payco' => $transaction['referencePayco'],
+        'factura' => $transaction['referenceClient'],
+        'fecha' => $transaction['transactionDate'],
+        'valor' => $transaction['amount'],
+        'iva' => $transaction['iva'],
+        'moneda' => $transaction['currency'],
+        'descripcion' => $transaction['description'],
+        'franquicia' => $transaction['paymentMethod'],
+        'banco' => $transaction['bank'],
+        'tarjeta' => $transaction['card'],
+        'estado' => $transaction['status'],
+        'respuesta' => $transaction['response'],
+        'recibo' => $transaction['receipt'],
+        'autorizacion' => $transaction['authorization'],
+        'trmDia' => $transaction['trmdia'],
+        'tipoDocUser' => $transaction['docType'],
+        'cedula' => $transaction['document'],
+        'nombres' => $transaction['names'],
+        'apellidos' => $transaction['lastnames'],
+      ];
+      array_push($data, $row);
+    }
 
-    array_unshift($transactions, $headers);
-    return $transactions;
+    array_unshift($data, array_keys($data[0]));
+    return $data;
   }
 }

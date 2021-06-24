@@ -4,3 +4,4 @@ positive.format: this field must be a int.
 transaction.state: this field must be a transaction state
 paymentMethod: this field must be a payment method id
 transaction.enviroment: this field must be a transaction id enviroment
+same.password: this field must be same to password
