@@ -19,4 +19,16 @@ final class ReactRouterSoporteController extends AbstractController
     // en index pagina con datos generales de la app
     return $this->render('base.html.twig');
   }
+
+  /**
+   *
+   * @Route("/soporte/crear-ticket", name="soporte_create")
+   *
+   */
+
+  public function routerSoporteCreateTicket(Request $request)
+  {
+    // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
 }
