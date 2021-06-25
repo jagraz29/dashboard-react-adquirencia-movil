@@ -51,3 +51,7 @@ export const IconService = {
   name: 'IconService',
   url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logo+sidebar/servicio.png',
 }
+export const IconSoporte = {
+  name: 'IconSoporte',
+  url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png',
+}
