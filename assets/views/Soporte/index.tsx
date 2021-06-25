@@ -22,7 +22,7 @@ const optionsSoport = [
     icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/ticket-2.svg ',
     text: 'Crear ticket de soporte',
     history: true,
-    url: 'dashboard/soporte/nuevo',
+    url: 'soporte/nuevo',
   },
   {
     icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/conocimiento.svg',
