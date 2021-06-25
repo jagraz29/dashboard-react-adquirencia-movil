@@ -146,10 +146,7 @@ export const CardPending = styled.div`
   right: 0vw;
 `
 
-export const CardTransactionTitle = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
+export const CardTransactionTitle = styled.h2`
   font-size: 1vw;
   line-height: 1vw;
   margin: 1vw;
@@ -201,10 +198,7 @@ export const ContentTable = styled.div`
   overflow: scroll;
 `
 
-export const CardTableTitle = styled.span`
-  font-family: Kanit;
-  font-style: normal;
-  font-weight: normal;
+export const CardTableTitle = styled.h2`
   font-size: 1.7vw;
   line-height: 2vw;
 

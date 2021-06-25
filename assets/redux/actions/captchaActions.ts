@@ -156,3 +156,13 @@ export const getListTransactionSite2 = (filter: string) => async (dispatch: any)
     return false
   }
 }
+
+export const exportExcel = (filter: string) => async (dispatch: any) => {
+  try {
+    const { data } = await dataService.get(`api/transaction/export.xlsx/${filter}`)
+    const resData = data.data
+    return resData
+  } catch (error) {
+    return false
+  }
+}

@@ -112,7 +112,6 @@ const Cobra = () => {
           <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
         </ButtonLink>
         <ContentTable>
-          <Paginations />
           <ContentSearchTitle>
             <CardTableTitle>Cobros</CardTableTitle>
             <InputSearch

@@ -17,8 +17,6 @@ const MedioPago: React.FC<Props> = ({ type }) => {
       ) : (
         ''
       )}
-
-      {type}
     </ContentMedioPago>
   )
 }

@@ -195,6 +195,7 @@ export const ContentItemTitle = styled.div`
   display: flex;
   margin: 0vw;
   border-left: 4px solid #ff4000;
+  cursor: pointer;
 `
 
 export const ItemTitle = styled.h2`
@@ -256,4 +257,16 @@ export const CardContentTable = styled.div`
   left: 0vw;
   overflow: scroll;
   background: red;
+`
+
+export const ContentPagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+`
+
+export const ItemResultTotal = styled.h2`
+  font-size: 1.3vw;
+  padding-left: 2vw;
 `

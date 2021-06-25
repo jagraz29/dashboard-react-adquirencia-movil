@@ -27,17 +27,25 @@ import {
   ContentImputsItems3,
   ContentButonCard,
   CardContentTable,
+  ContentPagination,
+  ItemResultTotal,
 } from './styles'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabelTitle from '../../components/InputLabelTitle'
 import ButtonSpinner from '../../components/Button'
 
 import { useHistory } from 'react-router-dom'
-import { getDataUser, getListTransactionSite, getListTransactionSite2 } from '../../redux/actions'
+import {
+  getDataUser,
+  getListTransactionSite,
+  getListTransactionSite2,
+  exportExcel,
+} from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { array } from 'prop-types'
-import TablaDashboard from '../../components/TableDashboard'
+import TablaTransaction from '../../components/TableTransaction'
+import Paginations from '../../components/Pagination'
 
 const breadcrumb = [
   {
@@ -46,21 +54,13 @@ const breadcrumb = [
     active: true,
   },
   {
-    title: 'Cobra',
-    path: '/cobra',
-    active: true,
+    title: 'Transacciónes',
+    path: '/transacciones',
+    active: false,
   },
 ]
 
-const dataTitle = [
-  'Ref.Payco',
-  'Ref.Client',
-  'Descripción',
-  'Medio de pago',
-  'Valor',
-  'Moneda',
-  'Estado',
-]
+const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado']
 
 const Transacciones = () => {
   const dispatch = useDispatch()
@@ -72,22 +72,12 @@ const Transacciones = () => {
   const dataAgregation = viewState.getListTransaction.listTransactionData
 
   const dataListTable = dataList.map((item: any) => {
-    const {
-      referencePayco,
-      referenceClient,
-      description,
-      paymentMethod,
-      amount,
-      currency,
-      status,
-    } = item
+    const { referencePayco, transactionDateTime, paymentMethod, amount, status } = item
     return {
       referencePayco,
-      referenceClient,
-      description,
+      transactionDateTime,
       paymentMethod,
       amount,
-      currency,
       status,
     }
   })
@@ -107,6 +97,8 @@ const Transacciones = () => {
   const [statusId, setStatusId] = useState('')
   const [fromDate, setFromDate] = useState('')
   const [toDate, seTtoDate] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [showLoadingProperty, setShowLoadingProperty] = useState(false)
 
   const redirectRoute = (path: string) => {
     history.push(path)
@@ -149,8 +141,44 @@ const Transacciones = () => {
     console.log('Evento Transaccion ', value)
     setBoder1({ borderLeft: true })
 
-    setStatusId('&statusId=2')
-    const status = '&statusId=2'
+    let status = ''
+    switch (value.key) {
+      case 'Aceptada':
+        status = '&statusId=1'
+        break
+      case 'Rechazada':
+        status = '&statusId=2'
+        break
+      case 'Pendiente':
+        status = '&statusId=3'
+        break
+      case 'Fallida':
+        status = '&statusId=4'
+        break
+      case 'Reversada':
+        status = '&statusId=6'
+        break
+      case 'Retenida':
+        status = '&statusId=7'
+        break
+      case 'Iniciada':
+        status = '&statusId=8'
+        break
+      case 'Expirada':
+        status = '&statusId=9'
+        break
+      case 'Abandonada':
+        status = '&statusId=10'
+        break
+      case 'Cancelada':
+        status = '&statusId=11'
+        break
+      case 'Antifraude':
+        status = '&statusId=12'
+        break
+    }
+
+    setStatusId(status)
     dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
   }
 
@@ -271,6 +299,39 @@ const Transacciones = () => {
     dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
   }
 
+  const eventTransaccionTodo = () => {
+    const status = ''
+    setStatusId(status)
+    dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
+  }
+
+  const eventPagosTodos = () => {
+    const payurl = ''
+    setPaymentMethod(payurl)
+
+    dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
+  }
+
+  const borrarFiltros = () => {
+    setStatusId('')
+    setPaymentMethod('')
+    dispatch(getListTransactionSite('?paymentMethod=VS'))
+  }
+
+  const exportExcel = () => {
+    dispatch(exportExcel())
+  }
+
+  const onPageChanged = useCallback(
+    (event, page) => {
+      console.log('PAGE', page, ' evetn', event)
+      event.preventDefault()
+      setCurrentPage(page)
+      dispatch(getListTransactionSite(`?page=${page}`))
+    },
+    [setCurrentPage]
+  )
+
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
@@ -308,7 +369,11 @@ const Transacciones = () => {
               <ContentFecha2>
                 <InputLabelTitle label={'Estado de las transacciones'} />
                 <ContentImputsItems>
-                  <ContentItemTitle>
+                  <ContentItemTitle
+                    onClick={() => {
+                      eventTransaccionTodo()
+                    }}
+                  >
                     <ItemTitle>Todos</ItemTitle>
                     <ItemValue>{totalCount}</ItemValue>
                   </ContentItemTitle>
@@ -349,7 +414,11 @@ const Transacciones = () => {
               <ContentFecha3>
                 <InputLabelTitle label={'Medios de pago'} />
                 <ContentImputsItems2>
-                  <ContentItemTitle>
+                  <ContentItemTitle
+                    onClick={() => {
+                      eventPagosTodos()
+                    }}
+                  >
                     <ItemTitle>Todos</ItemTitle>
                     <ItemValue>{totalCount}</ItemValue>
                   </ContentItemTitle>
@@ -369,13 +438,25 @@ const Transacciones = () => {
               <ContentFecha5>
                 <InputLabelTitle label={'Acciones'} />
                 <ContentImputsItems3>
-                  <ButtonFecha>Exportar Excel</ButtonFecha>
+                  <ButtonFecha
+                    onClick={() => {
+                      exportExcel()
+                    }}
+                  >
+                    Exportar Excel
+                  </ButtonFecha>
                   <ButtonFecha>Exportar csv</ButtonFecha>
                 </ContentImputsItems3>
               </ContentFecha5>
             </CardContent1>
             <ContentButonCard>
-              <ButtonFecha>Borrar filtros</ButtonFecha>
+              <ButtonFecha
+                onClick={() => {
+                  borrarFiltros()
+                }}
+              >
+                Borrar filtros
+              </ButtonFecha>
             </ContentButonCard>
           </Card1>
 
@@ -386,11 +467,24 @@ const Transacciones = () => {
             </CardHeader>
             <CardContent2>
               {dataTable && dataTable.length > 0 ? (
-                <TablaDashboard data={dataTable} titleData={dataTitle} />
+                <TablaTransaction data={dataTable} titleData={dataTitle} />
               ) : (
                 console.log('loading')
               )}
-              Resultados
+              <ContentPagination>
+                <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
+                {totalCount && totalCount > 0 ? (
+                  <Paginations
+                    totalRecords={totalCount}
+                    pageLimit={15}
+                    pageNeighbours={2}
+                    onPageChanged={onPageChanged}
+                    currentPage={currentPage}
+                  />
+                ) : (
+                  ''
+                )}
+              </ContentPagination>
             </CardContent2>
           </Card2>
         </ContentCard>
