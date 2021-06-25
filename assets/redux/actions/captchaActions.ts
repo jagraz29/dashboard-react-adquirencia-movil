@@ -186,6 +186,15 @@ export const sendPasswords = async (data: any) => {
   }
 }
 
+export const createTicket = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/create', data)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
 export const getDepartments = async () => {
   try {
     const { data } = await dataService.get('/api/ticket/departments')

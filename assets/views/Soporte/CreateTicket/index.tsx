@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { AiFillFilePdf } from 'react-icons/ai'
 
 import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
@@ -6,7 +7,12 @@ import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import InputSelect from '../../../components/InputSelect'
-import { createSellLink, getDepartments, getPriorities } from '../../../redux/actions/'
+import {
+  createSellLink,
+  createTicket,
+  getDepartments,
+  getPriorities,
+} from '../../../redux/actions/'
 
 import Dropzone from 'react-dropzone'
 
@@ -122,12 +128,7 @@ const CreateTicket = (props: any) => {
     const name = target.name
     const value = target.value
 
-    if (name == 'valor' || name == 'cantidad') {
-      if (value < 0) {
-        toast.error('Debe ingresar un valor mayor a 0')
-        return 0
-      }
-    }
+    console.log('aquii', e, name, value)
 
     await setTicket((prevState) => ({
       ...prevState,
@@ -153,7 +154,6 @@ const CreateTicket = (props: any) => {
     const val = validate()
     setLoadButton(true)
     const arrImages = []
-    let file = null
 
     if (typeof val != 'boolean') {
       toast.error(val)
@@ -167,22 +167,18 @@ const CreateTicket = (props: any) => {
       }
     }
 
-    if (loadFiles.length > 0) {
-      file = loadFiles[0].base64
-    }
-
     const data = {
-      area: ticket.area,
-      impacto: ticket.impacto,
+      departamento: ticket.area,
+      prioridad: ticket.impacto,
       asunto: ticket.asunto,
-      solicitud: ticket.solicitud,
-      documentos: [],
+      pregunta: ticket.solicitud,
+      files: arrImages,
     }
 
-    const res = await dispatch(createSellLink(data))
+    const res = await createTicket(data)
     if (!!res == true) {
-      toast.success('Se ha guardado correctamente el link de ticket.')
-      redirectRoute('/cobra')
+      toast.success('Se ha guardado correctamente el ticket.')
+      redirectRoute('/soporte')
     } else {
       toast.error(
         'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
@@ -348,7 +344,20 @@ const CreateTicket = (props: any) => {
                   <PhotoDropLoaded>
                     {loadImages.map((image, index) => (
                       <LoadImage key={`${image.name}-${index}`}>
-                        <ImageShow src={URL.createObjectURL(image)} alt="" />
+                        {image.type == 'application/pdf' ? (
+                          <span
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '100%',
+                            }}
+                          >
+                            <AiFillFilePdf style={{ fontSize: '6vw', color: '#ADADAD' }} />
+                          </span>
+                        ) : (
+                          <ImageShow src={URL.createObjectURL(image)} alt="" />
+                        )}
                         <ClosePhoto onClick={() => deleteFile(index)}>
                           <small>Eliminar</small>
                         </ClosePhoto>
@@ -364,7 +373,7 @@ const CreateTicket = (props: any) => {
                       {({ getRootProps, getInputProps }) => (
                         <ButtonImageLoad {...getRootProps()}>
                           <input {...getInputProps()} />
-                          <i>
+                          <i style={{ fontSize: '10px' }}>
                             Arrastre el archivo o{' '}
                             <span style={{ color: 'skyblue' }}>Seleccione</span> un archivo desde su
                             equipo (svg, jpg o pdf) que no supere 5MB
@@ -387,7 +396,7 @@ const CreateTicket = (props: any) => {
             >
               {loadButton ? <Spinner /> : 'Crear Ticket'}
             </ButtonOk>
-            <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
+            <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/soporte')}>
               Cancelar
             </ButtonCancel>
           </CardContentButton>
