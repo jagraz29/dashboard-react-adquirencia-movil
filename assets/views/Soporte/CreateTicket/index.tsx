@@ -7,12 +7,7 @@ import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
 import InputSelect from '../../../components/InputSelect'
-import {
-  createSellLink,
-  createTicket,
-  getDepartments,
-  getPriorities,
-} from '../../../redux/actions/'
+import { createTicket, getDepartments, getPriorities } from '../../../redux/actions/'
 
 import Dropzone from 'react-dropzone'
 
@@ -47,8 +42,8 @@ const breadcrumb = [
     active: true,
   },
   {
-    title: 'Cobra',
-    path: '/cobra',
+    title: 'Soporte',
+    path: '/soporte',
     active: false,
   },
 ]
