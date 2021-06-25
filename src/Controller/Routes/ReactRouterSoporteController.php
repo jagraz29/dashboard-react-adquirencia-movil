@@ -22,7 +22,7 @@ final class ReactRouterSoporteController extends AbstractController
 
   /**
    *
-   * @Route("/soporte/crear-ticket", name="soporte_create")
+   * @Route("/soporte/nuevo", name="soporte_create")
    *
    */
 

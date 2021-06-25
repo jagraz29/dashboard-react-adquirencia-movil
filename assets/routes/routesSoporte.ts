@@ -7,7 +7,7 @@ export const RoutesSoporte = {
   component: Soporte,
 }
 export const RoutesCreateTicket = {
-  path: '/soporte/crear-ticket',
+  path: '/soporte/nuevo',
   exact: true,
   component: CreateTicket,
 }
