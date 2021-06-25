@@ -7,10 +7,11 @@ type Props = {
   placeholder: string
   width: string
   value: string
+  style?: any
   onChange: any
 }
 
-const TextareaCustomer: React.FC<Props> = ({ name, placeholder, value, onChange }) => {
+const TextareaCustomer: React.FC<Props> = ({ name, placeholder, value, onChange, style }) => {
   const [valor, setValor] = useState('')
 
   const handlerOnChange = (valor: any) => {
@@ -21,6 +22,7 @@ const TextareaCustomer: React.FC<Props> = ({ name, placeholder, value, onChange 
     <Textarea
       placeholder={placeholder}
       name={name}
+      style={style}
       value={value}
       onChange={(e) => {
         handlerOnChange(e)

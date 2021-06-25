@@ -33,18 +33,17 @@ label {
     url('/public/img/fondo-davivienda-dashboard1.jpg');
   background-repeat: no-repeat;
   background-size: 100vw;
+  padding-top: 10vw;
+  padding-left: 7vw;
   height: 100vh;
 }
 
 .auth-container {
-  position: absolute;
   display: flex;
   justify-content: center;
-  left: 8.19%;
-  right: 67.5%;
-  top: 23.78%;
-  bottom: 25.81%;
-
+  padding: 1vw;
+  width: 25%;
+  height: 60%;
   background: #ffffff;
   box-shadow: 0px 10px 20px rgba(18, 38, 63, 0.0313726);
   border-radius: 8px;
@@ -92,12 +91,9 @@ label {
 }
 
 .copyright {
-  position: absolute;
+  display: block;
+  width: 24vw;
   letter-spacing: 1.5px;
-  left: 9.03%;
-  right: 68.33%;
-  top: 76.44%;
-  bottom: 22.4%;
   font-size: 13px;
   line-height: 19px;
   text-align: center;
@@ -109,6 +105,7 @@ label {
 
 .reset-password {
   color: #adadad;
+  font-size: 12px;
   margin-left: 2vw;
 }
 
@@ -174,7 +171,7 @@ label {
   font-family: Segoe UI;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 21px;
   text-align: center;
   color: #5c5b5c;
@@ -185,7 +182,7 @@ label {
 }
 
 .alert {
-  padding: 20px;
+  padding: 10px;
   background-color: #f44336; /* Red */
   color: white;
   margin-bottom: 15px;

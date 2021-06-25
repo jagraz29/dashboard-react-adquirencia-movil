@@ -127,6 +127,8 @@ class TicketController extends BaseController
   public function create(Request $request)
   {
     $content = $request->getContent();
+
+    $content = json_decode($content, true);
     $createTicketDto = new CreateTicketDto();
     $createTicketDto->setPregunta(
       $content[TextResponsesCommon::PREGUNTA] ? $content[TextResponsesCommon::PREGUNTA] : ''
@@ -151,9 +153,9 @@ class TicketController extends BaseController
     $consult = $this->apify->consult('ticket/create', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0][TextResponsesCommon::SUCCESS],
-      $consult[0][TextResponsesCommon::DATA],
-      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 
