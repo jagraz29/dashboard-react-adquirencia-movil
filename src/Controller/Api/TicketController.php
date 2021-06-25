@@ -98,9 +98,9 @@ class TicketController extends BaseController
    */
   public function getList(Request $request)
   {
-    $content = $request->getContent();
+    $content = json_decode($request->getContent(), true);
     $filterTicketDto = new FilterTicketDto();
-    $filterTicketDto->setIdTicket($content['id'] ? $content['id'] : '');
+    $filterTicketDto->setIdTicket(isset($content['id']) ? $content['id'] : '');
     $filterTicketDto->setEstadoTicket($content['estado'] ? $content['estado'] : '');
     $errors = $this->validator->validate($filterTicketDto);
     if (count($errors) > 0) {
@@ -115,9 +115,9 @@ class TicketController extends BaseController
     $consult = $this->apify->consult('ticket/list', \Requests::POST, $data);
 
     return $this->jsonResponse(
-      $consult[0][TextResponsesCommon::SUCCESS],
-      $consult[0][TextResponsesCommon::DATA],
-      $consult[0][TextResponsesCommon::TEXT_RESPONSE]
+      $consult[TextResponsesCommon::SUCCESS],
+      $consult[TextResponsesCommon::DATA],
+      $consult[TextResponsesCommon::TEXT_RESPONSE]
     );
   }
 

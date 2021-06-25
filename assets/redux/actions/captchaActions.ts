@@ -212,3 +212,13 @@ export const getPriorities = async () => {
     return false
   }
 }
+
+export const getTickets = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/list', data)
+    console.log(dataRes.data)
+    return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
