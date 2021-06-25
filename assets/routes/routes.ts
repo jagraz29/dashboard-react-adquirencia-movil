@@ -5,6 +5,7 @@ import { RoutesDashboard } from './routesDashboard'
 import { RouteCobraCreate, RouteCobraEdit, RoutesCobra } from './routesCobra'
 import { RoutesIntegraciones } from './routesIntegraciones'
 import { RoutesSeguridad } from './routesSeguridad'
+import { RoutesTransacciones } from './routesTransacciones'
 
 const routes: RouteConfig[] = [
   RoutesDashboard,
@@ -13,6 +14,7 @@ const routes: RouteConfig[] = [
   RoutesSeguridad,
   RouteCobraCreate,
   RouteCobraEdit,
+  RoutesTransacciones,
   {
     path: '/test/route',
     exact: false,

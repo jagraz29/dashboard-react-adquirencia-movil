@@ -198,6 +198,7 @@ export const ContentTable = styled.div`
   border-radius: 4px;
   top: 9.5vw;
   left: 0vw;
+  overflow: scroll;
 `
 
 export const CardTableTitle = styled.span`
