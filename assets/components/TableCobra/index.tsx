@@ -22,7 +22,9 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   }
 
   const content = (
-    <React.Fragment><ShareLink /></React.Fragment>
+    <React.Fragment>
+      <ShareLink />
+    </React.Fragment>
   )
 
   return (
@@ -98,7 +100,12 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             </tr>
           </tfoot> */}
       </StyledTable>
-      <ModalComp isShown={isShown} hide={toggle} modalContent={content} headerText={'hola'} />
+      <ModalComp
+        isShown={isShown}
+        hide={toggle}
+        modalContent={content}
+        headerText={'Compartir link del catálogo'}
+      />
     </div>
   )
 }
