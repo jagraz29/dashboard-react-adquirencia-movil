@@ -28,6 +28,9 @@ import {
 import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
 import { useHistory } from 'react-router-dom'
+import { getListTransactionSite } from '../../redux/actions'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/reducers/index'
 
 const dataTitle = [
   'Ref.Payco',
@@ -41,15 +44,56 @@ const dataTitle = [
 
 const index = () => {
   const [dataUser, setDataUser] = useState(new StorageData().getData())
+  const dispatch = useDispatch()
   const history = useHistory()
+
+  const viewState: RootState = useSelector((state: RootState) => state)
+
+  const dataList = viewState.getListTransaction.listTransactionData.transactions
+
+  const dataListTable = dataList.map((item: any) => {
+    const {
+      referencePayco,
+      referenceClient,
+      description,
+      paymentMethod,
+      amount,
+      currency,
+      status,
+    } = item
+    return {
+      referencePayco,
+      referenceClient,
+      description,
+      paymentMethod,
+      amount,
+      currency,
+      status,
+    }
+  })
+
+  console.log('MY array', dataListTable)
+
+  const [dataTable, setDataTable] = useState(dataList)
+  const [count, setCount] = useState(0)
 
   const redirectRoute = (path: string) => {
     history.push(path)
   }
 
   useEffect(() => {
+    dispatch(getListTransactionSite('/?limit=3'))
+  }, [count])
+
+  useEffect(() => {
+    setDataTable(dataList)
+  }, [dataList])
+
+  useEffect(() => {
     setDataUser(new StorageData().getData())
-  }, [dataUser])
+  }, [])
+
+  console.log(dataList)
 
   return (
     <div>
@@ -82,7 +126,11 @@ const index = () => {
         </ContentItems>
         <ContentTable>
           <CardTableTitle>Últimas Transacciones</CardTableTitle>
-          <TablaDashboard data={datos} titleData={dataTitle} />
+          {dataListTable && dataListTable.length > 0 ? (
+            <TablaDashboard data={dataListTable} titleData={dataTitle} />
+          ) : (
+            console.log('loading')
+          )}
         </ContentTable>
       </Content>
     </div>

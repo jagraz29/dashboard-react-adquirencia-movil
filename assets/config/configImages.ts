@@ -47,6 +47,7 @@ export const IconEpeycoFooter = {
   name: 'IconEpeycoFooter',
   url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logos/logoepayco.png',
 }
+
 export const IconService = {
   name: 'IconService',
   url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logo+sidebar/servicio.png',
@@ -54,4 +55,19 @@ export const IconService = {
 export const IconSoporte = {
   name: 'IconSoporte',
   url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png',
+}
+
+export const IconVS = {
+  name: 'IconVS',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/VS+Cr%E2%80%9Adito+Visa.png',
+}
+
+export const IconMS = {
+  name: 'IconMS',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/MS+Cr%E2%80%9Adito+Mastercard.png',
+}
+
+export const IconPSE = {
+  name: 'IconPSE',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
 }

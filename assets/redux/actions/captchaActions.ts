@@ -13,6 +13,7 @@ export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const SET_PASSWORD = 'SET_PASSWORD'
 export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
+export const GET_LIST_TRANSACTION = 'GET_LIST_TRANSACTION'
 
 const dataService = new DataService()
 
@@ -148,6 +149,16 @@ export const createSellLink = (data: any) => async (dispatch: any) => {
   }
 }
 
+export const getListCollect = (searchGeneral: any) => async (dispatch: any) => {
+  try {
+    const res = await dataService.get(`api/collect/${searchGeneral}`)
+    dispatch({
+      type: GET_LIST_COLLECT,
+      payload: res.data.data,
+    })
+  } catch (error) {}
+}
+
 export const editSellLink = (id: number) => async (dispatch: any) => {
   try {
     const { data } = await dataService.get(`http://localhost:8000/api/collect/edit/${id}`)
@@ -158,14 +169,24 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
   }
 }
 
-export const getListCollect = () => async (dispatch: any) => {
+export const getListTransactionSite = (filter: string) => async (dispatch: any) => {
   try {
-    const res = await dataService.get('api/collect')
+    const res = await dataService.get(`api/transaction${filter}`)
     dispatch({
-      type: GET_LIST_COLLECT,
+      type: GET_LIST_TRANSACTION,
       payload: res.data.data,
     })
   } catch (error) {}
+}
+
+export const getListTransactionSite2 = (filter: string) => async (dispatch: any) => {
+  try {
+    const { data } = await dataService.get(`api/transaction${filter}`)
+    const resData = data.data
+    return resData
+  } catch (error) {
+    return false
+  }
 }
 
 export const sendEmail = async (email: string) => {
@@ -208,6 +229,18 @@ export const getPriorities = async () => {
   try {
     const { data } = await dataService.get('/api/ticket/priorities')
     return data.data
+    const resData = data.data
+    return resData
+  } catch (error) {
+    return false
+  }
+}
+
+export const exportExcel = (filter: string) => async (dispatch: any) => {
+  try {
+    const { data } = await dataService.get(`api/transaction/export.xlsx/${filter}`)
+    const resData = data.data
+    return resData
   } catch (error) {
     return false
   }

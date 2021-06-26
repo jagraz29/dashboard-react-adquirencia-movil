@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import {
   StyledTable,
   TableTextMoneda,
@@ -15,7 +16,7 @@ type Props = {
   titleData: {}[]
 }
 
-const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
+const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
 
@@ -48,15 +49,15 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         {item[title]}
                       </TableTextLink>
                     </body>
-                  ) : index == 5 ? (
+                  ) : index == 3 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>
-                  ) : index == 3 ? (
+                  ) : index == 2 ? (
                     <body>
                       <MedioPago type={item[title]}></MedioPago>
                     </body>
-                  ) : index == 6 ? (
+                  ) : index == 4 ? (
                     <body>
                       {item[title] == 'Aceptada' ? (
                         <TableTextStatusOK>{item[title]}</TableTextStatusOK>
@@ -90,4 +91,4 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   )
 }
 
-export default TableDashboard
+export default TableTransaction
