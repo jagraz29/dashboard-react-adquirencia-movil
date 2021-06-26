@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Title from '../../components/Title'
 import { IconLink } from '../../config/configImages'
 import Breadcrumbs from '../../components/Breadcrumbs/'
-import TablaDashboard from '../../components/TableDashboard'
+import TablaCobra from '../../components/TableCobra'
 import { datos } from './data'
 import {
   Content,
@@ -13,9 +13,15 @@ import {
   ButtonLinkText,
   ContentTable,
   CardTableTitle,
+  ContentSearchTitle,
+  SearchTable,
 } from './styles'
 import { useHistory } from 'react-router-dom'
-
+import { getListCollect } from '../../redux/actions'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/reducers/index'
+import InputSearch from '../../components/InputSearch/'
+import Paginations from '../../components/Pagination'
 const breadcrumb = [
   {
     title: 'Inicio',
@@ -29,11 +35,69 @@ const breadcrumb = [
   },
 ]
 
+const dataTitle = [
+  'Id',
+  'Fecha',
+  'Titulo',
+  'typeSell',
+  'Referencia',
+  'Moneda',
+  'Valora',
+  'Estado',
+  'Link',
+  'Acciones',
+]
+
+const dataInit = [
+  {
+    id: 0,
+    date: '',
+    title: '',
+    typeSell: 0,
+    reference: '',
+    currency: '',
+    amount: 0,
+    state: 0,
+    link: 0,
+  },
+]
+
 const Cobra = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
+
+  const viewState: RootState = useSelector((state: RootState) => state)
+
+  const dataList = viewState.getListCollect.listCollectData.data
+
+  const [dataTable, setDataTable] = useState(dataList)
+  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    dispatch(getListCollect(search))
+  }, [count])
+
+  useEffect(() => {
+    setDataTable(dataList)
+  }, [dataList])
 
   const redirectRoute = (path: string) => {
     history.push(path)
+  }
+
+  const searchChange = useCallback((event) => {
+    setSearch(event.target.value)
+  }, [])
+
+  const searchTable = useCallback((event) => {
+    searchData(event)
+  }, [])
+
+  const searchData = (value: string) => {
+    console.log('esto que pues ', value)
+
+    dispatch(getListCollect(value))
   }
 
   return (
@@ -48,8 +112,29 @@ const Cobra = () => {
           <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
         </ButtonLink>
         <ContentTable>
-          <CardTableTitle>Cobros</CardTableTitle>
-          <TablaDashboard data={datos} />
+          <ContentSearchTitle>
+            <CardTableTitle>Cobros</CardTableTitle>
+            <InputSearch
+              type={'text'}
+              placeholder={'Buscar'}
+              name={'search'}
+              value={search}
+              onChange={(e: any) => {
+                searchChange(e)
+              }}
+              returnComplete={true}
+              width={'15vw'}
+              eventSearch={(e: any) => {
+                searchTable(e)
+              }}
+            />
+          </ContentSearchTitle>
+
+          {dataTable && dataTable.length > 0 ? (
+            <TablaCobra data={dataTable} titleData={dataTitle} />
+          ) : (
+            console.log('loading')
+          )}
         </ContentTable>
       </Content>
     </div>

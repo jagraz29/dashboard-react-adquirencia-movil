@@ -91,6 +91,7 @@ class ConfigurationController extends BaseController
   public function setPayPage(Request $request)
   {
     $content = $request->getContent();
+    $content = json_decode($content, true);
 
     $propertyDto = new PayPageDto();
     $propertyDto->setLogo($content['logo']);
@@ -133,19 +134,12 @@ class ConfigurationController extends BaseController
   public function setOptionGateway(Request $request)
   {
     $content = $request->getContent();
-
-    $propertyDto = new PayPageDto();
-    $propertyDto->setLogo($content['logo']);
-
-    $errors = $this->validator->validate($propertyDto);
-    if (count($errors) > 0) {
-      return $this->validatorErrorResponse($errors);
-    }
+    $content = json_decode($content, true);
 
     $data = [
       'urlConfirmacion' => $content['urlConfirmacion'],
       'urlRespuesta' => $content['urlRespuesta'],
-      'idioma' => $content['idioma'],
+      'idioma' => $content['idiomaPredeterminado'],
     ];
 
     $consult = $this->apify->consult('/configuration/options-gateway', \Requests::POST, $data);
