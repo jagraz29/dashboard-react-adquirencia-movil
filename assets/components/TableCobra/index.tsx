@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
+import { useModal } from '../../components/hooks/useModal'
+import { ModalComp } from '../../components/modalComp'
+import ShareLink from '../../components/ShareLink'
 
 type Props = {
   data: {}[]
@@ -13,10 +16,14 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const datos = Object.keys(data[0])
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
-
+  const { isShown, toggle } = useModal()
   const compartir = (item: number) => {
     console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
   }
+
+  const content = (
+    <React.Fragment><ShareLink /></React.Fragment>
+  )
 
   return (
     <div>
@@ -68,7 +75,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                     {
                       name: 'Compartir cobro',
                       funcion: () => {
-                        compartir(item.id)
+                        toggle()
                       },
                       validarEstado: true,
                     },
@@ -91,6 +98,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             </tr>
           </tfoot> */}
       </StyledTable>
+      <ModalComp isShown={isShown} hide={toggle} modalContent={content} headerText={'hola'} />
     </div>
   )
 }
