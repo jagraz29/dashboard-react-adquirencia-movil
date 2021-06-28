@@ -48,8 +48,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                     </body>
                   ) : index == 8 ? (
                     <body>
-                      <TableTextLink href={'https://epayco.link/' + item[title]}>
-                        https://epayco.link/{item[title]}
+                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                        https://link.epayco.xyz/{item[title]}
                       </TableTextLink>
                     </body>
                   ) : (

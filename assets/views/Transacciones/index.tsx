@@ -92,7 +92,7 @@ const Transacciones = () => {
   const [totalCount, setTotalCount] = useState(0)
   const [boder1, setBoder1] = useState({ borderLeft: false })
   const [filterSearch, setFilterSearch] = useState('')
-  const [urlBase, setUrlBase] = useState('/?paymentMethod=')
+  const [urlBase, setUrlBase] = useState('?paymentMethod=')
   const [paymentMethod, setPaymentMethod] = useState('')
   const [statusId, setStatusId] = useState('')
   const [fromDate, setFromDate] = useState('')
