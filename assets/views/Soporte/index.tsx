@@ -1,12 +1,11 @@
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
 import React, { useEffect, useState } from 'react'
-import { StyleContainer } from './styles'
+import { StyleContainer, CardTableTitle, ContentTable } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
 import { Content } from '../Integraciones/styles'
 import CardSupportMin from '../../components/CardSupportMin'
 import { getDepartments, getPriorities, getTickets } from '../../redux/actions'
-import { CardTableTitle, ContentTable } from '../Cobra/styles'
 import TablaCobra from '../../components/TableCobra'
 import TableSoporte from '../../components/TableSoporte'
 const breadcrumb = [
@@ -86,7 +85,6 @@ const Soporte = () => {
     const tickets = await getTickets(data)
     if (typeof tickets != 'boolean') {
       console.log(tickets)
-      const showTickets = tickets.map((ticket: any) => {})
       setTicketsOpen(tickets)
     } else {
       toast.error(
@@ -135,41 +133,43 @@ const Soporte = () => {
                   )
                 })}
               </div>
+              <ContentTable>
+                <CardTableTitle>Tickets de soporte Abiertos / En proceso</CardTableTitle>
+                {ticketsOpen && ticketsOpen.length > 0 ? (
+                  <TableSoporte
+                    data={ticketsOpen}
+                    titleData={ticketsTitle}
+                    bodyTitle={ticketsBodyTitle}
+                    ticketsOpen={true}
+                  />
+                ) : (
+                  <p style={{ textAlign: 'center' }}>
+                    <i>
+                      {' '}
+                      No tiene tickets pendientes, si tiene alguna inquietud o algo qué resolver
+                      puede <strong>crear ticket de soporte</strong>
+                    </i>
+                  </p>
+                )}
+              </ContentTable>
+              <ContentTable style={{ marginBottom: '20vw' }}>
+                <CardTableTitle>Tickets de soporte cerrados</CardTableTitle>
+                {ticketsClose && ticketsClose.length > 0 ? (
+                  <TableSoporte
+                    data={ticketsClose}
+                    titleData={ticketsTitle}
+                    bodyTitle={ticketsBodyTitle}
+                    ticketsOpen={false}
+                  />
+                ) : (
+                  <p style={{ textAlign: 'center' }}>
+                    <i> No tiene tickets cerrados</i>
+                  </p>
+                )}
+              </ContentTable>
             </StyleContainer>
           </div>
         </div>
-        <ContentTable>
-          <CardTableTitle>Tickets de soporte Abiertos / En proceso</CardTableTitle>
-          {ticketsOpen && ticketsOpen.length > 0 ? (
-            <TableSoporte
-              data={ticketsOpen}
-              titleData={ticketsTitle}
-              bodyTitle={ticketsBodyTitle}
-            />
-          ) : (
-            <p>
-              <i>
-                {' '}
-                No tiene tickets pendientes, si tiene alguna inquietud o algo qué resolver puede{' '}
-                <strong>crear ticket de soporte</strong>
-              </i>
-            </p>
-          )}
-        </ContentTable>
-        <ContentTable>
-          <CardTableTitle>Tickets de soporte cerrados</CardTableTitle>
-          {ticketsClose && ticketsClose.length > 0 ? (
-            <TableSoporte
-              data={ticketsClose}
-              titleData={ticketsTitle}
-              bodyTitle={ticketsBodyTitle}
-            />
-          ) : (
-            <p>
-              <i> No tiene tickets cerrados</i>
-            </p>
-          )}
-        </ContentTable>
       </Content>
     </div>
   )
