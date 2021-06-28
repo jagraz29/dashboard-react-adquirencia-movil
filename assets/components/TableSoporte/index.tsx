@@ -5,10 +5,10 @@ import TableCollectAction from '../TableCollectAction'
 type Props = {
   data: {}[]
   titleData: {}[]
+  bodyTitle: {}[]
 }
 
-const TableSoporte: React.FC<Props> = ({ data, titleData }) => {
-  const titles = Object.keys(titleData)
+const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle }) => {
   const datos = Object.keys(data[0])
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
@@ -33,15 +33,15 @@ const TableSoporte: React.FC<Props> = ({ data, titleData }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {datos.map((title: any, index: number) => (
+              {bodyTitle.map((title: any, index: number) => (
                 <td key={index}>
                   {index == 0 ? (
                     <body>
                       <TableTextLink href={'soporte/detalle/' + item[title]}>
-                        item[title]
+                        {item[title]}
                       </TableTextLink>
                     </body>
-                  ) : index == 4 ? (
+                  ) : index == 3 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>

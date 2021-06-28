@@ -245,3 +245,13 @@ export const exportExcel = (filter: string) => async (dispatch: any) => {
     return false
   }
 }
+
+export const getTickets = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/list', data)
+    console.log(dataRes.data)
+    return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
