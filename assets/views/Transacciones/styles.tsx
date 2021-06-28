@@ -136,6 +136,7 @@ export const ButtonFecha = styled.button`
   color: #58d3f7;
   justify-content: center;
   align-items: center;
+  margin-right: 1vw;
 
   :hover,
   :focus {
@@ -269,4 +270,9 @@ export const ContentPagination = styled.div`
 export const ItemResultTotal = styled.h2`
   font-size: 1.3vw;
   padding-left: 2vw;
+`
+
+export const InputLabelTitle = styled.h3`
+  width: 16vw;
+  font-size: 1vw;
 `

@@ -29,9 +29,9 @@ import {
   CardContentTable,
   ContentPagination,
   ItemResultTotal,
+  InputLabelTitle,
 } from './styles'
 import InputCustumer from '../../components/InputCostumer'
-import InputLabelTitle from '../../components/InputLabelTitle'
 import ButtonSpinner from '../../components/Button'
 
 import { useHistory } from 'react-router-dom'
@@ -54,7 +54,7 @@ const breadcrumb = [
     active: true,
   },
   {
-    title: 'Transacciónes',
+    title: 'Transacciones',
     path: '/transacciones',
     active: false,
   },
@@ -344,7 +344,7 @@ const Transacciones = () => {
             </CardHeader>
             <CardContent1>
               <ContentFecha>
-                <InputLabelTitle label={'Rango de fecha'} />
+                <InputLabelTitle>Rango de fecha</InputLabelTitle>
                 <ContentImputs>
                   <InputCustumer
                     name={'Desde:'}
@@ -356,9 +356,9 @@ const Transacciones = () => {
                   />
 
                   <InputCustumer
-                    name={'Desde:'}
+                    name={'Hasta:'}
                     type={'text'}
-                    placeholder={'Desde'}
+                    placeholder={'Hasta'}
                     width={'15.3vw'}
                     value={''}
                     onChange={(e: any) => {}}
@@ -367,7 +367,7 @@ const Transacciones = () => {
                 <ButtonFecha>Seleccionar fecha</ButtonFecha>
               </ContentFecha>
               <ContentFecha2>
-                <InputLabelTitle label={'Estado de las transacciones'} />
+                <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
                 <ContentImputsItems>
                   <ContentItemTitle
                     onClick={() => {
@@ -392,7 +392,7 @@ const Transacciones = () => {
                 </ContentImputsItems>
               </ContentFecha2>
               <ContentFecha4>
-                <InputLabelTitle label={'Entorno'} />
+                <InputLabelTitle>Entorno</InputLabelTitle>
                 <ContentImputsItems>
                   <ContentItemTitle>
                     <ItemTitle>Todos</ItemTitle>
@@ -412,7 +412,7 @@ const Transacciones = () => {
                 </ContentImputsItems>
               </ContentFecha4>
               <ContentFecha3>
-                <InputLabelTitle label={'Medios de pago'} />
+                <InputLabelTitle>Medios de pago</InputLabelTitle>
                 <ContentImputsItems2>
                   <ContentItemTitle
                     onClick={() => {
@@ -436,7 +436,7 @@ const Transacciones = () => {
                 </ContentImputsItems2>
               </ContentFecha3>
               <ContentFecha5>
-                <InputLabelTitle label={'Acciones'} />
+                <InputLabelTitle>Acciones</InputLabelTitle>
                 <ContentImputsItems3>
                   <ButtonFecha
                     onClick={() => {
@@ -462,8 +462,8 @@ const Transacciones = () => {
 
           <Card2>
             <CardHeader>
-              <CardTitle>Transacciónes</CardTitle>
-              <ButtonFecha>Busqueda avanzada</ButtonFecha>
+              <CardTitle>Transacciones</CardTitle>
+              <ButtonFecha>Búsqueda avanzada</ButtonFecha>
             </CardHeader>
             <CardContent2>
               {dataTable && dataTable.length > 0 ? (
