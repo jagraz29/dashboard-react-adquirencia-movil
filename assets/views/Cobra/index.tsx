@@ -39,7 +39,6 @@ const dataTitle = [
   'Id',
   'Fecha',
   'Titulo',
-  'typeSell',
   'Referencia',
   'Moneda',
   'Valora',
@@ -95,9 +94,7 @@ const Cobra = () => {
   }, [])
 
   const searchData = (value: string) => {
-    console.log('esto que pues ', value)
-
-    dispatch(getListCollect(value))
+    dispatch(getListCollect(`/${value}`))
   }
 
   return (

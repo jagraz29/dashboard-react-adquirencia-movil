@@ -42,7 +42,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                 <td key={index}>
                   {index == 0 ? (
                     <body>{item[title]}</body>
-                  ) : index == 5 ? (
+                  ) : index == 4 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>
