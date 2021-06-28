@@ -85,7 +85,6 @@ const Soporte = () => {
     const tickets = await getTickets(data)
     if (typeof tickets != 'boolean') {
       console.log(tickets)
-      const showTickets = tickets.map((ticket: any) => {})
       setTicketsOpen(tickets)
     } else {
       toast.error(
@@ -141,6 +140,7 @@ const Soporte = () => {
                     data={ticketsOpen}
                     titleData={ticketsTitle}
                     bodyTitle={ticketsBodyTitle}
+                    ticketsOpen={true}
                   />
                 ) : (
                   <p style={{ textAlign: 'center' }}>
@@ -159,6 +159,7 @@ const Soporte = () => {
                     data={ticketsClose}
                     titleData={ticketsTitle}
                     bodyTitle={ticketsBodyTitle}
+                    ticketsOpen={false}
                   />
                 ) : (
                   <p style={{ textAlign: 'center' }}>

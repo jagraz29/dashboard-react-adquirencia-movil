@@ -216,8 +216,25 @@ export const getPriorities = async () => {
 export const getTickets = async (data: any) => {
   try {
     const dataRes = await dataService.post('/api/ticket/list', data)
-    console.log(dataRes.data)
     return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const closeTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/close/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const reOpenTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/reopen/${id}`)
+    return dataRes.data
   } catch (error) {
     return false
   }
