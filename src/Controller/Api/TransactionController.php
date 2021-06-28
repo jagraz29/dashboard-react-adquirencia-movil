@@ -41,7 +41,7 @@ class TransactionController extends BaseController
   }
 
   /**
-   * @Route("/", name="api_transaction_index", methods={"GET"})
+   * @Route( name="api_transaction_index", methods={"GET"})
    */
   public function index(Request $request)
   {
