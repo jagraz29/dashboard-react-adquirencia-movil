@@ -9,6 +9,7 @@ import {
   TableTextStatusCancel,
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
+import TableTransaccionesAction from '../TableTransaccionesAction'
 
 type Props = {
   data: {}[]
@@ -19,6 +20,10 @@ type Props = {
 const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
+
+  const compartir = (item: number) => {
+    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
+  }
 
   console.log(data)
   return (
@@ -76,6 +81,29 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                   )}
                 </td>
               ))}
+              <td>
+                <TableTransaccionesAction
+                  actions={[
+                    {
+                      name: 'Detalle',
+                      funcion: '',
+                      validarEstado: true,
+                    },
+                    {
+                      name: 'Enviar comprobante',
+                      funcion: () => {
+                        compartir(item.id)
+                      },
+                      validarEstado: true,
+                    },
+                    {
+                      name: 'Reenvió de confirmación',
+                      funcion: '',
+                      validarEstado: true,
+                    },
+                  ]}
+                ></TableTransaccionesAction>
+              </td>
             </tr>
           ))}
         </tbody>

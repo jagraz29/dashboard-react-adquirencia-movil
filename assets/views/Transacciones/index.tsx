@@ -60,7 +60,7 @@ const breadcrumb = [
   },
 ]
 
-const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado']
+const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
 
 const Transacciones = () => {
   const dispatch = useDispatch()
