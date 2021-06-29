@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
 
+import NumberFormat from 'react-number-format'
+
 type Props = {
   data: {}[]
   titleData: {}[]
@@ -42,6 +44,15 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                 <td key={index}>
                   {index == 0 ? (
                     <body>{item[title]}</body>
+                  ) : index == 5 ? (
+                    <body>
+                      <NumberFormat
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        value={item[title]}
+                        displayType={'text'}
+                      />
+                    </body>
                   ) : index == 4 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>

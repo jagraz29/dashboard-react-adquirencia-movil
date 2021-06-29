@@ -181,7 +181,6 @@ export const getListTransactionSite = (filter: string) => async (dispatch: any) 
 
 export const getListTransactionSite2 = (filter: string) => async (dispatch: any) => {
   try {
-    console.log('pase por aqui XXXXXXXXXXXXXXXXX', filter)
     const { data } = await dataService.get(`api/transaction${filter}`)
     const resData = data.data
     return resData
