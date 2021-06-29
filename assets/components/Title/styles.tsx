@@ -9,11 +9,9 @@ export const Content = styled.div`
   height: 4vw;
 `
 
-export const ContentTitle = styled.samp`
+export const ContentTitle = styled.h1`
   left: 1vw;
-  top: 1vw;
-  font-family: Kanit;
-  font-style: normal;
+
   font-weight: 500;
   font-size: 1.6vw;
   line-height: 2vw;
