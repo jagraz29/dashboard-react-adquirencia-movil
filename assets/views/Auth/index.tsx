@@ -55,6 +55,10 @@ const AuthComponent = () => {
       return 'Las contraseñas no coinciden.'
     }
 
+    if (!check) {
+      return 'Debe aceptar lo términos y condiciones.'
+    }
+
     return true
   }
 
@@ -261,7 +265,7 @@ const AuthComponent = () => {
               </div>
               <div className="button-section">
                 <button
-                  disabled={disableButton || !check}
+                  disabled={disableButton}
                   onClick={handleSubmitPassword}
                   style={{
                     width: '21vw',
@@ -272,7 +276,7 @@ const AuthComponent = () => {
                   className="btn-auth"
                   type="submit"
                 >
-                  {loadButton ? <Spinner /> : 'Cambiar contraseña'}
+                  {loadButton ? <Spinner /> : 'Guardar y continuar'}
                 </button>
               </div>
             </form>
