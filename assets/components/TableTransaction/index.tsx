@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import {
   StyledTable,
   TableTextMoneda,
@@ -8,6 +9,7 @@ import {
   TableTextStatusCancel,
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
+import TableTransaccionesAction from '../TableTransaccionesAction'
 
 type Props = {
   data: {}[]
@@ -15,9 +17,13 @@ type Props = {
   titleData: {}[]
 }
 
-const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
+const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
+
+  const compartir = (item: number) => {
+    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
+  }
 
   console.log(data)
   return (
@@ -48,15 +54,15 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         {item[title]}
                       </TableTextLink>
                     </body>
-                  ) : index == 5 ? (
+                  ) : index == 3 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>
-                  ) : index == 3 ? (
+                  ) : index == 2 ? (
                     <body>
                       <MedioPago type={item[title]}></MedioPago>
                     </body>
-                  ) : index == 6 ? (
+                  ) : index == 4 ? (
                     <body>
                       {item[title] == 'Aceptada' ? (
                         <TableTextStatusOK>{item[title]}</TableTextStatusOK>
@@ -75,6 +81,29 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                   )}
                 </td>
               ))}
+              <td>
+                <TableTransaccionesAction
+                  actions={[
+                    {
+                      name: 'Detalle',
+                      funcion: '',
+                      validarEstado: true,
+                    },
+                    {
+                      name: 'Enviar comprobante',
+                      funcion: () => {
+                        compartir(item.id)
+                      },
+                      validarEstado: true,
+                    },
+                    {
+                      name: 'Reenvió de confirmación',
+                      funcion: '',
+                      validarEstado: true,
+                    },
+                  ]}
+                ></TableTransaccionesAction>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -90,4 +119,4 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   )
 }
 
-export default TableDashboard
+export default TableTransaction

@@ -42,14 +42,14 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                 <td key={index}>
                   {index == 0 ? (
                     <body>{item[title]}</body>
-                  ) : index == 5 ? (
+                  ) : index == 4 ? (
                     <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>
                   ) : index == 8 ? (
                     <body>
-                      <TableTextLink href={'https://epayco.link/' + item[title]}>
-                        https://epayco.link/{item[title]}
+                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                        https://link.epayco.xyz/{item[title]}
                       </TableTextLink>
                     </body>
                   ) : (

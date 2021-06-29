@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
-import {closeTicket, reOpenTicket} from "../../redux/actions";
-import {toast} from "react-toastify";
+import { closeTicket, reOpenTicket } from '../../redux/actions'
+import { toast } from 'react-toastify'
 
 type Props = {
   data: {}[]
@@ -23,7 +23,7 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
       window.location.href = '/soporte'
     } else {
       toast.error(
-          'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
       )
     }
   }
@@ -35,7 +35,7 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
       window.location.href = '/soporte'
     } else {
       toast.error(
-          'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
       )
     }
   }
@@ -79,33 +79,37 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
               ))}
               <td>
                 <TableCollectAction
-                  actions={ ticketsOpen ? [
-                    {
-                      name: 'Detalle',
-                      funcion: '',
-                      validarEstado: true,
-                    },
-                    {
-                      name: 'Cerrar',
-                      funcion: () => {
-                        ticketClose(item.id)
-                      },
-                      validarEstado: true,
-                    },
-                  ]: [
-                    {
-                      name: 'Detalle',
-                      funcion: '',
-                      validarEstado: true,
-                    },
-                    {
-                      name: 'Reabrir',
-                      funcion: () => {
-                        ticketReOpen(item.id)
-                      },
-                      validarEstado: true,
-                    },
-                  ]}
+                  actions={
+                    ticketsOpen
+                      ? [
+                          {
+                            name: 'Detalle',
+                            funcion: '',
+                            validarEstado: true,
+                          },
+                          {
+                            name: 'Cerrar',
+                            funcion: () => {
+                              ticketClose(item.id)
+                            },
+                            validarEstado: true,
+                          },
+                        ]
+                      : [
+                          {
+                            name: 'Detalle',
+                            funcion: '',
+                            validarEstado: true,
+                          },
+                          {
+                            name: 'Reabrir',
+                            funcion: () => {
+                              ticketReOpen(item.id)
+                            },
+                            validarEstado: true,
+                          },
+                        ]
+                  }
                 ></TableCollectAction>
               </td>
             </tr>

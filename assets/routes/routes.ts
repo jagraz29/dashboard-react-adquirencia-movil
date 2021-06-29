@@ -7,6 +7,7 @@ import { RoutesIntegraciones } from './routesIntegraciones'
 import { RoutesCreateTicket, RoutesSoporte } from './routesSoporte'
 import { RoutesSeguridad } from './routesSeguridad'
 import { RoutesPasswordChange, RoutesSendEmail } from './routesAuth'
+import { RoutesTransacciones } from './routesTransacciones'
 
 const routes: RouteConfig[] = [
   RoutesDashboard,
@@ -19,6 +20,7 @@ const routes: RouteConfig[] = [
   RoutesSendEmail,
   RoutesCreateTicket,
   RoutesPasswordChange,
+  RoutesTransacciones,
   {
     path: '/test/route',
     exact: false,

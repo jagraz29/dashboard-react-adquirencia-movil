@@ -9,8 +9,8 @@ export const DropDownMenu = styled.div`
   height: 6vw;
   padding: 5px;
   position: relative;
-  right: 9.2vw;
-  width: 10vw;
+  right: 15.2vw;
+  width: 16vw;
   top: 0.8vw;
   justify-content: center;
   align-items: center;
@@ -33,11 +33,11 @@ export const DropdownItem = styled.div`
   top: 1vw;
   padding-right: 10px;
   padding-left: 10px;
-  justify-content: center;
+  justify-content: flex-end;
   display: flex;
   align-items: center;
   color: #40a8e6;
-  width: 9vw;
+  width: 13vw;
   font-family: Segoe UI;
   font-style: normal;
   font-size: 1.1vw;
