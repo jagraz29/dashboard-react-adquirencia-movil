@@ -70,7 +70,7 @@ export const ContentTable = styled.div`
 export const CardTableTitle = styled.h2`
   font-size: 1.7vw;
   line-height: 2vw;
-  
+
   top: 1vw;
   margin-bottom: 2vw;
   left: 1.2vw;

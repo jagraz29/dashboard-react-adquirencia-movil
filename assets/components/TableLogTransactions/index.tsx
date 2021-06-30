@@ -21,42 +21,42 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   }
 
   return (
-      <div>
-        <StyledTable>
-          <colgroup>
-            <col />
-            <col />
-            <col />
-          </colgroup>
-          <thead>
+    <div>
+      <StyledTable>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+        </colgroup>
+        <thead>
           <tr>
             {titleData.map((item: any, index: number) => (
-                <th key={index}>
-                  <header>{item}</header>
-                </th>
+              <th key={index}>
+                <header>{item}</header>
+              </th>
             ))}
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           {data.map((item: any, index: number) => (
-              <tr key={index}>
-                {datos.map((title: any, index: number) => (
-                    <td key={index}>
-                      <body>{item[title]}</body>
-                    </td>
-                ))}
-              </tr>
+            <tr key={index}>
+              {datos.map((title: any, index: number) => (
+                <td key={index}>
+                  <body>{item[title]}</body>
+                </td>
+              ))}
+            </tr>
           ))}
-          </tbody>
-          {/* <tfoot>
+        </tbody>
+        {/* <tfoot>
             <tr>
               {titles.map((title, index) => (
                 <th key={index}>{title}</th>
               ))}
             </tr>
           </tfoot> */}
-        </StyledTable>
-      </div>
+      </StyledTable>
+    </div>
   )
 }
 

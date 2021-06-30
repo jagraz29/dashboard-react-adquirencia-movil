@@ -15,11 +15,11 @@ import {
   CardTableTitle,
 } from './styles'
 import { useHistory } from 'react-router-dom'
-import {getListCollect, getShowCollect} from '../../../redux/actions'
+import { getListCollect, getShowCollect } from '../../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/reducers/index'
-import {useParams} from "react-router";
-import TableLogTransaction from "../../../components/TableLogTransactions";
+import { useParams } from 'react-router'
+import TableLogTransaction from '../../../components/TableLogTransactions'
 
 const breadcrumb = [
   {
@@ -34,11 +34,7 @@ const breadcrumb = [
   },
 ]
 
-const dataTitle = [
-  'Referencia. ePayco',
-  'Estado',
-  'Fecha de pago',
-]
+const dataTitle = ['Referencia. ePayco', 'Estado', 'Fecha de pago']
 
 const dataInit = [
   {
@@ -72,27 +68,27 @@ const CobraShow = () => {
   }
 
   return (
-      <div>
-        <Breadcrumbs breadcrumb={breadcrumb} />
-        <Title title={'Cobra'}></Title>
-        <Content>
-          <ContentTitle>Comience a cobrar/vender.</ContentTitle>
-          <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
-            <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>
-            <ButtonLinkImg src={IconLink.url} />
-            <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
-          </ButtonLink>
-          <ContentTable>
-              <CardTableTitle>Historial de pagos</CardTableTitle>
+    <div>
+      <Breadcrumbs breadcrumb={breadcrumb} />
+      <Title title={'Cobra'}></Title>
+      <Content>
+        <ContentTitle>Comience a cobrar/vender.</ContentTitle>
+        <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
+          <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>
+          <ButtonLinkImg src={IconLink.url} />
+          <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
+        </ButtonLink>
+        <ContentTable>
+          <CardTableTitle>Historial de pagos</CardTableTitle>
 
-            {dataTable && dataTable.length > 0 ? (
-                <TableLogTransaction data={dataTable} titleData={dataTitle} />
-            ) : (
-                console.log('loading')
-            )}
-          </ContentTable>
-        </Content>
-      </div>
+          {dataTable && dataTable.length > 0 ? (
+            <TableLogTransaction data={dataTable} titleData={dataTitle} />
+          ) : (
+            console.log('loading')
+          )}
+        </ContentTable>
+      </Content>
+    </div>
   )
 }
 
