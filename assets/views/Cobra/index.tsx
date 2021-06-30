@@ -41,7 +41,7 @@ const dataTitle = [
   'Titulo',
   'Referencia',
   'Moneda',
-  'Valora',
+  'Valor',
   'Estado',
   'Link',
   'Acciones',

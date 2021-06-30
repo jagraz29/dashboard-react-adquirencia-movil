@@ -104,7 +104,7 @@ export const ContentInput = styled.div`
 
 export const CardContentButton = styled.div`
   height: 2vw;
-  margin: 1vw;
+  margin: 0vw;
   display: flex;
   justify-content: start;
   align-items: flex-start;

@@ -47,6 +47,7 @@
         "prettier": "^2.3.0",
         "react-dropzone": "^11.3.2",
         "react-icons": "^4.2.0",
+        "react-input-number": "^5.0.19",
         "react-number-format": "^4.5.5",
         "react-redux": "^7.2.4",
         "react-router-config": "^5.1.1",

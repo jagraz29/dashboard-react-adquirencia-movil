@@ -7,9 +7,11 @@ import {
   TableTextStatusOK,
   TableTextStatusPending,
   TableTextStatusCancel,
+  ContentAction,
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
 import TableTransaccionesAction from '../TableTransaccionesAction'
+import NumberFormat from 'react-number-format'
 
 type Props = {
   data: {}[]
@@ -56,7 +58,14 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                     </body>
                   ) : index == 3 ? (
                     <body>
-                      <TableTextMoneda>{item[title]}</TableTextMoneda>
+                      <TableTextMoneda>
+                        <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[title]}
+                          displayType={'text'}
+                        />
+                      </TableTextMoneda>
                     </body>
                   ) : index == 2 ? (
                     <body>
@@ -82,27 +91,29 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                 </td>
               ))}
               <td>
-                <TableTransaccionesAction
-                  actions={[
-                    {
-                      name: 'Detalle',
-                      funcion: '',
-                      validarEstado: true,
-                    },
-                    {
-                      name: 'Enviar comprobante',
-                      funcion: () => {
-                        compartir(item.id)
+                <ContentAction>
+                  <TableTransaccionesAction
+                    actions={[
+                      {
+                        name: 'Detalle',
+                        funcion: '',
+                        validarEstado: true,
                       },
-                      validarEstado: true,
-                    },
-                    {
-                      name: 'Reenvió de confirmación',
-                      funcion: '',
-                      validarEstado: true,
-                    },
-                  ]}
-                ></TableTransaccionesAction>
+                      {
+                        name: 'Enviar comprobante',
+                        funcion: () => {
+                          compartir(item.id)
+                        },
+                        validarEstado: true,
+                      },
+                      {
+                        name: 'Reenvió de confirmación',
+                        funcion: '',
+                        validarEstado: true,
+                      },
+                    ]}
+                  ></TableTransaccionesAction>
+                </ContentAction>
               </td>
             </tr>
           ))}

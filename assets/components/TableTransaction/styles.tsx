@@ -95,3 +95,8 @@ export const TableTextStatusCancel = styled.h1`
   color: red;
   font-size: 1vw;
 `
+export const ContentAction = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
