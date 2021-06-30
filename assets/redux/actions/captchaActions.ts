@@ -272,3 +272,12 @@ export const reOpenTicket = async (id: number) => {
     return false
   }
 }
+
+export const detailTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/detail/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
