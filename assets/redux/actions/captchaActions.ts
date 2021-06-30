@@ -14,6 +14,7 @@ export const SET_PASSWORD = 'SET_PASSWORD'
 export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 export const GET_LIST_TRANSACTION = 'GET_LIST_TRANSACTION'
+export const GET_SHOW_COLLECT = 'GET_SHOW_COLLECT'
 
 const dataService = new DataService()
 
@@ -244,4 +245,14 @@ export const exportExcel = (filter: string) => async (dispatch: any) => {
   } catch (error) {
     return false
   }
+}
+
+export const getShowCollect = (id: any) => async (dispatch: any) => {
+  try {
+    const res = await dataService.get(`http://localhost:8000/api/collect/show/${id}`)
+    dispatch({
+      type: GET_SHOW_COLLECT,
+      payload: res.data,
+    })
+  } catch (error) {}
 }
