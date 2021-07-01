@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom'
 const index = () => {
   const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(true)
+  const [dropdown, setDropdown] = useState(false)
   const viewState: RootState = useSelector((state: RootState) => state)
   const [storage, setStorage] = useState('')
 
@@ -36,7 +37,14 @@ const index = () => {
           <Link to={'/soporte'}>
             <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
           </Link>
-          <Avatar srcImage={avatar} size={'35px'}></Avatar>
+          <div onClick={() => setDropdown(!dropdown)} className="dropdown">
+            <Avatar srcImage={avatar} size={'35px'}></Avatar>
+            {dropdown && (
+              <div className="dropdown-content">
+                <a href="/logout">Cerrar sesión</a>
+              </div>
+            )}
+          </div>
         </AvatarImg>
         <SidebarNav>
           <SidebarWrap>
