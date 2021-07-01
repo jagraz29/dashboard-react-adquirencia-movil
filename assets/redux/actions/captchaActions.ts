@@ -14,6 +14,8 @@ export const SET_PASSWORD = 'SET_PASSWORD'
 export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 export const GET_LIST_TRANSACTION = 'GET_LIST_TRANSACTION'
+export const GET_TRANSACTION_DETAIL = 'GET_TRANSACTION_DETAIL'
+
 
 const dataService = new DataService()
 
@@ -243,5 +245,15 @@ export const exportExcel = (filter: string) => async (dispatch: any) => {
     return resData
   } catch (error) {
     return false
+  }
+}
+
+
+export const getTransactionDetail = async (id:number) => {
+  try {
+    const res = await dataService.get(`/api/transaction/detail/${id}`)
+    return res.data.data
+  } catch (error) {
+    console.log(error)
   }
 }
