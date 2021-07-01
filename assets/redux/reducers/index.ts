@@ -13,6 +13,7 @@ import setPasswordReducer from './setPasswordReducer'
 import sellReducer from './sellReducer'
 import getListCollectReducer from './getListCollectReducer'
 import getListTransactionReducer from './getListTransactionReducer'
+import getShowCollectReducer from './getShowCollectReducer'
 
 const rootReducer = combineReducers({
   captcha: captchaReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   sell: sellReducer,
   getListCollect: getListCollectReducer,
   getListTransaction: getListTransactionReducer,
+  getShowCollect: getShowCollectReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
