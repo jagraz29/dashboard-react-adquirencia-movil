@@ -1,7 +1,7 @@
 import Cobra from '../views/Cobra'
 import CobraCreate from '../views/Cobra/Create'
 import CobraEdit from '../views/Cobra/Edit'
-import CobraShow from '../views/Cobra/Show'
+import CollectShow from '../views/Cobra/Show'
 
 export const RoutesCobra = {
   path: '/cobra',
@@ -22,7 +22,7 @@ export const RouteCobraEdit = {
 }
 
 export const RouteCobraShow = {
-  path: '/cobra/show/:id',
+  path: '/collect/show/:id',
   exact: true,
-  component: CobraShow,
+  component: CollectShow,
 }

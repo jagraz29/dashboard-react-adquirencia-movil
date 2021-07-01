@@ -43,7 +43,7 @@ final class ReactRouterCobraController extends AbstractController
 
   /**
    *
-   * @Route("/cobra/show/{id}", name="cobra_show")
+   * @Route("/collect/show/{id}", name="cobra_show")
    *
    */
   public function routerCobraShow(Request $request)
