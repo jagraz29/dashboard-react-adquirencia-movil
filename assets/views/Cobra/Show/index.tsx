@@ -3,7 +3,7 @@ import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
 import TableLogTransactions from '../../../components/TableLogTransactions'
 import { useHistory } from 'react-router-dom'
-import {getShowCollect} from '../../../redux/actions'
+import { getShowCollect } from '../../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/reducers/index'
 import LoadingBar from '../../../components/LoadingBar'
@@ -23,11 +23,10 @@ import {
   ContentInputCard,
   LabelKey,
   TitleKey,
-
 } from './styles'
-import {TableTextLink} from "../../../components/TableCobra/styles";
-import {string} from "prop-types";
-import NumberFormat from "react-number-format";
+import { TableTextLink } from '../../../components/TableCobra/styles'
+import { string } from 'prop-types'
+import NumberFormat from 'react-number-format'
 
 const breadcrumb = [
   {
@@ -65,7 +64,10 @@ const CollectShow = () => {
   const reference = viewState.getShowCollect.showCollectData.data.reference
   const amount = viewState.getShowCollect.showCollectData.data.amount
   const currency = viewState.getShowCollect.showCollectData.data.currency
-  const link = typeof viewState.getShowCollect.showCollectData.data.link !== 'undefined' ? 'https://payco.link/' + viewState.getShowCollect.showCollectData.data.link : ''
+  const link =
+    typeof viewState.getShowCollect.showCollectData.data.link !== 'undefined'
+      ? 'https://payco.link/' + viewState.getShowCollect.showCollectData.data.link
+      : ''
 
   useEffect(() => {
     dispatch(getShowCollect(id))
@@ -77,44 +79,53 @@ const CollectShow = () => {
 
   const stateString = (value: any) => {
     if (value == 1) {
-        return 'Pendiente'
+      return 'Pendiente'
     } else if (value == 2) {
       return 'Pagado'
     }
   }
 
   const typeString = (value: any) => {
-      let response = ''
-      switch (value) {
-        case 1:
-          response = 'Email';
-          break
-        case 2:
-          response = 'Link'
-          break
-        case 3:
-          response = 'SMS'
-          break
-        case 4:
-          response = 'Redes Sociales'
-          break
-        case 5:
-          response = 'Botón'
-          break
-        case 6:
-          response = 'Datáfono virtual'
-          break
-        default:
-          response = 'No disponible';
-      }
-      return response;
+    let response = ''
+    switch (value) {
+      case 1:
+        response = 'Email'
+        break
+      case 2:
+        response = 'Link'
+        break
+      case 3:
+        response = 'SMS'
+        break
+      case 4:
+        response = 'Redes Sociales'
+        break
+      case 5:
+        response = 'Botón'
+        break
+      case 6:
+        response = 'Datáfono virtual'
+        break
+      default:
+        response = 'No disponible'
+    }
+    return response
   }
 
-  const date = typeof viewState.getShowCollect.showCollectData.data.date !== 'undefined' ? viewState.getShowCollect.showCollectData.data.date : ''
+  const date =
+    typeof viewState.getShowCollect.showCollectData.data.date !== 'undefined'
+      ? viewState.getShowCollect.showCollectData.data.date
+      : ''
 
-  const typeSell = typeof viewState.getShowCollect.showCollectData.data.typeSell !== 'undefined' ? typeString(viewState.getShowCollect.showCollectData.data.typeSell): ''
+  const typeSell =
+    typeof viewState.getShowCollect.showCollectData.data.typeSell !== 'undefined'
+      ? typeString(viewState.getShowCollect.showCollectData.data.typeSell)
+      : ''
 
-  const state = typeof viewState.getShowCollect.showCollectData.data.state !== 'undefined' ? stateString(viewState.getShowCollect.showCollectData.data.state) : ''
+  const state =
+    typeof viewState.getShowCollect.showCollectData.data.state !== 'undefined'
+      ? stateString(viewState.getShowCollect.showCollectData.data.state)
+      : ''
 
   const redirectRoute = (path: string) => {
     history.push(path)
@@ -151,10 +162,10 @@ const CollectShow = () => {
                 <TitleKey>Valor</TitleKey>
                 <LabelKey>
                   <NumberFormat
-                      thousandSeparator={true}
-                      prefix={'$'}
-                      value={amount}
-                      displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                    value={amount}
+                    displayType={'text'}
                   />
                 </LabelKey>
               </ContentInputCard>
@@ -171,14 +182,10 @@ const CollectShow = () => {
               <ContentInputCard>
                 <TitleKey>Link del cobro</TitleKey>
                 <LabelKey>
-                  <TableTextLink href={link}>
-                    {link}
-                  </TableTextLink>
+                  <TableTextLink href={link}>{link}</TableTextLink>
                 </LabelKey>
-
               </ContentInputCard>
-              <ContentInputCard>
-              </ContentInputCard>
+              <ContentInputCard></ContentInputCard>
             </ContentInput>
           </CardTrasactionOk>
           <CardPending>
@@ -195,7 +202,7 @@ const CollectShow = () => {
           {dataTable && dataTable.length > 0 ? (
             <TableLogTransactions data={dataTable} titleData={dataTitle} />
           ) : (
-              <LoadingBar text={'Cargando...'} />
+            <LoadingBar text={'Cargando...'} />
           )}
         </ContentTable>
       </Content>

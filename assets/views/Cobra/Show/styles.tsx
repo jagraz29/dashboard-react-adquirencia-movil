@@ -42,18 +42,18 @@ export const ContentSearchTitle = styled.div`
   margin: 0vw 1vw 0vw 1vw;
 `
 
-export const CardTableSubTitle= styled.div`
-    color: #ADADAD;
-    position: absolute;
-    font-size: 16px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    top: 1vw;
-    padding-bottom: 1vw;
-    margin-bottom: 1vw;
-    left: 1.2vw;
+export const CardTableSubTitle = styled.div`
+  color: #adadad;
+  position: absolute;
+  font-size: 16px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  top: 1vw;
+  padding-bottom: 1vw;
+  margin-bottom: 1vw;
+  left: 1.2vw;
 `
 
 export const ContentItems = styled.div`
@@ -91,7 +91,7 @@ export const CardTransactionTitle = styled.h2`
   font-size: 18px;
   line-height: 24px;
   color: #000000;
-  border-bottom: 1px solid #D3D3D3;
+  border-bottom: 1px solid #d3d3d3;
   padding-bottom: 1vw;
 `
 
