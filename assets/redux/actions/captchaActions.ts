@@ -249,8 +249,7 @@ export const exportExcel = (filter: string) => async (dispatch: any) => {
   }
 }
 
-
-export const getTransactionDetail = async (id:number) => {
+export const getTransactionDetail = async (id: number) => {
   try {
     const res = await dataService.get(`/api/transaction/detail/${id}`)
     return res.data.data

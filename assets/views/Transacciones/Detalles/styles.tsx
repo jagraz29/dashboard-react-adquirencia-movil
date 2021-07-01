@@ -63,7 +63,6 @@ export const CardContent1 = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-
 `
 
 export const CardContent2 = styled.div`
@@ -205,8 +204,6 @@ export const LogGroup = styled.div`
   width: 100%;
   padding-top: 0.5rem;
   overflow: hidden auto;
-
-  
 `
 export const LogGroupDivider = styled.div`
   display: flex;
@@ -214,66 +211,64 @@ export const LogGroupDivider = styled.div`
   max-width: 22rem;
   border-left: 1px solid #bfbfbf;
   padding: 0 1rem;
-  .info{
+  .info {
     display: flex;
     flex-direction: column;
     max-width: 20rem;
     word-break: break-all;
     padding: 0.4rem 0;
-      table{
-        width: 100%;
-        tr{
-          padding: 0.4rem 0;
-          display:flex;
-          th{
-            text-align: left;
-            width: 173px;
-          }
-          td{
-            width: 173px;
-          }
-          .estadoSuccess{
-            color:#67C940;
-            font-weight: bold;
-          }
-          .estadoFailed{
-            color:red;
-            font-weight: bold;
-          }
+    table {
+      width: 100%;
+      tr {
+        padding: 0.4rem 0;
+        display: flex;
+        th {
+          text-align: left;
+          width: 173px;
+        }
+        td {
+          width: 173px;
+        }
+        .estadoSuccess {
+          color: #67c940;
+          font-weight: bold;
+        }
+        .estadoFailed {
+          color: red;
+          font-weight: bold;
         }
       }
+    }
   }
-  .infoToSend{
+  .infoToSend {
     display: flex;
     flex-direction: column;
     max-width: 20rem;
     border-top: 1px solid #bfbfbf;
-    h3{
+    h3 {
       margin: 1rem 0;
       font-size: 16px;
     }
 
-    .infoComplete{
+    .infoComplete {
       overflow: scroll;
       max-height: 10rem;
 
-      .boxInfo{
+      .boxInfo {
         display: grid;
         grid-template-columns: 1rem auto;
-        div{
-          .number{
-            color:#80808070;
-            margin:0 0 0 1rem;;
+        div {
+          .number {
+            color: #80808070;
+            margin: 0 0 0 1rem;
           }
-          p{
-            margin:0 0 0 1rem;;
+          p {
+            margin: 0 0 0 1rem;
           }
         }
       }
     }
   }
-
-
 `
 export const Log = styled.div`
   width: 28vw;
@@ -284,25 +279,24 @@ export const LogItem = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  cursor:pointer;
-  :hover{
+  cursor: pointer;
+  :hover {
     background-color: #80808021;
   }
-
 `
 export const LogStatusSuccess = styled.h1`
   font-size: 1vw;
-  color: #67C940;
+  color: #67c940;
 `
 export const LogStatusFailed = styled.h1`
   font-size: 1vw;
   color: red;
 `
 export const LogMetodo = styled.h2`
-padding: 4px 0px;
-white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
+  padding: 4px 0px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   font-size: 0.8vw;
   width: 15.8vw;
 `
@@ -312,8 +306,8 @@ export const LogHora = styled.h2`
 `
 
 export const LoadingContent = styled.div`
-display: flex;
-width: 100vw;
-position: absolute;
-top: 10rem;
+  display: flex;
+  width: 100vw;
+  position: absolute;
+  top: 10rem;
 `
