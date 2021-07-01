@@ -214,7 +214,7 @@ const AuthComponent = () => {
         )}
 
         {location.pathname === '/password/change/' + id && (
-          <div className="auth-container" style={{ height: '72%' }}>
+          <div className="auth-container" style={{ height: '80%' }}>
             <form method="post" style={{ padding: '0 2vw' }}>
               <h1 className="auth-title">Cree su nueva contraseña</h1>
               <h2 className="auth-subtitle">
