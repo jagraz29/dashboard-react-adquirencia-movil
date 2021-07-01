@@ -3,4 +3,5 @@ export interface SelectorProps {
   renderOption: (item: { label: string; value: string }) => React.ReactNode
   onSelect: (value: string | undefined) => void
   defaultValue?: { label: string; value: string }
+  disabled?: boolean
 }
