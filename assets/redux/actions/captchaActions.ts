@@ -260,7 +260,7 @@ export const getTransactionDetail = async (id: number) => {
 
 export const getShowCollect = (id: any) => async (dispatch: any) => {
   try {
-    const res = await dataService.get(`http://localhost:8000/api/collect/show/${id}`)
+    const res = await dataService.get(`/api/collect/show/${id}`)
     dispatch({
       type: GET_SHOW_COLLECT,
       payload: res.data,
