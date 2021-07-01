@@ -257,3 +257,12 @@ export const getTransactionDetail = async (id:number) => {
     console.log(error)
   }
 }
+export const sendTransactionReceipt = async (email:string, ​​​​​​​transaction:number) => {
+  try {
+    const res = await dataService.get(`/api/transaction/send/email/${​​​​​​​transaction}​​​​​​​/${​​​​​​​​email}​​`)
+    console.log("res", res)
+    return res.data.data
+  } catch (error) {
+    console.log("error en sendTransaction",error)
+  }
+}

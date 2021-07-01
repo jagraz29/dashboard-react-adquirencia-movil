@@ -100,3 +100,49 @@ export const ContentAction = styled.div`
   justify-content: center;
   align-items: center;
 `
+export const ModalInput = styled.div`
+     margin: 1rem;
+     p{
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+     }
+     input{
+      width: 96%;
+      padding: 0.4rem;
+      font-size: 1rem;
+     }
+
+`
+export const ModalButtons = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+    padding: 0.5rem;
+    .buttonSend{
+      background-color: #1C0E49;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+        &:hover{
+          background-color: #312652;
+        }
+      }
+      .buttonCancel{
+        background-color: white;
+        color: #1C0E49;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-weight: bold;
+        border: 1px solid #1C0E49;
+        cursor: pointer;
+          &:hover{
+            background-color: #1C0E49;
+            color: white;
+          }
+      }
+
+`
