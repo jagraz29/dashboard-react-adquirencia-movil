@@ -38,6 +38,7 @@ const InputSelect: React.FC<Props> = ({
   return (
     <Select
       style={selectWidth}
+      name={name}
       onClick={onClick}
       value={value}
       onChange={(e) => {

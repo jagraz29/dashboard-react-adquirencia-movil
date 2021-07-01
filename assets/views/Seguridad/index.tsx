@@ -6,10 +6,9 @@ import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import { getPropertySite, setPropertySite } from '../../redux/actions/'
+import { getProfileData, setProfileData, setNewClientPassword } from '../../redux/actions/'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import LoadingBar from '../../components/LoadingBar'
 import { datos } from './data'
 import {
   Content,
@@ -22,7 +21,6 @@ import {
   CardTitle,
   ContentInput,
   CardContentButton,
-  ButtonOk,
   ButtonCancel,
   ContentInputCard,
   InputGroup,
@@ -30,6 +28,7 @@ import {
 import InputNoEditable from '../../components/InputNoEditable'
 import InputSelectWithValue from '../../components/InputSelectWithValue'
 import InputSelectPaisWithValue from '../../components/InputSelectPaisWithValue'
+import ButtonSpinner from '../../components/Button'
 
 const breadcrumb = [
   {
@@ -58,13 +57,15 @@ const Seguridad = () => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
-  const { profile } = myStore
+  const setProfile = myStore.profilePost
+  const updatePassword = myStore.setPassword
   const viewState: RootState = useSelector((state: RootState) => state)
   const nombreGuardado = viewState.profile.profileData.data.socialName
   const emailGuardado = viewState.profile.profileData.data.emailTransaction
   const nombreEmpresaGuardado = viewState.profile.profileData.data.companyName
   const numMovilGuardado = viewState.profile.profileData.data.cellPhone
   const numFijoGuardado = viewState.profile.profileData.data.mobilePhone
+  const tipoTelefonoGuardado = viewState.profile.profileData.data.cellPhone != '' ? 'movil' : 'fijo'
   const indicativoCiudadGuardado = viewState.profile.profileData.data.indicativeCity
   const indicativoPaisGuardado = viewState.profile.profileData.data.indicativeCountry
   const webGuardado = viewState.profile.profileData.data.domain
@@ -73,7 +74,6 @@ const Seguridad = () => {
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'block' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'block' })
   const [nombre, setNombre] = useState('')
-  console.log(nombreGuardado)
   const [email, setEmail] = useState('')
   const [nombreEmpresa, setNombreEmpresa] = useState('')
   const [numMovil, setNumMovil] = useState('')
@@ -85,20 +85,32 @@ const Seguridad = () => {
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [loadingButton1, setLoadingButton1] = useState(false)
+  const [loadingButton2, setLoadingButton2] = useState(false)
 
   useEffect(() => {
-    console.log(nombreGuardado)
     setNombre(nombreGuardado)
     setEmail(emailGuardado)
     setNombreEmpresa(nombreEmpresaGuardado)
     setNumMovil(numMovilGuardado)
     setNumFijo(numFijoGuardado)
+    setTipoTelefono(tipoTelefonoGuardado)
     setIndicativoCiudad(indicativoCiudadGuardado)
     setIndicativoPais(indicativoPaisGuardado)
     setWeb(webGuardado)
   }, [nombreGuardado, emailGuardado])
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    dispatch(getProfileData())
+  }, [])
+
+  useEffect(() => {
+    validateSetProfile()
+  }, [setProfile])
+
+  useEffect(() => {
+    validateSetPassword()
+  }, [updatePassword])
 
   const changeNombreEmpresa = useCallback((event) => {
     setNombreEmpresa(event)
@@ -117,6 +129,7 @@ const Seguridad = () => {
   }, [])
 
   const changeIndPais = useCallback((event) => {
+    console.log(event)
     setIndicativoPais(event)
   }, [])
 
@@ -140,24 +153,77 @@ const Seguridad = () => {
     setConfirmPassword(event)
   }, [])
 
-  const savePropiedad = () => {
+  const validateSetProfile = () => {
+    if (setProfile.profileData.status == true) {
+      toast.success('Datos Actualizados Correctamente')
+      setLoadingButton1(false)
+    }
+    if (setProfile.profileData.status == false) {
+      toast.error('Error al Actualizar los Datos')
+      setLoadingButton1(false)
+    }
+  }
+
+  const validateSetPassword = () => {
+    if (updatePassword.passwordData.status == true) {
+      toast.success('Contraseña Actualizada Correctamente')
+      setLoadingButton2(false)
+    }
+    if (updatePassword.passwordData.status == false) {
+      toast.error('Error al Actualizar la Contraseña')
+      setLoadingButton2(false)
+    }
+  }
+
+  const savePerfil = () => {
     const datos = {
-      razonSocial: 'Prueba a ver',
-      nombreEmpresa: 'prueba123',
-      telefono: '1231231',
-      celular: '3136139322',
-      indicativoCiudad: '1',
-      indicativoPais: '57',
-      tipoTelefonoValue: 'fijo',
-      campoTelValue: '1231231',
-      valueIndicativo: '1',
-      paises: [],
+      nombreEmpresa: nombreEmpresa,
+      dominio: web,
+      celular: numMovil,
+      telefono: numFijo,
+      indicativoCiudad: indicativoCiudad,
+      indicativoPais: indicativoPais,
     }
 
-    dispatch(setPropertySite(datos))
-    console.log('pase pues por aqui', datos)
+    dispatch(setProfileData(datos))
+    setLoadingButton1(true)
+  }
 
-    toast.success('Wow so easy!')
+  const savePassword = () => {
+    if (password == '') {
+      toast.error('La Contraseña Actual es Requerida')
+    } else {
+      if (newPassword == '') {
+        toast.error('La Nueva Contraseña es Requerida')
+      } else {
+        if (confirmPassword == '') {
+          toast.error('La Confirmación de la Contraseña es Requerida')
+        } else {
+          if (newPassword != confirmPassword) {
+            toast.error('Las Contraseñas no Coinciden')
+          } else {
+            if (
+              newPassword.match(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\-!#$%&'()*+,./<=>?@[\]_`{|}~])(?=.{8,})/i
+              )
+            ) {
+              const datos = {
+                password: password,
+                newPassword: newPassword,
+                newPasswordConfirmation: confirmPassword,
+              }
+
+              dispatch(setNewClientPassword(datos))
+              setLoadingButton2(true)
+            } else {
+              toast.error(
+                'Nueva Contraseña Inválida, debe contener mínimo: 8 caracteres, 1 letra mayúscula, 1 número, 1 caracter especial'
+              )
+            }
+          }
+        }
+      }
+    }
   }
 
   return (
@@ -208,7 +274,7 @@ const Seguridad = () => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <InputLabel label={'Telefono negocio'} />
+                  <InputLabel label={'Teléfono'} />
                   <InputGroup>
                     <InputSelectWithValue
                       name={'type_telefono'}
@@ -281,7 +347,7 @@ const Seguridad = () => {
                 <ContentInputCard>
                   <InputLabel label={'Sitio web'} />
                   <InputCustumer
-                    name={'weba'}
+                    name={'web'}
                     type={'text'}
                     placeholder={'Sitio Web'}
                     width={'44.6vw'}
@@ -295,8 +361,14 @@ const Seguridad = () => {
             </CardContent2>
 
             <CardContentButton theme={openCardContent2}>
-              <ButtonOk>Guardar Información</ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+              <ButtonSpinner
+                text={'Guardar Información'}
+                loading={loadingButton1}
+                onClick={() => {
+                  savePerfil()
+                }}
+                disabled={false}
+              ></ButtonSpinner>
             </CardContentButton>
           </Card>
 
@@ -352,9 +424,18 @@ const Seguridad = () => {
                 </ContentInputCard>
               </ContentInput>
             </CardContent3>
-            <CardContentButton theme={openCardContent2}>
-              <ButtonOk>Cambiar contraseña</ButtonOk>
-              <ButtonCancel>Cancelar</ButtonCancel>
+            <CardContentButton
+              theme={openCardContent2}
+              style={{ marginBottom: '5vw', marginTop: '2vw' }}
+            >
+              <ButtonSpinner
+                text={'Cambiar Contraseña'}
+                loading={loadingButton2}
+                onClick={() => {
+                  savePassword()
+                }}
+                disabled={false}
+              ></ButtonSpinner>
             </CardContentButton>
           </Card>
         </ContentCard>

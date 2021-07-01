@@ -46,7 +46,7 @@ const InputSelectPaisWithValue: React.FC<Props> = ({
         {placeholder}
       </option>
       {dataSelect.map((item, index) => (
-        <option value={item.name}>{item.displayText}</option>
+        <option value={item.id}>{item.displayText}</option>
       ))}
     </Select>
   )

@@ -82,7 +82,7 @@ const index = () => {
   }
 
   useEffect(() => {
-    dispatch(getListTransactionSite('/?limit=3'))
+    dispatch(getListTransactionSite('?limit=3'))
   }, [count])
 
   useEffect(() => {

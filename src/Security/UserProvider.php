@@ -66,7 +66,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     $user->setSocialName(isset($userData['socialName']) ? $userData['socialName'] : '');
     $user->setCellPhone(isset($userData['cellPhone']) ? $userData['cellPhone'] : '');
     $user->setIndicative(
-      isset($userData['indicativeCountry']) ? $userData['indicativeCountry'] : ''
+      isset($userData['indicativeCountry']) ? $userData['indicativeCountry'] : null
     );
     $user->setLogo(isset($userData['logo']) ? $userData['logo'] : '');
 

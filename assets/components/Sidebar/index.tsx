@@ -5,16 +5,20 @@ import SubMenuItems from '../SubMenuItems'
 import LogoSidebar from '../Logo'
 import NameSidebar from '../NameSidebar'
 import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './styles'
+import { Tooltip } from 'antd'
 import Avatar from '../Avatar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { getDataUser } from '../../redux/actions/'
 import { StorageData } from '../../services/storegeData'
 import { IconService } from '../../config/configImages'
+import { IconSoporte } from '../../config/configImages'
+import { Link } from 'react-router-dom'
 
 const index = () => {
   const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(true)
+  const [dropdown, setDropdown] = useState(false)
   const viewState: RootState = useSelector((state: RootState) => state)
   const [storage, setStorage] = useState('')
 
@@ -30,10 +34,18 @@ const index = () => {
     <div>
       <Nav>
         <AvatarImg>
-          <Avatar srcImage={IconService.url} size={'35px'}></Avatar>
-          <Avatar srcImage={avatar} size={'35px'}></Avatar>
+          <Link to={'/soporte'}>
+            <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
+          </Link>
+          <div onClick={() => setDropdown(!dropdown)} className="dropdown">
+            <Avatar srcImage={avatar} size={'35px'}></Avatar>
+            {dropdown && (
+              <div className="dropdown-content">
+                <a href="/logout">Cerrar sesión</a>
+              </div>
+            )}
+          </div>
         </AvatarImg>
-
         <SidebarNav>
           <SidebarWrap>
             <LogoSidebar></LogoSidebar>

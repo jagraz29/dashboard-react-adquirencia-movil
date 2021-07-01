@@ -19,4 +19,15 @@ final class ReactRouterTransaccionesController extends AbstractController
     // en index pagina con datos generales de la app
     return $this->render('base.html.twig');
   }
+
+  /**
+   *
+   * @Route("/transacciones/detalles/{id}", name="transacciones_detalles")
+   *
+   */
+  public function routerTransaccionesDetalles(Request $request)
+  {
+    // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
 }

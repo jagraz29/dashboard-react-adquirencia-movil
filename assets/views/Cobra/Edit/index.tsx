@@ -125,11 +125,16 @@ const CobraEdit = (props: any) => {
     }
   }
 
-  const fileToDataURL = (file: any) => {
+  const fileToDataURL = (file: any, pdf = false) => {
     const reader = new FileReader()
     return new Promise(function (resolve, reject) {
       reader.onload = function (event: any) {
-        file.base64 = event.target.result
+        if (pdf) {
+          const str = event.target.result.split('base64,')
+          file.base64 = str[1]
+        } else {
+          file.base64 = event.target.result
+        }
         resolve(file)
       }
       reader.readAsDataURL(file)
@@ -140,7 +145,7 @@ const CobraEdit = (props: any) => {
     if (rejected.length > 0) {
       toast.error('Error al subir el archivo pdf.')
     } else {
-      accepted = await Promise.all(accepted.map(fileToDataURL))
+      accepted = await Promise.all(accepted.map((acc: any) => fileToDataURL(acc, true)))
       setLoadFiles((prev) => prev.concat(accepted))
     }
   }
@@ -280,6 +285,7 @@ const CobraEdit = (props: any) => {
     const res = await dispatch(createSellLink(data))
     if (!!res == true) {
       toast.success('Se ha guardado correctamente el link de cobro.')
+      redirectRoute('/cobra')
     } else {
       toast.error(
         'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
@@ -751,7 +757,7 @@ const CobraEdit = (props: any) => {
               disabled={loadButton}
               onClick={handleSubmit}
             >
-              {loadButton ? <Spinner /> : 'Guardar Información'}
+              {loadButton ? <Spinner /> : 'Editar link de cobro'}
             </ButtonOk>
             <ButtonCancel disabled={loadButton} onClick={() => redirectRoute('/cobra')}>
               Cancelar

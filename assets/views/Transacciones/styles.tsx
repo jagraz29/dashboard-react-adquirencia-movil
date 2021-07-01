@@ -47,6 +47,7 @@ export const CardHeader = styled.div`
   align-items: center;
   border-bottom: 1px solid #d3d3d3;
   height: 3.5vw;
+  margin-right: 1vw;
 `
 
 export const CardTitle = styled.h1`
@@ -136,6 +137,27 @@ export const ButtonFecha = styled.button`
   color: #58d3f7;
   justify-content: center;
   align-items: center;
+
+  :hover,
+  :focus {
+    background: hsl(200, 90%, 45%);
+    color: white;
+  }
+`
+
+export const ButtonAvanzada = styled.button`
+  font-size: 0.8vw;
+  background: white;
+  border: 1px solid #58d3f7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 16vw;
+  height: 1.9vw;
+  top: 5vw;
+  color: #58d3f7;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1vw;
 
   :hover,
   :focus {
@@ -267,6 +289,11 @@ export const ContentPagination = styled.div`
 `
 
 export const ItemResultTotal = styled.h2`
-  font-size: 1.3vw;
+  font-size: 0.9vw;
   padding-left: 2vw;
+`
+
+export const InputLabelTitle = styled.h3`
+  width: 16vw;
+  font-size: 1vw;
 `

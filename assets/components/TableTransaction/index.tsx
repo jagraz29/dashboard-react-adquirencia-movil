@@ -7,8 +7,11 @@ import {
   TableTextStatusOK,
   TableTextStatusPending,
   TableTextStatusCancel,
+  ContentAction,
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
+import TableTransaccionesAction from '../TableTransaccionesAction'
+import NumberFormat from 'react-number-format'
 
 type Props = {
   data: {}[]
@@ -19,6 +22,10 @@ type Props = {
 const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
+
+  const compartir = (item: number) => {
+    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
+  }
 
   console.log(data)
   return (
@@ -51,7 +58,14 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                     </body>
                   ) : index == 3 ? (
                     <body>
-                      <TableTextMoneda>{item[title]}</TableTextMoneda>
+                      <TableTextMoneda>
+                        <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[title]}
+                          displayType={'text'}
+                        />
+                      </TableTextMoneda>
                     </body>
                   ) : index == 2 ? (
                     <body>
@@ -76,6 +90,31 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                   )}
                 </td>
               ))}
+              <td>
+                <ContentAction>
+                  <TableTransaccionesAction
+                    actions={[
+                      {
+                        name: 'Detalle',
+                        funcion: '',
+                        validarEstado: true,
+                      },
+                      {
+                        name: 'Enviar comprobante',
+                        funcion: () => {
+                          compartir(item.id)
+                        },
+                        validarEstado: true,
+                      },
+                      {
+                        name: 'Reenvió de confirmación',
+                        funcion: '',
+                        validarEstado: true,
+                      },
+                    ]}
+                  ></TableTransaccionesAction>
+                </ContentAction>
+              </td>
             </tr>
           ))}
         </tbody>

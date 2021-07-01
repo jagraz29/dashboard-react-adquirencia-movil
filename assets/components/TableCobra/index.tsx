@@ -5,6 +5,8 @@ import { useModal } from '../../components/hooks/useModal'
 import { ModalComp } from '../../components/modalComp'
 import ShareLink from '../../components/ShareLink'
 
+import NumberFormat from 'react-number-format'
+
 type Props = {
   data: {}[]
   titleData: {}[]
@@ -53,12 +55,21 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                     <body>{item[title]}</body>
                   ) : index == 5 ? (
                     <body>
+                      <NumberFormat
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        value={item[title]}
+                        displayType={'text'}
+                      />
+                    </body>
+                  ) : index == 4 ? (
+                    <body>
                       <TableTextMoneda>{item[title]}</TableTextMoneda>
                     </body>
                   ) : index == 8 ? (
                     <body>
-                      <TableTextLink href={'https://epayco.link/' + item[title]}>
-                        https://epayco.link/{item[title]}
+                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                        https://link.epayco.xyz/{item[title]}
                       </TableTextLink>
                     </body>
                   ) : (

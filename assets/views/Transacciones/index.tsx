@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
 import InputLabel from '../../components/InputLabel'
+import DatePick from '../../components//DateRange'
 import {
   ContentTransaction,
   ContentCard,
@@ -29,9 +30,10 @@ import {
   CardContentTable,
   ContentPagination,
   ItemResultTotal,
+  InputLabelTitle,
+  ButtonAvanzada,
 } from './styles'
 import InputCustumer from '../../components/InputCostumer'
-import InputLabelTitle from '../../components/InputLabelTitle'
 import ButtonSpinner from '../../components/Button'
 
 import { useHistory } from 'react-router-dom'
@@ -46,6 +48,7 @@ import { RootState } from '../../redux/reducers/index'
 import { array } from 'prop-types'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
+import LoadingBar from '../../components/LoadingBar'
 
 const breadcrumb = [
   {
@@ -54,13 +57,13 @@ const breadcrumb = [
     active: true,
   },
   {
-    title: 'Transacciónes',
+    title: 'Transacciones',
     path: '/transacciones',
     active: false,
   },
 ]
 
-const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado']
+const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
 
 const Transacciones = () => {
   const dispatch = useDispatch()
@@ -92,7 +95,7 @@ const Transacciones = () => {
   const [totalCount, setTotalCount] = useState(0)
   const [boder1, setBoder1] = useState({ borderLeft: false })
   const [filterSearch, setFilterSearch] = useState('')
-  const [urlBase, setUrlBase] = useState('/?paymentMethod=')
+  const [urlBase, setUrlBase] = useState('?paymentMethod=')
   const [paymentMethod, setPaymentMethod] = useState('')
   const [statusId, setStatusId] = useState('')
   const [fromDate, setFromDate] = useState('')
@@ -107,7 +110,14 @@ const Transacciones = () => {
   useEffect(() => {
     dispatch(getListTransactionSite(filterSearch))
     getDataStatus()
+    showProperty()
   }, [count])
+
+  const showProperty = () => {
+    if (dataTable && dataTable.length > 0) {
+      setShowLoadingProperty(true)
+    }
+  }
 
   const getDataStatus = async () => {
     const res: any = await dispatch(getListTransactionSite2(''))
@@ -328,6 +338,7 @@ const Transacciones = () => {
       event.preventDefault()
       setCurrentPage(page)
       dispatch(getListTransactionSite(`?page=${page}`))
+      setShowLoadingProperty(true)
     },
     [setCurrentPage]
   )
@@ -344,9 +355,9 @@ const Transacciones = () => {
             </CardHeader>
             <CardContent1>
               <ContentFecha>
-                <InputLabelTitle label={'Rango de fecha'} />
+                <InputLabelTitle>Rango de fecha</InputLabelTitle>
                 <ContentImputs>
-                  <InputCustumer
+                  {/* <InputCustumer
                     name={'Desde:'}
                     type={'text'}
                     placeholder={'Desde'}
@@ -356,18 +367,19 @@ const Transacciones = () => {
                   />
 
                   <InputCustumer
-                    name={'Desde:'}
+                    name={'Hasta:'}
                     type={'text'}
-                    placeholder={'Desde'}
+                    placeholder={'Hasta'}
                     width={'15.3vw'}
                     value={''}
                     onChange={(e: any) => {}}
-                  />
+                 />*/}
+                  <DatePick />
                 </ContentImputs>
                 <ButtonFecha>Seleccionar fecha</ButtonFecha>
               </ContentFecha>
               <ContentFecha2>
-                <InputLabelTitle label={'Estado de las transacciones'} />
+                <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
                 <ContentImputsItems>
                   <ContentItemTitle
                     onClick={() => {
@@ -392,7 +404,7 @@ const Transacciones = () => {
                 </ContentImputsItems>
               </ContentFecha2>
               <ContentFecha4>
-                <InputLabelTitle label={'Entorno'} />
+                <InputLabelTitle>Entorno</InputLabelTitle>
                 <ContentImputsItems>
                   <ContentItemTitle>
                     <ItemTitle>Todos</ItemTitle>
@@ -412,7 +424,7 @@ const Transacciones = () => {
                 </ContentImputsItems>
               </ContentFecha4>
               <ContentFecha3>
-                <InputLabelTitle label={'Medios de pago'} />
+                <InputLabelTitle>Medios de pago</InputLabelTitle>
                 <ContentImputsItems2>
                   <ContentItemTitle
                     onClick={() => {
@@ -436,7 +448,7 @@ const Transacciones = () => {
                 </ContentImputsItems2>
               </ContentFecha3>
               <ContentFecha5>
-                <InputLabelTitle label={'Acciones'} />
+                <InputLabelTitle>Acciones</InputLabelTitle>
                 <ContentImputsItems3>
                   <ButtonFecha
                     onClick={() => {
@@ -462,14 +474,14 @@ const Transacciones = () => {
 
           <Card2>
             <CardHeader>
-              <CardTitle>Transacciónes</CardTitle>
-              <ButtonFecha>Busqueda avanzada</ButtonFecha>
+              <CardTitle>Transacciones</CardTitle>
+              <ButtonAvanzada>Búsqueda avanzada</ButtonAvanzada>
             </CardHeader>
             <CardContent2>
               {dataTable && dataTable.length > 0 ? (
                 <TablaTransaction data={dataTable} titleData={dataTitle} />
               ) : (
-                console.log('loading')
+                <LoadingBar text={'Cargando...'} />
               )}
               <ContentPagination>
                 <ItemResultTotal>Total: {totalCount}</ItemResultTotal>

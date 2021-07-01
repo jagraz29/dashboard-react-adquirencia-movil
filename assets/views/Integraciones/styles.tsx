@@ -104,7 +104,7 @@ export const ContentInput = styled.div`
 
 export const CardContentButton = styled.div`
   height: 2vw;
-  margin: 1vw;
+  margin: 0vw;
   display: flex;
   justify-content: start;
   align-items: flex-start;
@@ -291,4 +291,8 @@ export const ClosePhoto = styled.div`
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
   z-index: 2;
+`
+
+export const Alert = styled.div`
+  color: red;
 `
