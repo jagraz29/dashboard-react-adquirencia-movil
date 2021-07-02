@@ -248,6 +248,25 @@ export const exportExcel = (filter: string) => async (dispatch: any) => {
   }
 }
 
+export const getTransactionDetail = async (id: number) => {
+  try {
+    const res = await dataService.get(`/api/transaction/detail/${id}`)
+    return res.data.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getShowCollect = (id: any) => async (dispatch: any) => {
+  try {
+    const res = await dataService.get(`/api/collect/show/${id}`)
+    dispatch({
+      type: GET_SHOW_COLLECT,
+      payload: res.data,
+    })
+  } catch (error) {}
+}
+
 export const getTickets = async (data: any) => {
   try {
     const dataRes = await dataService.post('/api/ticket/list', data)
@@ -275,21 +294,12 @@ export const reOpenTicket = async (id: number) => {
   }
 }
 
-export const getTransactionDetail = async (id: number) => {
+export const detailTicket = async (id: number) => {
   try {
-    const res = await dataService.get(`/api/transaction/detail/${id}`)
-    return res.data.data
+    const dataRes = await dataService.get(`/api/ticket/detail/${id}`)
+    console.log(dataRes)
+    return dataRes.data.data.ticket
   } catch (error) {
-    console.log(error)
+    return false
   }
-}
-
-export const getShowCollect = (id: any) => async (dispatch: any) => {
-  try {
-    const res = await dataService.get(`/api/collect/show/${id}`)
-    dispatch({
-      type: GET_SHOW_COLLECT,
-      payload: res.data,
-    })
-  } catch (error) {}
 }
