@@ -19,7 +19,7 @@ export const ContentCard = styled.div`
 
 export const Card1 = styled.div`
   width: 18.7vw;
-  height: 131.3vw;
+  /* height: 131.3vw; */
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
@@ -41,13 +41,37 @@ export const Card2 = styled.div`
 `
 
 export const CardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  border-bottom: 1px solid #d3d3d3;
-  height: 3.5vw;
-  margin-right: 1vw;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    height: 4rem;
+    border-bottom: 1px solid #d3d3d3;
+    align-items: center;
+    .titleTransaction{
+      p{
+        margin: 0 1rem;
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+    .searchContainer{
+      display: grid;
+      grid-template-columns: 4fr 1fr;
+      margin: 0 1rem;
+        input{
+          border: 1px solid #b7b6b6;
+          border-radius: 4px 0px 0px 4px;
+          line-height: 35px;
+          padding: 0px 0.5em 0px ;
+          border-color: #c5c5c8;
+          min-height: 35px;
+          height: 35px;
+        }
+        button{
+          border: none;
+          color: #bababa;
+          background: #0000000d;
+        }
+    }
 `
 
 export const CardTitle = styled.h1`
@@ -82,8 +106,9 @@ export const ContentFecha = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 9vw;
+  /* height: 9vw; */
   margin-bottom: 0.7vw;
+  padding-top: 1rem;
 `
 
 export const ContentFecha2 = styled.div`
@@ -92,7 +117,7 @@ export const ContentFecha2 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 19vw;
+  /* height: 19vw; */
   margin-bottom: 0.7vw;
 `
 export const ContentFecha3 = styled.div`
@@ -101,7 +126,7 @@ export const ContentFecha3 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 78vw;
+  /* height: 78vw; */
   margin-bottom: 0.7vw;
 `
 
@@ -111,7 +136,7 @@ export const ContentFecha4 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 8.3vw;
+  /* height: 8.3vw; */
   margin-bottom: 0.7vw;
 `
 
@@ -241,7 +266,7 @@ export const ContentImputsItems = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 0.6vw;
-  height: 28vw;
+  /* height: 28vw; */
 `
 
 export const ContentImputsItems2 = styled.div`
@@ -250,7 +275,7 @@ export const ContentImputsItems2 = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 0.6vw;
-  height: 82vw;
+  /* height: 82vw; */
 `
 
 export const ContentImputsItems3 = styled.div`
@@ -265,6 +290,7 @@ export const ContentImputsItems3 = styled.div`
 export const ContentButonCard = styled.div`
   display: flex;
   justify-content: center;
+  margin: 1rem 0;
 `
 
 export const CardContentTable = styled.div`

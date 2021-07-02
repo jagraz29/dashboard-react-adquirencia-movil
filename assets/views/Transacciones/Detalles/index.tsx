@@ -469,7 +469,7 @@ const [log, setLog] = useState<any>({})
                 <CardSubTitle>Las Siguientes acciones pueden no ser reversibles.</CardSubTitle>
               </CardHeader>
               <CardContent3>
-                <ButtonExportar onClick={() => window.open(`api/transaction/receipt/${id}`)}>
+                <ButtonExportar onClick={()=> window.open(`/api/transaction/receipt/${id}`)}>
                   <AiIcons.AiFillFilePdf style={iconStylesExport} />
                   Descargar comprobante
                 </ButtonExportar>

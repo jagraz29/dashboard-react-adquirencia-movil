@@ -49,7 +49,7 @@ import { array } from 'prop-types'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
 import LoadingBar from '../../components/LoadingBar'
-
+import { FaSearch } from 'react-icons/fa';
 const breadcrumb = [
   {
     title: 'Inicio',
@@ -64,6 +64,7 @@ const breadcrumb = [
 ]
 
 const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
+const availableStatus = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
 
 const Transacciones = () => {
   const dispatch = useDispatch()
@@ -85,9 +86,9 @@ const Transacciones = () => {
     }
   })
 
-  console.log('MY array', dataAgregation)
+  // console.log('MY array', dataAgregation)
 
-  const [dataTable, setDataTable] = useState(dataListTable)
+  const [dataTable, setDataTable] = useState([])
   const [count, setCount] = useState(0)
   const [statusTransaction, setStatusTransaction] = useState([])
   const [statusPay, setstatusPay] = useState<string | any>([])
@@ -98,8 +99,10 @@ const Transacciones = () => {
   const [urlBase, setUrlBase] = useState('?paymentMethod=')
   const [paymentMethod, setPaymentMethod] = useState('')
   const [statusId, setStatusId] = useState('')
-  const [fromDate, setFromDate] = useState('')
-  const [toDate, seTtoDate] = useState('')
+
+  const [range, setRange] = useState<any>(null)
+
+
   const [currentPage, setCurrentPage] = useState(1)
   const [showLoadingProperty, setShowLoadingProperty] = useState(false)
 
@@ -108,6 +111,8 @@ const Transacciones = () => {
   }
 
   useEffect(() => {
+    console.log("entra");
+    
     dispatch(getListTransactionSite(filterSearch))
     getDataStatus()
     showProperty()
@@ -148,7 +153,7 @@ const Transacciones = () => {
   }, [dataList])
 
   const eventTransaccion = async (value: any) => {
-    console.log('Evento Transaccion ', value)
+    // console.log('Evento Transaccion ', value)
     setBoder1({ borderLeft: true })
 
     let status = ''
@@ -189,15 +194,15 @@ const Transacciones = () => {
     }
 
     setStatusId(status)
-    dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
+     dispatch(getListTransactionSite(urlBase + paymentMethod + status + range))
   }
 
   const eventEntorno = (value: any) => {
-    console.log('Evento Entorno ', value)
+    // console.log('Evento Entorno ', value)
   }
 
   const eventPagos = async (value: any) => {
-    console.log('Evento Medio de pagos ', value)
+    // console.log('Evento Medio de pagos ', value)
     let payurl = ''
     switch (value.key) {
       case 'American Express':
@@ -306,20 +311,28 @@ const Transacciones = () => {
 
     setPaymentMethod(payurl)
 
-    dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
+    dispatch(getListTransactionSite(urlBase + payurl + statusId + range))
   }
 
   const eventTransaccionTodo = () => {
     const status = ''
     setStatusId(status)
-    dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
+    dispatch(getListTransactionSite(urlBase + paymentMethod + status + range))
   }
 
   const eventPagosTodos = () => {
     const payurl = ''
     setPaymentMethod(payurl)
 
-    dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
+    dispatch(getListTransactionSite(urlBase + payurl + statusId + range))
+  }
+
+  const eventDate = async (range:any) => {
+    let aux= range
+    console.log("aqui", urlBase + paymentMethod + status + aux )
+    setRange(range)
+    dispatch(getListTransactionSite(urlBase + statusId + aux))
+
   }
 
   const borrarFiltros = () => {
@@ -334,7 +347,7 @@ const Transacciones = () => {
 
   const onPageChanged = useCallback(
     (event, page) => {
-      console.log('PAGE', page, ' evetn', event)
+      // console.log('PAGE', page, ' evetn', event)
       event.preventDefault()
       setCurrentPage(page)
       dispatch(getListTransactionSite(`?page=${page}`))
@@ -357,26 +370,9 @@ const Transacciones = () => {
               <ContentFecha>
                 <InputLabelTitle>Rango de fecha</InputLabelTitle>
                 <ContentImputs>
-                  {/* <InputCustumer
-                    name={'Desde:'}
-                    type={'text'}
-                    placeholder={'Desde'}
-                    width={'15.3vw'}
-                    value={''}
-                    onChange={(e: any) => {}}
-                  />
-
-                  <InputCustumer
-                    name={'Hasta:'}
-                    type={'text'}
-                    placeholder={'Hasta'}
-                    width={'15.3vw'}
-                    value={''}
-                    onChange={(e: any) => {}}
-                 />*/}
-                  <DatePick />
+                    <DatePick eventDate={eventDate} />
                 </ContentImputs>
-                <ButtonFecha>Seleccionar fecha</ButtonFecha>
+                {/* <ButtonFecha>Seleccionar fecha</ButtonFecha> */}
               </ContentFecha>
               <ContentFecha2>
                 <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
@@ -408,7 +404,7 @@ const Transacciones = () => {
                 <ContentImputsItems>
                   <ContentItemTitle>
                     <ItemTitle>Todos</ItemTitle>
-                    <ItemValue></ItemValue>
+                    <ItemValue>{totalCount}</ItemValue>
                   </ContentItemTitle>
                   {entorno.map((item: any) => (
                     <ContentItem
@@ -474,12 +470,19 @@ const Transacciones = () => {
 
           <Card2>
             <CardHeader>
-              <CardTitle>Transacciones</CardTitle>
-              <ButtonAvanzada>Búsqueda avanzada</ButtonAvanzada>
+              <div className="titleTransaction">
+                <p>Transacciones</p>
+              </div>
+              <div className="searchContainer">
+                <input placeholder="Buscar..."/>
+                <button ><FaSearch/></button>
+              </div>
             </CardHeader>
             <CardContent2>
-              {dataTable && dataTable.length > 0 ? (
-                <TablaTransaction data={dataTable} titleData={dataTitle} />
+              {!viewState.getListTransaction.loading ? (
+              dataTable.length===0?
+              <h3 style={{fontSize: "20px", padding: "1rem",margin:" 1rem 0", fontWeight: 400}}>No se encontraron registros.</h3>
+              : <TablaTransaction data={dataTable} titleData={dataTitle} />
               ) : (
                 <LoadingBar text={'Cargando...'} />
               )}
@@ -487,7 +490,7 @@ const Transacciones = () => {
                 <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
                 {totalCount && totalCount > 0 ? (
                   <Paginations
-                    totalRecords={totalCount}
+                    totalRecords={totalCount} 
                     pageLimit={15}
                     pageNeighbours={2}
                     onPageChanged={onPageChanged}

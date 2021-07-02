@@ -16,7 +16,7 @@ import TableTransaccionesAction from '../TableTransaccionesAction'
 import NumberFormat from 'react-number-format'
 import { useHistory } from 'react-router-dom'
 import { ModalComp } from '../modalComp'
-import { sendTransactionReceipt } from '../../redux/actions'
+import { sendTransactionReceiptLast } from '../../redux/actions'
 
 type Props = {
   data: {}[]
@@ -43,8 +43,8 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
     })
   }
   
-   const enviarComprobante = (email:string, idTransaction:number)=>{
-    sendTransactionReceipt(email,idTransaction)
+   const enviarComprobante = (idTransaction:number,email:string)=>{
+    sendTransactionReceiptLast(idTransaction, email)
     .then((res)=>{
       console.log("respuestt en la tablaa", res)
       setInput({email:""})
@@ -59,15 +59,15 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
         <input placeholder="Correo electrónico" name="email" type="email" value={input.email} onChange={(e)=> handleInputChange(e)}/>
       </ModalInput>
         <ModalButtons>
-          <button className="buttonSend" onClick={()=>enviarComprobante(input.email, trx)}>Enviar</button>
+          <button className="buttonSend" onClick={()=>enviarComprobante( trx, input.email)}>Enviar</button>
           <button className="buttonCancel" onClick={toggle} >Cancelar</button>
       </ModalButtons>
     </div>
   )
-useEffect(() => {
-  console.log("email",input.email)
-  console.log("transaccion",trx)
-})
+// useEffect(() => {
+//   console.log("email",input.email)
+//   console.log("transaccion",trx)
+// })
 
   return (
     <div>

@@ -173,7 +173,14 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
 
 export const getListTransactionSite = (filter: string) => async (dispatch: any) => {
   try {
+    dispatch({
+      type:"LOADING_TRUE"
+    })
     const res = await dataService.get(`api/transaction${filter}`)
+    dispatch({
+      type:"LOADING_FALSE"
+    })
+    console.log("res getListTransactionSite", res)
     dispatch({
       type: GET_LIST_TRANSACTION,
       payload: res.data.data,
@@ -257,12 +264,23 @@ export const getTransactionDetail = async (id:number) => {
     console.log(error)
   }
 }
-export const sendTransactionReceipt = async (email:string, ​​​​​​​transaction:number) => {
+
+export const sendTransactionReceiptLast = async (transaction:number, email:string) =>{
   try {
-    const res = await dataService.get(`/api/transaction/send/email/${​​​​​​​transaction}​​​​​​​/${​​​​​​​​email}​​`)
-    console.log("res", res)
-    return res.data.data
+      const res= await dataService.get(`/api/transaction/send/email/${transaction}/${email}`)
+      console.log("respues de la nueva", res)
   } catch (error) {
-    console.log("error en sendTransaction",error)
+    console.log("ERROR EN LA PETICION DE SEND", error)
+    
+  }
+}
+// https://127.0.0.1:8000/api/transaction/?paymentMethod=VS&statusId=2&fromDate=2021-05-17&toDate=2021-05-19
+
+export const filterSearchTransaction = async ()=>{
+
+  try {
+    
+  } catch (error) {
+    console.log("err", error)
   }
 }
