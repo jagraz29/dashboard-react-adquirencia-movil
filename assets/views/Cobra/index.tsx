@@ -108,7 +108,7 @@ const Cobra = () => {
           <ButtonLinkImg src={IconLink.url} />
           <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
         </ButtonLink>
-        <ContentTable>
+        <ContentTable style={{ marginBottom: '300px' }}>
           <ContentSearchTitle>
             <CardTableTitle>Cobros</CardTableTitle>
             <InputSearch
@@ -127,10 +127,8 @@ const Cobra = () => {
             />
           </ContentSearchTitle>
 
-          {dataTable && dataTable.length > 0 ? (
+          {dataTable && dataTable.length > 0 && (
             <TablaCobra data={dataTable} titleData={dataTitle} />
-          ) : (
-            console.log('loading')
           )}
         </ContentTable>
       </Content>
