@@ -3,27 +3,7 @@ import AvatarDashboard from '../../components/AvatarDashboard/'
 import { IconLink } from '../../config/configImages'
 import { StorageData } from '../../services/storegeData'
 
-import {
-  Content,
-  ContentPay,
-  ContentAvatar,
-  ContentLink,
-  TextWolcome,
-  TextItem1,
-  ButtonLink,
-  TitleLink,
-  ButtonImg,
-  ButtonText,
-  ContentItems,
-  CardTrasactionOk,
-  CardPending,
-  CardTransactionTitle,
-  CardTransactionCount,
-  CardTransactionDetails,
-  ContentTable,
-  CardTableTitle,
-  SpanTitle,
-} from './styles'
+import { Content, ContentPay, ContentItems, ContentTable, CardTableTitle } from './styles'
 
 import TablaDashboard from '../../components/TableDashboard'
 import { datos } from './data'
@@ -96,44 +76,50 @@ const index = () => {
   console.log(dataList)
 
   return (
-    <div>
-      <Content>
-        <ContentPay>
-          <ContentAvatar>
-            <AvatarDashboard srcImage={dataUser.logo}></AvatarDashboard>
-            <TextWolcome>¡ Hola {dataUser.companyName} !</TextWolcome>
-            <TextItem1>Ya puedes empezar a cobrar. Tipo de cuenta: Personal</TextItem1>
-          </ContentAvatar>
-          <ContentLink>
-            <TitleLink>Herramienta de cobro</TitleLink>
-            <ButtonLink onClick={() => redirectRoute('/cobra')}>
-              <ButtonImg src={IconLink.url} />
-              <ButtonText>Crear y comparti un link de cobro</ButtonText>
-            </ButtonLink>
-          </ContentLink>
-        </ContentPay>
-        <ContentItems>
-          <CardTrasactionOk>
-            <CardTransactionTitle>Transacciones aprobadas</CardTransactionTitle>
-            <CardTransactionCount>0</CardTransactionCount>
-            <CardTransactionDetails>Ver detalles</CardTransactionDetails>
-          </CardTrasactionOk>
-          <CardPending>
-            <CardTransactionTitle>Transacciones pendientes</CardTransactionTitle>
-            <CardTransactionCount>0</CardTransactionCount>
-            <CardTransactionDetails>Ver detalles</CardTransactionDetails>
-          </CardPending>
-        </ContentItems>
-        <ContentTable>
-          <CardTableTitle>Últimas Transacciones</CardTableTitle>
-          {dataListTable && dataListTable.length > 0 ? (
-            <TablaDashboard data={dataListTable} titleData={dataTitle} />
-          ) : (
-            console.log('loading')
-          )}
-        </ContentTable>
-      </Content>
-    </div>
+    <Content>
+      <ContentPay>
+        <div className="userContent">
+          <div>
+            <img src={dataUser.logo}></img>
+          </div>
+          <div>
+            <h1>¡ Hola {dataUser.companyName} !</h1>
+            <div>
+              <p>Ya puedes empezar a cobrar.</p>
+              <label>Tipo de cuenta:</label>
+              <p>Personal</p>
+            </div>
+          </div>
+        </div>
+        <div className="cobroContent">
+          <h1>Herramienta de cobro</h1>
+          <div onClick={() => redirectRoute('/cobra')}>
+            <img src={IconLink.url} />
+            <p>Crear y compartir un link de cobra</p>
+          </div>
+        </div>
+      </ContentPay>
+      <ContentItems>
+        <div>
+          <h1>Transacciones aprobadas</h1>
+          <label>0</label>
+          <a>Ver detalles</a>
+        </div>
+        <div>
+          <h1>Transacciones pendientes</h1>
+          <label>0</label>
+          <a>Ver detalles</a>
+        </div>
+      </ContentItems>
+      <ContentTable>
+        <CardTableTitle>Últimas Transacciones</CardTableTitle>
+        {dataListTable && dataListTable.length > 0 ? (
+          <TablaDashboard data={dataListTable} titleData={dataTitle} />
+        ) : (
+          console.log('loading')
+        )}
+      </ContentTable>
+    </Content>
   )
 }
 

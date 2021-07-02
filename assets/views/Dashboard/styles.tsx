@@ -1,200 +1,86 @@
 import styled from 'styled-components'
 
 export const Content = styled.div`
-  position: absolute;
-  margin: 5vw 60.1vw 40.2vw 19.4vw;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 1fr 3fr;
+  row-gap: 1rem;
+  column-gap: 1rem;
 `
 
 export const ContentPay = styled.div`
-  position: relative;
-  width: 79vw;
-  height: ${(height) => (height ? '11.5vw' : '')};
+  width: 100%;
+  height: 100%;
   background: #ffffff;
   border: 1px solid #d3d3d3;
-  box-sizing: border-box;
   border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-export const ContentAvatar = styled.div`
-  margin: 1vw;
-`
-
-export const ContentLink = styled.div`
-  margin: 2.1vw;
-  border-left: 1px dashed #d3d3d3;
-`
-
-export const TextWolcome = styled.span`
-  position: absolute;
-  left: 9vw;
-  right: 12vw;
-  top: 2vw;
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 2vw;
-  line-height: 2vw;
-  color: #000000;
-`
-
-export const TextItem1 = styled.span`
-  position: absolute;
-  left: 9vw;
-  right: 12vw;
-  top: 5vw;
-  width: 13vw;
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1vw;
-  line-height: 1.5vw;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.035em;
-
-  color: #000000;
-`
-
-export const ButtonLink = styled.button`
-  display: inline-block;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  cursor: pointer;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  display: block;
-  width: 13vw;
-  height: 7.2vw;
-  align-items: baseline;
-  justify-content: flex-start;
   display: grid;
-`
-
-export const TitleLink = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  position: absolute;
-  right: 6.1vw;
-  width: 10vw;
-  top: 1vw;
-  font-size: 1vw;
-  line-height: 1vw;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.035em;
-  color: #000000;
-`
-
-export const ButtonImg = styled.img`
-  width: 4.1vw;
-  left: 3.3vw;
-  top: 0.6vw;
-  position: relative;
-`
-
-export const ButtonText = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1vw;
-  line-height: 1vw;
-
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #343a40;
+  grid-template-columns: auto 15rem;
+  .userContent {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    div {
+      margin: 1rem;
+      align-self: center;
+      img {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+      }
+    }
+    div {
+      margin: 1rem;
+      h1 {
+        font-size: 1.5rem;
+        padding: 0.5rem 0;
+        margin: 0;
+      }
+      div {
+        margin: 0;
+        p {
+          margin: 0;
+        }
+        label {
+        }
+      }
+    }
+  }
+  .cobroContent {
+    border-left: 1px dotted #d9d9d9;
+    h1 {
+      font-size: 1rem;
+      margin: 1rem;
+    }
+    div {
+      text-align: -webkit-center;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      margin: 0 1rem 1rem;
+      img {
+        padding: 0.5rem 0;
+      }
+      p {
+        margin: 0;
+        margin: 0;
+        padding-bottom: 1rem;
+      }
+    }
+  }
 `
 
 export const ContentItems = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 79vw;
-`
-
-export const CardTrasactionOk = styled.div`
-  position: absolute;
-  width: 38.7vw;
-  height: 7.5vw;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 1vw;
-  left: 0vw;
-`
-
-export const CardPending = styled.div`
-  position: absolute;
-  width: 38.7vw;
-  height: 7.5vw;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 1vw;
-  right: 0vw;
-`
-
-export const CardTransactionTitle = styled.h2`
-  font-size: 1vw;
-  line-height: 1vw;
-  margin: 1vw;
-  position: relative;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`
-
-export const CardTransactionCount = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.6vw;
-  line-height: 1.5vw;
-  margin: 1vw;
-  position: relative;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`
-
-export const CardTransactionDetails = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1vw;
-  line-height: 1vw;
-  margin: 1vw;
-  position: relative;
-  color: #40a8e6;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
 `
 
 export const ContentTable = styled.div`
-  position: relative;
-  width: 79vw;
-  height: 19vw;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 9.5vw;
-  left: 0vw;
-  overflow: scroll;
+  width: 100%;
+  height: 100%;
 `
 
 export const CardTableTitle = styled.h2`
@@ -209,8 +95,3 @@ export const CardTableTitle = styled.h2`
 `
 
 export const Ref = styled.span``
-
-export const SpanTitle = styled.span`
-  color: red;
-  font-size: 2vw;
-`

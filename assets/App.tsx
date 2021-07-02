@@ -10,6 +10,28 @@ import { getDataUser } from './redux/actions'
 
 const App = () => {
   const store = configureStore()
+  const [tamaño, setTamaño] = useState<any>(
+    navigator.userAgent.match(/Android/i) ? window.screen.width : window.innerWidth
+  )
+
+  const handleResize = () => {
+    setTamaño(window.innerWidth)
+  }
+
+  const handleResizes = () => {
+    if (navigator.userAgent.match(/Android/i)) {
+      setTamaño(window.screen.width)
+    } else {
+      setTamaño(window.innerWidth)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResizes)
+    return () => {
+      window.removeEventListener('resize', handleResizes)
+    }
+  }, [])
 
   return (
     <Provider store={store}>
@@ -18,9 +40,7 @@ const App = () => {
           <div>
             {location.pathname !== '/password/reset' &&
               location.pathname.indexOf('password/change') == -1 && <Sidebar></Sidebar>}
-            <Switch>
-              <Routes />
-            </Switch>
+            <Routes />
             {location.pathname !== '/password/reset' &&
               location.pathname.indexOf('password/change') == -1 && <Footer></Footer>}
           </div>

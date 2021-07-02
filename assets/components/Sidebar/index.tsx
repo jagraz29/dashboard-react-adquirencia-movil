@@ -4,20 +4,20 @@ import { MenuItems } from '../MenuItems'
 import SubMenuItems from '../SubMenuItems'
 import LogoSidebar from '../Logo'
 import NameSidebar from '../NameSidebar'
-import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu } from './styles'
+import { Nav, NavIcon, AvatarImg, SidebarNav, SidebarWrap, Submenu, NavContainer } from './styles'
 import { Tooltip } from 'antd'
 import Avatar from '../Avatar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { getDataUser } from '../../redux/actions/'
 import { StorageData } from '../../services/storegeData'
-import { IconService } from '../../config/configImages'
+import { IconService, LogoDavivienda } from '../../config/configImages'
 import { IconSoporte } from '../../config/configImages'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-const index = () => {
+const index = (props: any) => {
   const dispatch = useDispatch()
-  const [sidebar, setSidebar] = useState(true)
+  const history = useHistory()
   const viewState: RootState = useSelector((state: RootState) => state)
   const [storage, setStorage] = useState('')
 
@@ -28,29 +28,41 @@ const index = () => {
   }, [saveData])
   const name = viewState.captcha.userData.data.companyName
   const avatar = viewState.captcha.userData.data.logo
+  const [sidebar, setSidebar] = useState(false)
 
   return (
-    <div>
+    <NavContainer>
+      <SidebarNav data-show={sidebar}>
+        <SidebarWrap>
+          <img width="100%" src={LogoDavivienda.url}></img>
+          <div>
+            <label>{name ? name : ''}</label>
+          </div>
+          <ul>
+            {MenuItems.map((item, index) => {
+              return (
+                <li key={index} onClick={() => history.push(item.path)}>
+                  <img src={item.icon} />
+                  {item.title}
+                </li>
+              )
+            })}
+          </ul>
+        </SidebarWrap>
+      </SidebarNav>
       <Nav>
+        <button style={{ position: 'relative', zIndex: 1000 }} onClick={() => setSidebar(!sidebar)}>
+          x
+        </button>
+
         <AvatarImg>
           <Link to={'/soporte'}>
             <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
           </Link>
           <Avatar srcImage={avatar} size={'35px'}></Avatar>
         </AvatarImg>
-        <SidebarNav>
-          <SidebarWrap>
-            <LogoSidebar></LogoSidebar>
-            <NameSidebar name={name}></NameSidebar>
-            <Submenu>
-              {MenuItems.map((item, index) => {
-                return <SubMenuItems items={item} key={index}></SubMenuItems>
-              })}
-            </Submenu>
-          </SidebarWrap>
-        </SidebarNav>
       </Nav>
-    </div>
+    </NavContainer>
   )
 }
 
