@@ -508,13 +508,13 @@ const Integraciones = () => {
 
         <ContentCard>
           <Card>
-            <CardHeader>
+            <CardHeader onClick={() => openClose()}>
               <CardTitle>Propiedades del sitio</CardTitle>
               <CardSubTitle>
                 Utilice esta propiedad para configurar el checkout con su marca e información del
                 contacto.
               </CardSubTitle>
-              <CardIcon onClick={() => openClose()}>
+              <CardIcon>
                 {openCard == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
                 ) : (
@@ -651,12 +651,12 @@ const Integraciones = () => {
           </Card>
 
           <Card>
-            <CardHeader>
+            <CardHeader onClick={() => openClose2()}>
               <CardTitle>Opciones pasarela</CardTitle>
               <CardSubTitle>
                 Configure y/o predetermine parámetros para personalizar la experiencia de pago.
               </CardSubTitle>
-              <CardIcon onClick={() => openClose2()}>
+              <CardIcon>
                 {openCard2 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
                 ) : (
@@ -755,13 +755,13 @@ const Integraciones = () => {
           </Card>
 
           <Card>
-            <CardHeader>
+            <CardHeader onClick={() => openClose3()}>
               <CardTitle>Personalización página de pagos</CardTitle>
               <CardSubTitle>
                 Utilice nuestro administrador para personalizar y adaptar la página de pagos al
                 diseño de su sitio web.
               </CardSubTitle>
-              <CardIcon onClick={() => openClose3()}>
+              <CardIcon>
                 {openCard3 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
                 ) : (
@@ -840,13 +840,13 @@ const Integraciones = () => {
             )}
           </Card>
 
-          <Card>
-            <CardHeader>
+          <Card style={{ marginBottom: '100px' }}>
+            <CardHeader onClick={() => openClose4()}>
               <CardTitle>Llaves secretas</CardTitle>
               <CardSubTitle>
                 Utilice estas llaves para la integración personalizada desde su página web.
               </CardSubTitle>
-              <CardIcon onClick={() => openClose4()}>
+              <CardIcon>
                 {openCard4 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
                 ) : (

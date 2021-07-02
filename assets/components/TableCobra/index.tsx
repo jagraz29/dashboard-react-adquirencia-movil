@@ -13,15 +13,11 @@ type Props = {
 }
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
-  console.log('paso a la tabla', data)
   const titles = Object.keys(titleData)
   const datos = Object.keys(data[0])
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
   const { isShown, toggle } = useModal()
-  const compartir = (item: number) => {
-    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
-  }
 
   const content = (
     <React.Fragment>
@@ -49,34 +45,40 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {datos.map((title: any, index: number) => (
-                <td key={index}>
-                  {index == 0 ? (
-                    <body>{item[title]}</body>
-                  ) : index == 5 ? (
-                    <body>
-                      <NumberFormat
-                        thousandSeparator={true}
-                        prefix={'$'}
-                        value={item[title]}
-                        displayType={'text'}
-                      />
-                    </body>
-                  ) : index == 4 ? (
-                    <body>
-                      <TableTextMoneda>{item[title]}</TableTextMoneda>
-                    </body>
-                  ) : index == 8 ? (
-                    <body>
-                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
-                        https://link.epayco.xyz/{item[title]}
-                      </TableTextLink>
-                    </body>
-                  ) : (
-                    <body>{item[title]}</body>
-                  )}
-                </td>
-              ))}
+              {datos.map((title: any, index: number) => {
+                if (title != 'typeSell') {
+                  return (
+                    <td key={index}>
+                      {index == 0 ? (
+                        <body>{item[title]}</body>
+                      ) : index == 5 ? (
+                        <body>
+                          <NumberFormat
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            value={item[title]}
+                            displayType={'text'}
+                          />
+                        </body>
+                      ) : index == 4 ? (
+                        <body>
+                          <TableTextMoneda>{item[title]}</TableTextMoneda>
+                        </body>
+                      ) : index == 8 ? (
+                        <body>
+                          <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                            https://link.epayco.xyz/{item[title]}
+                          </TableTextLink>
+                        </body>
+                      ) : title == 'state' ? (
+                        <body>{item[title] == 1 ? 'Pendiente por pago' : 'Pagado'}</body>
+                      ) : (
+                        <body>{item[title]}</body>
+                      )}
+                    </td>
+                  )
+                }
+              })}
               <td>
                 <TableCollectAction
                   actions={[
