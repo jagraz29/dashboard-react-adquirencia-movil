@@ -71,7 +71,13 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                           </TableTextLink>
                         </body>
                       ) : title == 'state' ? (
-                        <body>{item[title] == 1 ? 'Pendiente por pago' : 'Pagado'}</body>
+                        <body>
+                          {item[title] == 1
+                            ? 'Pendiente por pago'
+                            : item[title] == 2
+                            ? 'Pagado'
+                            : 'Eliminado'}
+                        </body>
                       ) : (
                         <body>{item[title]}</body>
                       )}
