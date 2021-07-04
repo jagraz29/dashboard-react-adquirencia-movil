@@ -6,17 +6,19 @@ function DatePick(props:any) {
   
   const minDate: Date = new Date(new Date().getFullYear(), 0, 1)
   const maxDate: Date = new Date(new Date())
-  const [startValue,setStartValue] = useState(new Date())
-  const [endValue,setEndValue] = useState(new Date())
+
 
   const onChange = (e: any) => {
-    
-    console.log(e)
-    setStartValue(e.startDate),
-    setEndValue(e.endDate)
-    console.log(e.startDate.toISOString().slice(0,10),e.startDate);
-    
-    props.eventDate(`&fromDate=${e.startDate.toISOString().slice(0,10)}&toDate=${e.endDate.toISOString().slice(0,10)}`)
+    // console.log(e);
+    props.setDatesValues({
+      startDate:e.startDate,
+      endDate:e.endDate
+    }) 
+    if(!e.startDate){
+      props.handleDates(0,0)
+    }else{
+      props.handleDates(e.startDate.toISOString().slice(0,10),e.endDate.toISOString().slice(0,10))
+    }
   } // the event handler
 
   
@@ -24,12 +26,13 @@ function DatePick(props:any) {
     <div>
       <DateRangePickerComponent
         placeholder="Seleccione fechas"
-        // startDate={startValue}
-        // endDate={endValue}
+        startDate={props.datesValues.startDate}
+        endDate={props.datesValues.endDate}
         min={minDate}
         max={maxDate}
         format="dd-MM-yy"
         change={onChange}
+        cleared={()=>console.log("se cleared") }
         //Uncomment below code to show month range picker. Also comment the properties min, max, mindays and maxdays
         // start="Year"
         // depth="Year"

@@ -3,28 +3,28 @@ import styled from 'styled-components'
 import {
   StyledTable,
   TableTextMoneda,
-  TableTextLink,
   TableTextStatusOK,
   TableTextStatusPending,
   TableTextStatusCancel,
   ContentAction,
   ModalButtons,
-  ModalInput
+  ModalInput,
+  TableTextStatusOther
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
 import TableTransaccionesAction from '../TableTransaccionesAction'
 import NumberFormat from 'react-number-format'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom';
 import { ModalComp } from '../modalComp'
 import { sendTransactionReceiptLast } from '../../redux/actions'
 
 type Props = {
   data: {}[]
-
   titleData: {}[]
+  toast:any
 }
 
-const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
+const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
   const history:any= useHistory()
@@ -43,13 +43,15 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
     })
   }
   
-   const enviarComprobante = (idTransaction:number,email:string)=>{
-    sendTransactionReceiptLast(idTransaction, email)
-    .then((res)=>{
-      console.log("respuestt en la tablaa", res)
-      setInput({email:""})
-    })
-    .catch((err)=>console.log("err", err))
+   const enviarComprobante = async(idTransaction:number,email:string)=>{
+       let res= await sendTransactionReceiptLast(idTransaction, email)
+       if(res === false){
+           toast.error("Error al enviar comprobante, intente nuevamente.")
+       }else{
+           toast.success('Se ha enviado el comprobante correctamente.')
+       }
+       setInput({email:""})
+       toggle()
    }
   
   const modalConfirmacionTrx = (
@@ -64,10 +66,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
       </ModalButtons>
     </div>
   )
-// useEffect(() => {
-//   console.log("email",input.email)
-//   console.log("transaccion",trx)
-// })
 
   return (
     <div>
@@ -93,9 +91,9 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                 <td key={index}>
                   {index == 0 ? (
                     <body>
-                      <TableTextLink href={'/transacciones/detalles/' + item[title]}>
-                        {item[title]}
-                      </TableTextLink>
+                      <Link to={"/transacciones/detalles/" + item[title]} style={{fontWeight: "normal",fontSize: "1vw",color: "#40a8e6",textDecoration: "none"}}>
+                      {item[title]}
+                      </Link>
                     </body>
                   ) : index == 3 ? (
                     <body>
@@ -123,7 +121,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData }) => {
                       ) : item[title] == 'Cancelada' ? (
                         <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
                       ) : (
-                        <body>{item[title]}</body>
+                        <TableTextStatusOther>{item[title]}</TableTextStatusOther>
                       )}
                     </body>
                   ) : (

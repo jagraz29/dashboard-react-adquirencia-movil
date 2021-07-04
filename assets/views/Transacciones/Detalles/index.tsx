@@ -38,7 +38,8 @@ import {
   LogMetodo,
   LogHora,
   LogGroupDivider,
-  LoadingContent
+  LoadingContent,
+  CardLast
 } from './styles'
 import axios from 'axios'
 import LoadingBar from '../../../components/LoadingBar'
@@ -61,6 +62,13 @@ const breadcrumb = [
   },
 ]
 
+const defaultLogResponse = {
+  response_default:true,
+  x_transaction_id:'-',
+  x_fecha_transaccion:'-',
+  url:'-'
+}
+
 const TransaccionesDetalles = ({history}:any) => {
   let iconStyles = { color: '#d3d3d3' }
   let iconStylesExport = { size: '100px', color: '#d3d3d3' }
@@ -73,21 +81,21 @@ const TransaccionesDetalles = ({history}:any) => {
   const [openCard2, setOpenCard2] = useState(false)
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
 
-useEffect(()=>{
-  getTransactionDetail(id)
-  .then(resp=>{
-    setData(resp)
-    setLogss(resp.allLogs)
-    setLog(resp.log)
-    setLoading(false)
-  })
-  .catch(()=>setLoading(false))
-  },[]) 
-const [loading, setLoading]=useState<boolean>(true)
-const [data, setData] = useState<any>({})
-const [logss, setLogss] = useState<any>([])
-const [log, setLog] = useState<any>({})
-
+  const [loading, setLoading]=useState<boolean>(true)
+  const [data, setData] = useState<any>({})
+  const [logss, setLogss] = useState<any>([])
+  const [log, setLog] = useState<any>(defaultLogResponse)
+  useEffect(()=>{
+    getTransactionDetail(id)
+    .then(resp=>{
+      setData(resp)
+      setLogss(resp.allLogs)
+      setLog(resp.allLogs.length ===0?defaultLogResponse:resp.allLogs[0])
+      setLoading(false)
+    })
+    .catch(()=>setLoading(false))
+    },[]) 
+  
   const openClose = () => {
     if (!openCard) {
       setOpenCard(true)
@@ -139,6 +147,9 @@ const [log, setLog] = useState<any>({})
   useEffect(() => {
     setLogsKey(Object.keys(log))
   }, [log])
+useEffect(() => {
+  console.log("loooog",log)
+})
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
@@ -367,7 +378,7 @@ const [log, setLog] = useState<any>({})
               </CardContent1>
             </Card>
 
-            <Card>
+            <CardLast>
               <CardHeader>
                 <CardTitle>Información enviada en la confirmación</CardTitle>
                 <CardIcon onClick={() => openClose2()}>
@@ -390,12 +401,12 @@ const [log, setLog] = useState<any>({})
                         logss.length>0 && logss.map((e:any, i:number)=>(
                         <LogItem key={i} onClick={()=>setLog(e)}>
                           {
-                            e.x_transaction_state==="Aceptada"?
-                            <LogStatusSuccess>{e.x_transaction_state? e.x_transaction_state:"-"}</LogStatusSuccess>
+                            JSON.parse(e.response).header_code==="200"?
+                            <LogStatusSuccess>{JSON.parse(e.response).header_code? JSON.parse(e.response).header_code:"-"}</LogStatusSuccess>
                             :
-                            <LogStatusFailed>{e.x_transaction_state? e.x_transaction_state:"-"}</LogStatusFailed>
+                            <LogStatusFailed>{JSON.parse(e.response).header_code? JSON.parse(e.response).header_code:"-"}</LogStatusFailed>
                           }
-                          <LogMetodo>{e.urlConfirmation?e.urlConfirmation:""}</LogMetodo>
+                          <LogMetodo>{e.url?e.url:""}</LogMetodo>
                           <LogHora>{e.x_fecha_transaccion? e.x_fecha_transaccion.slice(0,10):"-"}</LogHora>
                         </LogItem>
                         ))
@@ -409,22 +420,22 @@ const [log, setLog] = useState<any>({})
                       <tr>
                         <th>Estado</th>
                          {
-                           !log.x_transaction_state?
+                           log.response_default?
                            <td >-</td>
                            :
-                            log.x_transaction_state==="Aceptada"?
-                            <td className="estadoSuccess">{log.x_transaction_state? log.x_transaction_state:"-"}</td>
+                           JSON.parse(log.response).header_code==="200"?
+                            <td className="estadoSuccess">{  JSON.parse(log.response).header_code? JSON.parse(log.response).header_code:"-"}</td>
                             :
-                            <td className="estadoFailed">{log.x_transaction_state? log.x_transaction_state:"-"}</td>
+                            <td className="estadoFailed">{  JSON.parse(log.response).header_code? JSON.parse(log.response).header_code:"-"}</td>
                           }
                       </tr>
                       <tr>
                         <th>ID</th>
-                        <td >{log.x_transaction_id?log.x_transaction_id:"-"}</td>
+                        <td >{log.x_transaction_id}</td>
                       </tr>
                       <tr>
                         <th>Fecha</th>
-                        <td>{log.x_fecha_transaccion?log.x_fecha_transaccion:"-"}</td>
+                        <td>{log.x_fecha_transaccion}</td>
                       </tr>
                       <tr>
                         <th>Tipo de confirmación</th>
@@ -432,7 +443,7 @@ const [log, setLog] = useState<any>({})
                       </tr>
                       <tr>
                         <th>URL Confirmacion</th>
-                        <td >-</td>
+                        <td>{log.url}</td>
                       </tr>
                     </table>
                     </div> 
@@ -459,7 +470,7 @@ const [log, setLog] = useState<any>({})
                     </LogGroupDivider>
                 </ContentLog>
               </CardContent2>
-            </Card>
+            </CardLast>
 
           </CardGroup>
           <CardGroup>

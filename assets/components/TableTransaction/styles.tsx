@@ -75,12 +75,6 @@ export const TableTextMoneda = styled.h2`
   font-size: 1vw;
 `
 
-export const TableTextLink = styled.a`
-  font-weight: normal;
-  font-size: 1vw;
-  color: #40a8e6;
-  text-decoration: none;
-`
 export const TableTextStatusOK = styled.h1`
   color: green;
   font-size: 1vw;
@@ -92,9 +86,13 @@ export const TableTextStatusPending = styled.h1`
 `
 
 export const TableTextStatusCancel = styled.h1`
-  color: red;
   font-size: 1vw;
 `
+
+export const TableTextStatusOther = styled.h1`
+  font-size: 1vw;
+`
+
 export const ContentAction = styled.div`
   display: flex;
   justify-content: center;

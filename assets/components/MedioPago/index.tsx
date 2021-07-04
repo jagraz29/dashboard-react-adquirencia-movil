@@ -1,22 +1,26 @@
-import React from 'react'
-import { IconVS, IconMS, IconPSE } from '../../config/configImages'
+import React, { useEffect, useState } from 'react'
+import { CardsIcons} from '../../config/configImages'
 import { ContentMedioPago, MedioPagoImg } from './styles'
 
 type Props = {
-  type: string
+  type: any
 }
 const MedioPago: React.FC<Props> = ({ type }) => {
+  
+  const [url, setUrl]= useState<any>(false)
+  
+  useEffect(() => {
+    setUrl(CardsIcons[type])
+
+  },[type])
   return (
     <ContentMedioPago>
-      {type == 'VS' ? (
-        <MedioPagoImg src={IconVS.url} />
-      ) : type == 'MS' ? (
-        <MedioPagoImg src={IconMS.url} />
-      ) : type == 'PSE' ? (
-        <MedioPagoImg src={IconPSE.url} />
-      ) : (
-        ''
-      )}
+      {
+        url?
+        <MedioPagoImg src={url} />
+        :
+        <MedioPagoImg src={CardsIcons.DEFAULT} />
+      }
     </ContentMedioPago>
   )
 }

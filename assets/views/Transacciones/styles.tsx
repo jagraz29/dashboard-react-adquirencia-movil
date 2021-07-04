@@ -46,31 +46,36 @@ export const CardHeader = styled.div`
     height: 4rem;
     border-bottom: 1px solid #d3d3d3;
     align-items: center;
-    .titleTransaction{
-      p{
+      h4{
         margin: 0 1rem;
         font-size: 20px;
         font-weight: 500;
       }
+    
+`
+export const SearchContainer = styled.form`
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  margin: 0 1rem;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+    input{
+      border: 1px solid #b7b6b6;
+      border-radius: 4px 0px 0px 4px;
+      line-height: 35px;
+      padding: 0px 0.5em 0px ;
+      border-color: #c5c5c8;
+      min-height: 35px;
+      height: 35px;
     }
-    .searchContainer{
-      display: grid;
-      grid-template-columns: 4fr 1fr;
-      margin: 0 1rem;
-        input{
-          border: 1px solid #b7b6b6;
-          border-radius: 4px 0px 0px 4px;
-          line-height: 35px;
-          padding: 0px 0.5em 0px ;
-          border-color: #c5c5c8;
-          min-height: 35px;
-          height: 35px;
-        }
-        button{
-          border: none;
-          color: #bababa;
-          background: #0000000d;
-        }
+    button{
+      border: none;
+      color: #bababa;
+      background: #0000000d;
+      cursor:pointer;
     }
 `
 
@@ -162,7 +167,7 @@ export const ButtonFecha = styled.button`
   color: #58d3f7;
   justify-content: center;
   align-items: center;
-
+cursor: pointer;
   :hover,
   :focus {
     background: hsl(200, 90%, 45%);
@@ -222,7 +227,7 @@ export const ContentItem = styled.button`
     cursor: not-allowed;
   }
 
-  &:active {
+  &.active {
     border-left: 4px solid #ff4000;
   }
 `
@@ -254,6 +259,7 @@ export const ItemTitle = styled.h2`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  text-transform: capitalize;
 `
 export const ItemValue = styled.h2`
   right: 1vw;
@@ -315,11 +321,20 @@ export const ContentPagination = styled.div`
 `
 
 export const ItemResultTotal = styled.h2`
-  font-size: 0.9vw;
+  font-size: 0.9rem;
   padding-left: 2vw;
+  width: 5rem;
 `
 
 export const InputLabelTitle = styled.h3`
   width: 16vw;
   font-size: 1vw;
+`
+
+export const LoadingContent = styled.div`
+display: flex;
+width: 100vw;
+position: absolute;
+top: 10rem;
+left: 7rem;
 `
