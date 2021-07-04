@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
+import { useModal } from '../../components/hooks/useModal'
+import { ModalComp } from '../../components/modalComp'
+import ShareLink from '../../components/ShareLink'
 
 import NumberFormat from 'react-number-format'
 
@@ -10,15 +13,17 @@ type Props = {
 }
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
-  console.log('paso a la tabla', data)
   const titles = Object.keys(titleData)
   const datos = Object.keys(data[0])
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
+  const { isShown, toggle } = useModal()
 
-  const compartir = (item: number) => {
-    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
-  }
+  const content = (
+    <React.Fragment>
+      <ShareLink />
+    </React.Fragment>
+  )
 
   return (
     <div>
@@ -40,34 +45,46 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {datos.map((title: any, index: number) => (
-                <td key={index}>
-                  {index == 0 ? (
-                    <body>{item[title]}</body>
-                  ) : index == 5 ? (
-                    <body>
-                      <NumberFormat
-                        thousandSeparator={true}
-                        prefix={'$'}
-                        value={item[title]}
-                        displayType={'text'}
-                      />
-                    </body>
-                  ) : index == 4 ? (
-                    <body>
-                      <TableTextMoneda>{item[title]}</TableTextMoneda>
-                    </body>
-                  ) : index == 8 ? (
-                    <body>
-                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
-                        https://link.epayco.xyz/{item[title]}
-                      </TableTextLink>
-                    </body>
-                  ) : (
-                    <body>{item[title]}</body>
-                  )}
-                </td>
-              ))}
+              {datos.map((title: any, index: number) => {
+                if (title != 'typeSell') {
+                  return (
+                    <td key={index}>
+                      {index == 0 ? (
+                        <body>{item[title]}</body>
+                      ) : index == 5 ? (
+                        <body>
+                          <NumberFormat
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            value={item[title]}
+                            displayType={'text'}
+                          />
+                        </body>
+                      ) : index == 4 ? (
+                        <body>
+                          <TableTextMoneda>{item[title]}</TableTextMoneda>
+                        </body>
+                      ) : index == 8 ? (
+                        <body>
+                          <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                            https://link.epayco.xyz/{item[title]}
+                          </TableTextLink>
+                        </body>
+                      ) : title == 'state' ? (
+                        <body>
+                          {item[title] == 1
+                            ? 'Pendiente por pago'
+                            : item[title] == 2
+                            ? 'Pagado'
+                            : 'Eliminado'}
+                        </body>
+                      ) : (
+                        <body>{item[title]}</body>
+                      )}
+                    </td>
+                  )
+                }
+              })}
               <td>
                 <TableCollectAction
                   actions={[
@@ -79,7 +96,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                     {
                       name: 'Compartir cobro',
                       funcion: () => {
-                        compartir(item.id)
+                        toggle()
                       },
                       validarEstado: true,
                     },
@@ -102,6 +119,12 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             </tr>
           </tfoot> */}
       </StyledTable>
+      <ModalComp
+        isShown={isShown}
+        hide={toggle}
+        modalContent={content}
+        headerText={'Compartir link del catálogo'}
+      />
     </div>
   )
 }

@@ -4,6 +4,7 @@ body {
   font-family: Segoe UI;
   font-style: normal;
   font-weight: normal;
+  overflow-x: hidden;
   margin: 0;
 }
 
