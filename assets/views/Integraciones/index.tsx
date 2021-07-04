@@ -529,7 +529,7 @@ const Integraciones = () => {
               ) : showLoadingProperty == true ? (
                 <ContentInput>
                   <ContentInputCard>
-                    <InputLabel label={'Razon social'} />
+                    <InputLabel label={'Razón social'} />
                     <InputCustumer
                       name={'razon_social'}
                       type={'text'}
@@ -564,7 +564,7 @@ const Integraciones = () => {
               ) : showLoadingProperty == true ? (
                 <ContentInput>
                   <ContentInputCard>
-                    <InputLabel label={'Telefono negocio'} />
+                    <InputLabel label={'Teléfono negocio'} />
                     <InputGroup>
                       <InputSelect
                         name={'type_telefono'}
