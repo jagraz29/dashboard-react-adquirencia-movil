@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
-import InputLabel from '../../components/InputLabel'
 import DatePick from '../../components//DateRange'
+import { toast, ToastContainer } from 'react-toastify'
+
 import {
   ContentTransaction,
   ContentCard,
@@ -20,35 +21,28 @@ import {
   ButtonFecha,
   ContentImputs,
   ContentItem,
-  ContentItemTitle,
   ItemTitle,
   ItemValue,
   ContentImputsItems,
   ContentImputsItems2,
   ContentImputsItems3,
   ContentButonCard,
-  CardContentTable,
   ContentPagination,
   ItemResultTotal,
   InputLabelTitle,
-  ButtonAvanzada,
+  SearchContainer,
+  LoadingContent
 } from './styles'
-import InputCustumer from '../../components/InputCostumer'
-import ButtonSpinner from '../../components/Button'
 
 import { useHistory } from 'react-router-dom'
 import {
-  getDataUser,
-  getListTransactionSite,
-  getListTransactionSite2,
-  exportExcel,
+  getListTransactionSite
 } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../redux/reducers/index'
-import { array } from 'prop-types'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
 import LoadingBar from '../../components/LoadingBar'
+import { FaSearch } from 'react-icons/fa';
 
 const breadcrumb = [
   {
@@ -64,15 +58,144 @@ const breadcrumb = [
 ]
 
 const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
+const statusIds:any= {
+  Todos:0,
+  Aceptada:1,
+  Rechazada:2,
+  Pendiente:3,
+  Fallida:4,
+  ["pre-procesada"]:5,
+  Reversada:6,
+  Retenida:7,
+  Iniciada:8,
+  Expirada:9,
+  Abandonada:10,
+  Cancelada:11,
+  Antifraude:12
+}
+const environments:any={
+  Todos:0,
+  pruebas:1,
+  produccion:2
+}
+
+export  function getPaymentCode(key:any){
+  let payurl=''
+  switch (key) {
+    case 'American Express':
+      payurl = 'AM'
+      break
+    case 'Baloto':
+      payurl = 'BA'
+      break
+    case 'Big Pass':
+      payurl = 'BP'
+      break
+    case 'Credibanco Botón':
+      payurl = 'CB'
+      break
+    case 'Codensa':
+      payurl = 'COD'
+      break
+    case 'Crédito Credencial':
+      payurl = 'CR'
+      break
+    case 'Débito Automático Interbancario':
+      payurl = 'DBA'
+      break
+    case 'Diners Club':
+      payurl = 'DC'
+      break
+    case 'Debito Mastercard':
+      payurl = 'DM'
+      break
+    case 'Daviplata':
+      payurl = 'DP'
+      break
+    case 'Daviplata App':
+      payurl = 'DPA'
+      break
+    case 'Debito Visa':
+      payurl = 'DV'
+      break
+    case 'Davivienda App':
+      payurl = 'DVA'
+      break
+    case 'Efecty':
+      payurl = 'EF'
+      break
+    case 'Epm':
+      payurl = 'EPM'
+      break
+    case 'Gana':
+      payurl = 'GA'
+      break
+    case 'Crédito Mastercard':
+      payurl = 'MC'
+      break
+    case 'Puntos y Crédito Davivienda':
+      payurl = 'MPD'
+      break
+    case 'PayPal':
+      payurl = 'PP'
+      break
+    case 'Punto Red':
+      payurl = 'PR'
+      break
+    case 'PSE':
+      payurl = 'PSE'
+      break
+    case 'Código Qr':
+      payurl = 'QR'
+      break
+    case 'QR Davivienda':
+      payurl = 'QRDV'
+      break
+    case 'Recarga CivicaPay':
+      payurl = 'RCP'
+      break
+    case 'Recarga Daviplata':
+      payurl = 'RDP'
+      break
+    case 'Red Servi':
+      payurl = 'RS'
+      break
+    case 'SafetyPay':
+      payurl = 'SP'
+      break
+    case 'Split Payment':
+      payurl = 'SPF'
+      break
+    case 'Sured':
+      payurl = 'SR'
+      break
+    case 'Split Receiver Fee':
+      payurl = 'SRF'
+      break
+    case 'Transferencia Credito ePayco':
+      payurl = 'TCEP'
+      break
+    case 'Tuya':
+      payurl = 'TY'
+      break
+    case 'Crédito Visa':
+      payurl = 'VS'
+      break
+    case 'Visa Venta Presente':
+      payurl = 'VSVP'
+      break
+  }
+
+  return payurl
+}
 
 const Transacciones = () => {
+
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const viewState: RootState = useSelector((state: RootState) => state)
-
-  const dataList = viewState.getListTransaction.listTransactionData.transactions
-  const dataAgregation = viewState.getListTransaction.listTransactionData
+  const getListTransaction: any = useSelector(({getListTransaction}:any) => getListTransaction)
+  const dataList = getListTransaction.listTransactionData.transactions
 
   const dataListTable = dataList.map((item: any) => {
     const { referencePayco, transactionDateTime, paymentMethod, amount, status } = item
@@ -84,271 +207,185 @@ const Transacciones = () => {
       status,
     }
   })
-
-  console.log('MY array', dataAgregation)
-
-  const [dataTable, setDataTable] = useState(dataListTable)
-  const [count, setCount] = useState(0)
+ 
+ 
+  const [dataTable, setDataTable] = useState([])
   const [statusTransaction, setStatusTransaction] = useState([])
   const [statusPay, setstatusPay] = useState<string | any>([])
   const [entorno, setEntorno] = useState<string | any>([])
   const [totalCount, setTotalCount] = useState(0)
   const [boder1, setBoder1] = useState({ borderLeft: false })
-  const [filterSearch, setFilterSearch] = useState('')
-  const [urlBase, setUrlBase] = useState('?paymentMethod=')
-  const [paymentMethod, setPaymentMethod] = useState('')
-  const [statusId, setStatusId] = useState('')
-  const [fromDate, setFromDate] = useState('')
-  const [toDate, seTtoDate] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [showLoadingProperty, setShowLoadingProperty] = useState(false)
+ 
+  const [loading, setLoading]= useState<boolean>(true)
+  const [paginas, setPaginas]=useState({})
 
-  const redirectRoute = (path: string) => {
-    history.push(path)
-  }
+ useEffect(() => {
 
-  useEffect(() => {
-    dispatch(getListTransactionSite(filterSearch))
-    getDataStatus()
-    showProperty()
-  }, [count])
+    const {listTransactionData:{aggregations, pagination}} = getListTransaction
 
-  const showProperty = () => {
-    if (dataTable && dataTable.length > 0) {
-      setShowLoadingProperty(true)
+    if(pagination){
+      setPaginas(pagination)
     }
-  }
 
-  const getDataStatus = async () => {
-    const res: any = await dispatch(getListTransactionSite2(''))
+    if(aggregations){
+      setStatusTransaction(aggregations.status)
+      const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
+        const keyCode = getPaymentCode(key)
+        return {
+          key: key,
+          keyCode,
+          doc_count: aggregations.transactionFranchises[key].doc_count,
+        }
+      })
+      setstatusPay(dataPay)
+      let dataCount =0
+      const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
+        dataCount+=aggregations.transactionType[key].doc_count
+        return {
+          key: key,
+          doc_count: aggregations.transactionType[key].doc_count,
+        }
+      })
+      setTotalCount(dataCount)
+      setEntorno(dataEntorno)
+      setLoading(false)
+    }
+  },[getListTransaction])
 
-    setStatusTransaction(res.aggregations.status)
-
-    const dataPay = Object.keys(res.aggregations.transactionFranchises).map((key) => {
-      return {
-        key: key,
-        doc_count: res.aggregations.transactionFranchises[key].doc_count,
-      }
-    })
-
-    setstatusPay(dataPay)
-
-    const dataEntorno = Object.keys(res.aggregations.transactionType).map((key) => {
-      return {
-        key: `En ${key}`,
-        doc_count: res.aggregations.transactionType[key].doc_count,
-      }
-    })
-    setEntorno(dataEntorno)
-
-    setTotalCount(res.pagination.totalCount)
-  }
   useEffect(() => {
     setDataTable(dataListTable)
   }, [dataList])
 
-  const eventTransaccion = async (value: any) => {
-    console.log('Evento Transaccion ', value)
-    setBoder1({ borderLeft: true })
+  const exportFile = async (type:any) => {
+    window.open(`/api/transaction/export.${type}/${finalQuery}`)
+  }
 
-    let status = ''
-    switch (value.key) {
-      case 'Aceptada':
-        status = '&statusId=1'
-        break
-      case 'Rechazada':
-        status = '&statusId=2'
-        break
-      case 'Pendiente':
-        status = '&statusId=3'
-        break
-      case 'Fallida':
-        status = '&statusId=4'
-        break
-      case 'Reversada':
-        status = '&statusId=6'
-        break
-      case 'Retenida':
-        status = '&statusId=7'
-        break
-      case 'Iniciada':
-        status = '&statusId=8'
-        break
-      case 'Expirada':
-        status = '&statusId=9'
-        break
-      case 'Abandonada':
-        status = '&statusId=10'
-        break
-      case 'Cancelada':
-        status = '&statusId=11'
-        break
-      case 'Antifraude':
-        status = '&statusId=12'
-        break
+  const [input, setInput]= useState({
+    search:"",
+  })
+
+  const handleInputChange = (e:any) => {
+    setInput({
+      ...input,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const handleSubmit = (e:any) =>{
+    const page=1
+    e.preventDefault() 
+    dispatch(getListTransactionSite(`/?search=${input.search}`))
+    setActiveFilters({...activeFilters, page})
+
+  }
+
+  const [objectQuery, setObjectQuery] = useState<any>({})
+
+  function handlePaymentMethod(paymentMethod:any){
+    const page=1
+    if(paymentMethod===0){
+      let aux= {...objectQuery, page}
+      delete aux.paymentMethod
+      setObjectQuery(aux)
+    }else{
+      setObjectQuery({...objectQuery,paymentMethod, page})
     }
-
-    setStatusId(status)
-    dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
+    setActiveFilters({...activeFilters,paymentMethods:paymentMethod, page})
   }
 
-  const eventEntorno = (value: any) => {
-    console.log('Evento Entorno ', value)
-  }
-
-  const eventPagos = async (value: any) => {
-    console.log('Evento Medio de pagos ', value)
-    let payurl = ''
-    switch (value.key) {
-      case 'American Express':
-        payurl = 'AM'
-        break
-      case 'Baloto':
-        payurl = 'BA'
-        break
-      case 'Big Pass':
-        payurl = 'BP'
-        break
-      case 'Credibanco Botón':
-        payurl = 'CB'
-        break
-      case 'Codensa':
-        payurl = 'COD'
-        break
-      case 'Crédito Credencial':
-        payurl = 'CR'
-        break
-      case 'Débito Automático Interbancario':
-        payurl = 'DBA'
-        break
-      case 'Diners Club':
-        payurl = 'DC'
-        break
-      case 'Debito Mastercard':
-        payurl = 'DM'
-        break
-      case 'Daviplata':
-        payurl = 'DP'
-        break
-      case 'Daviplata App':
-        payurl = 'DPA'
-        break
-      case 'Debito Visa':
-        payurl = 'DV'
-        break
-      case 'Davivienda App':
-        payurl = 'DVA'
-        break
-      case 'Efecty':
-        payurl = 'EF'
-        break
-      case 'Epm':
-        payurl = 'EPM'
-        break
-      case 'Gana':
-        payurl = 'GA'
-        break
-      case 'Crédito Mastercard':
-        payurl = 'MC'
-        break
-      case 'Puntos y Crédito Davivienda':
-        payurl = 'MPD'
-        break
-      case 'PayPal':
-        payurl = 'PP'
-        break
-      case 'Punto Red':
-        payurl = 'PR'
-        break
-      case 'PSE':
-        payurl = 'PSE'
-        break
-      case 'Código Qr':
-        payurl = 'QR'
-        break
-      case 'QR Davivienda':
-        payurl = 'QRDV'
-        break
-      case 'Recarga CivicaPay':
-        payurl = 'RCP'
-        break
-      case 'Recarga Daviplata':
-        payurl = 'RDP'
-        break
-      case 'Red Servi':
-        payurl = 'RS'
-        break
-      case 'SafetyPay':
-        payurl = 'SP'
-        break
-      case 'Split Payment':
-        payurl = 'SPF'
-        break
-      case 'Sured':
-        payurl = 'SR'
-        break
-      case 'Split Receiver Fee':
-        payurl = 'SRF'
-        break
-      case 'Transferencia Credito ePayco':
-        payurl = 'TCEP'
-        break
-      case 'Tuya':
-        payurl = 'TY'
-        break
-      case 'Crédito Visa':
-        payurl = 'VS'
-        break
-      case 'Visa Venta Presente':
-        payurl = 'VSVP'
-        break
+  function handleStatus(statusId:any){
+    const page=1
+    if(statusId===0){
+      let aux= {...objectQuery,page}
+      delete aux.statusId
+      setObjectQuery(aux)
     }
-
-    setPaymentMethod(payurl)
-
-    dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
+    else{
+      setObjectQuery({...objectQuery,statusId,page})
+    }
+    setActiveFilters({...activeFilters,statusIds:statusId,page})
   }
 
-  const eventTransaccionTodo = () => {
-    const status = ''
-    setStatusId(status)
-    dispatch(getListTransactionSite(urlBase + paymentMethod + status + fromDate + toDate))
+  function handleEnvironment(environment:any){
+    const page=1
+    if(environment===0){
+      let aux= {...objectQuery, page}
+      delete aux.environment
+      setObjectQuery(aux)
+    }
+    else{
+      setObjectQuery({...objectQuery,environment, page})
+    }
+    setActiveFilters({...activeFilters,environments:environment, page})
   }
 
-  const eventPagosTodos = () => {
-    const payurl = ''
-    setPaymentMethod(payurl)
+  function handleDates(fromDate:any, toDate:any){
+    const page=1
+    if(fromDate===0){
+      let aux= {...objectQuery, page}
+      delete aux.fromDate
+      delete aux.toDate
+      setObjectQuery(aux)
+      setDatesValues({startDate:null,endDate:null})
+    }
+    else{
+    setObjectQuery({...objectQuery,fromDate, toDate, page})
+    }
+    setActiveFilters({...activeFilters, page})
 
-    dispatch(getListTransactionSite(urlBase + payurl + statusId + fromDate + toDate))
   }
 
-  const borrarFiltros = () => {
-    setStatusId('')
-    setPaymentMethod('')
-    dispatch(getListTransactionSite('?paymentMethod=VS'))
+  function handleReset(){
+    setObjectQuery({})
+    setDatesValues({startDate:null,endDate:null})
+    setActiveFilters({
+      statusIds:0,
+      paymentMethods:0,
+      environments:0,
+      page:1
+    })
   }
 
-  const exportExcel = () => {
-    dispatch(exportExcel())
+  function handlePage(page:any){
+   
+    setObjectQuery({...objectQuery,page})
+    setActiveFilters({...activeFilters,page})
   }
 
-  const onPageChanged = useCallback(
-    (event, page) => {
-      console.log('PAGE', page, ' evetn', event)
-      event.preventDefault()
-      setCurrentPage(page)
-      dispatch(getListTransactionSite(`?page=${page}`))
-      setShowLoadingProperty(true)
-    },
-    [setCurrentPage]
-  )
+  const [datesValues,setDatesValues] =useState({startDate:null,endDate:null})
+  const [finalQuery,setFinalQuery] = useState("?")
+
+  useEffect(()=>{    
+      let  final:string='?'
+      for (const filter in objectQuery) {
+        final += `${filter}=${objectQuery[filter]}&`
+      }
+      setFinalQuery(final)
+      dispatch(getListTransactionSite(final))
+  },[objectQuery])
+
+  const [activeFilters,setActiveFilters] = useState({
+    statusIds:0,
+    paymentMethods:0,
+    environments:0,
+    page:1
+  })
+
 
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Transacciones'}></Title>
+      {
+        loading?( 
+          <LoadingContent>
+            <LoadingBar text={'Generando filtros...'} />
+          </LoadingContent>
+
+        ) : (
       <ContentTransaction>
         <ContentCard>
+          <ToastContainer />
           <Card1>
             <CardHeader>
               <CardTitle>Filtros</CardTitle>
@@ -357,42 +394,32 @@ const Transacciones = () => {
               <ContentFecha>
                 <InputLabelTitle>Rango de fecha</InputLabelTitle>
                 <ContentImputs>
-                  {/* <InputCustumer
-                    name={'Desde:'}
-                    type={'text'}
-                    placeholder={'Desde'}
-                    width={'15.3vw'}
-                    value={''}
-                    onChange={(e: any) => {}}
-                  />
-
-                  <InputCustumer
-                    name={'Hasta:'}
-                    type={'text'}
-                    placeholder={'Hasta'}
-                    width={'15.3vw'}
-                    value={''}
-                    onChange={(e: any) => {}}
-                 />*/}
-                  <DatePick />
+                    <DatePick datesValues={datesValues} setDatesValues={setDatesValues} handleDates={handleDates} />
                 </ContentImputs>
-                <ButtonFecha>Seleccionar fecha</ButtonFecha>
+                {/* <ButtonFecha>Seleccionar fecha</ButtonFecha> */}
+              <ButtonFecha
+                onClick={()=>handleDates(0,0)}
+              >
+                Restablecer Fechas
+              </ButtonFecha>
               </ContentFecha>
               <ContentFecha2>
                 <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
                 <ContentImputsItems>
-                  <ContentItemTitle
+                  <ContentItem
+                    className={activeFilters.statusIds === 0 ?'active':''}
                     onClick={() => {
-                      eventTransaccionTodo()
+                      handleStatus(statusIds.Todos)
                     }}
                   >
                     <ItemTitle>Todos</ItemTitle>
                     <ItemValue>{totalCount}</ItemValue>
-                  </ContentItemTitle>
+                  </ContentItem>
                   {statusTransaction.map((item: any) => (
                     <ContentItem
+                      className={activeFilters.statusIds === statusIds[item.key] ?'active':''}
                       onClick={() => {
-                        eventTransaccion(item)
+                        handleStatus(statusIds[item.key])
                       }}
                       disabled={item.doc_count > 0 ? false : true}
                       theme={boder1}
@@ -406,18 +433,24 @@ const Transacciones = () => {
               <ContentFecha4>
                 <InputLabelTitle>Entorno</InputLabelTitle>
                 <ContentImputsItems>
-                  <ContentItemTitle>
+                  <ContentItem
+                  className={activeFilters.environments === 0 ?'active':''}
+                  onClick={() => {
+                    handleEnvironment(environments.Todos)
+                  }}
+                  >
                     <ItemTitle>Todos</ItemTitle>
-                    <ItemValue></ItemValue>
-                  </ContentItemTitle>
+                    <ItemValue>{totalCount}</ItemValue>
+                  </ContentItem>
                   {entorno.map((item: any) => (
                     <ContentItem
+                      className={activeFilters.environments === environments[item.key] ?'active':''}
                       onClick={() => {
-                        eventEntorno(item)
+                      handleEnvironment(environments[item.key])
                       }}
                       disabled={item.doc_count > 0 ? false : true}
                     >
-                      <ItemTitle>{item.key}</ItemTitle>
+                      <ItemTitle>En {item.key}</ItemTitle>
                       <ItemValue>{item.doc_count}</ItemValue>
                     </ContentItem>
                   ))}
@@ -426,18 +459,22 @@ const Transacciones = () => {
               <ContentFecha3>
                 <InputLabelTitle>Medios de pago</InputLabelTitle>
                 <ContentImputsItems2>
-                  <ContentItemTitle
+                  <ContentItem
+                    className={activeFilters.paymentMethods === 0 ?'active':''}
+
                     onClick={() => {
-                      eventPagosTodos()
+                      handlePaymentMethod(0)
                     }}
                   >
                     <ItemTitle>Todos</ItemTitle>
                     <ItemValue>{totalCount}</ItemValue>
-                  </ContentItemTitle>
+                  </ContentItem>
                   {statusPay.map((item: any) => (
                     <ContentItem
+                    className={activeFilters.paymentMethods === item.keyCode ?'active':''}
+
                       onClick={() => {
-                        eventPagos(item)
+                        handlePaymentMethod(item.keyCode)
                       }}
                       disabled={item.doc_count > 0 ? false : true}
                     >
@@ -452,20 +489,23 @@ const Transacciones = () => {
                 <ContentImputsItems3>
                   <ButtonFecha
                     onClick={() => {
-                      exportExcel()
+                      exportFile("xlsx")
                     }}
                   >
                     Exportar Excel
                   </ButtonFecha>
-                  <ButtonFecha>Exportar csv</ButtonFecha>
+                  <ButtonFecha
+                  onClick={() => {
+                    exportFile("csv")
+                  }}
+                  >Exportar csv
+                  </ButtonFecha>
                 </ContentImputsItems3>
               </ContentFecha5>
             </CardContent1>
             <ContentButonCard>
               <ButtonFecha
-                onClick={() => {
-                  borrarFiltros()
-                }}
+                onClick={handleReset}
               >
                 Borrar filtros
               </ButtonFecha>
@@ -474,33 +514,40 @@ const Transacciones = () => {
 
           <Card2>
             <CardHeader>
-              <CardTitle>Transacciones</CardTitle>
-              <ButtonAvanzada>Búsqueda avanzada</ButtonAvanzada>
+                <h4>Transacciones</h4>
+              <SearchContainer className="searchContainer" onSubmit={(e)=>handleSubmit(e)}>
+                <input placeholder="Buscar por Ref.Payco" type="number" name="search" value={input.search} onChange={(e)=> handleInputChange(e)}/>
+                <button type="submit"><FaSearch/></button>
+              </SearchContainer>
             </CardHeader>
             <CardContent2>
-              {dataTable && dataTable.length > 0 ? (
-                <TablaTransaction data={dataTable} titleData={dataTitle} />
+              {!getListTransaction.loading ? (
+              dataTable.length===0?
+              <h3 style={{fontSize: "20px", padding: "1rem",margin:" 1rem 0", fontWeight: 400}}>No se encontraron registros.</h3>
+              : 
+              <>
+              <TablaTransaction toast={toast} data={dataTable} titleData={dataTitle} />
+                <ContentPagination>
+                  <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
+                  {totalCount && totalCount > 0 ? (
+                    <Paginations
+                      pagination={paginas}
+                      handlePage={handlePage}
+                      active={activeFilters.page}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </ContentPagination>
+                </>
               ) : (
                 <LoadingBar text={'Cargando...'} />
               )}
-              <ContentPagination>
-                <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
-                {totalCount && totalCount > 0 ? (
-                  <Paginations
-                    totalRecords={totalCount}
-                    pageLimit={15}
-                    pageNeighbours={2}
-                    onPageChanged={onPageChanged}
-                    currentPage={currentPage}
-                  />
-                ) : (
-                  ''
-                )}
-              </ContentPagination>
             </CardContent2>
           </Card2>
         </ContentCard>
       </ContentTransaction>
+        )}
     </div>
   )
 }

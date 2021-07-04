@@ -28,6 +28,18 @@ export const Card = styled.div`
   top: 1vw;
   margin-top: 1vw;
 `
+export const CardLast = styled.div`
+  width: 55.7vw;
+  //height: 7.5vw;
+  height: auto;
+  background: #ffffff;
+  border: 1px solid #d3d3d3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  top: 1vw;
+  margin-top: 1vw;
+  margin-bottom: 3rem;
+`
 
 export const Card2 = styled.div`
   width: 21.7vw;
@@ -306,8 +318,9 @@ export const LogHora = styled.h2`
 `
 
 export const LoadingContent = styled.div`
-  display: flex;
-  width: 100vw;
-  position: absolute;
-  top: 10rem;
+display: flex;
+width: 100vw;
+position: absolute;
+top: 10rem;
+left: 7rem;
 `

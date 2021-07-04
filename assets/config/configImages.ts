@@ -57,17 +57,9 @@ export const IconSoporte = {
   url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png',
 }
 
-export const IconVS = {
-  name: 'IconVS',
-  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/VS+Cr%E2%80%9Adito+Visa.png',
-}
-
-export const IconMS = {
-  name: 'IconMS',
-  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/MS+Cr%E2%80%9Adito+Mastercard.png',
-}
-
-export const IconPSE = {
-  name: 'IconPSE',
-  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
+export const CardsIcons:any = {
+  VS: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/VS+Cr%E2%80%9Adito+Visa.png',
+  MS: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/MS+Cr%E2%80%9Adito+Mastercard.png',
+  PSE: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
+  DEFAULT: 'https://multimedia.epayco.co/dashboard/cards/N/A.png',
 }

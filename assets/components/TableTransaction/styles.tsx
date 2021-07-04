@@ -75,12 +75,6 @@ export const TableTextMoneda = styled.h2`
   font-size: 1vw;
 `
 
-export const TableTextLink = styled.a`
-  font-weight: normal;
-  font-size: 1vw;
-  color: #40a8e6;
-  text-decoration: none;
-`
 export const TableTextStatusOK = styled.h1`
   color: green;
   font-size: 1vw;
@@ -92,11 +86,61 @@ export const TableTextStatusPending = styled.h1`
 `
 
 export const TableTextStatusCancel = styled.h1`
-  color: red;
   font-size: 1vw;
 `
+
+export const TableTextStatusOther = styled.h1`
+  font-size: 1vw;
+`
+
 export const ContentAction = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+export const ModalInput = styled.div`
+     margin: 1rem;
+     p{
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+     }
+     input{
+      width: 96%;
+      padding: 0.4rem;
+      font-size: 1rem;
+     }
+
+`
+export const ModalButtons = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+    padding: 0.5rem;
+    .buttonSend{
+      background-color: #1C0E49;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+        &:hover{
+          background-color: #312652;
+        }
+      }
+      .buttonCancel{
+        background-color: white;
+        color: #1C0E49;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-weight: bold;
+        border: 1px solid #1C0E49;
+        cursor: pointer;
+          &:hover{
+            background-color: #1C0E49;
+            color: white;
+          }
+      }
+
 `

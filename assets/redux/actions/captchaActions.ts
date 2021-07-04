@@ -173,7 +173,14 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
 
 export const getListTransactionSite = (filter: string) => async (dispatch: any) => {
   try {
+    dispatch({
+      type:"LOADING_TRUE"
+    })
     const res = await dataService.get(`api/transaction${filter}`)
+    dispatch({
+      type:"LOADING_FALSE"
+    })
+    console.log("res getListTransactionSite", res)
     dispatch({
       type: GET_LIST_TRANSACTION,
       payload: res.data.data,
@@ -254,6 +261,18 @@ export const getTransactionDetail = async (id: number) => {
     return res.data.data
   } catch (error) {
     console.log(error)
+    return false
+  }
+}
+
+export const sendTransactionReceiptLast = async (transaction:number, email:string) =>{
+  try {
+      const res= await dataService.get(`/api/transaction/send/email/${transaction}/${email}`)
+      console.log("respues de la nueva", res)
+      return res
+  } catch (error) {
+    console.log("ERROR EN LA PETICION DE SEND", error)
+    return false
   }
 }
 
