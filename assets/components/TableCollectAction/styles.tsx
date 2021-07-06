@@ -21,6 +21,7 @@ export const DropDownMenu = styled.div`
 
 export const DropDownContent = styled.button`
   background: #ffffff;
+  cursor: pointer;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
@@ -36,6 +37,7 @@ export const DropdownItem = styled.div`
   justify-content: center;
   display: flex;
   align-items: center;
+  cursor: pointer;
   color: #40a8e6;
   width: 9vw;
   font-family: Segoe UI;

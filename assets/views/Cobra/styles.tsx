@@ -51,6 +51,7 @@ export const ButtonLinkText = styled.span`
   top: 3.3vw;
   left: 5.4vw;
   font-size: 1vw;
+  text-align: initial;
 `
 
 export const ContentTable = styled.div`

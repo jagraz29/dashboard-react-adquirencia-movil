@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
 import { useModal } from '../../components/hooks/useModal'
@@ -6,6 +6,7 @@ import { ModalComp } from '../../components/modalComp'
 import ShareLink from '../../components/ShareLink'
 
 import NumberFormat from 'react-number-format'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
   data: {}[]
@@ -14,10 +15,25 @@ type Props = {
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
-  const datos = Object.keys(data[0])
+  const datos = [
+    'id',
+    'date',
+    'title',
+    'reference',
+    'currency',
+    'amount',
+    'typeSell',
+    'state',
+    'link',
+  ]
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
+  const history = useHistory()
   const { isShown, toggle } = useModal()
+
+  const redirectRoute = (path: string) => {
+    history.push(path)
+  }
 
   const content = (
     <React.Fragment>
@@ -49,9 +65,9 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                 if (title != 'typeSell') {
                   return (
                     <td key={index}>
-                      {index == 0 ? (
+                      {title == 'id' ? (
                         <body>{item[title]}</body>
-                      ) : index == 5 ? (
+                      ) : title == 'amount' ? (
                         <body>
                           <NumberFormat
                             thousandSeparator={true}
@@ -60,11 +76,11 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                             displayType={'text'}
                           />
                         </body>
-                      ) : index == 4 ? (
+                      ) : title == 'currency' ? (
                         <body>
                           <TableTextMoneda>{item[title]}</TableTextMoneda>
                         </body>
-                      ) : index == 8 ? (
+                      ) : title == 'link' ? (
                         <body>
                           <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
                             https://link.epayco.xyz/{item[title]}
@@ -90,7 +106,9 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                   actions={[
                     {
                       name: 'Detalle de cobro',
-                      funcion: '',
+                      funcion: () => {
+                        redirectRoute(`/collect/show/${item['id']}`)
+                      },
                       validarEstado: true,
                     },
                     {

@@ -38,7 +38,7 @@ const breadcrumb = [
 const dataTitle = [
   'Id',
   'Fecha',
-  'Titulo',
+  'Título',
   'Referencia',
   'Moneda',
   'Valor',
@@ -106,7 +106,7 @@ const Cobra = () => {
         <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
           <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>
           <ButtonLinkImg src={IconLink.url} />
-          <ButtonLinkText>Crea vinculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
+          <ButtonLinkText>Cree vínculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
         </ButtonLink>
         <ContentTable style={{ marginBottom: '300px' }}>
           <ContentSearchTitle>
