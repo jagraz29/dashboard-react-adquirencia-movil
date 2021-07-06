@@ -6,7 +6,7 @@ export const DropDownMenu = styled.div`
   flex-direction: column;
   background-color: #fff;
   border-radius: 4px;
-  height: 6vw;
+  /* height: 6vw; */
   padding: 5px;
   position: relative;
   right: 15.2vw;

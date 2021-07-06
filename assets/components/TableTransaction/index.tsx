@@ -44,6 +44,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
   }
 
   const enviarComprobante = async (idTransaction: number, email: string) => {
+    toggle()
     let res = await sendTransactionReceiptLast(idTransaction, email)
     if (res === false) {
       toast.error('Error al enviar comprobante, intente nuevamente.')
@@ -51,7 +52,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
       toast.success('Se ha enviado el comprobante correctamente.')
     }
     setInput({ email: '' })
-    toggle()
   }
 
   const modalConfirmacionTrx = (
@@ -134,11 +134,9 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         <TableTextStatusOK>{item[title]}</TableTextStatusOK>
                       ) : item[title] == 'Pendiente' ? (
                         <TableTextStatusPending>{item[title]}</TableTextStatusPending>
-                      ) : item[title] == 'Fallida' ? (
+                      ) : item[title] == 'Cancelada' || item[title] == 'Rechazada' ? (
                         <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
-                      ) : item[title] == 'Cancelada' ? (
-                        <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
-                      ) : (
+                      ) : ( 
                         <TableTextStatusOther>{item[title]}</TableTextStatusOther>
                       )}
                     </body>
@@ -163,12 +161,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         name: 'Enviar comprobante',
                         funcion: () => toggle(),
                         validarEstado: true,
-                      },
-                      {
-                        name: 'Reenvió de confirmación',
-                        funcion: '',
-                        validarEstado: true,
-                      },
+                      }
                     ]}
                   ></TableTransaccionesAction>
                 </ContentAction>

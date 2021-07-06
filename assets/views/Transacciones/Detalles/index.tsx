@@ -7,6 +7,9 @@ import { RootState } from '../../../redux/reducers/index'
 import * as BsIcons from 'react-icons/bs'
 import * as AiIcons from 'react-icons/ai'
 import { getTransactionDetail } from '../../../redux/actions/'
+import NumberFormat from 'react-number-format'
+import MedioPago from '../../../components/MedioPago'
+
 import {
   Content,
   ContentCard,
@@ -56,7 +59,7 @@ const breadcrumb = [
     active: false,
   },
   {
-    title: 'Detalles de transaccion',
+    title: 'Detalle de transacción',
     path: '/transacciones',
     active: false,
   },
@@ -153,7 +156,7 @@ const TransaccionesDetalles = ({ history }: any) => {
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
-      <Title title={`Detalles de transacción #${id}`}></Title>
+      <Title title={`Detalle de transacción: #${id}`}></Title>
       {loading ? (
         <LoadingContent>
           <LoadingBar text={'Cargando...'} />
@@ -182,7 +185,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>Valor Total</ItemTitle>
-                      <ItemValue>{data.amountNet ? data.amountNet : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.amountNet}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -198,7 +207,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>IVA</ItemTitle>
-                      <ItemValue>{data.tax ? data.tax : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.tax}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -214,7 +229,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>Base Devolucion IVA</ItemTitle>
-                      <ItemValue>{data.taxBaseClient ? data.taxBaseClient : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.taxBaseClient}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -236,7 +257,13 @@ const TransaccionesDetalles = ({ history }: any) => {
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Ganancia Cliente</ItemTitle>
-                      <ItemValue>{data.amount ? data.amount : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.amountNet}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -253,7 +280,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Franquicia / Medio de Pago</ItemTitle>
-                      <ItemValue>{data.paymentMethod ? data.paymentMethod : '-'}</ItemValue>
+                      <MedioPago type={data.paymentMethod}></MedioPago>
                     </ItemGroup>
 
                     <ItemGroup>
@@ -262,7 +289,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </ItemGroup>
 
                     <ItemGroup>
-                      <ItemTitle>Numero Tarjeta</ItemTitle>
+                      <ItemTitle>Número Tarjeta</ItemTitle>
                       <ItemValue>{data.numberCard ? data.numberCard : '-'}</ItemValue>
                     </ItemGroup>
                   </ContentItem>
@@ -338,7 +365,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </ItemGroup>
 
                     <ItemGroup>
-                      <ItemTitle>Telefono</ItemTitle>
+                      <ItemTitle>Teléfono</ItemTitle>
                       <ItemValue>{data.telephone ? data.telephone : '-'}</ItemValue>
                     </ItemGroup>
 
@@ -365,7 +392,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                   </ContentItem>
                   <ContentItem>
                     <ItemGroup>
-                      <ItemTitle>Compañia</ItemTitle>
+                      <ItemTitle>Compañía</ItemTitle>
                       <ItemValue>{data.company ? data.company : '-'}</ItemValue>
                     </ItemGroup>
 
@@ -402,16 +429,16 @@ const TransaccionesDetalles = ({ history }: any) => {
                           : logss.length > 0 &&
                             logss.map((e: any, i: number) => (
                               <LogItem key={i} onClick={() => setLog(e)}>
-                                {JSON.parse(e.response).header_code === '200' ? (
+                                {e.status === '200' ? (
                                   <LogStatusSuccess>
-                                    {JSON.parse(e.response).header_code
-                                      ? JSON.parse(e.response).header_code
+                                    {e.status
+                                      ? e.status
                                       : '-'}
                                   </LogStatusSuccess>
                                 ) : (
                                   <LogStatusFailed>
-                                    {JSON.parse(e.response).header_code
-                                      ? JSON.parse(e.response).header_code
+                                    {e.status
+                                      ? e.status
                                       : '-'}
                                   </LogStatusFailed>
                                 )}
@@ -431,16 +458,16 @@ const TransaccionesDetalles = ({ history }: any) => {
                             <th>Estado</th>
                             {log.response_default ? (
                               <td>-</td>
-                            ) : JSON.parse(log.response).header_code === '200' ? (
+                            ) : log.status === '200' ? (
                               <td className="estadoSuccess">
-                                {JSON.parse(log.response).header_code
-                                  ? JSON.parse(log.response).header_code
+                                {log.status
+                                  ? log.status
                                   : '-'}
                               </td>
                             ) : (
                               <td className="estadoFailed">
-                                {JSON.parse(log.response).header_code
-                                  ? JSON.parse(log.response).header_code
+                                {log.status
+                                  ? log.status
                                   : '-'}
                               </td>
                             )}
@@ -489,7 +516,7 @@ const TransaccionesDetalles = ({ history }: any) => {
               <Card2>
                 <CardHeader>
                   <CardTitle>Acciones</CardTitle>
-                  <CardSubTitle>Las Siguientes acciones pueden no ser reversibles.</CardSubTitle>
+                  <CardSubTitle>Las siguientes acciones pueden no ser reversibles.</CardSubTitle>
                 </CardHeader>
                 <CardContent3>
                   <ButtonExportar onClick={() => window.open(`/api/transaction/receipt/${id}`)}>

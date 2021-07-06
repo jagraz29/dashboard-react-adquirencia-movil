@@ -82,6 +82,6 @@ export const ContentSearchTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0vw 1vw 0vw 1vw;
+  margin: 1rem;
 `
 export const SearchTable = styled.div``

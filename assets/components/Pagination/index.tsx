@@ -16,8 +16,10 @@ const Paginations = ({ pagination, handlePage, active }: any) => {
     } else {
       objectPages.push(active, active + 1, active + 2)
     }
-  } else {
-    if (numberPages.length === active) {
+  }else{
+    if(numberPages.length === 2){
+      objectPages.push( active - 1, active)
+    }else if (numberPages.length === active) {
       objectPages.push(active - 2, active - 1, active)
     } else {
       objectPages.push(active - 1, active, active + 1)

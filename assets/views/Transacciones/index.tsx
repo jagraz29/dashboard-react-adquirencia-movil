@@ -216,6 +216,7 @@ const Transacciones = () => {
   const [paginas, setPaginas] = useState({})
 
   useEffect(() => {
+
     const {
       listTransactionData: { aggregations, pagination },
     } = getListTransaction
@@ -225,7 +226,15 @@ const Transacciones = () => {
     }
 
     if (aggregations) {
-      setStatusTransaction(aggregations.status)
+      const dataStatus:any = Object.keys(aggregations.transactionStatus).map((key) => {
+        return {
+          key: key,
+          doc_count: aggregations.transactionStatus[key].doc_count,
+        }
+      })
+      setStatusTransaction(dataStatus)
+
+
       const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
         const keyCode = getPaymentCode(key)
         return {
@@ -235,6 +244,8 @@ const Transacciones = () => {
         }
       })
       setstatusPay(dataPay)
+
+
       let dataCount = 0
       const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
         dataCount += aggregations.transactionType[key].doc_count
@@ -250,11 +261,12 @@ const Transacciones = () => {
   }, [getListTransaction])
 
   useEffect(() => {
+
     setDataTable(dataListTable)
   }, [dataList])
 
   const exportFile = async (type: any) => {
-    window.open(`/api/transaction/export.${type}/${finalQuery}`)
+    window.open(`/api/transaction/export.${type}${finalQuery}`)
   }
 
   const [input, setInput] = useState({
@@ -271,7 +283,8 @@ const Transacciones = () => {
   const handleSubmit = (e: any) => {
     const page = 1
     e.preventDefault()
-    dispatch(getListTransactionSite(`/?search=${input.search}`))
+    setObjectQuery({ search:input.search })
+    // dispatch(getListTransactionSite(`?search=${input.search}`))
     setActiveFilters({ ...activeFilters, page })
   }
 
@@ -328,6 +341,7 @@ const Transacciones = () => {
   }
 
   function handleReset() {
+    setInput({search:""})
     setObjectQuery({})
     setDatesValues({ startDate: null, endDate: null })
     setActiveFilters({
@@ -500,15 +514,18 @@ const Transacciones = () => {
             <Card2>
               <CardHeader>
                 <h4>Transacciones</h4>
-                <SearchContainer className="searchContainer" onSubmit={(e) => handleSubmit(e)}>
-                  <input
-                    placeholder="Buscar por Ref.Payco"
-                    type="number"
-                    name="search"
-                    value={input.search}
-                    onChange={(e) => handleInputChange(e)}
-                  />
-                  <button type="submit">
+                <SearchContainer className="searchContainer"  onSubmit={(e) =>handleSubmit(e)}>
+                  <div>
+                    <input
+                      placeholder="Buscar por Ref.Payco"
+                      type="number"
+                      name="search"
+                      value={input.search}
+                      onChange={(e) => handleInputChange(e)}
+                    />
+                    <button onClick={handleReset} type="button" >x</button>
+                  </div>
+                  <button className="buttonSeach" type="submit">
                     <FaSearch />
                   </button>
                 </SearchContainer>

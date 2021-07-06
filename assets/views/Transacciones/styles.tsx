@@ -56,21 +56,38 @@ export const SearchContainer = styled.form`
   display: grid;
   grid-template-columns: 4fr 1fr;
   margin: 0 1rem;
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  div{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input {
+      border: 1px solid #b7b6b6;
+      border-radius: 4px 0px 0px 4px;
+      line-height: 35px;
+      padding: 0px 0.5em 0px;
+      border-color: #c5c5c8;
+      min-height: 35px;
+      height: 35px;
+      border-right: none;
+    }
+    button{
+      padding: 0px 0.5em 0px;
+      background-color: white;
+      border: 1px solid #c5c5c8;
+      border-left: none;
+      color:#bababa;
+      font-weight: bold;
+        :hover{
+          color: #5e5e5e;
+        }
+    }
   }
-  input {
+  .buttonSeach {
     border: 1px solid #b7b6b6;
-    border-radius: 4px 0px 0px 4px;
-    line-height: 35px;
-    padding: 0px 0.5em 0px;
-    border-color: #c5c5c8;
-    min-height: 35px;
-    height: 35px;
-  }
-  button {
     border: none;
     color: #bababa;
     background: #0000000d;
