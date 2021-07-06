@@ -135,6 +135,7 @@ export const CardTrasactionOk = styled.div`
   border-radius: 4px;
   top: 5vw;
   left: 0vw;
+  margin-top: -35px;
 `
 
 export const CardTransactionTitle = styled.h2`
@@ -193,6 +194,7 @@ export const CardPending = styled.div`
   border-radius: 4px;
   top: 5vw;
   right: 0vw;
+  margin-top: -35px;
 `
 
 export const ContentInput = styled.div`

@@ -105,7 +105,9 @@ const DetailTicket = () => {
       <Content>
         <div className={'d-flex'}>
           <div className={'col-12 pt-2 pb-4'}>
-            <p style={{ color: '#5C5B5C' }}>Elija el tipo de ayuda y soporte que desea obtener</p>
+            <p style={{ color: '#5C5B5C', width: '400px' }}>
+              Elija el tipo de ayuda y soporte que desea obtener
+            </p>
           </div>
         </div>
         <ContentItems>
@@ -166,7 +168,7 @@ const DetailTicket = () => {
               </ContentInputCard>
             </ContentInput>
             <CardTransactionTitle>Acción</CardTransactionTitle>
-            <CardContentButton style={{ marginLeft: '40px' }}>
+            <CardContentButton style={{ marginLeft: '10px', marginTop: '-10px' }}>
               {estado == 'abierto' ? (
                 <ButtonSpinner
                   text={'Cerrar Ticket'}

@@ -40,6 +40,10 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
     }
   }
 
+  const navToDetail = async (id: number) => {
+    window.location.href = 'soporte/detalle/' + id
+  }
+
   return (
     <div>
       <StyledTable>
@@ -84,7 +88,9 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
                       ? [
                           {
                             name: 'Detalle',
-                            funcion: '',
+                            funcion: () => {
+                              navToDetail(item.id)
+                            },
                             validarEstado: true,
                           },
                           {
@@ -98,7 +104,9 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
                       : [
                           {
                             name: 'Detalle',
-                            funcion: '',
+                            funcion: () => {
+                              navToDetail(item.id)
+                            },
                             validarEstado: true,
                           },
                           {

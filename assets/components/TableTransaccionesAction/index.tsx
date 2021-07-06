@@ -4,8 +4,8 @@ import * as RiIcons from 'react-icons/ri'
 
 type Props = {
   actions: {}[]
-  setTrx:any
-  item:number
+  setTrx: any
+  item: number
 }
 
 const TableTransaccionesAction: React.FC<Props> = ({ actions, setTrx, item }) => {

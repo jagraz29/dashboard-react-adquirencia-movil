@@ -31,18 +31,16 @@ import {
   ItemResultTotal,
   InputLabelTitle,
   SearchContainer,
-  LoadingContent
+  LoadingContent,
 } from './styles'
 
 import { useHistory } from 'react-router-dom'
-import {
-  getListTransactionSite
-} from '../../redux/actions'
+import { getListTransactionSite } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
 import LoadingBar from '../../components/LoadingBar'
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa'
 
 const breadcrumb = [
   {
@@ -58,29 +56,29 @@ const breadcrumb = [
 ]
 
 const dataTitle = ['Ref.Payco', 'Fecha Trx', 'Medio de pago', 'Valor', 'Estado', 'Acciones']
-const statusIds:any= {
-  Todos:0,
-  Aceptada:1,
-  Rechazada:2,
-  Pendiente:3,
-  Fallida:4,
-  ["pre-procesada"]:5,
-  Reversada:6,
-  Retenida:7,
-  Iniciada:8,
-  Expirada:9,
-  Abandonada:10,
-  Cancelada:11,
-  Antifraude:12
+const statusIds: any = {
+  Todos: 0,
+  Aceptada: 1,
+  Rechazada: 2,
+  Pendiente: 3,
+  Fallida: 4,
+  ['pre-procesada']: 5,
+  Reversada: 6,
+  Retenida: 7,
+  Iniciada: 8,
+  Expirada: 9,
+  Abandonada: 10,
+  Cancelada: 11,
+  Antifraude: 12,
 }
-const environments:any={
-  Todos:0,
-  pruebas:1,
-  produccion:2
+const environments: any = {
+  Todos: 0,
+  pruebas: 1,
+  produccion: 2,
 }
 
-export  function getPaymentCode(key:any){
-  let payurl=''
+export function getPaymentCode(key: any) {
+  let payurl = ''
   switch (key) {
     case 'American Express':
       payurl = 'AM'
@@ -190,11 +188,10 @@ export  function getPaymentCode(key:any){
 }
 
 const Transacciones = () => {
-
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const getListTransaction: any = useSelector(({getListTransaction}:any) => getListTransaction)
+  const getListTransaction: any = useSelector(({ getListTransaction }: any) => getListTransaction)
   const dataList = getListTransaction.listTransactionData.transactions
 
   const dataListTable = dataList.map((item: any) => {
@@ -207,27 +204,27 @@ const Transacciones = () => {
       status,
     }
   })
- 
- 
+
   const [dataTable, setDataTable] = useState([])
   const [statusTransaction, setStatusTransaction] = useState([])
   const [statusPay, setstatusPay] = useState<string | any>([])
   const [entorno, setEntorno] = useState<string | any>([])
   const [totalCount, setTotalCount] = useState(0)
   const [boder1, setBoder1] = useState({ borderLeft: false })
- 
-  const [loading, setLoading]= useState<boolean>(true)
-  const [paginas, setPaginas]=useState({})
 
- useEffect(() => {
+  const [loading, setLoading] = useState<boolean>(true)
+  const [paginas, setPaginas] = useState({})
 
-    const {listTransactionData:{aggregations, pagination}} = getListTransaction
+  useEffect(() => {
+    const {
+      listTransactionData: { aggregations, pagination },
+    } = getListTransaction
 
-    if(pagination){
+    if (pagination) {
       setPaginas(pagination)
     }
 
-    if(aggregations){
+    if (aggregations) {
       setStatusTransaction(aggregations.status)
       const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
         const keyCode = getPaymentCode(key)
@@ -238,9 +235,9 @@ const Transacciones = () => {
         }
       })
       setstatusPay(dataPay)
-      let dataCount =0
+      let dataCount = 0
       const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
-        dataCount+=aggregations.transactionType[key].doc_count
+        dataCount += aggregations.transactionType[key].doc_count
         return {
           key: key,
           doc_count: aggregations.transactionType[key].doc_count,
@@ -250,304 +247,310 @@ const Transacciones = () => {
       setEntorno(dataEntorno)
       setLoading(false)
     }
-  },[getListTransaction])
+  }, [getListTransaction])
 
   useEffect(() => {
     setDataTable(dataListTable)
   }, [dataList])
 
-  const exportFile = async (type:any) => {
+  const exportFile = async (type: any) => {
     window.open(`/api/transaction/export.${type}/${finalQuery}`)
   }
 
-  const [input, setInput]= useState({
-    search:"",
+  const [input, setInput] = useState({
+    search: '',
   })
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e: any) => {
     setInput({
       ...input,
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
-  const handleSubmit = (e:any) =>{
-    const page=1
-    e.preventDefault() 
+  const handleSubmit = (e: any) => {
+    const page = 1
+    e.preventDefault()
     dispatch(getListTransactionSite(`/?search=${input.search}`))
-    setActiveFilters({...activeFilters, page})
-
+    setActiveFilters({ ...activeFilters, page })
   }
 
   const [objectQuery, setObjectQuery] = useState<any>({})
 
-  function handlePaymentMethod(paymentMethod:any){
-    const page=1
-    if(paymentMethod===0){
-      let aux= {...objectQuery, page}
+  function handlePaymentMethod(paymentMethod: any) {
+    const page = 1
+    if (paymentMethod === 0) {
+      let aux = { ...objectQuery, page }
       delete aux.paymentMethod
       setObjectQuery(aux)
-    }else{
-      setObjectQuery({...objectQuery,paymentMethod, page})
+    } else {
+      setObjectQuery({ ...objectQuery, paymentMethod, page })
     }
-    setActiveFilters({...activeFilters,paymentMethods:paymentMethod, page})
+    setActiveFilters({ ...activeFilters, paymentMethods: paymentMethod, page })
   }
 
-  function handleStatus(statusId:any){
-    const page=1
-    if(statusId===0){
-      let aux= {...objectQuery,page}
+  function handleStatus(statusId: any) {
+    const page = 1
+    if (statusId === 0) {
+      let aux = { ...objectQuery, page }
       delete aux.statusId
       setObjectQuery(aux)
+    } else {
+      setObjectQuery({ ...objectQuery, statusId, page })
     }
-    else{
-      setObjectQuery({...objectQuery,statusId,page})
-    }
-    setActiveFilters({...activeFilters,statusIds:statusId,page})
+    setActiveFilters({ ...activeFilters, statusIds: statusId, page })
   }
 
-  function handleEnvironment(environment:any){
-    const page=1
-    if(environment===0){
-      let aux= {...objectQuery, page}
+  function handleEnvironment(environment: any) {
+    const page = 1
+    if (environment === 0) {
+      let aux = { ...objectQuery, page }
       delete aux.environment
       setObjectQuery(aux)
+    } else {
+      setObjectQuery({ ...objectQuery, environment, page })
     }
-    else{
-      setObjectQuery({...objectQuery,environment, page})
-    }
-    setActiveFilters({...activeFilters,environments:environment, page})
+    setActiveFilters({ ...activeFilters, environments: environment, page })
   }
 
-  function handleDates(fromDate:any, toDate:any){
-    const page=1
-    if(fromDate===0){
-      let aux= {...objectQuery, page}
+  function handleDates(fromDate: any, toDate: any) {
+    const page = 1
+    if (fromDate === 0) {
+      let aux = { ...objectQuery, page }
       delete aux.fromDate
       delete aux.toDate
       setObjectQuery(aux)
-      setDatesValues({startDate:null,endDate:null})
+      setDatesValues({ startDate: null, endDate: null })
+    } else {
+      setObjectQuery({ ...objectQuery, fromDate, toDate, page })
     }
-    else{
-    setObjectQuery({...objectQuery,fromDate, toDate, page})
-    }
-    setActiveFilters({...activeFilters, page})
-
+    setActiveFilters({ ...activeFilters, page })
   }
 
-  function handleReset(){
+  function handleReset() {
     setObjectQuery({})
-    setDatesValues({startDate:null,endDate:null})
+    setDatesValues({ startDate: null, endDate: null })
     setActiveFilters({
-      statusIds:0,
-      paymentMethods:0,
-      environments:0,
-      page:1
+      statusIds: 0,
+      paymentMethods: 0,
+      environments: 0,
+      page: 1,
     })
   }
 
-  function handlePage(page:any){
-   
-    setObjectQuery({...objectQuery,page})
-    setActiveFilters({...activeFilters,page})
+  function handlePage(page: any) {
+    setObjectQuery({ ...objectQuery, page })
+    setActiveFilters({ ...activeFilters, page })
   }
 
-  const [datesValues,setDatesValues] =useState({startDate:null,endDate:null})
-  const [finalQuery,setFinalQuery] = useState("?")
+  const [datesValues, setDatesValues] = useState({ startDate: null, endDate: null })
+  const [finalQuery, setFinalQuery] = useState('?')
 
-  useEffect(()=>{    
-      let  final:string='?'
-      for (const filter in objectQuery) {
-        final += `${filter}=${objectQuery[filter]}&`
-      }
-      setFinalQuery(final)
-      dispatch(getListTransactionSite(final))
-  },[objectQuery])
+  useEffect(() => {
+    let final: string = '?'
+    for (const filter in objectQuery) {
+      final += `${filter}=${objectQuery[filter]}&`
+    }
+    setFinalQuery(final)
+    dispatch(getListTransactionSite(final))
+  }, [objectQuery])
 
-  const [activeFilters,setActiveFilters] = useState({
-    statusIds:0,
-    paymentMethods:0,
-    environments:0,
-    page:1
+  const [activeFilters, setActiveFilters] = useState({
+    statusIds: 0,
+    paymentMethods: 0,
+    environments: 0,
+    page: 1,
   })
-
 
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Transacciones'}></Title>
-      {
-        loading?( 
-          <LoadingContent>
-            <LoadingBar text={'Generando filtros...'} />
-          </LoadingContent>
-
-        ) : (
-      <ContentTransaction>
-        <ContentCard>
-          <ToastContainer />
-          <Card1>
-            <CardHeader>
-              <CardTitle>Filtros</CardTitle>
-            </CardHeader>
-            <CardContent1>
-              <ContentFecha>
-                <InputLabelTitle>Rango de fecha</InputLabelTitle>
-                <ContentImputs>
-                    <DatePick datesValues={datesValues} setDatesValues={setDatesValues} handleDates={handleDates} />
-                </ContentImputs>
-                {/* <ButtonFecha>Seleccionar fecha</ButtonFecha> */}
-              <ButtonFecha
-                onClick={()=>handleDates(0,0)}
-              >
-                Restablecer Fechas
-              </ButtonFecha>
-              </ContentFecha>
-              <ContentFecha2>
-                <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
-                <ContentImputsItems>
-                  <ContentItem
-                    className={activeFilters.statusIds === 0 ?'active':''}
-                    onClick={() => {
-                      handleStatus(statusIds.Todos)
-                    }}
-                  >
-                    <ItemTitle>Todos</ItemTitle>
-                    <ItemValue>{totalCount}</ItemValue>
-                  </ContentItem>
-                  {statusTransaction.map((item: any) => (
-                    <ContentItem
-                      className={activeFilters.statusIds === statusIds[item.key] ?'active':''}
-                      onClick={() => {
-                        handleStatus(statusIds[item.key])
-                      }}
-                      disabled={item.doc_count > 0 ? false : true}
-                      theme={boder1}
-                    >
-                      <ItemTitle>{item.key}</ItemTitle>
-                      <ItemValue>{item.doc_count}</ItemValue>
-                    </ContentItem>
-                  ))}
-                </ContentImputsItems>
-              </ContentFecha2>
-              <ContentFecha4>
-                <InputLabelTitle>Entorno</InputLabelTitle>
-                <ContentImputsItems>
-                  <ContentItem
-                  className={activeFilters.environments === 0 ?'active':''}
-                  onClick={() => {
-                    handleEnvironment(environments.Todos)
-                  }}
-                  >
-                    <ItemTitle>Todos</ItemTitle>
-                    <ItemValue>{totalCount}</ItemValue>
-                  </ContentItem>
-                  {entorno.map((item: any) => (
-                    <ContentItem
-                      className={activeFilters.environments === environments[item.key] ?'active':''}
-                      onClick={() => {
-                      handleEnvironment(environments[item.key])
-                      }}
-                      disabled={item.doc_count > 0 ? false : true}
-                    >
-                      <ItemTitle>En {item.key}</ItemTitle>
-                      <ItemValue>{item.doc_count}</ItemValue>
-                    </ContentItem>
-                  ))}
-                </ContentImputsItems>
-              </ContentFecha4>
-              <ContentFecha3>
-                <InputLabelTitle>Medios de pago</InputLabelTitle>
-                <ContentImputsItems2>
-                  <ContentItem
-                    className={activeFilters.paymentMethods === 0 ?'active':''}
-
-                    onClick={() => {
-                      handlePaymentMethod(0)
-                    }}
-                  >
-                    <ItemTitle>Todos</ItemTitle>
-                    <ItemValue>{totalCount}</ItemValue>
-                  </ContentItem>
-                  {statusPay.map((item: any) => (
-                    <ContentItem
-                    className={activeFilters.paymentMethods === item.keyCode ?'active':''}
-
-                      onClick={() => {
-                        handlePaymentMethod(item.keyCode)
-                      }}
-                      disabled={item.doc_count > 0 ? false : true}
-                    >
-                      <ItemTitle>{item.key}</ItemTitle>
-                      <ItemValue>{item.doc_count}</ItemValue>
-                    </ContentItem>
-                  ))}
-                </ContentImputsItems2>
-              </ContentFecha3>
-              <ContentFecha5>
-                <InputLabelTitle>Acciones</InputLabelTitle>
-                <ContentImputsItems3>
-                  <ButtonFecha
-                    onClick={() => {
-                      exportFile("xlsx")
-                    }}
-                  >
-                    Exportar Excel
-                  </ButtonFecha>
-                  <ButtonFecha
-                  onClick={() => {
-                    exportFile("csv")
-                  }}
-                  >Exportar csv
-                  </ButtonFecha>
-                </ContentImputsItems3>
-              </ContentFecha5>
-            </CardContent1>
-            <ContentButonCard>
-              <ButtonFecha
-                onClick={handleReset}
-              >
-                Borrar filtros
-              </ButtonFecha>
-            </ContentButonCard>
-          </Card1>
-
-          <Card2>
-            <CardHeader>
-                <h4>Transacciones</h4>
-              <SearchContainer className="searchContainer" onSubmit={(e)=>handleSubmit(e)}>
-                <input placeholder="Buscar por Ref.Payco" type="number" name="search" value={input.search} onChange={(e)=> handleInputChange(e)}/>
-                <button type="submit"><FaSearch/></button>
-              </SearchContainer>
-            </CardHeader>
-            <CardContent2>
-              {!getListTransaction.loading ? (
-              dataTable.length===0?
-              <h3 style={{fontSize: "20px", padding: "1rem",margin:" 1rem 0", fontWeight: 400}}>No se encontraron registros.</h3>
-              : 
-              <>
-              <TablaTransaction toast={toast} data={dataTable} titleData={dataTitle} />
-                <ContentPagination>
-                  <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
-                  {totalCount && totalCount > 0 ? (
-                    <Paginations
-                      pagination={paginas}
-                      handlePage={handlePage}
-                      active={activeFilters.page}
+      {loading ? (
+        <LoadingContent>
+          <LoadingBar text={'Generando filtros...'} />
+        </LoadingContent>
+      ) : (
+        <ContentTransaction>
+          <ContentCard>
+            <ToastContainer />
+            <Card1>
+              <CardHeader>
+                <CardTitle>Filtros</CardTitle>
+              </CardHeader>
+              <CardContent1>
+                <ContentFecha>
+                  <InputLabelTitle>Rango de fecha</InputLabelTitle>
+                  <ContentImputs>
+                    <DatePick
+                      datesValues={datesValues}
+                      setDatesValues={setDatesValues}
+                      handleDates={handleDates}
                     />
+                  </ContentImputs>
+                  {/* <ButtonFecha>Seleccionar fecha</ButtonFecha> */}
+                  <ButtonFecha onClick={() => handleDates(0, 0)}>Restablecer Fechas</ButtonFecha>
+                </ContentFecha>
+                <ContentFecha2>
+                  <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
+                  <ContentImputsItems>
+                    <ContentItem
+                      className={activeFilters.statusIds === 0 ? 'active' : ''}
+                      onClick={() => {
+                        handleStatus(statusIds.Todos)
+                      }}
+                    >
+                      <ItemTitle>Todos</ItemTitle>
+                      <ItemValue>{totalCount}</ItemValue>
+                    </ContentItem>
+                    {statusTransaction.map((item: any) => (
+                      <ContentItem
+                        className={activeFilters.statusIds === statusIds[item.key] ? 'active' : ''}
+                        onClick={() => {
+                          handleStatus(statusIds[item.key])
+                        }}
+                        disabled={item.doc_count > 0 ? false : true}
+                        theme={boder1}
+                      >
+                        <ItemTitle>{item.key}</ItemTitle>
+                        <ItemValue>{item.doc_count}</ItemValue>
+                      </ContentItem>
+                    ))}
+                  </ContentImputsItems>
+                </ContentFecha2>
+                <ContentFecha4>
+                  <InputLabelTitle>Entorno</InputLabelTitle>
+                  <ContentImputsItems>
+                    <ContentItem
+                      className={activeFilters.environments === 0 ? 'active' : ''}
+                      onClick={() => {
+                        handleEnvironment(environments.Todos)
+                      }}
+                    >
+                      <ItemTitle>Todos</ItemTitle>
+                      <ItemValue>{totalCount}</ItemValue>
+                    </ContentItem>
+                    {entorno.map((item: any) => (
+                      <ContentItem
+                        className={
+                          activeFilters.environments === environments[item.key] ? 'active' : ''
+                        }
+                        onClick={() => {
+                          handleEnvironment(environments[item.key])
+                        }}
+                        disabled={item.doc_count > 0 ? false : true}
+                      >
+                        <ItemTitle>En {item.key}</ItemTitle>
+                        <ItemValue>{item.doc_count}</ItemValue>
+                      </ContentItem>
+                    ))}
+                  </ContentImputsItems>
+                </ContentFecha4>
+                <ContentFecha3>
+                  <InputLabelTitle>Medios de pago</InputLabelTitle>
+                  <ContentImputsItems2>
+                    <ContentItem
+                      className={activeFilters.paymentMethods === 0 ? 'active' : ''}
+                      onClick={() => {
+                        handlePaymentMethod(0)
+                      }}
+                    >
+                      <ItemTitle>Todos</ItemTitle>
+                      <ItemValue>{totalCount}</ItemValue>
+                    </ContentItem>
+                    {statusPay.map((item: any) => (
+                      <ContentItem
+                        className={activeFilters.paymentMethods === item.keyCode ? 'active' : ''}
+                        onClick={() => {
+                          handlePaymentMethod(item.keyCode)
+                        }}
+                        disabled={item.doc_count > 0 ? false : true}
+                      >
+                        <ItemTitle>{item.key}</ItemTitle>
+                        <ItemValue>{item.doc_count}</ItemValue>
+                      </ContentItem>
+                    ))}
+                  </ContentImputsItems2>
+                </ContentFecha3>
+                <ContentFecha5>
+                  <InputLabelTitle>Acciones</InputLabelTitle>
+                  <ContentImputsItems3>
+                    <ButtonFecha
+                      onClick={() => {
+                        exportFile('xlsx')
+                      }}
+                    >
+                      Exportar Excel
+                    </ButtonFecha>
+                    <ButtonFecha
+                      onClick={() => {
+                        exportFile('csv')
+                      }}
+                    >
+                      Exportar csv
+                    </ButtonFecha>
+                  </ContentImputsItems3>
+                </ContentFecha5>
+              </CardContent1>
+              <ContentButonCard>
+                <ButtonFecha onClick={handleReset}>Borrar filtros</ButtonFecha>
+              </ContentButonCard>
+            </Card1>
+
+            <Card2>
+              <CardHeader>
+                <h4>Transacciones</h4>
+                <SearchContainer className="searchContainer" onSubmit={(e) => handleSubmit(e)}>
+                  <input
+                    placeholder="Buscar por Ref.Payco"
+                    type="number"
+                    name="search"
+                    value={input.search}
+                    onChange={(e) => handleInputChange(e)}
+                  />
+                  <button type="submit">
+                    <FaSearch />
+                  </button>
+                </SearchContainer>
+              </CardHeader>
+              <CardContent2>
+                {!getListTransaction.loading ? (
+                  dataTable.length === 0 ? (
+                    <h3
+                      style={{
+                        fontSize: '20px',
+                        padding: '1rem',
+                        margin: ' 1rem 0',
+                        fontWeight: 400,
+                      }}
+                    >
+                      No se encontraron registros.
+                    </h3>
                   ) : (
-                    ''
-                  )}
-                </ContentPagination>
-                </>
-              ) : (
-                <LoadingBar text={'Cargando...'} />
-              )}
-            </CardContent2>
-          </Card2>
-        </ContentCard>
-      </ContentTransaction>
-        )}
+                    <>
+                      <TablaTransaction toast={toast} data={dataTable} titleData={dataTitle} />
+                      <ContentPagination>
+                        <ItemResultTotal>Total: {totalCount}</ItemResultTotal>
+                        {totalCount && totalCount > 0 ? (
+                          <Paginations
+                            pagination={paginas}
+                            handlePage={handlePage}
+                            active={activeFilters.page}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </ContentPagination>
+                    </>
+                  )
+                ) : (
+                  <LoadingBar text={'Cargando...'} />
+                )}
+              </CardContent2>
+            </Card2>
+          </ContentCard>
+        </ContentTransaction>
+      )}
     </div>
   )
 }

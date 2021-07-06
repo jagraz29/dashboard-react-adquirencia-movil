@@ -23,6 +23,6 @@ export type GetListTransactionReducerType = {
       names: string
       lastnames: string
     }[]
-  },
-  loading:boolean
+  }
+  loading: boolean
 }

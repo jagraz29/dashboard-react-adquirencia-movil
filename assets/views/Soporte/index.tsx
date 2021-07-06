@@ -47,13 +47,13 @@ const optionsSoport = [
 ]
 
 const ticketsTitle = [
-  'ID TICKET',
+  'ID Ticket',
   'Asunto',
-  'Area de Atención',
+  'Área de atención',
   'Estado',
   'Etapa',
-  'Fecha de Creación',
-  'Última Actualización',
+  'Fecha de creación',
+  'Última actualización',
   'Acciones',
 ]
 

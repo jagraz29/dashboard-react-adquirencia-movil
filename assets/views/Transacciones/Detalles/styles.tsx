@@ -318,9 +318,9 @@ export const LogHora = styled.h2`
 `
 
 export const LoadingContent = styled.div`
-display: flex;
-width: 100vw;
-position: absolute;
-top: 10rem;
-left: 7rem;
+  display: flex;
+  width: 100vw;
+  position: absolute;
+  top: 10rem;
+  left: 7rem;
 `

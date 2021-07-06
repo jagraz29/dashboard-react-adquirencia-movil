@@ -39,7 +39,7 @@ import {
   LogHora,
   LogGroupDivider,
   LoadingContent,
-  CardLast
+  CardLast,
 } from './styles'
 import axios from 'axios'
 import LoadingBar from '../../../components/LoadingBar'
@@ -63,13 +63,13 @@ const breadcrumb = [
 ]
 
 const defaultLogResponse = {
-  response_default:true,
-  x_transaction_id:'-',
-  x_fecha_transaccion:'-',
-  url:'-'
+  response_default: true,
+  x_transaction_id: '-',
+  x_fecha_transaccion: '-',
+  url: '-',
 }
 
-const TransaccionesDetalles = ({history}:any) => {
+const TransaccionesDetalles = ({ history }: any) => {
   let iconStyles = { color: '#d3d3d3' }
   let iconStylesExport = { size: '100px', color: '#d3d3d3' }
   const dispatch = useDispatch()
@@ -81,21 +81,21 @@ const TransaccionesDetalles = ({history}:any) => {
   const [openCard2, setOpenCard2] = useState(false)
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
 
-  const [loading, setLoading]=useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [data, setData] = useState<any>({})
   const [logss, setLogss] = useState<any>([])
   const [log, setLog] = useState<any>(defaultLogResponse)
-  useEffect(()=>{
+  useEffect(() => {
     getTransactionDetail(id)
-    .then(resp=>{
-      setData(resp)
-      setLogss(resp.allLogs)
-      setLog(resp.allLogs.length ===0?defaultLogResponse:resp.allLogs[0])
-      setLoading(false)
-    })
-    .catch(()=>setLoading(false))
-    },[]) 
-  
+      .then((resp) => {
+        setData(resp)
+        setLogss(resp.allLogs)
+        setLog(resp.allLogs.length === 0 ? defaultLogResponse : resp.allLogs[0])
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
   const openClose = () => {
     if (!openCard) {
       setOpenCard(true)
@@ -147,9 +147,9 @@ const TransaccionesDetalles = ({history}:any) => {
   useEffect(() => {
     setLogsKey(Object.keys(log))
   }, [log])
-useEffect(() => {
-  console.log("loooog",log)
-})
+  useEffect(() => {
+    console.log('loooog', log)
+  })
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
@@ -160,292 +160,310 @@ useEffect(() => {
         </LoadingContent>
       ) : (
         <Content>
-        <ContentCard>
-          <CardGroup>
-            <Card>
-              <CardHeader>
-                <CardTitle>Detalle de transacción</CardTitle>
-                <CardIcon onClick={() => openClose()}>
-                  {openCard == false ? (
-                    <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                  ) : (
-                    <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                  )}
-                </CardIcon>
-              </CardHeader>
-              <CardContent1 theme={openCardContent}>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Ref.Payco</ItemTitle>
-                    <ItemValue>{data.referencePayco?data.referencePayco:"-"}</ItemValue>
-                  </ItemGroup>
+          <ContentCard>
+            <CardGroup>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Detalle de transacción</CardTitle>
+                  <CardIcon onClick={() => openClose()}>
+                    {openCard == false ? (
+                      <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                    ) : (
+                      <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                    )}
+                  </CardIcon>
+                </CardHeader>
+                <CardContent1 theme={openCardContent}>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Ref.Payco</ItemTitle>
+                      <ItemValue>{data.referencePayco ? data.referencePayco : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Valor Total</ItemTitle>
-                    <ItemValue>{data.amountNet?data.amountNet:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Valor Total</ItemTitle>
+                      <ItemValue>{data.amountNet ? data.amountNet : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Estado</ItemTitle>
-                    <ItemValue>{data.status?data.status:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Factura</ItemTitle>
-                    <ItemValue>{data.bill?data.bill:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Estado</ItemTitle>
+                      <ItemValue>{data.status ? data.status : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Factura</ItemTitle>
+                      <ItemValue>{data.bill ? data.bill : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>IVA</ItemTitle>
-                    <ItemValue>{data.tax?data.tax:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>IVA</ItemTitle>
+                      <ItemValue>{data.tax ? data.tax : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle></ItemTitle>
-                    <ItemValue></ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Fecha Transacción</ItemTitle>
-                    <ItemValue>{data.transactionDate?data.transactionDate:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle></ItemTitle>
+                      <ItemValue></ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Fecha Transacción</ItemTitle>
+                      <ItemValue>{data.transactionDate ? data.transactionDate : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Base Devolucion IVA</ItemTitle>
-                    <ItemValue>{data.taxBaseClient?data.taxBaseClient:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Base Devolucion IVA</ItemTitle>
+                      <ItemValue>{data.taxBaseClient ? data.taxBaseClient : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Respuesta</ItemTitle>
-                    <ItemValue>{data.response?data.response:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup2>
-                    <ItemTitle>Descripción Compra</ItemTitle>
-                    <ItemValue>{data.description?data.description:"-"}</ItemValue>
-                  </ItemGroup2>
+                    <ItemGroup>
+                      <ItemTitle>Respuesta</ItemTitle>
+                      <ItemValue>{data.response ? data.response : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup2>
+                      <ItemTitle>Descripción Compra</ItemTitle>
+                      <ItemValue>{data.description ? data.description : '-'}</ItemValue>
+                    </ItemGroup2>
 
-                  <ItemGroup>
-                    <ItemTitle>Autorización</ItemTitle>
-                    <ItemValue>{data.authorization?data.authorization:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Ganancia Cliente</ItemTitle>
-                    <ItemValue>{data.amount?data.amount:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Autorización</ItemTitle>
+                      <ItemValue>{data.authorization ? data.authorization : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Ganancia Cliente</ItemTitle>
+                      <ItemValue>{data.amount ? data.amount : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Recibo</ItemTitle>
-                    <ItemValue>{data.receipt?data.receipt:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Recibo</ItemTitle>
+                      <ItemValue>{data.receipt ? data.receipt : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>IP Transacción</ItemTitle>
-                    <ItemValue>{data.ip?data.ip:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>IP Transacción</ItemTitle>
+                      <ItemValue>{data.ip ? data.ip : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
 
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Franquicia / Medio de Pago</ItemTitle>
-                    <ItemValue>{data.paymentMethod?data.paymentMethod:"-"}</ItemValue>
-                  </ItemGroup>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Franquicia / Medio de Pago</ItemTitle>
+                      <ItemValue>{data.paymentMethod ? data.paymentMethod : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Banco</ItemTitle>
-                    <ItemValue>{data.bank?data.bank:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Banco</ItemTitle>
+                      <ItemValue>{data.bank ? data.bank : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Numero Tarjeta</ItemTitle>
-                    <ItemValue>{data.numberCard?data.numberCard:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Numero Tarjeta</ItemTitle>
+                      <ItemValue>{data.numberCard ? data.numberCard : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
 
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Extra 1</ItemTitle>
-                    <ItemValue>{data.extras?data.extras.extra1!==""?data.extras.extra1:"-":"-"}</ItemValue>
-                  </ItemGroup>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Extra 1</ItemTitle>
+                      <ItemValue>
+                        {data.extras ? (data.extras.extra1 !== '' ? data.extras.extra1 : '-') : '-'}
+                      </ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Extra 2</ItemTitle>
-                    <ItemValue>{data.extras?data.extras.extra2!==""?data.extras.extra2:"-":"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Extra 2</ItemTitle>
+                      <ItemValue>
+                        {data.extras ? (data.extras.extra2 !== '' ? data.extras.extra2 : '-') : '-'}
+                      </ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Extra 3</ItemTitle>
-                    <ItemValue>{data.extras?data.extras.extra3!==""?data.extras.extra3:"-":"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Url Confirmación:</ItemTitle>
-                    <ItemValue>{data.urlConfirmation?data.urlConfirmation:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup2>
-                    <ItemTitle>Url Respuesta:</ItemTitle>
-                    <ItemValue>{data.urlResponse?data.urlResponse:"-"}</ItemValue>
-                  </ItemGroup2>
-                </ContentItem>
-              </CardContent1>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Detalle del comprador</CardTitle>
-                <CardIcon onClick={() => openClose1()}>
-                  {openCard1 == false ? (
-                    <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                  ) : (
-                    <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                  )}
-                </CardIcon>
-              </CardHeader>
-              <CardContent1 theme={openCardContent1}>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Cédula de Ciudadanía</ItemTitle>
-                    <ItemValue>{data.document?data.document:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Extra 3</ItemTitle>
+                      <ItemValue>
+                        {data.extras ? (data.extras.extra3 !== '' ? data.extras.extra3 : '-') : '-'}
+                      </ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Url Confirmación:</ItemTitle>
+                      <ItemValue>{data.urlConfirmation ? data.urlConfirmation : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup2>
+                      <ItemTitle>Url Respuesta:</ItemTitle>
+                      <ItemValue>{data.urlResponse ? data.urlResponse : '-'}</ItemValue>
+                    </ItemGroup2>
+                  </ContentItem>
+                </CardContent1>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Detalle del comprador</CardTitle>
+                  <CardIcon onClick={() => openClose1()}>
+                    {openCard1 == false ? (
+                      <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                    ) : (
+                      <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                    )}
+                  </CardIcon>
+                </CardHeader>
+                <CardContent1 theme={openCardContent1}>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Cédula de Ciudadanía</ItemTitle>
+                      <ItemValue>{data.document ? data.document : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Dirección</ItemTitle>
-                    <ItemValue>{data.address?data.address:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Dirección</ItemTitle>
+                      <ItemValue>{data.address ? data.address : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>País</ItemTitle>
-                    <ItemValue>{data.country?data.country:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Nombres</ItemTitle>
-                    <ItemValue>{data.firstName?data.firstName:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>País</ItemTitle>
+                      <ItemValue>{data.country ? data.country : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Nombres</ItemTitle>
+                      <ItemValue>{data.firstName ? data.firstName : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Telefono</ItemTitle>
-                    <ItemValue>{data.telephone?data.telephone:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Telefono</ItemTitle>
+                      <ItemValue>{data.telephone ? data.telephone : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Estado / Provincia</ItemTitle>
-                    <ItemValue>{data.department?data.department:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Apellidos</ItemTitle>
-                    <ItemValue>{data.lastName?data.lastName:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Estado / Provincia</ItemTitle>
+                      <ItemValue>{data.department ? data.department : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Apellidos</ItemTitle>
+                      <ItemValue>{data.lastName ? data.lastName : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Celular</ItemTitle>
-                    <ItemValue>{data.mobilePhone?data.mobilePhone:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Celular</ItemTitle>
+                      <ItemValue>{data.mobilePhone ? data.mobilePhone : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Ciudad</ItemTitle>
-                    <ItemValue>{data.city?data.city:"-"}</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-                <ContentItem>
-                  <ItemGroup>
-                    <ItemTitle>Compañia</ItemTitle>
-                    <ItemValue>{data.company?data.company:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Ciudad</ItemTitle>
+                      <ItemValue>{data.city ? data.city : '-'}</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                  <ContentItem>
+                    <ItemGroup>
+                      <ItemTitle>Compañia</ItemTitle>
+                      <ItemValue>{data.company ? data.company : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Email</ItemTitle>
-                    <ItemValue>{data.email?data.email:"-"}</ItemValue>
-                  </ItemGroup>
+                    <ItemGroup>
+                      <ItemTitle>Email</ItemTitle>
+                      <ItemValue>{data.email ? data.email : '-'}</ItemValue>
+                    </ItemGroup>
 
-                  <ItemGroup>
-                    <ItemTitle>Código Área</ItemTitle>
-                    <ItemValue>-</ItemValue>
-                  </ItemGroup>
-                </ContentItem>
-              </CardContent1>
-            </Card>
+                    <ItemGroup>
+                      <ItemTitle>Código Área</ItemTitle>
+                      <ItemValue>-</ItemValue>
+                    </ItemGroup>
+                  </ContentItem>
+                </CardContent1>
+              </Card>
 
-            <CardLast>
-              <CardHeader>
-                <CardTitle>Información enviada en la confirmación</CardTitle>
-                <CardIcon onClick={() => openClose2()}>
-                  {openCard2 == false ? (
-                    <BsIcons.BsFillCaretDownFill style={iconStyles} />
-                  ) : (
-                    <BsIcons.BsFillCaretUpFill style={iconStyles} />
-                  )}
-                </CardIcon>
-              </CardHeader>
-              <CardContent2 theme={openCardContent2}>
-                <ContentLog>
-                  
-                  <LogGroup>
-                    <Log>
-                      {
-                        logss.length===0 || logss===[]?
-                        ""
-                        :
-                        logss.length>0 && logss.map((e:any, i:number)=>(
-                        <LogItem key={i} onClick={()=>setLog(e)}>
-                          {
-                            JSON.parse(e.response).header_code==="200"?
-                            <LogStatusSuccess>{JSON.parse(e.response).header_code? JSON.parse(e.response).header_code:"-"}</LogStatusSuccess>
-                            :
-                            <LogStatusFailed>{JSON.parse(e.response).header_code? JSON.parse(e.response).header_code:"-"}</LogStatusFailed>
-                          }
-                          <LogMetodo>{e.url?e.url:""}</LogMetodo>
-                          <LogHora>{e.x_fecha_transaccion? e.x_fecha_transaccion.slice(0,10):"-"}</LogHora>
-                        </LogItem>
-                        ))
-                      }
-                    </Log>
-                  </LogGroup>
+              <CardLast>
+                <CardHeader>
+                  <CardTitle>Información enviada en la confirmación</CardTitle>
+                  <CardIcon onClick={() => openClose2()}>
+                    {openCard2 == false ? (
+                      <BsIcons.BsFillCaretDownFill style={iconStyles} />
+                    ) : (
+                      <BsIcons.BsFillCaretUpFill style={iconStyles} />
+                    )}
+                  </CardIcon>
+                </CardHeader>
+                <CardContent2 theme={openCardContent2}>
+                  <ContentLog>
+                    <LogGroup>
+                      <Log>
+                        {logss.length === 0 || logss === []
+                          ? ''
+                          : logss.length > 0 &&
+                            logss.map((e: any, i: number) => (
+                              <LogItem key={i} onClick={() => setLog(e)}>
+                                {JSON.parse(e.response).header_code === '200' ? (
+                                  <LogStatusSuccess>
+                                    {JSON.parse(e.response).header_code
+                                      ? JSON.parse(e.response).header_code
+                                      : '-'}
+                                  </LogStatusSuccess>
+                                ) : (
+                                  <LogStatusFailed>
+                                    {JSON.parse(e.response).header_code
+                                      ? JSON.parse(e.response).header_code
+                                      : '-'}
+                                  </LogStatusFailed>
+                                )}
+                                <LogMetodo>{e.url ? e.url : ''}</LogMetodo>
+                                <LogHora>
+                                  {e.x_fecha_transaccion ? e.x_fecha_transaccion.slice(0, 10) : '-'}
+                                </LogHora>
+                              </LogItem>
+                            ))}
+                      </Log>
+                    </LogGroup>
 
-                  <LogGroupDivider>
-                    <div className="info">
-                    <table>
-                      <tr>
-                        <th>Estado</th>
-                         {
-                           log.response_default?
-                           <td >-</td>
-                           :
-                           JSON.parse(log.response).header_code==="200"?
-                            <td className="estadoSuccess">{  JSON.parse(log.response).header_code? JSON.parse(log.response).header_code:"-"}</td>
-                            :
-                            <td className="estadoFailed">{  JSON.parse(log.response).header_code? JSON.parse(log.response).header_code:"-"}</td>
-                          }
-                      </tr>
-                      <tr>
-                        <th>ID</th>
-                        <td >{log.x_transaction_id}</td>
-                      </tr>
-                      <tr>
-                        <th>Fecha</th>
-                        <td>{log.x_fecha_transaccion}</td>
-                      </tr>
-                      <tr>
-                        <th>Tipo de confirmación</th>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th>URL Confirmacion</th>
-                        <td>{log.url}</td>
-                      </tr>
-                    </table>
-                    </div> 
-                    <div className="infoToSend">
+                    <LogGroupDivider>
+                      <div className="info">
+                        <table>
+                          <tr>
+                            <th>Estado</th>
+                            {log.response_default ? (
+                              <td>-</td>
+                            ) : JSON.parse(log.response).header_code === '200' ? (
+                              <td className="estadoSuccess">
+                                {JSON.parse(log.response).header_code
+                                  ? JSON.parse(log.response).header_code
+                                  : '-'}
+                              </td>
+                            ) : (
+                              <td className="estadoFailed">
+                                {JSON.parse(log.response).header_code
+                                  ? JSON.parse(log.response).header_code
+                                  : '-'}
+                              </td>
+                            )}
+                          </tr>
+                          <tr>
+                            <th>ID</th>
+                            <td>{log.x_transaction_id}</td>
+                          </tr>
+                          <tr>
+                            <th>Fecha</th>
+                            <td>{log.x_fecha_transaccion}</td>
+                          </tr>
+                          <tr>
+                            <th>Tipo de confirmación</th>
+                            <td>-</td>
+                          </tr>
+                          <tr>
+                            <th>URL Confirmacion</th>
+                            <td>{log.url}</td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div className="infoToSend">
                         <h3>Información enviada</h3>
                         <div className="infoComplete">
                           {logss.length === 0 || logss === []
@@ -463,32 +481,32 @@ useEffect(() => {
                         </div>
                       </div>
                     </LogGroupDivider>
-                </ContentLog>
-              </CardContent2>
-            </CardLast>
-
-          </CardGroup>
-          <CardGroup>
-            <Card2>
-              <CardHeader>
-                <CardTitle>Acciones</CardTitle>
-                <CardSubTitle>Las Siguientes acciones pueden no ser reversibles.</CardSubTitle>
-              </CardHeader>
-              <CardContent3>
-                <ButtonExportar onClick={()=> window.open(`/api/transaction/receipt/${id}`)}>
-                  <AiIcons.AiFillFilePdf style={iconStylesExport} />
-                  Descargar comprobante
-                </ButtonExportar>
-              </CardContent3>
-              <CardContentButton>
-                <ButtonTransacciones onClick={()=>history.push("/transacciones")}>&laquo; Volver a transacciones</ButtonTransacciones>
-              </CardContentButton>
-            </Card2>
-          </CardGroup>
-        </ContentCard>
-      </Content>
-        )
-      }
+                  </ContentLog>
+                </CardContent2>
+              </CardLast>
+            </CardGroup>
+            <CardGroup>
+              <Card2>
+                <CardHeader>
+                  <CardTitle>Acciones</CardTitle>
+                  <CardSubTitle>Las Siguientes acciones pueden no ser reversibles.</CardSubTitle>
+                </CardHeader>
+                <CardContent3>
+                  <ButtonExportar onClick={() => window.open(`/api/transaction/receipt/${id}`)}>
+                    <AiIcons.AiFillFilePdf style={iconStylesExport} />
+                    Descargar comprobante
+                  </ButtonExportar>
+                </CardContent3>
+                <CardContentButton>
+                  <ButtonTransacciones onClick={() => history.push('/transacciones')}>
+                    &laquo; Volver a transacciones
+                  </ButtonTransacciones>
+                </CardContentButton>
+              </Card2>
+            </CardGroup>
+          </ContentCard>
+        </Content>
+      )}
     </div>
   )
 }
