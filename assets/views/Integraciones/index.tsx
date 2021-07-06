@@ -501,7 +501,7 @@ const Integraciones = () => {
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
-      <Title title={'Integracion'}></Title>
+      <Title title={'Integración'}></Title>
 
       <Content>
         <ToastContainer />
