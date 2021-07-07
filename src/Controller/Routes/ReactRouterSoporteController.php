@@ -31,4 +31,16 @@ final class ReactRouterSoporteController extends AbstractController
     // en index pagina con datos generales de la app
     return $this->render('base.html.twig');
   }
+
+  /**
+   *
+   * @Route("/soporte/detalle/{id}", name="soporte_detail")
+   *
+   */
+
+  public function routerSoporteDetailTicket(Request $request)
+  {
+    // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
 }

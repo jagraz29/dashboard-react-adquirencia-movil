@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
 import TableCollectAction from '../TableCollectAction'
 import { useModal } from '../../components/hooks/useModal'
@@ -6,6 +6,7 @@ import { ModalComp } from '../../components/modalComp'
 import ShareLink from '../../components/ShareLink'
 
 import NumberFormat from 'react-number-format'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
   data: {}[]
@@ -13,14 +14,25 @@ type Props = {
 }
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
-  console.log('paso a la tabla', data)
   const titles = Object.keys(titleData)
-  const datos = Object.keys(data[0])
+  const datos = [
+    'id',
+    'date',
+    'title',
+    'reference',
+    'currency',
+    'amount',
+    'typeSell',
+    'state',
+    'link',
+  ]
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
+  const history = useHistory()
   const { isShown, toggle } = useModal()
-  const compartir = (item: number) => {
-    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
+
+  const redirectRoute = (path: string) => {
+    history.push(path)
   }
 
   const content = (
@@ -49,40 +61,54 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {datos.map((title: any, index: number) => (
-                <td key={index}>
-                  {index == 0 ? (
-                    <body>{item[title]}</body>
-                  ) : index == 5 ? (
-                    <body>
-                      <NumberFormat
-                        thousandSeparator={true}
-                        prefix={'$'}
-                        value={item[title]}
-                        displayType={'text'}
-                      />
-                    </body>
-                  ) : index == 4 ? (
-                    <body>
-                      <TableTextMoneda>{item[title]}</TableTextMoneda>
-                    </body>
-                  ) : index == 8 ? (
-                    <body>
-                      <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
-                        https://link.epayco.xyz/{item[title]}
-                      </TableTextLink>
-                    </body>
-                  ) : (
-                    <body>{item[title]}</body>
-                  )}
-                </td>
-              ))}
+              {datos.map((title: any, index: number) => {
+                if (title != 'typeSell') {
+                  return (
+                    <td key={index}>
+                      {title == 'id' ? (
+                        <body>{item[title]}</body>
+                      ) : title == 'amount' ? (
+                        <body>
+                          <NumberFormat
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            value={item[title]}
+                            displayType={'text'}
+                          />
+                        </body>
+                      ) : title == 'currency' ? (
+                        <body>
+                          <TableTextMoneda>{item[title]}</TableTextMoneda>
+                        </body>
+                      ) : title == 'link' ? (
+                        <body>
+                          <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
+                            https://link.epayco.xyz/{item[title]}
+                          </TableTextLink>
+                        </body>
+                      ) : title == 'state' ? (
+                        <body>
+                          {item[title] == 1
+                            ? 'Pendiente por pago'
+                            : item[title] == 2
+                            ? 'Pagado'
+                            : 'Eliminado'}
+                        </body>
+                      ) : (
+                        <body>{item[title]}</body>
+                      )}
+                    </td>
+                  )
+                }
+              })}
               <td>
                 <TableCollectAction
                   actions={[
                     {
                       name: 'Detalle de cobro',
-                      funcion: '',
+                      funcion: () => {
+                        redirectRoute(`/collect/show/${item['id']}`)
+                      },
                       validarEstado: true,
                     },
                     {

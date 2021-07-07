@@ -29,6 +29,7 @@ export const Card = styled.div`
 
 export const CardHeader = styled.div`
   display: flex;
+  cursor: pointer;
   justify-content: flex-start;
   flex-direction: column;
   border-bottom: 1px solid #d3d3d3;
@@ -104,6 +105,7 @@ export const ContentInput = styled.div`
 
 export const CardContentButton = styled.div`
   height: 2vw;
+  padding: 1rem;
   margin: 0vw;
   display: flex;
   justify-content: start;

@@ -7,6 +7,9 @@ import { RootState } from '../../../redux/reducers/index'
 import * as BsIcons from 'react-icons/bs'
 import * as AiIcons from 'react-icons/ai'
 import { getTransactionDetail } from '../../../redux/actions/'
+import NumberFormat from 'react-number-format'
+import MedioPago from '../../../components/MedioPago'
+
 import {
   Content,
   ContentCard,
@@ -39,6 +42,7 @@ import {
   LogHora,
   LogGroupDivider,
   LoadingContent,
+  CardLast,
 } from './styles'
 import axios from 'axios'
 import LoadingBar from '../../../components/LoadingBar'
@@ -55,11 +59,18 @@ const breadcrumb = [
     active: false,
   },
   {
-    title: 'Detalles de transaccion',
+    title: 'Detalle de transacción',
     path: '/transacciones',
     active: false,
   },
 ]
+
+const defaultLogResponse = {
+  response_default: true,
+  x_transaction_id: '-',
+  x_fecha_transaccion: '-',
+  url: '-',
+}
 
 const TransaccionesDetalles = ({ history }: any) => {
   let iconStyles = { color: '#d3d3d3' }
@@ -73,20 +84,20 @@ const TransaccionesDetalles = ({ history }: any) => {
   const [openCard2, setOpenCard2] = useState(false)
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
 
+  const [loading, setLoading] = useState<boolean>(true)
+  const [data, setData] = useState<any>({})
+  const [logss, setLogss] = useState<any>([])
+  const [log, setLog] = useState<any>(defaultLogResponse)
   useEffect(() => {
     getTransactionDetail(id)
       .then((resp) => {
         setData(resp)
         setLogss(resp.allLogs)
-        setLog(resp.log)
+        setLog(resp.allLogs.length === 0 ? defaultLogResponse : resp.allLogs[0])
         setLoading(false)
       })
       .catch(() => setLoading(false))
   }, [])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [data, setData] = useState<any>({})
-  const [logss, setLogss] = useState<any>([])
-  const [log, setLog] = useState<any>({})
 
   const openClose = () => {
     if (!openCard) {
@@ -139,10 +150,13 @@ const TransaccionesDetalles = ({ history }: any) => {
   useEffect(() => {
     setLogsKey(Object.keys(log))
   }, [log])
+  useEffect(() => {
+    console.log('loooog', log)
+  })
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
-      <Title title={`Detalles de transacción #${id}`}></Title>
+      <Title title={`Detalle de transacción: #${id}`}></Title>
       {loading ? (
         <LoadingContent>
           <LoadingBar text={'Cargando...'} />
@@ -171,7 +185,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>Valor Total</ItemTitle>
-                      <ItemValue>{data.amountNet ? data.amountNet : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.amountNet}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -187,7 +207,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>IVA</ItemTitle>
-                      <ItemValue>{data.tax ? data.tax : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.tax}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -203,7 +229,13 @@ const TransaccionesDetalles = ({ history }: any) => {
 
                     <ItemGroup>
                       <ItemTitle>Base Devolucion IVA</ItemTitle>
-                      <ItemValue>{data.taxBaseClient ? data.taxBaseClient : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.taxBaseClient}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -225,7 +257,13 @@ const TransaccionesDetalles = ({ history }: any) => {
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Ganancia Cliente</ItemTitle>
-                      <ItemValue>{data.amount ? data.amount : '-'}</ItemValue>
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          suffix={" "+ data.currency}
+                          value={data.amountNet}
+                          displayType={'text'}
+                        />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -242,7 +280,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Franquicia / Medio de Pago</ItemTitle>
-                      <ItemValue>{data.paymentMethod ? data.paymentMethod : '-'}</ItemValue>
+                      <MedioPago type={data.paymentMethod}></MedioPago>
                     </ItemGroup>
 
                     <ItemGroup>
@@ -251,7 +289,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </ItemGroup>
 
                     <ItemGroup>
-                      <ItemTitle>Numero Tarjeta</ItemTitle>
+                      <ItemTitle>Número Tarjeta</ItemTitle>
                       <ItemValue>{data.numberCard ? data.numberCard : '-'}</ItemValue>
                     </ItemGroup>
                   </ContentItem>
@@ -327,7 +365,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </ItemGroup>
 
                     <ItemGroup>
-                      <ItemTitle>Telefono</ItemTitle>
+                      <ItemTitle>Teléfono</ItemTitle>
                       <ItemValue>{data.telephone ? data.telephone : '-'}</ItemValue>
                     </ItemGroup>
 
@@ -354,7 +392,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                   </ContentItem>
                   <ContentItem>
                     <ItemGroup>
-                      <ItemTitle>Compañia</ItemTitle>
+                      <ItemTitle>Compañía</ItemTitle>
                       <ItemValue>{data.company ? data.company : '-'}</ItemValue>
                     </ItemGroup>
 
@@ -371,7 +409,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                 </CardContent1>
               </Card>
 
-              <Card>
+              <CardLast>
                 <CardHeader>
                   <CardTitle>Información enviada en la confirmación</CardTitle>
                   <CardIcon onClick={() => openClose2()}>
@@ -391,16 +429,20 @@ const TransaccionesDetalles = ({ history }: any) => {
                           : logss.length > 0 &&
                             logss.map((e: any, i: number) => (
                               <LogItem key={i} onClick={() => setLog(e)}>
-                                {e.x_transaction_state === 'Aceptada' ? (
+                                {e.status === '200' ? (
                                   <LogStatusSuccess>
-                                    {e.x_transaction_state ? e.x_transaction_state : '-'}
+                                    {e.status
+                                      ? e.status
+                                      : '-'}
                                   </LogStatusSuccess>
                                 ) : (
                                   <LogStatusFailed>
-                                    {e.x_transaction_state ? e.x_transaction_state : '-'}
+                                    {e.status
+                                      ? e.status
+                                      : '-'}
                                   </LogStatusFailed>
                                 )}
-                                <LogMetodo>{e.urlConfirmation ? e.urlConfirmation : ''}</LogMetodo>
+                                <LogMetodo>{e.url ? e.url : ''}</LogMetodo>
                                 <LogHora>
                                   {e.x_fecha_transaccion ? e.x_fecha_transaccion.slice(0, 10) : '-'}
                                 </LogHora>
@@ -414,25 +456,29 @@ const TransaccionesDetalles = ({ history }: any) => {
                         <table>
                           <tr>
                             <th>Estado</th>
-                            {!log.x_transaction_state ? (
+                            {log.response_default ? (
                               <td>-</td>
-                            ) : log.x_transaction_state === 'Aceptada' ? (
+                            ) : log.status === '200' ? (
                               <td className="estadoSuccess">
-                                {log.x_transaction_state ? log.x_transaction_state : '-'}
+                                {log.status
+                                  ? log.status
+                                  : '-'}
                               </td>
                             ) : (
                               <td className="estadoFailed">
-                                {log.x_transaction_state ? log.x_transaction_state : '-'}
+                                {log.status
+                                  ? log.status
+                                  : '-'}
                               </td>
                             )}
                           </tr>
                           <tr>
                             <th>ID</th>
-                            <td>{log.x_transaction_id ? log.x_transaction_id : '-'}</td>
+                            <td>{log.x_transaction_id}</td>
                           </tr>
                           <tr>
                             <th>Fecha</th>
-                            <td>{log.x_fecha_transaccion ? log.x_fecha_transaccion : '-'}</td>
+                            <td>{log.x_fecha_transaccion}</td>
                           </tr>
                           <tr>
                             <th>Tipo de confirmación</th>
@@ -440,7 +486,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                           </tr>
                           <tr>
                             <th>URL Confirmacion</th>
-                            <td>-</td>
+                            <td>{log.url}</td>
                           </tr>
                         </table>
                       </div>
@@ -464,16 +510,16 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </LogGroupDivider>
                   </ContentLog>
                 </CardContent2>
-              </Card>
+              </CardLast>
             </CardGroup>
             <CardGroup>
               <Card2>
                 <CardHeader>
                   <CardTitle>Acciones</CardTitle>
-                  <CardSubTitle>Las Siguientes acciones pueden no ser reversibles.</CardSubTitle>
+                  <CardSubTitle>Las siguientes acciones pueden no ser reversibles.</CardSubTitle>
                 </CardHeader>
                 <CardContent3>
-                  <ButtonExportar onClick={() => window.open(`api/transaction/receipt/${id}`)}>
+                  <ButtonExportar onClick={() => window.open(`/api/transaction/receipt/${id}`)}>
                     <AiIcons.AiFillFilePdf style={iconStylesExport} />
                     Descargar comprobante
                   </ButtonExportar>

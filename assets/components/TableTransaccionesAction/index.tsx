@@ -4,9 +4,11 @@ import * as RiIcons from 'react-icons/ri'
 
 type Props = {
   actions: {}[]
+  setTrx: any
+  item: number
 }
 
-const TableTransaccionesAction: React.FC<Props> = ({ actions }) => {
+const TableTransaccionesAction: React.FC<Props> = ({ actions, setTrx, item }) => {
   const [visible, setVisible] = useState(false)
   const [showItem, setShowItem] = useState({ display: 'none' })
 
@@ -22,6 +24,7 @@ const TableTransaccionesAction: React.FC<Props> = ({ actions }) => {
     <DropDownContent
       onClick={() => {
         handleDropdownClick()
+        setTrx(item)
       }}
     >
       <RiIcons.RiArrowDownSFill />

@@ -18,6 +18,7 @@ import { Link, useHistory } from 'react-router-dom'
 const index = (props: any) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const [dropdown, setDropdown] = useState(false)
   const viewState: RootState = useSelector((state: RootState) => state)
   const [storage, setStorage] = useState('')
 
@@ -59,7 +60,14 @@ const index = (props: any) => {
           <Link to={'/soporte'}>
             <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>
           </Link>
-          <Avatar srcImage={avatar} size={'35px'}></Avatar>
+          <div onClick={() => setDropdown(!dropdown)} className="dropdown">
+            <Avatar srcImage={avatar} size={'35px'}></Avatar>
+            {dropdown && (
+              <div className="dropdown-content">
+                <a href="/logout">Cerrar sesión</a>
+              </div>
+            )}
+          </div>
         </AvatarImg>
       </Nav>
     </NavContainer>

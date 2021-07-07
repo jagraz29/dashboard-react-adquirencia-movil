@@ -123,8 +123,6 @@ const CreateTicket = (props: any) => {
     const name = target.name
     const value = target.value
 
-    console.log('aquii', e, name, value)
-
     await setTicket((prevState) => ({
       ...prevState,
       [name]: value,
@@ -137,7 +135,10 @@ const CreateTicket = (props: any) => {
 
   const validate = () => {
     if (
-      (ticket.area == '' || ticket.impacto == '' || ticket.asunto == '', ticket.solicitud == '')
+      ticket.area == '' ||
+      ticket.impacto == '' ||
+      ticket.asunto == '' ||
+      ticket.solicitud == ''
     ) {
       return 'Debe diligenciar todos los campos obligatorios.'
     }

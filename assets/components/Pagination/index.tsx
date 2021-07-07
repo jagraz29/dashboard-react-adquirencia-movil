@@ -1,112 +1,73 @@
 import React, { useEffect, useState } from 'react'
 import { ContentPagination, Pagination, ItemP } from './styles'
 
-const LEFT_PAGE = 'LEFT'
-const RIGHT_PAGE = 'RIGHT'
-const range = (from: any, to: any, step = 1) => {
-  let i = from
-  const range = []
-
-  while (i <= to) {
-    range.push(i)
-    i += step
-  }
-
-  return range
-}
-
-type Props = {
-  totalRecords: any
-  pageLimit: any
-  pageNeighbours: any
-  onPageChanged: any
-  currentPage: any
-}
-const Paginations: React.FC<Props> = ({
-  totalRecords,
-  pageLimit,
-  pageNeighbours,
-  onPageChanged,
-  currentPage,
-}) => {
-  const [totalPages, setTotalPages] = useState(0)
-
-  useEffect(() => {
-    setTotalPages(Math.ceil(totalRecords / pageLimit))
-  }, [])
-
-  const fetchPageNumbers = () => {
-    const totalNumbers = pageNeighbours * 2 + 3
-    const totalBlocks = totalNumbers + 2
-
-    if (totalPages > totalBlocks) {
-      const startPage = Math.max(2, currentPage - pageNeighbours)
-      const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours)
-
-      let pages = range(startPage, endPage)
-
-      const hasLeftSpill = startPage > 2
-      const hasRightSpill = totalPages - endPage > 1
-      const spillOffset = totalNumbers - (pages.length + 1)
-
-      switch (true) {
-        case hasLeftSpill && !hasRightSpill: {
-          const extraPages = range(startPage - spillOffset, startPage - 1)
-          pages = [LEFT_PAGE, ...extraPages, ...pages]
-          break
-        }
-        case hasLeftSpill && hasRightSpill:
-        default: {
-          pages = [LEFT_PAGE, ...pages, RIGHT_PAGE]
-          break
-        }
+const Paginations = ({ pagination, handlePage, active }: any) => {
+  let objectPages: any = []
+  const numberPages = Array(Math.ceil(pagination.totalCount / pagination.limit))
+  if (active === 1) {
+    if (numberPages.length < 4) {
+      if (numberPages.length === 1) {
+        objectPages.push(1)
+      } else if (numberPages.length === 2) {
+        objectPages.push(1, 2)
+      } else {
+        objectPages.push(1, 2, 3)
       }
-      return [1, ...pages, totalPages]
+    } else {
+      objectPages.push(active, active + 1, active + 2)
     }
-    return range(1, totalPages)
+  }else{
+    if(numberPages.length === 2){
+      objectPages.push( active - 1, active)
+    }else if (numberPages.length === active) {
+      objectPages.push(active - 2, active - 1, active)
+    } else {
+      objectPages.push(active - 1, active, active + 1)
+    }
   }
-  const pages = fetchPageNumbers() || []
+
+  // useEffect(() => console.log(objectPages, numberPages, active, "uiui"))
   return (
     <ContentPagination>
       <Pagination>
         <ul className="pagination">
-          {pages.map((page, index) => {
-            if (page === LEFT_PAGE)
-              return (
-                <li key={index} className="page-item">
-                  <a
-                    href="/"
-                    className="page-link"
-                    aria-label="Previous"
-                    onClick={(e) => onPageChanged(e, pageNeighbours * 2 - 1)}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-              )
-
-            if (page === RIGHT_PAGE)
-              return (
-                <li key={index} className="page-item">
-                  <a
-                    className="page-link"
-                    href="/"
-                    aria-label="Next"
-                    onClick={(e) => onPageChanged(e, pageNeighbours * 2 + 1)}
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              )
-
+          <li className="page-item">
+            <button
+              className={'page-link'}
+              aria-label="Previous"
+              onClick={() => {
+                handlePage(1)
+              }}
+            >
+              <span aria-hidden="true">{'<<'}</span>
+            </button>
+          </li>
+          {objectPages.map((page: any) => {
             return (
-              <li key={index} className={`page-item${currentPage === page ? ' active' : ''}`}>
-                <a className="page-link" href="/" onClick={(e) => onPageChanged(e, page)}>
-                  {page}
-                </a>
+              <li key={page} className="page-item">
+                <button
+                  className={active === page ? 'page-link active' : 'page-link'}
+                  aria-label="Previous"
+                  onClick={() => {
+                    handlePage(page)
+                  }}
+                >
+                  <span aria-hidden="true">{page}</span>
+                </button>
               </li>
             )
           })}
+          <li className="page-item">
+            <button
+              className={'page-link'}
+              aria-label="Previous"
+              onClick={() => {
+                handlePage(numberPages.length)
+              }}
+            >
+              <span aria-hidden="true">{'>>'}</span>
+            </button>
+          </li>
         </ul>
       </Pagination>
     </ContentPagination>

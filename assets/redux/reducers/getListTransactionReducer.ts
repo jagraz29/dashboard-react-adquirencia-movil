@@ -6,6 +6,7 @@ const initialState: GetListTransactionReducerType = {
   listTransactionData: {
     transactions: [],
   },
+  loading: false,
 }
 
 const getListTransactionReducer = (
@@ -17,6 +18,18 @@ const getListTransactionReducer = (
       return {
         ...state,
         listTransactionData: action.payload,
+      }
+    }
+    case 'LOADING_TRUE': {
+      return {
+        ...state,
+        loading: true,
+      }
+    }
+    case 'LOADING_FALSE': {
+      return {
+        ...state,
+        loading: false,
       }
     }
     default: {

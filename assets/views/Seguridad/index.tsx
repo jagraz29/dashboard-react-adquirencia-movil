@@ -372,7 +372,7 @@ const Seguridad = () => {
             </CardContentButton>
           </Card>
 
-          <Card>
+          <Card style={{ marginBottom: '100px' }}>
             <CardHeader>
               <CardTitle>Actualizar Contraseña</CardTitle>
             </CardHeader>

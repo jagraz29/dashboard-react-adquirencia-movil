@@ -55,6 +55,10 @@ const AuthComponent = () => {
       return 'Las contraseñas no coinciden.'
     }
 
+    if (!check) {
+      return 'Debe aceptar lo términos y condiciones.'
+    }
+
     return true
   }
 
@@ -177,6 +181,7 @@ const AuthComponent = () => {
                     disabled={disableInput}
                     onChange={handleChangeInput}
                     className="input-auth"
+                    placeholder={'Ingrese su correo'}
                     type="email"
                     value={email}
                     name="email"
@@ -209,11 +214,11 @@ const AuthComponent = () => {
         )}
 
         {location.pathname === '/password/change/' + id && (
-          <div className="auth-container" style={{ height: '72%' }}>
+          <div className="auth-container">
             <form method="post" style={{ padding: '0 2vw' }}>
               <h1 className="auth-title">Cree su nueva contraseña</h1>
               <h2 className="auth-subtitle">
-                Se recomienda para mayor seguridad de su cuenta, la contraseña debe contener minino
+                Se recomienda para mayor seguridad de su cuenta, la contraseña debe contener mínino
                 8 caracteres entre letras y números
               </h2>
               <div className="auth-input">
@@ -221,6 +226,7 @@ const AuthComponent = () => {
                 <input
                   className="input-auth"
                   type="password"
+                  placeholder={'Ingrese su nueva contraseña'}
                   onChange={handleChangeInput}
                   value={password.password}
                   name="password"
@@ -234,6 +240,7 @@ const AuthComponent = () => {
                   type="password"
                   onChange={handleChangeInput}
                   value={password.passwordConfirm}
+                  placeholder={'Repita su nueva contraseña'}
                   name="passwordConfirm"
                   required
                 />
@@ -258,7 +265,7 @@ const AuthComponent = () => {
               </div>
               <div className="button-section">
                 <button
-                  disabled={disableButton || !check}
+                  disabled={disableButton}
                   onClick={handleSubmitPassword}
                   style={{
                     width: '21vw',
@@ -269,7 +276,7 @@ const AuthComponent = () => {
                   className="btn-auth"
                   type="submit"
                 >
-                  {loadButton ? <Spinner /> : 'Cambiar contraseña'}
+                  {loadButton ? <Spinner /> : 'Guardar y continuar'}
                 </button>
               </div>
             </form>

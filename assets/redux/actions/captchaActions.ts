@@ -15,7 +15,6 @@ export const CREATE_SELL_LINK = 'CREATE_SELL_LINK'
 export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 export const GET_LIST_TRANSACTION = 'GET_LIST_TRANSACTION'
 export const GET_TRANSACTION_DETAIL = 'GET_TRANSACTION_DETAIL'
-
 export const GET_SHOW_COLLECT = 'GET_SHOW_COLLECT'
 
 const dataService = new DataService()
@@ -174,7 +173,14 @@ export const editSellLink = (id: number) => async (dispatch: any) => {
 
 export const getListTransactionSite = (filter: string) => async (dispatch: any) => {
   try {
+    dispatch({
+      type: 'LOADING_TRUE',
+    })
     const res = await dataService.get(`api/transaction${filter}`)
+    dispatch({
+      type: 'LOADING_FALSE',
+    })
+    console.log('res getListTransactionSite', res)
     dispatch({
       type: GET_LIST_TRANSACTION,
       payload: res.data.data,
@@ -255,6 +261,18 @@ export const getTransactionDetail = async (id: number) => {
     return res.data.data
   } catch (error) {
     console.log(error)
+    return false
+  }
+}
+
+export const sendTransactionReceiptLast = async (transaction: number, email: string) => {
+  try {
+    const res = await dataService.get(`/api/transaction/send/email/${transaction}/${email}`)
+    console.log('respues de la nueva', res)
+    return res
+  } catch (error) {
+    console.log('ERROR EN LA PETICION DE SEND', error)
+    return false
   }
 }
 
@@ -266,4 +284,41 @@ export const getShowCollect = (id: any) => async (dispatch: any) => {
       payload: res.data,
     })
   } catch (error) {}
+}
+
+export const getTickets = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/list', data)
+    return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const closeTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/close/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const reOpenTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/reopen/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const detailTicket = async (id: number) => {
+  try {
+    const dataRes = await dataService.get(`/api/ticket/detail/${id}`)
+    console.log(dataRes)
+    return dataRes.data.data.ticket
+  } catch (error) {
+    return false
+  }
 }

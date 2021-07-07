@@ -6,7 +6,7 @@ export const StyledTable = styled.table`
   border-collapse: collapse;
   width: 76.5vw;
   margin: 1vw;
-  height: 10vw;
+  position: relative;
   /* border-collapse: separate; */
   /* border-spacing: 5px 10px; */
 
