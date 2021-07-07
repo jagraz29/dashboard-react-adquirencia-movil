@@ -154,13 +154,12 @@ const Seguridad = () => {
   }, [])
 
   const validateSetProfile = () => {
+    setLoadingButton1(false)
     if (setProfile.profileData.status == true) {
       toast.success('Datos Actualizados Correctamente')
-      setLoadingButton1(false)
     }
     if (setProfile.profileData.status == false) {
       toast.error('Error al Actualizar los Datos')
-      setLoadingButton1(false)
     }
   }
 
@@ -367,7 +366,7 @@ const Seguridad = () => {
                 onClick={() => {
                   savePerfil()
                 }}
-                disabled={false}
+                disabled={loadingButton1}
               ></ButtonSpinner>
             </CardContentButton>
           </Card>
@@ -434,7 +433,7 @@ const Seguridad = () => {
                 onClick={() => {
                   savePassword()
                 }}
-                disabled={false}
+                disabled={loadingButton2}
               ></ButtonSpinner>
             </CardContentButton>
           </Card>
