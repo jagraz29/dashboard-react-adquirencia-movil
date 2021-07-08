@@ -28,6 +28,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   ]
   const [alert, setAlert] = useState(false)
   const [buttonLoadModal, setButtonLoadModal] = useState(false)
+  const [idCobra, setIdCobra] = useState(null)
   const history = useHistory()
   const { isShown, toggle } = useModal()
 
@@ -37,7 +38,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
 
   const content = (
     <React.Fragment>
-      <ShareLink />
+      <ShareLink idCobra={idCobra} />
     </React.Fragment>
   )
 
@@ -82,8 +83,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         </body>
                       ) : title == 'link' ? (
                         <body>
-                          <TableTextLink href={'https://link.epayco.xyz/' + item[title]}>
-                            https://link.epayco.xyz/{item[title]}
+                          <TableTextLink href={'https://link.epayco.io/' + item[title]}>
+                            https://link.epayco.io/{item[title]}
                           </TableTextLink>
                         </body>
                       ) : title == 'state' ? (
@@ -114,6 +115,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                     {
                       name: 'Compartir cobro',
                       funcion: () => {
+                        setIdCobra(item['id'])
                         toggle()
                       },
                       validarEstado: true,
@@ -141,7 +143,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         isShown={isShown}
         hide={toggle}
         modalContent={content}
-        headerText={'Compartir link del catálogo'}
+        headerText={'Compartir link de Cobro'}
       />
     </div>
   )

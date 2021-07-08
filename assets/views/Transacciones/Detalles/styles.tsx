@@ -127,7 +127,7 @@ export const ItemGroup = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 12vw;
-  span{
+  span {
     font-weight: bold;
     font-size: 0.8rem;
   }

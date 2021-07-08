@@ -136,7 +136,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         <TableTextStatusPending>{item[title]}</TableTextStatusPending>
                       ) : item[title] == 'Cancelada' || item[title] == 'Rechazada' ? (
                         <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
-                      ) : ( 
+                      ) : (
                         <TableTextStatusOther>{item[title]}</TableTextStatusOther>
                       )}
                     </body>
@@ -161,7 +161,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         name: 'Enviar comprobante',
                         funcion: () => toggle(),
                         validarEstado: true,
-                      }
+                      },
                     ]}
                   ></TableTransaccionesAction>
                 </ContentAction>

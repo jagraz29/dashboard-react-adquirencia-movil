@@ -216,7 +216,6 @@ const Transacciones = () => {
   const [paginas, setPaginas] = useState({})
 
   useEffect(() => {
-
     const {
       listTransactionData: { aggregations, pagination },
     } = getListTransaction
@@ -226,14 +225,13 @@ const Transacciones = () => {
     }
 
     if (aggregations) {
-      const dataStatus:any = Object.keys(aggregations.transactionStatus).map((key) => {
+      const dataStatus: any = Object.keys(aggregations.transactionStatus).map((key) => {
         return {
           key: key,
           doc_count: aggregations.transactionStatus[key].doc_count,
         }
       })
       setStatusTransaction(dataStatus)
-
 
       const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
         const keyCode = getPaymentCode(key)
@@ -244,7 +242,6 @@ const Transacciones = () => {
         }
       })
       setstatusPay(dataPay)
-
 
       let dataCount = 0
       const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
@@ -261,7 +258,6 @@ const Transacciones = () => {
   }, [getListTransaction])
 
   useEffect(() => {
-
     setDataTable(dataListTable)
   }, [dataList])
 
@@ -283,7 +279,7 @@ const Transacciones = () => {
   const handleSubmit = (e: any) => {
     const page = 1
     e.preventDefault()
-    setObjectQuery({ search:input.search })
+    setObjectQuery({ search: input.search })
     // dispatch(getListTransactionSite(`?search=${input.search}`))
     setActiveFilters({ ...activeFilters, page })
   }
@@ -341,7 +337,7 @@ const Transacciones = () => {
   }
 
   function handleReset() {
-    setInput({search:""})
+    setInput({ search: '' })
     setObjectQuery({})
     setDatesValues({ startDate: null, endDate: null })
     setActiveFilters({
@@ -514,7 +510,7 @@ const Transacciones = () => {
             <Card2>
               <CardHeader>
                 <h4>Transacciones</h4>
-                <SearchContainer className="searchContainer"  onSubmit={(e) =>handleSubmit(e)}>
+                <SearchContainer className="searchContainer" onSubmit={(e) => handleSubmit(e)}>
                   <div>
                     <input
                       placeholder="Buscar por Ref.Payco"
@@ -523,7 +519,9 @@ const Transacciones = () => {
                       value={input.search}
                       onChange={(e) => handleInputChange(e)}
                     />
-                    <button onClick={handleReset} type="button" >x</button>
+                    <button onClick={handleReset} type="button">
+                      x
+                    </button>
                   </div>
                   <button className="buttonSeach" type="submit">
                     <FaSearch />
