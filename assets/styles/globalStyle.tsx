@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components'
-import { TABLET } from './breakpoints'
+import { MOBILE, TABLET } from './breakpoints'
 
 export const GlobalStyle = createGlobalStyle`
     h1{
@@ -21,12 +21,20 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
     }
 `
-export const Layout = styled.div`
+export const ContainerRoute = styled.div`
   background-color: #3980be;
-  margin-left: 20vw;
-  height: calc(100vh - 4rem);
-  padding: 1rem;
-  @media (max-width: ${TABLET}) {
-    margin-left: 0;
+  overflow-y: auto;
+  /* height: calc(100vh - 4rem);*/
+  @media (max-width: ${MOBILE}) {
+    background-color: orange;
+    overflow-y: inherit;
+  }
+`
+export const Layout = styled.div`
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 3rem auto 3rem;
+  @media (max-width: ${MOBILE}) {
+    grid-template-rows: 3rem auto 4rem;
   }
 `

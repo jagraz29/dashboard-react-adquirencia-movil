@@ -63,3 +63,8 @@ export const CardsIcons: any = {
   PSE: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
   DEFAULT: 'https://multimedia.epayco.co/dashboard/cards/N/A.png',
 }
+
+export const LogoDaviviendaEpayco = {
+  name: 'LogoDaviviendaEpayco',
+  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logos/logos.png',
+}

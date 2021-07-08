@@ -1,11 +1,18 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
-import { Layout } from '../styles/globalStyle'
+import { ContainerRoute, Layout } from '../styles/globalStyle'
 import routes from './routes'
+import Footer from '../components/Footer'
+import Header from "../components/Header"
 
-const RoutesComponent = () => {
+const RoutesComponent = ({sidebar, setSidebar}:any) => {
+
+ 
   return (
-    <Switch>
+    <Layout >
+
+      <Header sidebar={sidebar} setSidebar={setSidebar}  />
+
       {routes.map((route, index) => (
         <Route
           key={index.toString()}
@@ -15,15 +22,18 @@ const RoutesComponent = () => {
             if (route.component) {
               const Component: React.ElementType = route.component
               return (
-                <Layout>
+                <ContainerRoute>
                   <Component {...props} routes={route.routes} />
-                </Layout>
+                </ContainerRoute>
               )
             }
           }}
         />
       ))}
-    </Switch>
+
+      <Footer/>
+
+    </Layout>
   )
 }
 

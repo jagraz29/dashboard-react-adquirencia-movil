@@ -106,4 +106,23 @@ export const MenuItems = [
       },
     ],
   },
+  {
+    title: 'PRUEBA',
+    path: '/test/route',
+    icon: IconSequrity.url,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpen: <RiIcons.RiArrowUpSFill />,
+    subNav: [
+      {
+        title: 'User',
+        path: '/user/list',
+        icon: <IoIcons.IoIosPaper />,
+      },
+      {
+        title: '2',
+        path: '/user/list2',
+        icon: <IoIcons.IoIosPaper />,
+      },
+    ],
+  },
 ]

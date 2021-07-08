@@ -8,6 +8,7 @@ import { configureStore } from './redux/store'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from './redux/actions'
 
+
 const App = () => {
   const store = configureStore()
   const [tamaño, setTamaño] = useState<any>(
@@ -33,17 +34,19 @@ const App = () => {
     }
   }, [])
 
+  const [sidebar, setSidebar] = useState(false)
+
   return (
     <Provider store={store}>
       <Router>
         {
-          <div>
+          <Layout >
             {location.pathname !== '/password/reset' &&
-              location.pathname.indexOf('password/change') == -1 && <Sidebar></Sidebar>}
-            <Routes />
-            {location.pathname !== '/password/reset' &&
-              location.pathname.indexOf('password/change') == -1 && <Footer></Footer>}
-          </div>
+              location.pathname.indexOf('password/change') == -1 && 
+              <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
+              }
+            <Routes sidebar={sidebar} setSidebar={setSidebar}/>
+          </Layout>
         }
       </Router>
     </Provider>
@@ -51,3 +54,16 @@ const App = () => {
 }
 
 export default App
+
+import styled from 'styled-components'
+import { TABLET, MOBILE } from './styles/breakpoints'
+
+
+export const Layout = styled.div`
+  display: grid; 
+  grid-template-columns: 16rem auto;
+  @media (max-width: ${TABLET}) {
+    grid-template-columns: 100%;
+  }
+
+`

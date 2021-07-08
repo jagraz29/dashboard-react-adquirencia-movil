@@ -6,6 +6,13 @@ body {
   font-weight: normal;
   overflow-x: hidden;
   margin: 0;
+  overflow: hidden;
+}
+@media only screen and (max-width: 430px) {
+  body{
+    overflow: scroll;
+    overflow-x: hidden;
+  }
 }
 
 input:focus,
