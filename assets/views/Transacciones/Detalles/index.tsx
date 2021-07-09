@@ -186,12 +186,12 @@ const TransaccionesDetalles = ({ history }: any) => {
                     <ItemGroup>
                       <ItemTitle>Valor Total</ItemTitle>
                       <NumberFormat
-                          thousandSeparator={true}
-                          prefix={'$'}
-                          suffix={" "+ data.currency}
-                          value={data.amountNet}
-                          displayType={'text'}
-                        />
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        suffix={' ' + data.currency}
+                        value={data.amountNet}
+                        displayType={'text'}
+                      />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -208,12 +208,12 @@ const TransaccionesDetalles = ({ history }: any) => {
                     <ItemGroup>
                       <ItemTitle>IVA</ItemTitle>
                       <NumberFormat
-                          thousandSeparator={true}
-                          prefix={'$'}
-                          suffix={" "+ data.currency}
-                          value={data.tax}
-                          displayType={'text'}
-                        />
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        suffix={' ' + data.currency}
+                        value={data.tax}
+                        displayType={'text'}
+                      />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -230,12 +230,12 @@ const TransaccionesDetalles = ({ history }: any) => {
                     <ItemGroup>
                       <ItemTitle>Base Devolucion IVA</ItemTitle>
                       <NumberFormat
-                          thousandSeparator={true}
-                          prefix={'$'}
-                          suffix={" "+ data.currency}
-                          value={data.taxBaseClient}
-                          displayType={'text'}
-                        />
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        suffix={' ' + data.currency}
+                        value={data.taxBaseClient}
+                        displayType={'text'}
+                      />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -258,12 +258,12 @@ const TransaccionesDetalles = ({ history }: any) => {
                     <ItemGroup>
                       <ItemTitle>Ganancia Cliente</ItemTitle>
                       <NumberFormat
-                          thousandSeparator={true}
-                          prefix={'$'}
-                          suffix={" "+ data.currency}
-                          value={data.amountNet}
-                          displayType={'text'}
-                        />
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        suffix={' ' + data.currency}
+                        value={data.amountNet}
+                        displayType={'text'}
+                      />
                     </ItemGroup>
 
                     <ItemGroup>
@@ -430,17 +430,9 @@ const TransaccionesDetalles = ({ history }: any) => {
                             logss.map((e: any, i: number) => (
                               <LogItem key={i} onClick={() => setLog(e)}>
                                 {e.status === '200' ? (
-                                  <LogStatusSuccess>
-                                    {e.status
-                                      ? e.status
-                                      : '-'}
-                                  </LogStatusSuccess>
+                                  <LogStatusSuccess>{e.status ? e.status : '-'}</LogStatusSuccess>
                                 ) : (
-                                  <LogStatusFailed>
-                                    {e.status
-                                      ? e.status
-                                      : '-'}
-                                  </LogStatusFailed>
+                                  <LogStatusFailed>{e.status ? e.status : '-'}</LogStatusFailed>
                                 )}
                                 <LogMetodo>{e.url ? e.url : ''}</LogMetodo>
                                 <LogHora>
@@ -459,17 +451,9 @@ const TransaccionesDetalles = ({ history }: any) => {
                             {log.response_default ? (
                               <td>-</td>
                             ) : log.status === '200' ? (
-                              <td className="estadoSuccess">
-                                {log.status
-                                  ? log.status
-                                  : '-'}
-                              </td>
+                              <td className="estadoSuccess">{log.status ? log.status : '-'}</td>
                             ) : (
-                              <td className="estadoFailed">
-                                {log.status
-                                  ? log.status
-                                  : '-'}
-                              </td>
+                              <td className="estadoFailed">{log.status ? log.status : '-'}</td>
                             )}
                           </tr>
                           <tr>
