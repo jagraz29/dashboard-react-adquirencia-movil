@@ -8,25 +8,44 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/reducers/index'
 import LoadingBar from '../../../components/LoadingBar'
 import { useParams } from 'react-router'
+import Swal from 'sweetalert2'
 import {
   Content,
   ContentTable,
   CardTableTitle,
   CardTableSubTitle,
   ContentItems,
-  CardTrasactionOk,
+  CardInfoCollect,
   CardTransactionTitle,
   CardTransactionCount,
   CardTransactionDetails,
-  CardPending,
+  CardAction,
   ContentInput,
   ContentInputCard,
   LabelKey,
   TitleKey,
+  ButtonsActions,
+  CardContentButtonAction,
+  ContentPagination,
 } from './styles'
 import { TableTextLink } from '../../../components/TableCobra/styles'
 import { string } from 'prop-types'
 import NumberFormat from 'react-number-format'
+import TablaTransaction from '../../../components/TableTransaction'
+import { toast } from 'react-toastify'
+import Paginations from '../../../components/Pagination'
+import * as AiIcons from 'react-icons/ai'
+import {
+  AiOutlineAlignLeft,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineDelete,
+  AiOutlineVerticalRight,
+  AiTwotoneCopy,
+  AiTwotoneHeart,
+  AiOutlineZoomIn,
+  AiOutlineZoomOut,
+} from 'react-icons/ai'
 
 const breadcrumb = [
   {
@@ -57,7 +76,10 @@ const CollectShow = () => {
   const dataList = viewState.getShowCollect.showCollectData.data
 
   const [dataTable, setDataTable] = useState(dataList.log_transactions)
+  let [data, setData] = useState(viewState.getShowCollect.showCollectData.data.log_transactions)
   const [count, setCount] = useState(0)
+
+  const [paginate, setPaginate] = useState(0)
 
   const idCollect = viewState.getShowCollect.showCollectData.data.id
   const title = viewState.getShowCollect.showCollectData.data.title
@@ -75,6 +97,16 @@ const CollectShow = () => {
 
   useEffect(() => {
     setDataTable(dataList.log_transactions)
+  }, [dataList])
+
+  useEffect(() => {
+    if (typeof dataList.log_transactions !== 'undefined') {
+      if (dataList.log_transactions.length > 3) {
+        setData(dataList.log_transactions.slice(0, 3))
+      } else {
+        setData(dataList)
+      }
+    }
   }, [dataList])
 
   const stateString = (value: any) => {
@@ -127,8 +159,60 @@ const CollectShow = () => {
       ? stateString(viewState.getShowCollect.showCollectData.data.state)
       : ''
 
+  // let data = typeof viewState.getShowCollect.showCollectData.data.log_transactions !== 'undefined' ? tableData(viewState.getShowCollect.showCollectData.data.log_transactions) : ''
+
   const redirectRoute = (path: string) => {
     history.push(path)
+  }
+
+  const shareCollect = (id: any) => {
+    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  }
+
+  const doubleCollect = (id: any) => {
+    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  }
+
+  const deleteCollect = (id: any) => {
+    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  }
+
+  const showMore = () => {
+    let collectLogTransactions =
+      typeof viewState.getShowCollect.showCollectData.data.log_transactions.length !== 'undefined'
+        ? viewState.getShowCollect.showCollectData.data.log_transactions.length
+        : false
+    let value = 0
+    if (collectLogTransactions) {
+      if (collectLogTransactions >= data.length * 2) {
+        value = data.length * 2
+      } else {
+        value = data.length + (collectLogTransactions - data.length)
+      }
+      setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, value))
+    }
+  }
+
+  const showLess = () => {
+    let collectLogTransactions = typeof data.length !== 'undefined' ? data.length : false
+    let value = 0
+    if (collectLogTransactions) {
+      if (
+        collectLogTransactions > 3 &&
+        collectLogTransactions / 2 >= 3 &&
+        collectLogTransactions / 2 <= 5
+      ) {
+        value = collectLogTransactions - 3
+      } else if (collectLogTransactions > 3) {
+        value = collectLogTransactions - (collectLogTransactions - 3)
+      }
+
+      if (value < 3) {
+        setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, 3))
+      } else {
+        setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, value))
+      }
+    }
   }
 
   return (
@@ -137,7 +221,7 @@ const CollectShow = () => {
       <Title title={'Detalle Cobro'}></Title>
       <Content>
         <ContentItems>
-          <CardTrasactionOk>
+          <CardInfoCollect>
             <CardTransactionTitle>Id cobro: {idCollect}</CardTransactionTitle>
             <ContentInput>
               <ContentInputCard>
@@ -187,20 +271,74 @@ const CollectShow = () => {
               </ContentInputCard>
               <ContentInputCard></ContentInputCard>
             </ContentInput>
-          </CardTrasactionOk>
-          <CardPending>
-            <CardTransactionTitle>Transacciones pendientes</CardTransactionTitle>
-            <CardTransactionCount>0</CardTransactionCount>
-            <CardTransactionDetails>Ver detalles</CardTransactionDetails>
-          </CardPending>
+          </CardInfoCollect>
+          <CardAction>
+            <CardTransactionTitle>Acciones</CardTransactionTitle>
+            <CardContentButtonAction>
+              <div></div>
+              <ButtonsActions onClick={() => shareCollect({ id })}>
+                <AiIcons.AiOutlineLink />
+                Compartir cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+            <CardContentButtonAction>
+              <ButtonsActions onClick={() => doubleCollect({ id })}>
+                <AiIcons.AiTwotoneCopy />
+                Duplicar cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+            <CardContentButtonAction>
+              <ButtonsActions onClick={() => deleteCollect({ id })}>
+                <AiIcons.AiOutlineDelete />
+                Eliminar cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+          </CardAction>
         </ContentItems>
 
         <ContentTable>
           <CardTableTitle>Historial de pagos</CardTableTitle>
           <CardTableSubTitle>Lista de los pagos realizados con el link de cobro</CardTableSubTitle>
+          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') ? (
+            dataTable && dataTable.length > 3 ? (
+              <>
+                <TableLogTransactions data={data} titleData={dataTitle} />
+                <ContentPagination>
+                  {dataList.log_transactions.length > data.length ? (
+                    <ContentInputCard>
+                      <ButtonsActions onClick={() => showMore()}>
+                        <AiIcons.AiOutlineZoomIn />
+                        Ver más
+                      </ButtonsActions>
+                    </ContentInputCard>
+                  ) : (
+                    ''
+                  )}
 
-          {dataTable && dataTable.length > 0 ? (
-            <TableLogTransactions data={dataTable} titleData={dataTitle} />
+                  {data.length > 3 ? (
+                    <ContentInputCard>
+                      <ButtonsActions onClick={() => showLess()}>
+                        <AiIcons.AiOutlineZoomOut />
+                        Ver menos
+                      </ButtonsActions>
+                    </ContentInputCard>
+                  ) : (
+                    ''
+                  )}
+                </ContentPagination>
+              </>
+            ) : (
+              <h3
+                style={{
+                  fontSize: '20px',
+                  padding: '1rem',
+                  margin: ' 1rem 0',
+                  fontWeight: 400,
+                }}
+              >
+                No se encontraron registros.
+              </h3>
+            )
           ) : (
             <LoadingBar text={'Cargando...'} />
           )}

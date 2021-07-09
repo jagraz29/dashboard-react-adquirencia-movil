@@ -10,7 +10,6 @@ type Props = {
 }
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
-  console.log('paso a la tabla', data)
   const titles = Object.keys(titleData)
   const datos = Object.keys(data[0])
 
