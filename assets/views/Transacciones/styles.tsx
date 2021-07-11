@@ -56,7 +56,7 @@ export const SearchContainer = styled.form`
   display: grid;
   grid-template-columns: 4fr 1fr;
   margin: 0 1rem;
-  div{
+  div {
     display: grid;
     grid-template-columns: 5fr 1fr;
     input::-webkit-outer-spin-button,
@@ -74,16 +74,16 @@ export const SearchContainer = styled.form`
       height: 35px;
       border-right: none;
     }
-    button{
+    button {
       padding: 0px 0.5em 0px;
       background-color: white;
       border: 1px solid #c5c5c8;
       border-left: none;
-      color:#bababa;
+      color: #bababa;
       font-weight: bold;
-        :hover{
-          color: #5e5e5e;
-        }
+      :hover {
+        color: #5e5e5e;
+      }
     }
   }
   .buttonSeach {
