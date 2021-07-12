@@ -19,7 +19,6 @@ class AuthController extends BaseController
    */
   public function passwordReset(Request $request)
   {
-    $user = $this->getUser();
     $content = $request->getContent();
 
     $content = json_decode($content, true);
@@ -54,11 +53,7 @@ class AuthController extends BaseController
       'private_key' => $consult['privateKey'],
     ];
 
-    $consult = $this->apify->consultWithAlliedEntityKeys(
-      '/client/reset-password',
-      Requests::POST,
-      $data
-    );
+    $this->apify->consultWithAlliedEntityKeys('/client/reset-password', Requests::POST, $data);
 
     return $this->jsonResponse(true, [], 'Correo enviado.');
   }
@@ -94,7 +89,7 @@ class AuthController extends BaseController
       $data
     );
 
-    if (count($consult) == 0) {
+    if (empty($consult)) {
       return $this->jsonResponse(true, [], 'Actualizado correctamente');
     }
 
