@@ -4,7 +4,7 @@ import TableCollectAction from '../TableCollectAction'
 import { useModal } from '../../components/hooks/useModal'
 import { ModalComp } from '../../components/modalComp'
 import ShareLink from '../../components/ShareLink'
-import { getDeleteCollect, } from '../../redux/actions'
+import { getDeleteCollect } from '../../redux/actions'
 import Swal from 'sweetalert2'
 
 import NumberFormat from 'react-number-format'
@@ -43,7 +43,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
     </React.Fragment>
   )
 
-  const deleteCollectModal = (id:any) => {
+  const deleteCollectModal = (id: any) => {
     Swal.fire({
       title: '¿Seguro que desea eliminar el link de cobro?',
       text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',
@@ -63,7 +63,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
     })
   }
 
-  const deleteCollect = async (id:any) => {
+  const deleteCollect = async (id: any) => {
     const response = await getDeleteCollect(id)
     if (response.status) {
       Swal.fire({

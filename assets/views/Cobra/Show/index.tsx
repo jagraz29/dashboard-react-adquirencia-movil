@@ -171,13 +171,13 @@ const CollectShow = () => {
   }
 
   const content = (
-      <React.Fragment>
-        <ShareLink />
-      </React.Fragment>
+    <React.Fragment>
+      <ShareLink />
+    </React.Fragment>
   )
 
   const shareCollect = () => {
-      toggle()
+    toggle()
   }
 
   const duplicateCollectModal = () => {
@@ -323,8 +323,7 @@ const CollectShow = () => {
         <ContentItems>
           <CardInfoCollect>
             <CarTitle>
-              <CardTitleConten>Id cobro: {idCollect}
-              </CardTitleConten>
+              <CardTitleConten>Id cobro: {idCollect}</CardTitleConten>
               <ButtonsEdit onClick={() => editCollect()}>
                 <AiIcons.AiOutlineEdit />
                 Editar
@@ -454,10 +453,10 @@ const CollectShow = () => {
         </ContentTable>
       </Content>
       <ModalComp
-          isShown={isShown}
-          hide={toggle}
-          modalContent={content}
-          headerText={'Compartir link del catálogo'}
+        isShown={isShown}
+        hide={toggle}
+        modalContent={content}
+        headerText={'Compartir link del catálogo'}
       />
     </div>
   )
