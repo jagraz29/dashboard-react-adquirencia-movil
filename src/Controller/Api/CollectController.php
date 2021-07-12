@@ -123,7 +123,7 @@ class CollectController extends BaseController
       ],
     ];
 
-    $collectLink = $this->apify->consult('collection/show', Requests::POST, $filter);
+    $collectLink = $this->apify->consult('collection/link/show', Requests::POST, $filter);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
