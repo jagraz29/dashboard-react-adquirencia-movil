@@ -1,1 +1,116 @@
 @import url('https://cdn.syncfusion.com/ej2/material.css');
+
+#element {
+  max-width: 550px;
+  margin: 50px auto;
+}
+
+iframe {
+  height: 500px;
+}
+
+#loader {
+  color: #4463b9;
+  height: 40px;
+  left: 45%;
+  position: absolute;
+  top: 45%;
+  width: 30%;
+}
+.customCSS .e-calendar .e-content .e-selected span.e-day, /* csslint allow: adjoining-classes */
+.customCSS .e-calendar .e-content .e-selected span.e-day:hover, /* csslint allow: adjoining-classes */
+.customCSS .e-calendar .e-content .e-today.e-selected:hover span.e-day, /* csslint allow: adjoining-classes */
+.customCSS .e-calendar .e-content .e-today.e-selected span.e-day, /* csslint allow: adjoining-classes */
+.customCSS .e-calendar .e-content .e-selected:hover span.e-day /* csslint allow: adjoining-classes */ {
+  background-color: none;
+}
+.customCSS .e-calendar .e-content .e-today span.e-day, /* csslint allow: adjoining-classes */ 
+.customCSS .e-calendar .e-content .e-focused-date.e-today span.e-day {
+  /* csslint allow: adjoining-classes */
+  border: 1px solid #0000;
+  color: aliceblue;
+  background-color: #4463b9;
+}
+
+.e-calendar .e-content td.e-today:hover span.e-day,
+.e-calendar .e-content td.e-focused-date.e-today:hover span.e-day,
+.e-calendar .e-content td.e-focused-date.e-today:focus span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today:hover span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-focused-date.e-today:hover span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-focused-date.e-today:focus span.e-day {
+  background-color: transparent;
+  border: 1px solid #4463b9;
+  color: #4463b9;
+}
+.customCSS .e-calendar .e-content .e-weekend span {
+  /* csslint allow: adjoining-classes */
+  color: #4463b9;
+}
+.customCSS.e-date-range-wrapper .e-input-group-icon.e-icons.e-active, /* csslint allow: adjoining-classes */
+.customCSS .e-btn.e-flat, /* csslint allow: adjoining-classes */
+.customCSS .e-btn.e-flat:hover {
+  /* csslint allow: adjoining-classes */
+  color: #4463b9;
+}
+.e-daterangepicker.e-popup .e-calendar .e-end-date.e-selected.e-range-hover span.e-day,
+.e-daterangepicker.e-popup .e-calendar .e-start-date.e-selected.e-range-hover span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-end-date.e-selected.e-range-hover
+  span.e-day,
+.e-bigger.e-small
+  .e-daterangepicker.e-popup
+  .e-calendar
+  .e-start-date.e-selected.e-range-hover
+  span.e-day {
+  background-color: #4463b9;
+  color: #fff;
+}
+
+.e-calendar .e-content td.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected span.e-day {
+  background-color: #4463b9;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.e-calendar .e-content td.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-selected span.e-day {
+  background-color: #4463b9;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.e-btn.e-primary,
+.e-css.e-btn.e-primary {
+  background-color: #4463b9;
+  border-color: transparent;
+  color: #fff;
+}
+
+.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary {
+  background-color: transparent;
+  border-color: transparent;
+  color: #4463b9;
+}
+
+.e-btn.e-flat.e-primary:hover,
+.e-css.e-btn.e-flat.e-primary:hover {
+  background-color: rgba(227, 22, 91, 0.04);
+  border-color: transparent;
+  color: #4463b9;
+}
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+.e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before,
+.e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after {
+  background: #4463b9;
+}

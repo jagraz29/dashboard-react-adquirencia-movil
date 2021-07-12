@@ -33,6 +33,7 @@ function DatePick(props: any) {
         format="dd-MM-yy"
         change={onChange}
         cleared={() => console.log('se cleared')}
+        cssClass="customCSS"
         //Uncomment below code to show month range picker. Also comment the properties min, max, mindays and maxdays
         // start="Year"
         // depth="Year"
