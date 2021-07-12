@@ -76,22 +76,50 @@ export const CardInfoCollect = styled.div`
   left: 0vw;
 `
 
-export const CardTransactionTitle = styled.h2`
-  margin-left: 1vw;
+export const CarTitle = styled.div`
   margin-top: 1vw;
   margin-bottom: 1vw;
   position: relative;
   display: flex;
+  border-bottom: 1px solid #d3d3d3;
+  padding-bottom: 1vw;
+  width: 100%;
+`
+
+export const CardTitleConten = styled.span`
+  margin-left: 4%;
   justify-content: center;
-  flex-direction: column;
   font-family: Segoe UI;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
   line-height: 24px;
   color: #000000;
-  border-bottom: 1px solid #d3d3d3;
-  padding-bottom: 1vw;
+  width: 70%;
+`
+
+export const ButtonsEdit = styled.button`
+  font-size: 1vw;
+  border: 1px solid #58d3f7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 15%;
+  margin-left: 10%;
+  height: 2.1vw;
+  top: 5vw;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  :hover {
+    background: hsl(200, 90%, 45%);
+    color: white;
+  }
+  ,
+  :focus {
+    background: white;
+    color: #58d3f7;
+  }
 `
 
 export const CardTransactionCount = styled.span`

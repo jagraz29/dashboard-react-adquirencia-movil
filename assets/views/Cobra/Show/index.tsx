@@ -9,6 +9,9 @@ import { RootState } from '../../../redux/reducers/index'
 import LoadingBar from '../../../components/LoadingBar'
 import { useParams } from 'react-router'
 import Swal from 'sweetalert2'
+import { useModal } from '../../../components/hooks/useModal'
+import { ModalComp } from '../../../components/modalComp'
+import ShareLink from '../../../components/ShareLink'
 import {
   Content,
   ContentTable,
@@ -16,7 +19,7 @@ import {
   CardTableSubTitle,
   ContentItems,
   CardInfoCollect,
-  CardTransactionTitle,
+  CardTitleConten,
   CardTransactionCount,
   CardTransactionDetails,
   CardAction,
@@ -27,6 +30,8 @@ import {
   ButtonsActions,
   CardContentButtonAction,
   ContentPagination,
+  CarTitle,
+  ButtonsEdit,
 } from './styles'
 import { TableTextLink } from '../../../components/TableCobra/styles'
 import { string } from 'prop-types'
@@ -71,6 +76,8 @@ const CollectShow = () => {
   let { id }: any = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const { isShown, toggle } = useModal()
 
   const viewState: RootState = useSelector((state: RootState) => state)
   const dataList = viewState.getShowCollect.showCollectData.data
@@ -163,8 +170,14 @@ const CollectShow = () => {
     history.push(path)
   }
 
-  const shareCollect = (id: any) => {
-    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  const content = (
+      <React.Fragment>
+        <ShareLink />
+      </React.Fragment>
+  )
+
+  const shareCollect = () => {
+      toggle()
   }
 
   const duplicateCollectModal = () => {
@@ -294,8 +307,12 @@ const CollectShow = () => {
         showConfirmButton: false,
         showCloseButton: false,
       })
-      // redirectRoute('/cobra')
+      redirectRoute('/cobra')
     }
+  }
+
+  const editCollect = () => {
+    redirectRoute(`/cobra/edit/${id}`)
   }
 
   return (
@@ -305,7 +322,14 @@ const CollectShow = () => {
       <Content>
         <ContentItems>
           <CardInfoCollect>
-            <CardTransactionTitle>Id cobro: {idCollect}</CardTransactionTitle>
+            <CarTitle>
+              <CardTitleConten>Id cobro: {idCollect}
+              </CardTitleConten>
+              <ButtonsEdit onClick={() => editCollect()}>
+                <AiIcons.AiOutlineEdit />
+                Editar
+              </ButtonsEdit>
+            </CarTitle>
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Titulo del cobro</TitleKey>
@@ -356,10 +380,12 @@ const CollectShow = () => {
             </ContentInput>
           </CardInfoCollect>
           <CardAction>
-            <CardTransactionTitle>Acciones</CardTransactionTitle>
+            <CarTitle>
+              <CardTitleConten>Acciones</CardTitleConten>
+            </CarTitle>
             <CardContentButtonAction>
               <div></div>
-              <ButtonsActions onClick={() => shareCollect({ id })}>
+              <ButtonsActions onClick={() => shareCollect()}>
                 <AiIcons.AiOutlineLink />
                 Compartir cobro
               </ButtonsActions>
@@ -427,6 +453,12 @@ const CollectShow = () => {
           )}
         </ContentTable>
       </Content>
+      <ModalComp
+          isShown={isShown}
+          hide={toggle}
+          modalContent={content}
+          headerText={'Compartir link del catálogo'}
+      />
     </div>
   )
 }
