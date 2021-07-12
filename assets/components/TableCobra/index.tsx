@@ -6,6 +6,9 @@ import { ModalComp } from '../../components/modalComp'
 import ShareLink from '../../components/ShareLink'
 import { getDeleteCollect } from '../../redux/actions'
 import Swal from 'sweetalert2'
+import { getListCollect } from '../../redux/actions'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/reducers/index'
 
 import NumberFormat from 'react-number-format'
 import { useHistory } from 'react-router-dom'
@@ -43,6 +46,12 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
     </React.Fragment>
   )
 
+  const dispatch = useDispatch()
+
+  const handleReset = () => {
+    dispatch(getListCollect(''))
+  }
+
   const deleteCollectModal = (id: any) => {
     Swal.fire({
       title: '¿Seguro que desea eliminar el link de cobro?',
@@ -66,6 +75,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const deleteCollect = async (id: any) => {
     const response = await getDeleteCollect(id)
     if (response.status) {
+      dispatch(getListCollect(''))
+      redirectRoute('/cobra')
       Swal.fire({
         title: 'Cobro',
         text: 'Eliminado correctamente.',
@@ -75,7 +86,6 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         showConfirmButton: false,
         showCloseButton: false,
       })
-      redirectRoute('/cobra')
     } else {
       Swal.fire({
         icon: 'error',
