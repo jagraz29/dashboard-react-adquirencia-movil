@@ -3,7 +3,7 @@ import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
 import TableLogTransactions from '../../../components/TableLogTransactions'
 import { useHistory } from 'react-router-dom'
-import { getShowCollect } from '../../../redux/actions'
+import { getShowCollect, getDeleteCollect, getDuplicateCollect } from '../../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/reducers/index'
 import LoadingBar from '../../../components/LoadingBar'
@@ -78,7 +78,7 @@ const CollectShow = () => {
   const [dataTable, setDataTable] = useState(dataList.log_transactions)
   let [data, setData] = useState(viewState.getShowCollect.showCollectData.data.log_transactions)
   const [count, setCount] = useState(0)
-
+  const [loadingButton, setLoadingButton] = useState(false)
   const [paginate, setPaginate] = useState(0)
 
   const idCollect = viewState.getShowCollect.showCollectData.data.id
@@ -159,8 +159,6 @@ const CollectShow = () => {
       ? stateString(viewState.getShowCollect.showCollectData.data.state)
       : ''
 
-  // let data = typeof viewState.getShowCollect.showCollectData.data.log_transactions !== 'undefined' ? tableData(viewState.getShowCollect.showCollectData.data.log_transactions) : ''
-
   const redirectRoute = (path: string) => {
     history.push(path)
   }
@@ -169,12 +167,45 @@ const CollectShow = () => {
     Swal.fire('Oops...', 'Something went wrong!', 'error')
   }
 
-  const doubleCollect = (id: any) => {
-    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  const duplicateCollectModal = () => {
+    Swal.fire(
+        {
+          title: '¿Seguro que desea duplicar el link de cobro?',
+          icon: 'warning',
+          showCancelButton: true,
+          showCloseButton: true,
+          allowOutsideClick: false,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Duplicar',
+          cancelButtonColor: '#1c0e49',
+          confirmButtonColor: '#e67e22',
+          reverseButtons: true
+        }).then((result) => {
+      if (result.isConfirmed) {
+        duplicateCollect()
+      }
+    })
   }
 
-  const deleteCollect = (id: any) => {
-    Swal.fire('Oops...', 'Something went wrong!', 'error')
+  const deleteCollectModal = () => {
+    Swal.fire(
+      {
+        title: '¿Seguro que desea eliminar el link de cobro?',
+        text: "Una vez lo elimine no podrá recuperar la URL, ni la información",
+        icon: 'warning',
+        showCancelButton: true,
+        showCloseButton: true,
+        allowOutsideClick: false,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar',
+        cancelButtonColor: '#1c0e49',
+        confirmButtonColor: '#e67e22',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteCollect()
+        }
+      })
   }
 
   const showMore = () => {
@@ -212,6 +243,60 @@ const CollectShow = () => {
       } else {
         setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, value))
       }
+    }
+  }
+  
+  const deleteCollect = async () => {
+    const response = await getDeleteCollect(id)
+    if (response.status) {
+      Swal.fire({
+        title: 'Cobro',
+        text: 'Eliminado correctamente.',
+        timer: 3000,
+        icon:'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador!',
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    }
+  }
+
+  const duplicateCollect = async () => {
+    const response = await getDuplicateCollect(id)
+    if (response.status) {
+      Swal.fire({
+        title: 'Cobro',
+        text: 'Duplicado correctamente.',
+        timer: 3000,
+        icon:'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador!',
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      // redirectRoute('/cobra')
     }
   }
 
@@ -282,13 +367,13 @@ const CollectShow = () => {
               </ButtonsActions>
             </CardContentButtonAction>
             <CardContentButtonAction>
-              <ButtonsActions onClick={() => doubleCollect({ id })}>
+              <ButtonsActions onClick={() => duplicateCollectModal( )}>
                 <AiIcons.AiTwotoneCopy />
                 Duplicar cobro
               </ButtonsActions>
             </CardContentButtonAction>
             <CardContentButtonAction>
-              <ButtonsActions onClick={() => deleteCollect({ id })}>
+              <ButtonsActions onClick={() => deleteCollectModal()}>
                 <AiIcons.AiOutlineDelete />
                 Eliminar cobro
               </ButtonsActions>

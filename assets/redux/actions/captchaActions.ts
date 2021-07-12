@@ -322,3 +322,21 @@ export const detailTicket = async (id: number) => {
     return false
   }
 }
+
+export const getDeleteCollect = async (id: any) => {
+  try {
+    const dataRes = await dataService.get(`/api/collect/delete/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const getDuplicateCollect = async (id: any) => {
+  try {
+    const dataRes = await dataService.get(`/api/collect/duplicate/${id}`)
+    return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
