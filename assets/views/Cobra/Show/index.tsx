@@ -168,19 +168,18 @@ const CollectShow = () => {
   }
 
   const duplicateCollectModal = () => {
-    Swal.fire(
-        {
-          title: '¿Seguro que desea duplicar el link de cobro?',
-          icon: 'warning',
-          showCancelButton: true,
-          showCloseButton: true,
-          allowOutsideClick: false,
-          cancelButtonText: 'Cancelar',
-          confirmButtonText: 'Duplicar',
-          cancelButtonColor: '#1c0e49',
-          confirmButtonColor: '#e67e22',
-          reverseButtons: true
-        }).then((result) => {
+    Swal.fire({
+      title: '¿Seguro que desea duplicar el link de cobro?',
+      icon: 'warning',
+      showCancelButton: true,
+      showCloseButton: true,
+      allowOutsideClick: false,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Duplicar',
+      cancelButtonColor: '#1c0e49',
+      confirmButtonColor: '#e67e22',
+      reverseButtons: true,
+    }).then((result) => {
       if (result.isConfirmed) {
         duplicateCollect()
       }
@@ -188,24 +187,23 @@ const CollectShow = () => {
   }
 
   const deleteCollectModal = () => {
-    Swal.fire(
-      {
-        title: '¿Seguro que desea eliminar el link de cobro?',
-        text: "Una vez lo elimine no podrá recuperar la URL, ni la información",
-        icon: 'warning',
-        showCancelButton: true,
-        showCloseButton: true,
-        allowOutsideClick: false,
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Eliminar',
-        cancelButtonColor: '#1c0e49',
-        confirmButtonColor: '#e67e22',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          deleteCollect()
-        }
-      })
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el link de cobro?',
+      text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',
+      icon: 'warning',
+      showCancelButton: true,
+      showCloseButton: true,
+      allowOutsideClick: false,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      cancelButtonColor: '#1c0e49',
+      confirmButtonColor: '#e67e22',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCollect()
+      }
+    })
   }
 
   const showMore = () => {
@@ -245,7 +243,7 @@ const CollectShow = () => {
       }
     }
   }
-  
+
   const deleteCollect = async () => {
     const response = await getDeleteCollect(id)
     if (response.status) {
@@ -253,7 +251,7 @@ const CollectShow = () => {
         title: 'Cobro',
         text: 'Eliminado correctamente.',
         timer: 3000,
-        icon:'success',
+        icon: 'success',
         showCancelButton: false,
         showConfirmButton: false,
         showCloseButton: false,
@@ -280,7 +278,7 @@ const CollectShow = () => {
         title: 'Cobro',
         text: 'Duplicado correctamente.',
         timer: 3000,
-        icon:'success',
+        icon: 'success',
         showCancelButton: false,
         showConfirmButton: false,
         showCloseButton: false,
@@ -367,7 +365,7 @@ const CollectShow = () => {
               </ButtonsActions>
             </CardContentButtonAction>
             <CardContentButtonAction>
-              <ButtonsActions onClick={() => duplicateCollectModal( )}>
+              <ButtonsActions onClick={() => duplicateCollectModal()}>
                 <AiIcons.AiTwotoneCopy />
                 Duplicar cobro
               </ButtonsActions>
