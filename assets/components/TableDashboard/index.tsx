@@ -6,8 +6,17 @@ import {
   TableTextStatusOK,
   TableTextStatusPending,
   TableTextStatusCancel,
+  ResponsiveTableDashboard,
+  ContainerBox,
+  ContentItem,
+  ClaveField,
+  ValueItem,
+  ValueStatus,
+  TableTextStatusOther
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
+import { Link } from 'react-router-dom'
+import NumberFormat from 'react-number-format'
 
 type Props = {
   data: {}[]
@@ -15,12 +24,22 @@ type Props = {
   titleData: {}[]
 }
 
+const fields:any={
+  referencePayco:"Ref.Payco",
+  referenceClient: "Ref.Cliente",
+  description:"Descripción",
+  paymentMethod:"Medio de pago",
+  amount:"Valor",
+  currency:"Moneda",
+  status:"Estado"
+}
+
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
-  const titles = Object.keys(titleData)
+  
   const titless = Object.keys(data[0])
 
-  console.log(data)
   return (
+    <>
     <StyledTable>
       <colgroup>
         <col />
@@ -42,11 +61,11 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             {titless.map((title: any, index: number) => (
               <td key={index}>
                 {index == 0 ? (
-                  <body>
-                    <TableTextLink href={'https://epayco.link/' + item[title]}>
+                  <TableTextLink>
+                    <Link to={`/transacciones/detalles/${item[title]}`}>
                       {item[title]}
-                    </TableTextLink>
-                  </body>
+                    </Link>
+                  </TableTextLink>
                 ) : index == 5 ? (
                   <body>
                     <TableTextMoneda>{item[title]}</TableTextMoneda>
@@ -61,15 +80,26 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                       <TableTextStatusOK>{item[title]}</TableTextStatusOK>
                     ) : item[title] == 'Pendiente' ? (
                       <TableTextStatusPending>{item[title]}</TableTextStatusPending>
-                    ) : item[title] == 'Fallida' ? (
+                    ) : item[title] == 'Rechazada'? (
                       <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
                     ) : item[title] == 'Cancelada' ? (
                       <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
                     ) : (
-                      <body>{item[title]}</body>
+                      <TableTextStatusOther>{item[title]}</TableTextStatusOther>
                     )}
                   </body>
-                ) : (
+                ) : 
+                 index == 4 ? (
+                  <body>
+                    <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[title]}
+                          displayType={'text'}
+                        />
+                  </body>
+                )
+                :(
                   <body>{item[title]}</body>
                 )}
               </td>
@@ -77,14 +107,42 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           </tr>
         ))}
       </tbody>
-      {/* <tfoot>
-            <tr>
-              {titles.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
-          </tfoot> */}
     </StyledTable>
+    <ResponsiveTableDashboard>
+          {
+            data.map((item:any)=>{
+              const cajas= Object.keys(fields).map((clave:any)=>(
+                  <ContentItem>
+                    <ClaveField>{fields[clave]}</ClaveField>
+                    {
+                      fields[clave] === "Ref.Payco"?
+                      <Link to={`/transacciones/detalles/${item[clave]}`}>{item[clave]}</Link>
+                      :
+                      fields[clave] === "Valor"?
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[clave]}
+                          displayType={'text'}
+                        />
+                      :
+                      fields[clave] === "Estado"?
+                      <ValueStatus data-estado={item[clave]}>{item[clave]}</ValueStatus>
+                      :
+                      fields[clave] === "Medio de pago"?
+                      <MedioPago type={item[clave]}></MedioPago>
+                      :
+                      <ValueItem>{item[clave]}</ValueItem>
+                    }
+                  </ContentItem>
+              ))
+                return <ContainerBox>
+                  {cajas}
+                </ContainerBox>
+            })
+          }
+    </ResponsiveTableDashboard>
+    </>
   )
 }
 

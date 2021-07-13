@@ -180,7 +180,6 @@ export const getListTransactionSite = (filter: string) => async (dispatch: any) 
     dispatch({
       type: 'LOADING_FALSE',
     })
-    console.log('res getListTransactionSite', res)
     dispatch({
       type: GET_LIST_TRANSACTION,
       payload: res.data.data,

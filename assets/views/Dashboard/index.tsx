@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import AvatarDashboard from '../../components/AvatarDashboard/'
 import { IconLink } from '../../config/configImages'
-import { StorageData } from '../../services/storegeData'
 
-import { Content, ContentPay, ContentItems, ContentTable, CardTableTitle } from './styles'
+import { Content,
+   ContentPay, 
+   ContentItems, 
+   ContentTable,
+    CardTableTitle, 
+    ConteinerUser, 
+    ContainerCobro,
+    NotUserImage,
+    NameContent,
+    BoxLink,
+    CardTransaction
+  }
+ from './styles'
 
 import TablaDashboard from '../../components/TableDashboard'
-import { datos } from './data'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { getListTransactionSite } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
+import LoadingBar from '../../components/LoadingBar'
+import Avatar from '../../components/Avatar'
 
 const dataTitle = [
   'Ref.Payco',
@@ -23,39 +34,42 @@ const dataTitle = [
 ]
 
 const index = () => {
-  const [dataUser, setDataUser] = useState(new StorageData().getData())
   const dispatch = useDispatch()
   const history = useHistory()
 
   const viewState: RootState = useSelector((state: RootState) => state)
+  const {companyName, logo} = viewState.captcha.userData.data
 
   const dataList = viewState.getListTransaction.listTransactionData.transactions
+  const dataStatus = viewState.getListTransaction.listTransactionData.aggregations?.transactionStatus
+  
+  const [dataListTable, setDataListTable] = useState([])
 
-  const dataListTable = dataList.map((item: any) => {
-    const {
-      referencePayco,
-      referenceClient,
-      description,
-      paymentMethod,
-      amount,
-      currency,
-      status,
-    } = item
-    return {
-      referencePayco,
-      referenceClient,
-      description,
-      paymentMethod,
-      amount,
-      currency,
-      status,
-    }
-  })
 
-  console.log('MY array', dataListTable)
+  useEffect(() => {
+    const aux = dataList.map((item: any) => {
+      const {
+        referencePayco,
+        referenceClient,
+        description,
+        paymentMethod,
+        amount,
+        currency,
+        status,
+      } = item
+      return {
+        referencePayco,
+        referenceClient,
+        description,
+        paymentMethod,
+        amount,
+        currency,
+        status,
+      }
+    })
+    setDataListTable(aux)
+  },[dataList])
 
-  const [dataTable, setDataTable] = useState(dataList)
-  const [count, setCount] = useState(0)
 
   const redirectRoute = (path: string) => {
     history.push(path)
@@ -63,61 +77,62 @@ const index = () => {
 
   useEffect(() => {
     dispatch(getListTransactionSite('?limit=3'))
-  }, [count])
-
-  useEffect(() => {
-    setDataTable(dataList)
-  }, [dataList])
-
-  useEffect(() => {
-    setDataUser(new StorageData().getData())
   }, [])
-
-  console.log(dataList)
-
+ 
   return (
     <Content>
       <ContentPay>
-        <div className="userContent">
-          <div>
-            <img src={dataUser.logo}></img>
+        <ConteinerUser >
+          {logo?
+          <div className="notImage">
+            <Avatar srcImage={logo} size={"75px"} />
           </div>
-          <div>
-            <h1>¡ Hola {dataUser.companyName} !</h1>
-            <div>
-              <p>Ya puedes empezar a cobrar.</p>
-              <label>Tipo de cuenta:</label>
-              <p>Personal</p>
+            :
+            <NotUserImage></NotUserImage>
+          }
+          <NameContent>
+            <h1>¡ Hola {companyName} !</h1>
+            <div className="typePerson">
+              <p><b>Ya puedes empezar a cobrar.</b></p>
+              <label>Tipo de cuenta: <b>Persona</b> </label>
             </div>
-          </div>
-        </div>
-        <div className="cobroContent">
+          </NameContent>
+        </ConteinerUser>
+        <ContainerCobro>
           <h1>Herramienta de cobro</h1>
-          <div onClick={() => redirectRoute('/cobra')}>
+          <BoxLink onClick={() => redirectRoute('/cobra')}>
             <img src={IconLink.url} />
             <p>Crear y compartir un link de cobra</p>
-          </div>
-        </div>
+          </BoxLink>
+        </ContainerCobro>
       </ContentPay>
+
       <ContentItems>
-        <div>
-          <h1>Transacciones aprobadas</h1>
-          <label>0</label>
-          <a>Ver detalles</a>
-        </div>
-        <div>
-          <h1>Transacciones pendientes</h1>
-          <label>0</label>
-          <a>Ver detalles</a>
-        </div>
+        <CardTransaction>
+          <h4>Transacciones aprobadas</h4>
+          <h2>{dataStatus? dataStatus.Aceptada.doc_count:"0"}</h2>
+          <Link to="#">Ver detalle</Link>
+        </CardTransaction>
+
+        <CardTransaction>
+          <h4>Transacciones pendientes</h4>
+          <h2>{dataStatus? dataStatus.Pendiente.doc_count:"0"}</h2>
+          <Link to="#">Ver detalle</Link>
+        </CardTransaction>
       </ContentItems>
+      
       <ContentTable>
         <CardTableTitle>Últimas Transacciones</CardTableTitle>
-        {dataListTable && dataListTable.length > 0 ? (
-          <TablaDashboard data={dataListTable} titleData={dataTitle} />
-        ) : (
-          console.log('loading')
-        )}
+        {
+          dataListTable.length > 0 
+            ?
+              <TablaDashboard data={dataListTable} titleData={dataTitle} />
+            : 
+            <div>
+              <LoadingBar text={'Cargando...'}/>
+            </div>
+          }
+        
       </ContentTable>
     </Content>
   )

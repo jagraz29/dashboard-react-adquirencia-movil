@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { TABLET, MOBILE } from '../../styles/breakpoints'
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -51,30 +52,100 @@ export const StyledTable = styled.table`
     font-size: 13px;
     line-height: 17px;
   }
+
+  @media (max-width: ${MOBILE}) {
+    display: none;
+  }
+`
+export const ResponsiveTableDashboard = styled.div`
+display: none;
+@media (max-width: ${MOBILE}) {
+    display: block;
+  }
+`
+export const ContainerBox = styled.div`
+display: none;
+
+  @media (max-width: ${MOBILE}) {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      margin: 1rem;
+      padding: 0.5rem;
+   }
+
+`
+export const ContentItem = styled.div`
+display: none;
+   @media (max-width: ${MOBILE}) {
+      display: flex;
+      flex-direction: row;
+      justify-content:space-between;
+      margin: 0.2rem 0;
+      a{
+        text-decoration: none;
+        color: #40A8E6;
+        font-weight: 500;
+      }
+  }
+
+`
+export const ClaveField = styled.label`
+
+   @media (max-width: ${MOBILE}) {
+    font-weight: 700;
+    
+  }
+
+`
+export const ValueItem = styled.label`
+
+  @media (max-width: ${MOBILE}) {
+    text-align: end;
+  }
+`
+export const ValueStatus = styled.label`
+
+  @media (max-width: ${MOBILE}) {
+    text-align: end;
+    color: ${(props: any) => 
+      (props['data-estado'] === "Aceptada"? "#67C940": 
+      props['data-estado'] === "Rechazada"? "#ff6660":
+      props['data-estado'] === "Pendiente"? "orange":
+      "black"
+      )};
+    font-weight:700;
+  }
 `
 
 export const TableTextMoneda = styled.h2`
   font-weight: bold;
-  font-size: 1vw;
+  font-size: 13px;
 `
 
-export const TableTextLink = styled.a`
-  font-weight: normal;
-  font-size: 1vw;
-  color: #40a8e6;
-  text-decoration: none;
+export const TableTextLink = styled.body`
+  a{
+    font-weight: normal;
+    font-size: 13px;
+    color: #40a8e6;
+    text-decoration: none;
+  }
 `
 export const TableTextStatusOK = styled.h1`
   color: green;
-  font-size: 1vw;
+  font-size: 13px;
 `
 
 export const TableTextStatusPending = styled.h1`
   color: orange;
-  font-size: 1vw;
+  font-size: 13px;
 `
 
 export const TableTextStatusCancel = styled.h1`
   color: red;
-  font-size: 1vw;
+  font-size: 13px;
+`
+export const TableTextStatusOther = styled.h1`
+  font-size: 13px;
 `

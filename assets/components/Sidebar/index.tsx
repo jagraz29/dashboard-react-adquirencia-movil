@@ -25,14 +25,12 @@ const index = ({sidebar, setSidebar}:any) => {
   return (
     <NavContainer>
       <SidebarNav data-show={sidebar} >
-        <SidebarWrap>
+        <SidebarWrap  data-show={sidebar}>
           {
-            sidebar?
-            <IconLeftMenu onClick={() => setSidebar(!sidebar)}>
+            <IconLeftMenu data-show={sidebar} onClick={() => setSidebar(!sidebar)}>
               <AiOutlineLeft/>
             </IconLeftMenu>
-            :
-            ""
+            
           }
           <img width="80%" src={LogoDaviviendaEpayco.url}></img>
           <div>

@@ -22,12 +22,10 @@ export const GlobalStyle = createGlobalStyle`
     }
 `
 export const ContainerRoute = styled.div`
-  background-color: #3980be;
   overflow-y: auto;
   /* height: calc(100vh - 4rem);*/
   @media (max-width: ${MOBILE}) {
-    background-color: orange;
-    overflow-y: inherit;
+    /* background-color: orange; */
   }
 `
 export const Layout = styled.div`
@@ -37,4 +35,15 @@ export const Layout = styled.div`
   @media (max-width: ${MOBILE}) {
     grid-template-rows: 3rem auto 4rem;
   }
+`
+export const ContainerLayout = styled.div`
+  display: grid; 
+  grid-template-columns: 16rem auto;
+  @media (max-width: ${TABLET}) {
+    grid-template-columns: 100%;
+  }
+  @media (max-width: ${MOBILE}) {
+    overflow: auto;
+  }
+
 `

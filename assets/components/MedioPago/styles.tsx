@@ -7,6 +7,5 @@ export const ContentMedioPago = styled.div`
   align-items: center;
 `
 export const MedioPagoImg = styled.img`
-  width: 1vw;
-  width: 4vw;
+  width: 3rem;
 `

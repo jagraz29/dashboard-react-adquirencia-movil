@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import { Header, AvatarImg, ContainerUser, ContainerButtonMenu } from './style'
+import { Header, AvatarImg, ContainerUser, ContainerButtonMenu, DropdownUser } from './style'
 import Avatar from '../Avatar'
 import { IconSoporte } from '../../config/configImages'
 import { Link } from 'react-router-dom'
@@ -16,8 +16,8 @@ const index = ({sidebar, setSidebar}:any) => {
     const info = viewState.captcha.userData
 
     const [dropdown, setDropdown] = useState(false)
-  useEffect(() => console.log("avatar", info))
-  return (
+
+    return (
     
     <Header>
       <ContainerButtonMenu data-sidebar={sidebar}>
@@ -36,9 +36,9 @@ const index = ({sidebar, setSidebar}:any) => {
           <FaCircle/>
         }
         {dropdown && (
-          <div className="dropdown-content">
+          <DropdownUser className="dropdown-content">
             <a href="/logout">Cerrar sesión</a>
-          </div>
+          </DropdownUser>
         )}
       </ContainerUser>
     </AvatarImg>

@@ -10,6 +10,9 @@ export const Header = styled.header`
   position: relative;
   width: 100%;
   height: 3rem;
+  @media (max-width: ${MOBILE}) {
+    width: 100vw;
+  }
   
 `
 export const ContainerButtonMenu = styled.div`
@@ -47,4 +50,14 @@ export const ContainerUser = styled.div`
     color: #cecece;
     font-size: 35px;
     margin: 0 1rem;
+`
+
+export const DropdownUser = styled.div`
+    height: 3rem;
+    top: 2.5rem;
+    align-items: center;
+    width: 3rem;
+    a{
+      font-size: 16px;
+    }
 `

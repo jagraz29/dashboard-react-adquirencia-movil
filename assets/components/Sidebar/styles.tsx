@@ -1,44 +1,16 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { TABLET, MOBILE } from '../../styles/breakpoints'
 
 export const NavContainer = styled.div`
-  /* display: grid;
-  grid-template-columns: 16vw; */
-  /* grid-template-rows: 3rem; */
   @media (max-width: ${TABLET}) {
     grid-template-columns: 100%;
   }
-`
-
-export const SidebarNav = styled.nav`
-  background: #3a3a3a;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  /* justify-content: center; */
-  /* top: 0;
-  left: 0; */
-
-  @media (max-width: ${TABLET}) {
-    position: absolute;
-    width: 16rem;
-    left: ${(props: any) => (props['data-show'] ? '0' : '-100%')};
-    z-index: ${(props: any) => (props['data-show'] ? '200' : '0')};
-  }
-`
-export const IconLeftMenu = styled.nav`
-    padding: 0;
-    color: white;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0.5rem 1rem;
-`
-
+  `
+  
 
 export const SidebarWrap = styled.div`
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 3rem;
   text-align: center;
 
   div {
@@ -79,4 +51,34 @@ export const SidebarWrap = styled.div`
       }
     }
   }
+`
+
+export const SidebarNav = styled.nav`
+  background: #3a3a3a;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+  @media (max-width: ${TABLET}) {
+    position: absolute;
+    width: 16rem;
+    transition: left 0.5s;
+    left: ${(props: any) => (props['data-show'] ? '0' : '-100%')};
+    //z-index: ${(props: any) => (props['data-show'] ? '200' : '0')};
+    z-index:2000;
+    ${SidebarWrap}{
+      margin-top:1rem;
+    }
+  }
+`
+export const IconLeftMenu = styled.nav`
+    display: none;
+    @media (max-width: ${TABLET}) {
+      display: ${(props: any) => (props['data-show'] ? 'flex' : 'none')};
+      padding: 0;
+      color: white;
+      justify-content: flex-end;
+      margin: 0.5rem 1rem;
+      cursor: pointer;
+    }
 `
