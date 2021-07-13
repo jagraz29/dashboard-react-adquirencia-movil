@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Title from '../../components/Title'
 import Breadcrumbs from '../../components/Breadcrumbs/'
-import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'

@@ -436,18 +436,6 @@ const Integraciones = () => {
         } else {
           dispatch(setPropertySite(datos))
           setLoadingButton1(true)
-          /*toast(<ToastAlert 
-            closeToast={() =>{}}
-            texto={"prueba"}
-            type={typeMessage['info']}
-            noAutoClose={false}
-            closeIt={() => handleChangeToast()}
-          />,{
-            className: "black-background",
-            draggable: true,
-            position: toast.POSITION.TOP_CENTER,
-            transition: baja
-          })*/
         }
       }
     }
