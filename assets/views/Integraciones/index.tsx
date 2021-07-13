@@ -121,7 +121,6 @@ const Integraciones = () => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
-  console.log(myStore)
   const { setProperty, property, getLogo, getKeys, setLogo, getGateWay, setGateWay } = myStore
   const [openCard, setOpenCard] = useState(false)
   const [openCard2, setOpenCard2] = useState(false)
@@ -140,8 +139,6 @@ const Integraciones = () => {
   const idioma = viewState.getGateWay.gateWayData.data.idiomaPredeterminado
   const urlConfirmacion = viewState.getGateWay.gateWayData.data.urlConfirmacion
   const urlRespuesta = viewState.getGateWay.gateWayData.data.urlRespuesta
-
-  console.log('Idioma', idioma)
 
   const logo = viewState.getLogo.logoData.data.logo
   const pcust = viewState.getKeys.keysData.data.p_cust_id_cliente
@@ -196,19 +193,16 @@ const Integraciones = () => {
   }, [setProperty, property, getKeys])
 
   useEffect(() => {
-    console.log('esto esta pasando mucho')
     validateStatusGateWay()
     showGateWay()
   }, [setGateWay, getGateWay])
 
   useEffect(() => {
-    console.log('esto esta pasando mucho')
     validateStatusLogo()
     showLogo()
   }, [getLogo, setLogo])
 
   const validateStatusProperty = () => {
-    console.log('pasando property', setProperty.clienData)
     if (
       setProperty.clienData.message == 'Save data successfully' &&
       (setProperty.clienData.status = true)
@@ -222,7 +216,6 @@ const Integraciones = () => {
   }
 
   const validateStatusGateWay = () => {
-    console.log('pasando por el gateway', setGateWay.gateWayData)
     if (
       setGateWay.gateWayData.message == 'Save data successfully' &&
       (setGateWay.gateWayData.status = true)
@@ -245,7 +238,6 @@ const Integraciones = () => {
   }
 
   const validateStatusLogo = () => {
-    console.log('pasando por el logo', setLogo)
     if (
       setGateWay.gateWayData.message == 'Save data successfully' &&
       (setGateWay.gateWayData.status = true)
@@ -298,7 +290,6 @@ const Integraciones = () => {
   }
 
   const openClose2 = () => {
-    console.log('esto que pues')
     if (!openCard2) {
       setOpenCard2(true)
       setOpenCardContent2({
@@ -347,9 +338,6 @@ const Integraciones = () => {
 
   const changeTypeTelefono = useCallback((event) => {
     setTypeTelCel(event)
-    if (event == 'Celular') {
-    }
-    console.log('Evento', event)
   }, [])
 
   const changeRazonSocial = useCallback((event) => {
@@ -362,28 +350,24 @@ const Integraciones = () => {
 
   const changeTelefono = useCallback((event) => {
     settelCel(event)
-    console.log(event.target.value)
   }, [])
 
   const changeIndicativo = useCallback((event) => {
     setValueIndicativo(event)
-    console.log('indicativo', event)
   }, [])
 
   const changeTelefonoind = useCallback((event) => {
     setIndicaTel(event)
-    console.log(event)
   }, [])
 
   const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
-      console.log('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
+      toast.error('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
     } else {
       if (accepted.length > 1 - loadImages.length) {
-        console.log('solo puede cargar hasta 3 imágenes.')
+        toast.error('solo puede cargar hasta 3 imágenes.')
       } else {
         accepted = await Promise.all(accepted.map(fileToDataURL))
-        console.log(accepted)
         setFileBase64(accepted[0].base64)
         setShowLogoImage(true)
         setLoadImages((prev) => prev.concat(accepted))
@@ -595,7 +579,6 @@ const Integraciones = () => {
                           dataSelect={datos}
                           onClick={() => {}}
                           onChange={(e: any) => {
-                            console.log('pase change', e)
                             changeIndicativo(e)
                           }}
                         />

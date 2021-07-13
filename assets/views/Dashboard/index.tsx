@@ -72,8 +72,6 @@ const index = () => {
     }
   })
 
-  console.log('MY array', dataListTable)
-
   const [dataTable, setDataTable] = useState(dataList)
   const [count, setCount] = useState(0)
 
@@ -92,8 +90,6 @@ const index = () => {
   useEffect(() => {
     setDataUser(new StorageData().getData())
   }, [])
-
-  console.log(dataList)
 
   return (
     <div>
@@ -129,7 +125,7 @@ const index = () => {
           {dataListTable && dataListTable.length > 0 ? (
             <TablaDashboard data={dataListTable} titleData={dataTitle} />
           ) : (
-            console.log('loading')
+            ''
           )}
         </ContentTable>
       </Content>

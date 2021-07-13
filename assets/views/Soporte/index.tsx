@@ -84,7 +84,6 @@ const Soporte = () => {
     }
     const tickets = await getTickets(data)
     if (typeof tickets != 'boolean') {
-      console.log(tickets)
       setTicketsOpen(tickets)
     } else {
       toast.error(

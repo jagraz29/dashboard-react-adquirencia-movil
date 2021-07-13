@@ -14,7 +14,6 @@ export class DataService {
       body: JSON.stringify(trama),
     }
     const api_endpoint = endpoint
-    console.log('Api endpoint', api_endpoint)
     return axios.get(api_endpoint, requestOptions)
   }
 

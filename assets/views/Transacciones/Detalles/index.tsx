@@ -150,9 +150,6 @@ const TransaccionesDetalles = ({ history }: any) => {
   useEffect(() => {
     setLogsKey(Object.keys(log))
   }, [log])
-  useEffect(() => {
-    console.log('loooog', log)
-  })
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />

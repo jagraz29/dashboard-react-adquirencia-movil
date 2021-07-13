@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { ContentPagination, Pagination, ItemP } from './styles'
+import React from 'react'
+import { ContentPagination, Pagination } from './styles'
 
 const Paginations = ({ pagination, handlePage, active }: any) => {
   let objectPages: any = []
@@ -25,8 +25,6 @@ const Paginations = ({ pagination, handlePage, active }: any) => {
       objectPages.push(active - 1, active, active + 1)
     }
   }
-
-  // useEffect(() => console.log(objectPages, numberPages, active, "uiui"))
   return (
     <ContentPagination>
       <Pagination>

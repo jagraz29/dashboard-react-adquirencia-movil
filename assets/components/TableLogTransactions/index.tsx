@@ -1,9 +1,5 @@
-import React, { useState } from 'react'
-import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
-import TableCollectAction from '../TableCollectAction'
-
-import NumberFormat from 'react-number-format'
-
+import React from 'react'
+import { StyledTable } from './styles'
 type Props = {
   data: {}[]
   titleData: {}[]
@@ -12,10 +8,6 @@ type Props = {
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const datos = Object.keys(data[0])
-
-  const compartir = (item: number) => {
-    console.log('asjdflajdfladlkfajskldfjaskfjalksfjdlkaj', item)
-  }
 
   const addStatusClass = (state: any) => {
     let { classCss }: any = ''

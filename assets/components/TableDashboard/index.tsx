@@ -19,7 +19,6 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
   const titless = Object.keys(data[0])
 
-  console.log(data)
   return (
     <div>
       <StyledTable>

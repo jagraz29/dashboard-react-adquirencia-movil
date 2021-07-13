@@ -129,7 +129,6 @@ const Seguridad = () => {
   }, [])
 
   const changeIndPais = useCallback((event) => {
-    console.log(event)
     setIndicativoPais(event)
   }, [])
 

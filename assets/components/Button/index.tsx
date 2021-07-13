@@ -1,14 +1,8 @@
 import React from 'react'
 import { Button, LoadingSpinner, ButtonText } from './styles'
+import { ButtonType } from '../../types/ButtonType'
 
-type Props = {
-  onClick: any
-  loading: boolean
-  text: string
-  disabled: boolean
-}
-
-const ButtonSpinner: React.FC<Props> = ({ onClick, loading, text, disabled }) => {
+const ButtonSpinner: React.FC<ButtonType> = ({ onClick, loading, text, disabled }) => {
   const handlerOnChange = (valor: any) => {
     onClick(valor.target.value)
   }

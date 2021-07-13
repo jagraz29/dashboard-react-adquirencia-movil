@@ -7,7 +7,6 @@ function DatePick(props: any) {
   const maxDate: Date = new Date(new Date())
 
   const onChange = (e: any) => {
-    // console.log(e);
     props.setDatesValues({
       startDate: e.startDate,
       endDate: e.endDate,
@@ -32,7 +31,6 @@ function DatePick(props: any) {
         max={maxDate}
         format="dd-MM-yy"
         change={onChange}
-        cleared={() => console.log('se cleared')}
         cssClass="customCSS"
         //Uncomment below code to show month range picker. Also comment the properties min, max, mindays and maxdays
         // start="Year"

@@ -14,7 +14,6 @@ const initialState: SetPasswordReducerType = {
 const setPasswordReducer = (state: SetPasswordReducerType = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_PASSWORD: {
-      console.log('Pa ver', action.payload)
       return {
         ...state,
         passwordData: action.payload,
