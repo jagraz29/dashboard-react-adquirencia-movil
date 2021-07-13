@@ -23,7 +23,7 @@ import ButtonSpinner from '../../../components/Button'
 import { CardContentButton } from '../../Integraciones/styles'
 import { CardSubTitle } from '../../Cobra/Edit/styles'
 import styled from 'styled-components'
-import { Avatar } from 'antd'
+import {Avatar} from "antd";
 
 interface Document {
   id: number
@@ -163,7 +163,7 @@ const DetailTicket = () => {
             ) : (
               <Avatar
                 size="large"
-                src={`${process.env.URL_S3_IMAGES}/dashboard/v2/Logos/epayco-logo-gris.svg`}
+                src="https://multimedia.epayco.co/dashboard/v2/Logos/epayco-logo-gris.svg"
               />
             )}
           </div>
