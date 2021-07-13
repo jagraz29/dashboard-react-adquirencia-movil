@@ -13,7 +13,7 @@ export const ContentTable = styled.div`
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 25vw;
+  top: 30vw;
   left: 0vw;
   padding-bottom: 15px;
   margin-bottom: 500px;
@@ -67,7 +67,7 @@ export const ContentItems = styled.div`
 export const CardInfoCollect = styled.div`
   position: absolute;
   width: 68%;
-  height: 20.5vw;
+  height: 25.5vw;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
@@ -153,7 +153,7 @@ export const CardTransactionDetails = styled.span`
 export const CardAction = styled.div`
   position: absolute;
   width: 30%;
-  height: 20.5vw;
+  height: 25.5vw;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;

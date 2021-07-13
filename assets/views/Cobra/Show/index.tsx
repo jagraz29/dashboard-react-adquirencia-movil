@@ -171,9 +171,9 @@ const CollectShow = () => {
   }
 
   const content = (
-    <React.Fragment>
-      <ShareLink />
-    </React.Fragment>
+      <React.Fragment>
+        <ShareLink idCobra={id} />
+      </React.Fragment>
   )
 
   const shareCollect = () => {
