@@ -84,7 +84,7 @@ class AuthController extends BaseController
     ];
 
     $consult = $this->apify->consultWithAlliedEntityKeys(
-      'client/resetting/password/update?XDEBUG_SESSION_START=PHPSTORM',
+      'client/resetting/password/update',
       Requests::POST,
       $data
     );
