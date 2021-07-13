@@ -123,13 +123,6 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
             </tr>
           ))}
         </tbody>
-        {/* <tfoot>
-            <tr>
-              {titles.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
-          </tfoot> */}
       </StyledTable>
     </div>
   )

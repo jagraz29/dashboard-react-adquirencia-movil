@@ -169,13 +169,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
             </tr>
           ))}
         </tbody>
-        {/* <tfoot>
-            <tr>
-              {titles.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
-          </tfoot> */}
       </StyledTable>
       <ModalComp
         isShown={isShown}
