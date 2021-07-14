@@ -87,6 +87,7 @@ export const TableTextStatusPending = styled.h1`
 
 export const TableTextStatusCancel = styled.h1`
   font-size: 1vw;
+  color: #ff6660;
 `
 
 export const TableTextStatusOther = styled.h1`

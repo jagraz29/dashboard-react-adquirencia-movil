@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { ContentPagination, Pagination, ItemP } from './styles'
+import React from 'react'
+import { ContentPagination, Pagination } from './styles'
 
 const Paginations = ({ pagination, handlePage, active }: any) => {
   let objectPages: any = []
@@ -17,14 +17,14 @@ const Paginations = ({ pagination, handlePage, active }: any) => {
       objectPages.push(active, active + 1, active + 2)
     }
   } else {
-    if (numberPages.length === active) {
+    if (numberPages.length === 2) {
+      objectPages.push(active - 1, active)
+    } else if (numberPages.length === active) {
       objectPages.push(active - 2, active - 1, active)
     } else {
       objectPages.push(active - 1, active, active + 1)
     }
   }
-
-  // useEffect(() => console.log(objectPages, numberPages, active, "uiui"))
   return (
     <ContentPagination>
       <Pagination>

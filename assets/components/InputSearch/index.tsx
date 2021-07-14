@@ -34,7 +34,6 @@ const InputSearch: React.FC<Props> = ({
   }
 
   const handlerOnChick = (valor: any) => {
-    console.log(valor)
     eventSearch(value)
   }
 

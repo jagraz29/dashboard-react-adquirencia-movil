@@ -43,12 +43,32 @@ final class ReactRouterCobraController extends AbstractController
 
   /**
    *
-   * @Route("/collect/show/{id}", name="cobra_show")
+   * @Route("/collect/show/{id}", name="collect_show")
    *
    */
   public function routerCobraShow(Request $request)
   {
     // en index pagina con datos generales de la app
+    return $this->render('base.html.twig');
+  }
+
+  /**
+   *
+   * @Route("/collect/delete/{id}", name="collect_delete")
+   *
+   */
+  public function routerCobraDelete(Request $request)
+  {
+    return $this->render('base.html.twig');
+  }
+
+  /**
+   *
+   * @Route("/collect/duplicate/{id}", name="collect_duplicate")
+   *
+   */
+  public function routerCobraDuplicate(Request $request)
+  {
     return $this->render('base.html.twig');
   }
 }

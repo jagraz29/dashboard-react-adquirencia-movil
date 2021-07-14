@@ -227,7 +227,6 @@ const CobraEdit = (props: any) => {
 
     if (cobro.fechaVencimiento != '') {
       const date = new Date(cobro.fechaVencimiento).getTime()
-      console.log(date, new Date().getTime())
       if (date <= new Date().getTime()) {
         return 'La Fecha de vencimiento debe ser mayor a la fecha actual.'
       }
@@ -611,7 +610,7 @@ const CobraEdit = (props: any) => {
                             <input {...getInputProps()} />
                             <img
                               style={{ width: '2vw' }}
-                              src="https://multimedia.epayco.co/dashboard/image.png"
+                              src={`${process.env.URL_S3_IMAGES}` + '/dashboard/image.png'}
                               alt=""
                             />
                           </ButtonImageLoad>

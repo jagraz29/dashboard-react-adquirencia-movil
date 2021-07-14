@@ -13,22 +13,21 @@ export const ContentTable = styled.div`
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 25vw;
+  top: 30vw;
   left: 0vw;
-  overflow: scroll;
-  margin-bottom: 5vw;
+  padding-bottom: 15px;
+  margin-bottom: 500px;
 `
 
 export const CardTableTitle = styled.h2`
   font-size: 1.7vw;
   line-height: 2vw;
-
   top: 1vw;
   padding-bottom: 1vw;
   margin-bottom: 1vw;
   left: 1.2vw;
   border-bottom: 2px solid #d3d3d3;
-
+  max-width: 76vw;
   position: relative;
   color: #000000;
   display: flex;
@@ -65,10 +64,10 @@ export const ContentItems = styled.div`
   top: 2vw;
 `
 
-export const CardTrasactionOk = styled.div`
+export const CardInfoCollect = styled.div`
   position: absolute;
-  width: 58%;
-  height: 20.5vw;
+  width: 68%;
+  height: 25.5vw;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
@@ -77,22 +76,50 @@ export const CardTrasactionOk = styled.div`
   left: 0vw;
 `
 
-export const CardTransactionTitle = styled.h2`
-  margin-left: 1vw;
+export const CarTitle = styled.div`
   margin-top: 1vw;
   margin-bottom: 1vw;
   position: relative;
   display: flex;
+  border-bottom: 1px solid #d3d3d3;
+  padding-bottom: 1vw;
+  width: 100%;
+`
+
+export const CardTitleConten = styled.span`
+  margin-left: 4%;
   justify-content: center;
-  flex-direction: column;
   font-family: Segoe UI;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
   line-height: 24px;
   color: #000000;
-  border-bottom: 1px solid #d3d3d3;
-  padding-bottom: 1vw;
+  width: 70%;
+`
+
+export const ButtonsEdit = styled.button`
+  font-size: 1vw;
+  border: 1px solid #58d3f7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 15%;
+  margin-left: 10%;
+  height: 2.1vw;
+  top: 5vw;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  :hover {
+    background: hsl(200, 90%, 45%);
+    color: white;
+  }
+  ,
+  :focus {
+    background: white;
+    color: #58d3f7;
+  }
 `
 
 export const CardTransactionCount = styled.span`
@@ -123,10 +150,10 @@ export const CardTransactionDetails = styled.span`
   flex-direction: column;
 `
 
-export const CardPending = styled.div`
+export const CardAction = styled.div`
   position: absolute;
-  width: 40%;
-  height: 20.5vw;
+  width: 30%;
+  height: 25.5vw;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
@@ -174,4 +201,43 @@ export const TitleKey = styled.span`
 export const TitleLabel = styled.h3`
   font-size: 1vw;
   top: 0vw;
+`
+
+export const ButtonsActions = styled.button`
+  font-size: 1vw;
+  border: 1px solid #58d3f7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 19.4vw;
+  height: 2.1vw;
+  top: 5vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  :hover {
+    background: hsl(200, 90%, 45%);
+    color: white;
+  }
+  ,
+  :focus {
+    background: white;
+    color: #58d3f7;
+  }
+`
+
+export const CardContentButtonAction = styled.div`
+  height: 4vw;
+  margin: 0vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const ContentPagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  display: -webkit-box;
+  -webkit-box-pack: center;
 `

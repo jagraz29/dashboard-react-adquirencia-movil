@@ -105,6 +105,7 @@ export const CopyButton = styled.button`
   border-radius: 0 4px 4px 0 !important;
   flex: 0 1 auto;
   color: #1c0e49;
+  cursor: pointer;
   border: 1px solid #c5c5c8;
   height: 36px;
   background: #fff;
