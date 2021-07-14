@@ -53,7 +53,6 @@ import {
   Alert,
 } from './styles'
 import Dropzone from 'react-dropzone'
-import ToastAlert from '../../components/ToastAlert'
 
 const breadcrumb = [
   {
@@ -762,10 +761,7 @@ const Integraciones = () => {
                   </Dropzone>
                   {showLogoImage == false ? (
                     <FileImage
-                      src={
-                        'https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/logos_clientes/' +
-                        logo
-                      }
+                      src={`${process.env.RACKSPACE_CONTAINER_BASE_PUBLIC_URL}/` + logo}
                     ></FileImage>
                   ) : (
                     loadImages.map((image, index) => (
