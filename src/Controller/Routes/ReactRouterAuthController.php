@@ -28,8 +28,7 @@ final class ReactRouterAuthController extends AbstractController
    * @Route("/password/reset", name="password_reset")
    *
    */
-
-  public function routerPasswordReset(Request $request)
+  public function routerPasswordReset()
   {
     if ($this->getUser()) {
       return $this->redirectToRoute('dashboard');
@@ -44,12 +43,11 @@ final class ReactRouterAuthController extends AbstractController
    *
    */
 
-  public function routerPasswordChange(Request $request)
+  public function routerPasswordChange()
   {
     if ($this->getUser()) {
       return $this->redirectToRoute('dashboard');
     }
-
     return $this->render('base.html.twig');
   }
 }

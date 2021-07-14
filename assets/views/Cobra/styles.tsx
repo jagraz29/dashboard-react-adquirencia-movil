@@ -51,6 +51,7 @@ export const ButtonLinkText = styled.span`
   top: 3.3vw;
   left: 5.4vw;
   font-size: 1vw;
+  text-align: initial;
 `
 
 export const ContentTable = styled.div`
@@ -81,6 +82,6 @@ export const ContentSearchTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0vw 1vw 0vw 1vw;
+  margin: 1rem;
 `
 export const SearchTable = styled.div``

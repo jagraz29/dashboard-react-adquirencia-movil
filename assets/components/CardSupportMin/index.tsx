@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleCard } from './style'
 
 const CardSupportMin = ({ text, url, icon, target, phone, history, className }: any) => {

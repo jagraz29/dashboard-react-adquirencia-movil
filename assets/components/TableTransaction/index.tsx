@@ -44,6 +44,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
   }
 
   const enviarComprobante = async (idTransaction: number, email: string) => {
+    toggle()
     let res = await sendTransactionReceiptLast(idTransaction, email)
     if (res === false) {
       toast.error('Error al enviar comprobante, intente nuevamente.')
@@ -51,7 +52,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
       toast.success('Se ha enviado el comprobante correctamente.')
     }
     setInput({ email: '' })
-    toggle()
   }
 
   const modalConfirmacionTrx = (
@@ -134,9 +134,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         <TableTextStatusOK>{item[title]}</TableTextStatusOK>
                       ) : item[title] == 'Pendiente' ? (
                         <TableTextStatusPending>{item[title]}</TableTextStatusPending>
-                      ) : item[title] == 'Fallida' ? (
-                        <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
-                      ) : item[title] == 'Cancelada' ? (
+                      ) : item[title] == 'Cancelada' || item[title] == 'Rechazada' ? (
                         <TableTextStatusCancel>{item[title]}</TableTextStatusCancel>
                       ) : (
                         <TableTextStatusOther>{item[title]}</TableTextStatusOther>
@@ -164,11 +162,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         funcion: () => toggle(),
                         validarEstado: true,
                       },
-                      {
-                        name: 'Reenvió de confirmación',
-                        funcion: '',
-                        validarEstado: true,
-                      },
                     ]}
                   ></TableTransaccionesAction>
                 </ContentAction>
@@ -176,13 +169,6 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
             </tr>
           ))}
         </tbody>
-        {/* <tfoot>
-            <tr>
-              {titles.map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
-          </tfoot> */}
       </StyledTable>
       <ModalComp
         isShown={isShown}

@@ -21,7 +21,6 @@ const FileUpload = () => {
     e.preventDefault()
 
     const files = e.dataTransfer.files
-    console.log(files)
     if (files.length) {
       handleFiles(files)
     }

@@ -23,7 +23,7 @@ import ButtonSpinner from '../../../components/Button'
 import { CardContentButton } from '../../Integraciones/styles'
 import { CardSubTitle } from '../../Cobra/Edit/styles'
 import styled from 'styled-components'
-import {Avatar} from "antd";
+import { Avatar } from 'antd'
 
 interface Document {
   id: number
