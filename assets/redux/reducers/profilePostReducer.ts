@@ -14,7 +14,6 @@ const initialState: SetPerfilReducerType = {
 const profilePostReducer = (state: SetPerfilReducerType = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_PROFILE_DATA: {
-      console.log('Pa ver', action.payload)
       return {
         ...state,
         profileData: action.payload,

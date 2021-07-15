@@ -123,7 +123,7 @@ class CollectController extends BaseController
       ],
     ];
 
-    $collectLink = $this->apify->consult('collection/show', Requests::POST, $filter);
+    $collectLink = $this->apify->consult('collection/link/show', Requests::POST, $filter);
 
     if (
       isset($collectLink[TextResponsesCommon::SUCCESS]) &&
@@ -156,6 +156,56 @@ class CollectController extends BaseController
       $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
         ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
         : 'Collect detail';
+      return $this->jsonResponse(true, $collectLink[TextResponsesCommon::DATA], $message);
+    }
+
+    $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+      ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+      : 'Error apify consult';
+    return $this->jsonResponse(false, [], $message, 400);
+  }
+
+  /**
+   * @Route("/delete/{id}", name="api_collect_delete", methods={"GET"})
+   */
+  public function delete(int $id)
+  {
+    $filter = ['id' => $id];
+
+    $collectLink = $this->apify->consult('collection/link/delete', Requests::POST, $filter);
+
+    if (
+      isset($collectLink[TextResponsesCommon::SUCCESS]) &&
+      $collectLink[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+        ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+        : 'Collect delete';
+      return $this->jsonResponse(true, $collectLink[TextResponsesCommon::DATA], $message);
+    }
+
+    $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+      ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+      : 'Error apify consult';
+    return $this->jsonResponse(false, [], $message, 400);
+  }
+
+  /**
+   * @Route("/duplicate/{id}", name="api_collect_duplicate", methods={"GET"})
+   */
+  public function duplicate(int $id)
+  {
+    $filter = ['id' => $id];
+
+    $collectLink = $this->apify->consult('collection/link/duplicate', Requests::POST, $filter);
+
+    if (
+      isset($collectLink[TextResponsesCommon::SUCCESS]) &&
+      $collectLink[TextResponsesCommon::SUCCESS] === true
+    ) {
+      $message = isset($collectLink[TextResponsesCommon::TEXT_RESPONSE])
+        ? $collectLink[TextResponsesCommon::TEXT_RESPONSE]
+        : 'Collect duplicate';
       return $this->jsonResponse(true, $collectLink[TextResponsesCommon::DATA], $message);
     }
 

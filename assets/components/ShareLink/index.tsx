@@ -16,11 +16,17 @@ import {
 } from './style'
 import Selector from '../Selector'
 import { countries } from '../../utils/countries'
-export default function ShareLink() {
+export default function ShareLink(cobraId?: any) {
   const [phonePrefixSelected, setPhonePrefixSelected] = useState('+57')
+  const [copied, setCopied] = useState(false)
 
   const onPhonePrefixSelected = (value: string | undefined) => {
     if (value) setPhonePrefixSelected(value)
+  }
+
+  const copyText = (text: string) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
   }
 
   return (
@@ -35,8 +41,15 @@ export default function ShareLink() {
         <Text>
           También puede copiar y pegar este link en su red social favorita de forma directa
         </Text>
-        <Input />
-        <CopyButton>Copiar enlace</CopyButton>
+        <Input value={`https://link.epayco.io/${cobraId.idCobra}`} disabled />
+        <CopyButton
+          disabled={copied}
+          onClick={() => {
+            copyText(`https://link.epayco.io/${cobraId.idCobra}`)
+          }}
+        >
+          {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
+        </CopyButton>
       </Container>
       <Container>
         <Text>Ingrese un número de celular y haga clic en el botón compartir.</Text>
@@ -49,7 +62,7 @@ export default function ShareLink() {
                 <FlagContainer>
                   <Flag
                     src={
-                      'https://multimedia-epayco-test.s3.amazonaws.com' +
+                      `${process.env.URL_S3_IMAGES}` +
                       '/my-epayco/flags/' +
                       item.label.toLowerCase() +
                       '.svg'

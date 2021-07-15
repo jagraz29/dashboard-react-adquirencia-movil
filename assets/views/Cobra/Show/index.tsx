@@ -3,30 +3,54 @@ import Title from '../../../components/Title'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
 import TableLogTransactions from '../../../components/TableLogTransactions'
 import { useHistory } from 'react-router-dom'
-import { getShowCollect } from '../../../redux/actions'
+import { getShowCollect, getDeleteCollect, getDuplicateCollect } from '../../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/reducers/index'
 import LoadingBar from '../../../components/LoadingBar'
 import { useParams } from 'react-router'
+import Swal from 'sweetalert2'
+import { useModal } from '../../../components/hooks/useModal'
+import { ModalComp } from '../../../components/modalComp'
+import ShareLink from '../../../components/ShareLink'
 import {
   Content,
   ContentTable,
   CardTableTitle,
   CardTableSubTitle,
   ContentItems,
-  CardTrasactionOk,
-  CardTransactionTitle,
+  CardInfoCollect,
+  CardTitleConten,
   CardTransactionCount,
   CardTransactionDetails,
-  CardPending,
+  CardAction,
   ContentInput,
   ContentInputCard,
   LabelKey,
   TitleKey,
+  ButtonsActions,
+  CardContentButtonAction,
+  ContentPagination,
+  CarTitle,
+  ButtonsEdit,
 } from './styles'
 import { TableTextLink } from '../../../components/TableCobra/styles'
 import { string } from 'prop-types'
 import NumberFormat from 'react-number-format'
+import TablaTransaction from '../../../components/TableTransaction'
+import { toast } from 'react-toastify'
+import Paginations from '../../../components/Pagination'
+import * as AiIcons from 'react-icons/ai'
+import {
+  AiOutlineAlignLeft,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineDelete,
+  AiOutlineVerticalRight,
+  AiTwotoneCopy,
+  AiTwotoneHeart,
+  AiOutlineZoomIn,
+  AiOutlineZoomOut,
+} from 'react-icons/ai'
 
 const breadcrumb = [
   {
@@ -53,11 +77,16 @@ const CollectShow = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  const { isShown, toggle } = useModal()
+
   const viewState: RootState = useSelector((state: RootState) => state)
   const dataList = viewState.getShowCollect.showCollectData.data
 
   const [dataTable, setDataTable] = useState(dataList.log_transactions)
+  let [data, setData] = useState(viewState.getShowCollect.showCollectData.data.log_transactions)
   const [count, setCount] = useState(0)
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [paginate, setPaginate] = useState(0)
 
   const idCollect = viewState.getShowCollect.showCollectData.data.id
   const title = viewState.getShowCollect.showCollectData.data.title
@@ -75,6 +104,16 @@ const CollectShow = () => {
 
   useEffect(() => {
     setDataTable(dataList.log_transactions)
+  }, [dataList])
+
+  useEffect(() => {
+    if (typeof dataList.log_transactions !== 'undefined') {
+      if (dataList.log_transactions.length > 3) {
+        setData(dataList.log_transactions.slice(0, 3))
+      } else {
+        setData(dataList)
+      }
+    }
   }, [dataList])
 
   const stateString = (value: any) => {
@@ -131,14 +170,165 @@ const CollectShow = () => {
     history.push(path)
   }
 
+  const content = (
+    <React.Fragment>
+      <ShareLink idCobra={id} />
+    </React.Fragment>
+  )
+
+  const shareCollect = () => {
+    toggle()
+  }
+
+  const duplicateCollectModal = () => {
+    Swal.fire({
+      title: '¿Seguro que desea duplicar el link de cobro?',
+      icon: 'warning',
+      showCancelButton: true,
+      showCloseButton: true,
+      allowOutsideClick: false,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Duplicar',
+      cancelButtonColor: '#1c0e49',
+      confirmButtonColor: '#e67e22',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        duplicateCollect()
+      }
+    })
+  }
+
+  const deleteCollectModal = () => {
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el link de cobro?',
+      text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',
+      icon: 'warning',
+      showCancelButton: true,
+      showCloseButton: true,
+      allowOutsideClick: false,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      cancelButtonColor: '#1c0e49',
+      confirmButtonColor: '#e67e22',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCollect()
+      }
+    })
+  }
+
+  const showMore = () => {
+    let collectLogTransactions =
+      typeof viewState.getShowCollect.showCollectData.data.log_transactions.length !== 'undefined'
+        ? viewState.getShowCollect.showCollectData.data.log_transactions.length
+        : false
+    let value = 0
+    if (collectLogTransactions) {
+      if (collectLogTransactions >= data.length * 2) {
+        value = data.length * 2
+      } else {
+        value = data.length + (collectLogTransactions - data.length)
+      }
+      setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, value))
+    }
+  }
+
+  const showLess = () => {
+    let collectLogTransactions = typeof data.length !== 'undefined' ? data.length : false
+    let value = 0
+    if (collectLogTransactions) {
+      if (
+        collectLogTransactions > 3 &&
+        collectLogTransactions / 2 >= 3 &&
+        collectLogTransactions / 2 <= 5
+      ) {
+        value = collectLogTransactions - 3
+      } else if (collectLogTransactions > 3) {
+        value = collectLogTransactions - (collectLogTransactions - 3)
+      }
+
+      if (value < 3) {
+        setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, 3))
+      } else {
+        setData(viewState.getShowCollect.showCollectData.data.log_transactions.slice(0, value))
+      }
+    }
+  }
+
+  const deleteCollect = async () => {
+    const response = await getDeleteCollect(id)
+    if (response.status) {
+      Swal.fire({
+        title: 'Cobro',
+        text: 'Eliminado correctamente.',
+        timer: 3000,
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador!',
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    }
+  }
+
+  const duplicateCollect = async () => {
+    const response = await getDuplicateCollect(id)
+    if (response.status) {
+      Swal.fire({
+        title: 'Cobro',
+        text: 'Duplicado correctamente.',
+        timer: 3000,
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador!',
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+        showCloseButton: false,
+      })
+      redirectRoute('/cobra')
+    }
+  }
+
+  const editCollect = () => {
+    redirectRoute(`/cobra/edit/${id}`)
+  }
+
   return (
     <div>
       <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Detalle Cobro'}></Title>
       <Content>
         <ContentItems>
-          <CardTrasactionOk>
-            <CardTransactionTitle>Id cobro: {idCollect}</CardTransactionTitle>
+          <CardInfoCollect>
+            <CarTitle>
+              <CardTitleConten>Id cobro: {idCollect}</CardTitleConten>
+              <ButtonsEdit onClick={() => editCollect()}>
+                <AiIcons.AiOutlineEdit />
+                Editar
+              </ButtonsEdit>
+            </CarTitle>
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Titulo del cobro</TitleKey>
@@ -187,25 +377,87 @@ const CollectShow = () => {
               </ContentInputCard>
               <ContentInputCard></ContentInputCard>
             </ContentInput>
-          </CardTrasactionOk>
-          <CardPending>
-            <CardTransactionTitle>Transacciones pendientes</CardTransactionTitle>
-            <CardTransactionCount>0</CardTransactionCount>
-            <CardTransactionDetails>Ver detalles</CardTransactionDetails>
-          </CardPending>
+          </CardInfoCollect>
+          <CardAction>
+            <CarTitle>
+              <CardTitleConten>Acciones</CardTitleConten>
+            </CarTitle>
+            <CardContentButtonAction>
+              <div></div>
+              <ButtonsActions onClick={() => shareCollect()}>
+                <AiIcons.AiOutlineLink />
+                Compartir cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+            <CardContentButtonAction>
+              <ButtonsActions onClick={() => duplicateCollectModal()}>
+                <AiIcons.AiTwotoneCopy />
+                Duplicar cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+            <CardContentButtonAction>
+              <ButtonsActions onClick={() => deleteCollectModal()}>
+                <AiIcons.AiOutlineDelete />
+                Eliminar cobro
+              </ButtonsActions>
+            </CardContentButtonAction>
+          </CardAction>
         </ContentItems>
 
         <ContentTable>
           <CardTableTitle>Historial de pagos</CardTableTitle>
           <CardTableSubTitle>Lista de los pagos realizados con el link de cobro</CardTableSubTitle>
+          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') ? (
+            dataTable && dataTable.length > 3 ? (
+              <>
+                <TableLogTransactions data={data} titleData={dataTitle} />
+                <ContentPagination>
+                  {dataList.log_transactions.length > data.length ? (
+                    <ContentInputCard>
+                      <ButtonsActions onClick={() => showMore()}>
+                        <AiIcons.AiOutlineZoomIn />
+                        Ver más
+                      </ButtonsActions>
+                    </ContentInputCard>
+                  ) : (
+                    ''
+                  )}
 
-          {dataTable && dataTable.length > 0 ? (
-            <TableLogTransactions data={dataTable} titleData={dataTitle} />
+                  {data.length > 3 ? (
+                    <ContentInputCard>
+                      <ButtonsActions onClick={() => showLess()}>
+                        <AiIcons.AiOutlineZoomOut />
+                        Ver menos
+                      </ButtonsActions>
+                    </ContentInputCard>
+                  ) : (
+                    ''
+                  )}
+                </ContentPagination>
+              </>
+            ) : (
+              <h3
+                style={{
+                  fontSize: '20px',
+                  padding: '1rem',
+                  margin: ' 1rem 0',
+                  fontWeight: 400,
+                }}
+              >
+                No se encontraron registros.
+              </h3>
+            )
           ) : (
             <LoadingBar text={'Cargando...'} />
           )}
         </ContentTable>
       </Content>
+      <ModalComp
+        isShown={isShown}
+        hide={toggle}
+        modalContent={content}
+        headerText={'Compartir link del catálogo'}
+      />
     </div>
   )
 }

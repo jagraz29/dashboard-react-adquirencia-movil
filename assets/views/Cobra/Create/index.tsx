@@ -562,7 +562,7 @@ const CobraCreate = (props: any) => {
                             <input {...getInputProps()} />
                             <img
                               style={{ width: '2vw' }}
-                              src="https://multimedia.epayco.co/dashboard/image.png"
+                              src={`${process.env.URL_S3_IMAGES}/` + 'dashboard/image.png'}
                               alt=""
                             />
                           </ButtonImageLoad>

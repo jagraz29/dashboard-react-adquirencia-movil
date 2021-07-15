@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Title from '../../components/Title'
 import Breadcrumbs from '../../components/Breadcrumbs/'
-import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
@@ -129,7 +128,6 @@ const Seguridad = () => {
   }, [])
 
   const changeIndPais = useCallback((event) => {
-    console.log(event)
     setIndicativoPais(event)
   }, [])
 
@@ -154,13 +152,12 @@ const Seguridad = () => {
   }, [])
 
   const validateSetProfile = () => {
+    setLoadingButton1(false)
     if (setProfile.profileData.status == true) {
       toast.success('Datos Actualizados Correctamente')
-      setLoadingButton1(false)
     }
     if (setProfile.profileData.status == false) {
       toast.error('Error al Actualizar los Datos')
-      setLoadingButton1(false)
     }
   }
 
@@ -367,7 +364,7 @@ const Seguridad = () => {
                 onClick={() => {
                   savePerfil()
                 }}
-                disabled={false}
+                disabled={loadingButton1}
               ></ButtonSpinner>
             </CardContentButton>
           </Card>
@@ -434,7 +431,7 @@ const Seguridad = () => {
                 onClick={() => {
                   savePassword()
                 }}
-                disabled={false}
+                disabled={loadingButton2}
               ></ButtonSpinner>
             </CardContentButton>
           </Card>

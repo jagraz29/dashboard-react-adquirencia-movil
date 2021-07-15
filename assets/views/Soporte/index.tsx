@@ -22,25 +22,25 @@ const breadcrumb = [
 ]
 const optionsSoport = [
   {
-    icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/ticket-2.svg ',
+    icon: process.env.URL_S3_IMAGES + '/dashboard/iconos-soporte/ticket-2.svg',
     text: 'Crear ticket de soporte',
     history: true,
     url: 'soporte/nuevo',
   },
   {
-    icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/conocimiento.svg',
+    icon: process.env.URL_S3_IMAGES + '/dashboard/iconos-soporte/conocimiento.svg',
     text: 'Base de conocimiento',
     target: true,
     url: 'https://docs.epayco.co/',
   },
   {
-    icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/reunion-soporte.svg',
+    icon: process.env.URL_S3_IMAGES + '/dashboard/iconos-soporte/reunion-soporte.svg',
     text: 'Agendar reunión con soporte',
     target: true,
     url: 'https://calendly.com/epayco/',
   },
   {
-    icon: 'https://multimedia.epayco.co/dashboard/iconos-soporte/contacto.svg',
+    icon: process.env.URL_S3_IMAGES + '/dashboard/iconos-soporte/contacto.svg',
     text: 'Contacto telefónico: +57 (4) 448 4952',
     phone: '+57 (4) 448 4952',
   },
@@ -84,7 +84,6 @@ const Soporte = () => {
     }
     const tickets = await getTickets(data)
     if (typeof tickets != 'boolean') {
-      console.log(tickets)
       setTicketsOpen(tickets)
     } else {
       toast.error(

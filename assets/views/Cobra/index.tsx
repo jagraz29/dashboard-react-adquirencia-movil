@@ -23,7 +23,7 @@ import { RootState } from '../../redux/reducers/index'
 import InputSearch from '../../components/InputSearch/'
 import Paginations from '../../components/Pagination'
 import { FaSearch } from 'react-icons/fa'
-import {SearchContainer} from '../Transacciones/styles'
+import { SearchContainer } from '../Transacciones/styles'
 import search from 'antd/lib/transfer/search'
 const breadcrumb = [
   {
@@ -92,7 +92,7 @@ const Cobra = () => {
     setSearch(event.target.value)
   }, [])
 
-  const searchTable = (event:any) => {
+  const searchTable = (event: any) => {
     event.preventDefault()
     searchData(search)
   }
@@ -100,9 +100,9 @@ const Cobra = () => {
   const searchData = (value: string) => {
     dispatch(getListCollect(`/${value}`))
   }
-  const handleReset = ()=>{
-    dispatch(getListCollect(""))
-    setSearch("")
+  const handleReset = () => {
+    dispatch(getListCollect(''))
+    setSearch('')
   }
 
   return (
@@ -133,21 +133,23 @@ const Cobra = () => {
                 searchTable(e)
               }}
             /> */}
-             <SearchContainer className="searchContainer"  onSubmit={(e) =>searchTable(e)}>
-                  <div>
-                    <input
-                      placeholder="Buscar"
-                      type="number"
-                      name="search"
-                      value={search}
-                      onChange={(e) => searchChange(e)}
-                    />
-                    <button  type="button" onClick={handleReset} >x</button>
-                  </div>
-                  <button className="buttonSeach" type="submit">
-                    <FaSearch />
-                  </button>
-                </SearchContainer>
+            <SearchContainer className="searchContainer" onSubmit={(e) => searchTable(e)}>
+              <div>
+                <input
+                  placeholder="Buscar"
+                  type="number"
+                  name="search"
+                  value={search}
+                  onChange={(e) => searchChange(e)}
+                />
+                <button type="button" onClick={handleReset}>
+                  x
+                </button>
+              </div>
+              <button className="buttonSeach" type="submit">
+                <FaSearch />
+              </button>
+            </SearchContainer>
           </ContentSearchTitle>
 
           {dataTable && dataTable.length > 0 && (

@@ -73,6 +73,7 @@ export const StyledTable = styled.table`
 export const TableTextMoneda = styled.h2`
   font-weight: bold;
   font-size: 1vw;
+  text-transform: uppercase;
 `
 
 export const TableTextLink = styled.a`
