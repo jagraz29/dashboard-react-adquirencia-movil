@@ -318,6 +318,15 @@ export const detailTicket = async (id: number) => {
   }
 }
 
+export const createTicketResponse = async (data: any) => {
+    try {
+        const dataRes = await dataService.post('/api/ticket/save', data)
+        return dataRes.data
+    } catch (error) {
+        return false
+    }
+}
+
 export const getDeleteCollect = async (id: any) => {
   try {
     const dataRes = await dataService.get(`/api/collect/delete/${id}`)
