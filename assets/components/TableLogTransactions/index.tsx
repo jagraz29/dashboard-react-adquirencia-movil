@@ -28,18 +28,18 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         )
         break
       case 'Pendiente':
-      classCss = (
+        classCss = (
           <h1
-              style={{
-                  textAlign: 'center',
-                  fontSize: '1vw',
-                  color: 'orange',
-                  textDecoration: 'none',
-              }}
+            style={{
+              textAlign: 'center',
+              fontSize: '1vw',
+              color: 'orange',
+              textDecoration: 'none',
+            }}
           >
-              {state}
+            {state}
           </h1>
-      )
+        )
         break
       case 'Rechazada':
         classCss = (

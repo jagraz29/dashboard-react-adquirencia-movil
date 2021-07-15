@@ -119,20 +119,6 @@ const Cobra = () => {
         <ContentTable style={{ marginBottom: '300px' }}>
           <ContentSearchTitle>
             <CardTableTitle>Cobros</CardTableTitle>
-            {/* <InputSearch
-              type={'text'}
-              placeholder={'Buscar'}
-              name={'search'}
-              value={search}
-              onChange={(e: any) => {
-                searchChange(e)
-              }}
-              returnComplete={true}
-              width={'15vw'}
-              eventSearch={(e: any) => {
-                searchTable(e)
-              }}
-            /> */}
             <SearchContainer className="searchContainer" onSubmit={(e) => searchTable(e)}>
               <div>
                 <input

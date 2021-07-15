@@ -56,7 +56,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const deleteCollectModal = (id: any) => {
     Swal.fire({
       customClass: {
-        confirmButton: 'swalBtnColor'
+        confirmButton: 'swalBtnColor',
       },
       title: '¿Seguro que desea eliminar el link de cobro?',
       text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',

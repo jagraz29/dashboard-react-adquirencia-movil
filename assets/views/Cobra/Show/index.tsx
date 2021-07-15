@@ -183,7 +183,7 @@ const CollectShow = () => {
   const duplicateCollectModal = () => {
     Swal.fire({
       customClass: {
-        confirmButton: 'swalBtnColor'
+        confirmButton: 'swalBtnColor',
       },
       title: '¿Seguro que desea duplicar el link de cobro?',
       icon: 'warning',
@@ -205,7 +205,7 @@ const CollectShow = () => {
   const deleteCollectModal = () => {
     Swal.fire({
       customClass: {
-        confirmButton: 'swalBtnColor'
+        confirmButton: 'swalBtnColor',
       },
       title: '¿Seguro que desea eliminar el link de cobro?',
       text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',
