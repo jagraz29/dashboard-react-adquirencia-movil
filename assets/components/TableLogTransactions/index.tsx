@@ -13,78 +13,59 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
     let { classCss }: any = ''
     switch (state) {
       case 'Aprobada':
+      case 'Aceptada':
         classCss = (
-          <h3
+          <h1
             style={{
               textAlign: 'center',
-              fontWeight: 'bold',
               fontSize: '1vw',
-              color: '#28a745',
+              color: 'green',
               textDecoration: 'none',
             }}
           >
             {state}
-          </h3>
+          </h1>
         )
         break
       case 'Pendiente':
-        classCss = (
-          <h3
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: '1vw',
-              color: '#ffc107',
-              textDecoration: 'none',
-            }}
+      classCss = (
+          <h1
+              style={{
+                  textAlign: 'center',
+                  fontSize: '1vw',
+                  color: 'orange',
+                  textDecoration: 'none',
+              }}
           >
-            {state}
-          </h3>
-        )
+              {state}
+          </h1>
+      )
         break
       case 'Rechazada':
         classCss = (
-          <h3
+          <h1
             style={{
               textAlign: 'center',
-              fontWeight: 'bold',
               fontSize: '1vw',
-              color: '#dc3545',
+              color: 'red',
               textDecoration: 'none',
             }}
           >
             {state}
-          </h3>
-        )
-        break
-      case 'Aceptada':
-        classCss = (
-          <h3
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: '1vw',
-              color: '#21678b',
-              textDecoration: 'none',
-            }}
-          >
-            {state}
-          </h3>
+          </h1>
         )
         break
       default:
         classCss = (
-          <h3
+          <h1
             style={{
               textAlign: 'center',
-              fontWeight: 'bold',
               fontSize: '1vw',
-              color: '#565606',
               textDecoration: 'none',
             }}
           >
             {state}
-          </h3>
+          </h1>
         )
         break
     }

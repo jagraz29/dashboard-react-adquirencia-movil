@@ -239,3 +239,30 @@ label {
 .dropdown-content a:hover {
   background-color: #f1f1f1;
 }
+
+.swal2-styled.swal2-confirm.swalBtnColor {
+  color: #40A8E6;
+  border: 1px solid #40A8E6;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.swal2-styled.swal2-cancel {
+  color: #40A8E6;
+  border: 1px solid #40A8E6;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: orange !important;
+  color: orange !important;
+}
