@@ -116,7 +116,7 @@ const CollectShow = () => {
     }
   }, [dataList])
 
-  const stateString = (value: any) => {
+  const stateString = (value: number) => {
     if (value == 1) {
       return 'Pendiente'
     } else if (value == 2) {
@@ -124,7 +124,7 @@ const CollectShow = () => {
     }
   }
 
-  const typeString = (value: any) => {
+  const typeString = (value: number) => {
     let response = ''
     switch (value) {
       case 1:

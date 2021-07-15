@@ -121,7 +121,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         <tbody>
           {data.map((item: any, index: number) => (
             <tr key={index}>
-              {datos.map((title: any, index: number) => {
+              {datos.map((title: string, index: number) => {
                 if (title != 'typeSell') {
                   return (
                     <td key={index}>
