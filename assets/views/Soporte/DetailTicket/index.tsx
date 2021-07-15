@@ -17,7 +17,13 @@ import {
   StyleDetail,
 } from './styles'
 import { useParams } from 'react-router'
-import {closeTicket, createTicket, createTicketResponse, detailTicket, reOpenTicket} from '../../../redux/actions'
+import {
+  closeTicket,
+  createTicket,
+  createTicketResponse,
+  detailTicket,
+  reOpenTicket,
+} from '../../../redux/actions'
 import { toast } from 'react-toastify'
 import ButtonSpinner from '../../../components/Button'
 import { CardContentButton } from '../../Integraciones/styles'
@@ -305,7 +311,7 @@ const DetailTicket = () => {
       getTicket()
     } else {
       toast.error(
-          'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
+        'Ha ocurrido un error en el servidor, por favor comuníquese con el administrador.'
       )
     }
     setLoading(false)
