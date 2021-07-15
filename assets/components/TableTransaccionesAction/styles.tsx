@@ -9,9 +9,9 @@ export const DropDownMenu = styled.div`
   /* height: 6vw; */
   padding: 5px;
   position: relative;
-  right: 15.2vw;
-  width: 16vw;
-  top: 0.8vw;
+  right: 10.2rem;
+  width: 11rem;
+  top: 0.5rem;
   justify-content: center;
   align-items: center;
   background-color: #fff;
@@ -24,12 +24,12 @@ export const DropDownContent = styled.button`
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  width: 2vw;
-  height: 2vw;
+  width: 2rem;
+  height: 1.5rem;
 `
 
 export const DropdownItem = styled.div`
-  height: 2.3vw;
+  height: 1.5rem;
   top: 1vw;
   padding-right: 10px;
   padding-left: 10px;
@@ -37,16 +37,12 @@ export const DropdownItem = styled.div`
   display: flex;
   align-items: center;
   color: #40a8e6;
-  width: 13vw;
+  width: 10rem;
   font-family: Segoe UI;
   font-style: normal;
-  font-size: 1.1vw;
+  font-size: 14px;
 
   &:hover {
     background-color: #e6e6e6;
-  }
-  &:active {
-    font-weight: 700;
-    color: #e6e6e6;
   }
 `

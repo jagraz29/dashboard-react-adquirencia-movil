@@ -33,7 +33,7 @@ const dataTitle = [
   'Estado',
 ]
 
-const index = () => {
+const index = ({setBreadcrumb}:any) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -45,6 +45,9 @@ const index = () => {
   
   const [dataListTable, setDataListTable] = useState([])
 
+  useEffect(() => {
+    setBreadcrumb([])
+  },[])
 
   useEffect(() => {
     const aux = dataList.map((item: any) => {
@@ -128,9 +131,7 @@ const index = () => {
             ?
               <TablaDashboard data={dataListTable} titleData={dataTitle} />
             : 
-            <div>
               <LoadingBar text={'Cargando...'}/>
-            </div>
           }
         
       </ContentTable>

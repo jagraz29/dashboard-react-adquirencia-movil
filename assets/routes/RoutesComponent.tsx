@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar/'
 const RoutesComponent = () => {
 
   const [sidebar, setSidebar] = useState(false)
+  const [breadcrumb, setBreadcrumb] = useState([])
 
   return (
     <ContainerLayout>
@@ -16,7 +17,7 @@ const RoutesComponent = () => {
       <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
 
       <Layout >
-        <Header sidebar={sidebar} setSidebar={setSidebar}  />
+        <Header sidebar={sidebar} setSidebar={setSidebar} breadcrumb={breadcrumb} />
         {routes.map((route, index) => (
           <Route
             key={index.toString()}
@@ -27,7 +28,7 @@ const RoutesComponent = () => {
                 const Component: React.ElementType = route.component
                 return (
                   <ContainerRoute>
-                    <Component {...props} routes={route.routes} />
+                    <Component {...props} routes={route.routes} breadcrumb={breadcrumb} setBreadcrumb={setBreadcrumb}/>
                   </ContainerRoute>
                 )
               }

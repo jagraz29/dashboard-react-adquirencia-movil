@@ -1,5 +1,5 @@
-import React, { useEffect, useState} from 'react'
-import { Header, AvatarImg, ContainerUser, ContainerButtonMenu, DropdownUser } from './style'
+import React, {useState} from 'react'
+import { Header, AvatarImg, ContainerUser, ContainerButtonMenu, DropdownUser, ContainermenuBreadcrumbs, ContentBreadcrumbs } from './style'
 import Avatar from '../Avatar'
 import { IconSoporte } from '../../config/configImages'
 import { Link } from 'react-router-dom'
@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
 import { FiMenu } from 'react-icons/fi';
 import { FaCircle } from 'react-icons/fa';
+import Breadcrumbs from '../Breadcrumbs';
 
-
-const index = ({sidebar, setSidebar}:any) => {
+const index = ({sidebar, setSidebar, breadcrumb}:any) => {
     
     const viewState: RootState = useSelector((state: RootState) => state)
     const avatar = viewState.captcha.userData.data.logo
@@ -17,14 +17,20 @@ const index = ({sidebar, setSidebar}:any) => {
 
     const [dropdown, setDropdown] = useState(false)
 
+
     return (
-    
     <Header>
-      <ContainerButtonMenu data-sidebar={sidebar}>
-        <button onClick={() => setSidebar(!sidebar)}   >
-          <FiMenu/>
-        </button>
-      </ContainerButtonMenu>
+      <ContainermenuBreadcrumbs>
+        <ContainerButtonMenu data-sidebar={sidebar}>
+          <button onClick={() => setSidebar(!sidebar)}   >
+            <FiMenu/>
+          </button>
+        </ContainerButtonMenu>
+        <ContentBreadcrumbs>
+          <Breadcrumbs breadcrumb={breadcrumb} />
+        </ContentBreadcrumbs>
+      </ContainermenuBreadcrumbs>
+
     <AvatarImg>
       <Link to={'/soporte'}>
         <Avatar srcImage={IconSoporte.url} size={'35px'}></Avatar>

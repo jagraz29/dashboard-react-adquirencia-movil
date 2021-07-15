@@ -10,6 +10,7 @@ export const Header = styled.header`
   position: relative;
   width: 100%;
   height: 3rem;
+  min-width: 335px;
   @media (max-width: ${MOBILE}) {
     width: 100vw;
   }
@@ -59,5 +60,15 @@ export const DropdownUser = styled.div`
     width: 3rem;
     a{
       font-size: 16px;
+    }
+`
+export const ContainermenuBreadcrumbs = styled.div`
+    display: flex;
+    align-items: center;
+`
+export const ContentBreadcrumbs = styled.div`
+    margin-left: -1rem;
+    @media (max-width: ${TABLET}) {
+      margin-left: 0;
     }
 `

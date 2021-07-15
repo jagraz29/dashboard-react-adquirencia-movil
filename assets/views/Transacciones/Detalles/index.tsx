@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../../components/Breadcrumbs/'
 import Title from '../../../components/Title'
 import { useParams } from 'react-router'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../redux/reducers/index'
+import { useDispatch } from 'react-redux'
 import * as BsIcons from 'react-icons/bs'
 import * as AiIcons from 'react-icons/ai'
 import { getTransactionDetail } from '../../../redux/actions/'
@@ -12,7 +11,6 @@ import MedioPago from '../../../components/MedioPago'
 
 import {
   Content,
-  ContentCard,
   Card,
   CardHeader,
   CardContent1,
@@ -25,11 +23,9 @@ import {
   ItemValue,
   ItemGroup,
   ItemGroup2,
-  CardGroup,
   Card2,
   CardContent3,
   ButtonExportar,
-  ButtonImg,
   CardContentButton,
   ButtonTransacciones,
   ContentLog,
@@ -41,13 +37,21 @@ import {
   LogMetodo,
   LogHora,
   LogGroupDivider,
-  LoadingContent,
   CardLast,
+  ContainerTransactionDetail,
+  ContentCardDetails,
+  ContentCardActions,
+  ContentItemDescription,
+  InfoConfirmation,
+  InfoSent,
+  InfoSentComplete,
+  CardHeaderAcciones,
+  ContentItemUrl,
+  ItemValueUrl
 } from './styles'
-import axios from 'axios'
 import LoadingBar from '../../../components/LoadingBar'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -56,7 +60,7 @@ const breadcrumb = [
   {
     title: 'Transacciones',
     path: '/transacciones',
-    active: false,
+    active: true,
   },
   {
     title: 'Detalle de transacción',
@@ -72,7 +76,8 @@ const defaultLogResponse = {
   url: '-',
 }
 
-const TransaccionesDetalles = ({ history }: any) => {
+const TransaccionesDetalles = ({ history, setBreadcrumb }: any) => {
+
   let iconStyles = { color: '#d3d3d3' }
   let iconStylesExport = { size: '100px', color: '#d3d3d3' }
   const dispatch = useDispatch()
@@ -88,6 +93,11 @@ const TransaccionesDetalles = ({ history }: any) => {
   const [data, setData] = useState<any>({})
   const [logss, setLogss] = useState<any>([])
   const [log, setLog] = useState<any>(defaultLogResponse)
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
+  
   useEffect(() => {
     getTransactionDetail(id)
       .then((resp) => {
@@ -99,14 +109,14 @@ const TransaccionesDetalles = ({ history }: any) => {
       .catch(() => setLoading(false))
   }, [])
 
+  const[nuevo,setNuevo]=useState(false)
   const openClose = () => {
+    setNuevo(!nuevo)
     if (!openCard) {
       setOpenCard(true)
       setOpenCardContent({
         display: 'block',
       })
-
-      //dispatch(getPropertySite())
     } else {
       setOpenCard(false)
       setOpenCardContent({
@@ -121,8 +131,6 @@ const TransaccionesDetalles = ({ history }: any) => {
       setOpenCardContent1({
         display: 'block',
       })
-
-      //dispatch(getPropertySite())
     } else {
       setOpenCard1(false)
       setOpenCardContent1({
@@ -137,8 +145,6 @@ const TransaccionesDetalles = ({ history }: any) => {
       setOpenCardContent2({
         display: 'block',
       })
-
-      //dispatch(getPropertySite())
     } else {
       setOpenCard2(false)
       setOpenCardContent2({
@@ -150,21 +156,15 @@ const TransaccionesDetalles = ({ history }: any) => {
   useEffect(() => {
     setLogsKey(Object.keys(log))
   }, [log])
-  useEffect(() => {
-    console.log('loooog', log)
-  })
+
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerTransactionDetail>
       <Title title={`Detalle de transacción: #${id}`}></Title>
       {loading ? (
-        <LoadingContent>
           <LoadingBar text={'Cargando...'} />
-        </LoadingContent>
       ) : (
         <Content>
-          <ContentCard>
-            <CardGroup>
+          <ContentCardDetails>
               <Card>
                 <CardHeader>
                   <CardTitle>Detalle de transacción</CardTitle>
@@ -176,7 +176,8 @@ const TransaccionesDetalles = ({ history }: any) => {
                     )}
                   </CardIcon>
                 </CardHeader>
-                <CardContent1 theme={openCardContent}>
+                <CardContent1 theme={openCardContent} data-nuevo={nuevo}>
+
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Ref.Payco</ItemTitle>
@@ -199,6 +200,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                       <ItemValue>{data.status ? data.status : '-'}</ItemValue>
                     </ItemGroup>
                   </ContentItem>
+
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Factura</ItemTitle>
@@ -221,6 +223,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                       <ItemValue></ItemValue>
                     </ItemGroup>
                   </ContentItem>
+
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Fecha Transacción</ItemTitle>
@@ -243,7 +246,8 @@ const TransaccionesDetalles = ({ history }: any) => {
                       <ItemValue>{data.response ? data.response : '-'}</ItemValue>
                     </ItemGroup>
                   </ContentItem>
-                  <ContentItem>
+
+                  <ContentItemDescription>
                     <ItemGroup2>
                       <ItemTitle>Descripción Compra</ItemTitle>
                       <ItemValue>{data.description ? data.description : '-'}</ItemValue>
@@ -253,7 +257,8 @@ const TransaccionesDetalles = ({ history }: any) => {
                       <ItemTitle>Autorización</ItemTitle>
                       <ItemValue>{data.authorization ? data.authorization : '-'}</ItemValue>
                     </ItemGroup>
-                  </ContentItem>
+                  </ContentItemDescription>
+
                   <ContentItem>
                     <ItemGroup>
                       <ItemTitle>Ganancia Cliente</ItemTitle>
@@ -316,18 +321,19 @@ const TransaccionesDetalles = ({ history }: any) => {
                       </ItemValue>
                     </ItemGroup>
                   </ContentItem>
-                  <ContentItem>
-                    <ItemGroup>
+
+                  <ContentItemUrl>
+                    <ItemGroup2>
                       <ItemTitle>Url Confirmación:</ItemTitle>
-                      <ItemValue>{data.urlConfirmation ? data.urlConfirmation : '-'}</ItemValue>
-                    </ItemGroup>
-                  </ContentItem>
-                  <ContentItem>
+                      <ItemValueUrl>{data.urlConfirmation ? data.urlConfirmation : '-'}</ItemValueUrl>
+                    </ItemGroup2>
+                  </ContentItemUrl>
+                  <ContentItemUrl>
                     <ItemGroup2>
                       <ItemTitle>Url Respuesta:</ItemTitle>
-                      <ItemValue>{data.urlResponse ? data.urlResponse : '-'}</ItemValue>
+                      <ItemValueUrl>{data.urlResponse ? data.urlResponse : '-'}</ItemValueUrl>
                     </ItemGroup2>
-                  </ContentItem>
+                  </ContentItemUrl>
                 </CardContent1>
               </Card>
               <Card>
@@ -408,7 +414,6 @@ const TransaccionesDetalles = ({ history }: any) => {
                   </ContentItem>
                 </CardContent1>
               </Card>
-
               <CardLast>
                 <CardHeader>
                   <CardTitle>Información enviada en la confirmación</CardTitle>
@@ -425,7 +430,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     <LogGroup>
                       <Log>
                         {logss.length === 0 || logss === []
-                          ? ''
+                          ? <label>Sin información</label>
                           : logss.length > 0 &&
                             logss.map((e: any, i: number) => (
                               <LogItem key={i} onClick={() => setLog(e)}>
@@ -452,7 +457,7 @@ const TransaccionesDetalles = ({ history }: any) => {
                     </LogGroup>
 
                     <LogGroupDivider>
-                      <div className="info">
+                      <InfoConfirmation>
                         <table>
                           <tr>
                             <th>Estado</th>
@@ -489,12 +494,13 @@ const TransaccionesDetalles = ({ history }: any) => {
                             <td>{log.url}</td>
                           </tr>
                         </table>
-                      </div>
-                      <div className="infoToSend">
+                      </InfoConfirmation>
+
+                      <InfoSent>
                         <h3>Información enviada</h3>
-                        <div className="infoComplete">
+                        <InfoSentComplete >
                           {logss.length === 0 || logss === []
-                            ? 'Sin información'
+                            ? <label>Sin información</label>
                             : logsKey.map((e: any, i: number) => (
                                 <div className="boxInfo">
                                   <div>
@@ -505,36 +511,41 @@ const TransaccionesDetalles = ({ history }: any) => {
                                   </div>
                                 </div>
                               ))}
-                        </div>
-                      </div>
+                        </InfoSentComplete>
+                      </InfoSent>
                     </LogGroupDivider>
                   </ContentLog>
                 </CardContent2>
               </CardLast>
-            </CardGroup>
-            <CardGroup>
+            </ContentCardDetails>
+
+            <ContentCardActions>
               <Card2>
-                <CardHeader>
+
+                <CardHeaderAcciones>
                   <CardTitle>Acciones</CardTitle>
                   <CardSubTitle>Las siguientes acciones pueden no ser reversibles.</CardSubTitle>
-                </CardHeader>
+                </CardHeaderAcciones>
+
                 <CardContent3>
                   <ButtonExportar onClick={() => window.open(`/api/transaction/receipt/${id}`)}>
                     <AiIcons.AiFillFilePdf style={iconStylesExport} />
                     Descargar comprobante
                   </ButtonExportar>
                 </CardContent3>
+
                 <CardContentButton>
                   <ButtonTransacciones onClick={() => history.push('/transacciones')}>
                     &laquo; Volver a transacciones
                   </ButtonTransacciones>
                 </CardContentButton>
               </Card2>
-            </CardGroup>
-          </ContentCard>
+
+
+          </ContentCardActions>
         </Content>
       )}
-    </div>
+    </ContainerTransactionDetail>
   )
 }
 

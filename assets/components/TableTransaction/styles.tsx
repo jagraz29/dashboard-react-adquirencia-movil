@@ -1,36 +1,17 @@
 import styled from 'styled-components'
+import { INTERMEDIATE, MOBILE } from '../../styles/breakpoints'
 
 export const StyledTable = styled.table`
   caption-side: top;
   border: none;
   border-collapse: collapse;
-  width: 57vw;
-  margin: 1vw;
-  height: 10vw;
-  /* border-collapse: separate; */
-  /* border-spacing: 5px 10px; */
-
   caption-side: bottom;
-  /* empty-cell: show | hide;  */
-  /* empty-cell is a property of table or the cells themselves */
-
-  /* vertical-align: baseline | sub | super | text-top | 
-                text-bottom | middle | top | bottom | 
-                <percentage> | <length> */
-
-  /* tbody {
-    vertical-align: top;
-  }              */
+  margin: 0.5rem;
   td,
   th {
     border: none;
-    height: 3vw;
+    height: 2.5rem;
   }
-  /* td,
-  th {
-    border: 1px solid;
-  } */
-
   td {
     padding: 5px 10px;
   }
@@ -67,31 +48,35 @@ export const StyledTable = styled.table`
     font-weight: normal;
     font-size: 13px;
     line-height: 17px;
+    min-width: 5rem;
+  }
+  @media (max-width: ${INTERMEDIATE}) {
+    display: none;
   }
 `
 
 export const TableTextMoneda = styled.h2`
   font-weight: bold;
-  font-size: 1vw;
+  font-size: 14px;
 `
 
 export const TableTextStatusOK = styled.h1`
   color: green;
-  font-size: 1vw;
+  font-size: 14px;
 `
 
 export const TableTextStatusPending = styled.h1`
   color: orange;
-  font-size: 1vw;
+  font-size: 14px;
 `
 
 export const TableTextStatusCancel = styled.h1`
-  font-size: 1vw;
+  font-size: 14px;
   color: #ff6660;
 `
 
 export const TableTextStatusOther = styled.h1`
-  font-size: 1vw;
+ font-size: 14px;
 `
 
 export const ContentAction = styled.div`
@@ -142,4 +127,72 @@ export const ModalButtons = styled.div`
       color: white;
     }
   }
+  @media (max-width: ${MOBILE}) {
+    grid-template-columns: 97%;
+    justify-content: center;
+    .buttonCancel{
+      margin-top: 0.5rem;
+    }
+  }
+`
+export const ResponsiveTableDashboard = styled.div`
+display: none;
+@media (max-width: ${INTERMEDIATE}) {
+    display: block;
+  }
+`
+export const ContentItem = styled.div`
+display: none;
+   @media (max-width: ${INTERMEDIATE}) {
+      display: flex;
+      flex-direction: row;
+      justify-content:space-between;
+      margin: 0.2rem 0;
+      a{
+        text-decoration: none;
+        color: #40A8E6;
+        font-weight: 500;
+      }
+  }
+
+`
+export const ClaveField = styled.label`
+
+   @media (max-width: ${INTERMEDIATE}) {
+    font-weight: 700;
+    
+  }
+
+`
+export const ValueItem = styled.label`
+
+  @media (max-width: ${INTERMEDIATE}) {
+    text-align: end;
+  }
+`
+export const ValueStatus = styled.label`
+
+  @media (max-width: ${INTERMEDIATE}) {
+    text-align: end;
+    color: ${(props: any) => 
+      (props['data-estado'] === "Aceptada"? "#67C940": 
+      props['data-estado'] === "Rechazada"? "#ff6660":
+      props['data-estado'] === "Pendiente"? "orange":
+      "black"
+      )};
+    font-weight:700;
+  }
+`
+export const ContainerBox = styled.div`
+display: none;
+
+  @media (max-width: ${INTERMEDIATE}) {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      margin: 1rem;
+      padding: 0.5rem;
+   }
+
 `

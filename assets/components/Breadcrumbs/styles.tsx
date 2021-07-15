@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export const Breadcrumb = styled.ul`
-  position: absolute;
-  left: 19vw;
   list-style: none;
   font-family: Segoe UI;
   font-style: normal;
