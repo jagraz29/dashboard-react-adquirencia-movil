@@ -54,7 +54,7 @@ export const IconService = {
 }
 export const IconSoporte = {
   name: 'IconSoporte',
-  url: 'https://s3.amazonaws.com/multimedia-epayco/dashboard/support.png',
+  url: process.env.URL_S3_IMAGES + '/dashboard/support.png',
 }
 
 export const CardsIcons: any = {
