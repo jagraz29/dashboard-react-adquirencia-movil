@@ -1,19 +1,9 @@
 import React, { useState } from 'react'
 import { ContentInput, InputLabel, Input, ButtonSearch } from './styles'
 import * as RiIcons from 'react-icons/hi'
+import { InputSearchType } from '../../types'
 
-type Props = {
-  name: string
-  type: string
-  placeholder: string
-  width: string
-  value: string
-  onChange: any
-  returnComplete?: boolean
-  eventSearch: any
-}
-
-const InputSearch: React.FC<Props> = ({
+const InputSearch: React.FC<InputSearchType> = ({
   name,
   type,
   placeholder,
@@ -33,7 +23,7 @@ const InputSearch: React.FC<Props> = ({
     }
   }
 
-  const handlerOnChick = (valor: string) => {
+  const handlerOnChick = (valor: any) => {
     eventSearch(value)
   }
 
