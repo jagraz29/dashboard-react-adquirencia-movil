@@ -1,12 +1,8 @@
 import React from 'react'
 import { Label } from './styles'
+import { InputLabelType } from '../../types'
 
-type Props = {
-  label: string
-  required?: boolean
-}
-
-const InputLabel: React.FC<Props> = ({ label, required }) => {
+const InputLabel: React.FC<InputLabelType> = ({ label, required }) => {
   return (
     <Label>
       {label} <span style={{ color: 'red' }}>{required && '*'}</span>

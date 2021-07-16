@@ -172,7 +172,7 @@ const CreateTicket = (props: any) => {
     }
 
     const res = await createTicket(data)
-    if (!!res == true) {
+    if (res == true) {
       toast.success('Se ha guardado correctamente el ticket.')
       redirectRoute('/soporte')
     } else {
