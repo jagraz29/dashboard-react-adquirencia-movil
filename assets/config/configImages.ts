@@ -58,7 +58,9 @@ export const IconSoporte = {
 }
 
 export const CardsIcons: any = {
-  VS: process.env.REACT_APP_URL_S3_IMAGES + '/adquirencia-movil/Medios+de+pago/VS+Cr%E2%80%9Adito+Visa.png',
+  VS:
+    process.env.REACT_APP_URL_S3_IMAGES +
+    '/adquirencia-movil/Medios+de+pago/VS+Cr%E2%80%9Adito+Visa.png',
   MS:
     process.env.REACT_APP_URL_S3_IMAGES +
     '/adquirencia-movil/Medios+de+pago/MS+Cr%E2%80%9Adito+Mastercard.png',

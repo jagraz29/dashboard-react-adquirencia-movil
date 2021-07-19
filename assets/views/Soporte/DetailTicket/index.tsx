@@ -92,7 +92,7 @@ const DetailTicket = () => {
   const [respuesta, setRespuesta] = useState('')
   const [imgLoaded, setImgLoaded] = useState([])
   const [showerror, setShowerror] = useState(false)
-  const urlRackespace = config.rackspaceImages
+  const urlRackespace = process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL
 
   useEffect(() => {
     getTicket()
@@ -158,8 +158,6 @@ const DetailTicket = () => {
     let hours = moment.duration(dateSystem.diff(dateMessege)).asHours()
     let min = moment.duration(dateSystem.diff(dateMessege)).asMinutes()
     let se = moment.duration(dateSystem.diff(dateMessege)).asSeconds()
-
-    // console.log({ dateMessege, dateRagerMessege, years, days, hours, min, se})
     return (
       <StyleDetail className={'container-message'} id={`ContainerMessege-${id}`}>
         <div className={'d-flex pt-4 pb-4 justify-content-center'}>
@@ -237,9 +235,7 @@ const DetailTicket = () => {
       if (accepted.length > 3 - imgLoaded.length) {
         toast.error('Solo puede subir máximo 3 imágenes')
       } else {
-        console.log(accepted[0])
         setImgLoaded(imgLoaded.concat(accepted[0]))
-        console.log(imgLoaded)
       }
     }
   }
@@ -253,7 +249,6 @@ const DetailTicket = () => {
     })
 
   const openDocSaved = (documentos: Document[], id: any) => {
-    console.log(id)
     setShowSavedDocs(true)
     setSlideActive(id != null && typeof id == 'number' ? String(id) : String(documentos[0].id))
   }
@@ -351,7 +346,6 @@ const DetailTicket = () => {
     let scrollHight = $('#StyleContainerMessege').prop('scrollHeight')
 
     if (scrollHight != null) {
-      console.log({ scrollTop: index, scrollHight })
       $('#StyleContainerMessege').animate({ scrollTop: scrollHight }, 1000)
     }
   }
