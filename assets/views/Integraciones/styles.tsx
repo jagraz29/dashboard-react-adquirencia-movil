@@ -44,7 +44,12 @@ export const CardHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-
+export const CardHeaderTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+`
 export const CardIcon = styled.div`
   margin: 1rem;
 
@@ -117,6 +122,11 @@ export const ContentInput = styled.div`
     grid-template-columns: 100%;
   }
 `
+export const ContentInputTotal = styled.div`
+  display: grid;
+  grid-template-columns: 100%;
+  margin-bottom: 0.5rem;
+`
 
 export const CardContentButton = styled.div`
   padding-top: 1rem;
@@ -128,6 +138,12 @@ export const CardContentButton = styled.div`
     width: 100%;
   }
 `
+export const CardContentButtonSeguridad = styled.div`
+  padding: 1rem;
+  border-top: 1px solid #d3d3d3;
+  display: ${(props) => props.theme.display};
+`
+
 
 
 export const ButtonCancel = styled.button`

@@ -88,8 +88,6 @@ const dataIdioma = [
     label: 'Inglés',
   },
 ]
-//BsFillCaretUpFill
-//BsFillCaretDownFill
 
 interface arrayFileInterface {
   lastModified: number
