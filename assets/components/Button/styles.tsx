@@ -1,28 +1,27 @@
 import styled from 'styled-components'
+import { MOBILE } from '../../styles/breakpoints'
 
 export const Button = styled.button`
-  font-size: 0.8vw;
-  background: #58d3f7;
-  border: 1px solid #58d3f7;
-  box-sizing: border-box;
+  background: #40a8e6;
+  border: 1px solid #40a8e6;
   border-radius: 4px;
-  width: 11vw;
-  height: 1.9vw;
-  top: 5vw;
   color: #ffffff;
-  justify-content: center;
-  align-items: center;
-
-  :hover,
-  :focus {
-    background: hsl(200, 90%, 45%);
+  height: 2rem;
+  padding: 0 1rem;
+  width: 10rem;
+  cursor: pointer;
+  :hover {
+    background: #2e98d6;
+  }
+  @media (max-width: ${MOBILE}) {
+      width: 100%;
   }
 `
 
 export const LoadingSpinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 0.8vw;
-  height: 0.8vw;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   border-left-color: white;
   margin: auto;

@@ -68,5 +68,5 @@ export const CardsIcons: any = {
 
 export const LogoDaviviendaEpayco = {
   name: 'LogoDaviviendaEpayco',
-  url: 'https://multimedia-epayco-test.s3.amazonaws.com/adquirencia-movil/Logos/logos.png',
+  url:   process.env.URL_S3_IMAGES +'/adquirencia-movil/Logos/logos.png',
 }

@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const Loading = styled.div`
   width: 100%;
-  padding: 3em 1em;
-  margin: 1em 0;
+  padding: 3rem 0;
+  margin: 1rem 0;
   text-align: center;
 
   span {

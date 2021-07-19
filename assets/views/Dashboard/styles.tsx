@@ -2,9 +2,8 @@ import styled from 'styled-components'
 import { TABLET, MOBILE } from '../../styles/breakpoints'
 
 export const Content = styled.div`
-  margin: 1rem;
   display: grid;
-  grid-template-rows:3.5fr 2.5fr auto;
+  grid-template-rows: auto 3.5fr 2.5fr auto;
   overflow: hidden;
 
   @media (max-width: ${MOBILE}) {
@@ -84,6 +83,8 @@ export const ContentPay = styled.div`
   border-radius: 4px;
   display: grid;
   grid-template-columns: auto 15rem;
+  margin: 1rem;
+  margin-top: 0;
 
   @media (max-width: ${TABLET}) {
     grid-template-columns: 2fr 1fr;
@@ -101,8 +102,9 @@ export const ContentTable = styled.div`
   background-color: white;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
-  /* margin: 1rem 0; */
-  @media (max-width: ${MOBILE}) {
+  margin: 1rem;
+  margin-top: 0;
+    @media (max-width: ${MOBILE}) {
     overflow-x: hidden;
     margin: 0;
   }
@@ -154,16 +156,115 @@ export const CardTransaction= styled.div`
 `
 
 export const ContentItems = styled.div`
-  /* width: 100%; */
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 1rem;
-  margin: 1rem 0;
+  margin: 1rem;
   @media (max-width: ${MOBILE}){
     grid-template-columns: 100%;
     ${CardTransaction}{
       margin: 0.5rem 0;
+    }
+  }
+`
+
+export const ContentTickets = styled.div`
+  background: white;
+  margin-bottom: ${(props:any) =>( props['data-open']? "0": "1rem")};
+  border-bottom: 1px solid #FF9215;
+  border-top: 2px solid #FF9215;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 2.5rem;
+  @media (max-width: ${MOBILE}) {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem;
+  }
+`
+
+export const ContainerItemTicket = styled.div`
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+
+`
+export const TitleTicket = styled.h5`
+  margin: 0;
+  color:#3E3E3E;
+  margin-right: 0.2rem;
+`
+export const ValueTicket = styled.h5`
+  margin: 0;
+  color:#FF9215;
+
+`
+export const ContainerTableTickets = styled.div`
+  width: 100%;
+  display: ${(props:any) =>( props['data-open']? "block": "none")};
+  margin-bottom: 1rem;
+  @media (max-width: ${MOBILE}) {
+      display:none;
+  }
+`
+export const ContainerTicket = styled.div`
+
+`
+export const TableTickets = styled.table`
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #FF9215;
+    background: white;
+    thead{
+      tr{
+        font-size: 13px;
+      }
+    }
+    tbody{
+      tr{
+        font-size: 15px;
+        .orangeValue{
+          color:#FF9215;
+          text-decoration: none;
+        }
+      }
+    }
+
+`
+export const ContainerTicketsResponsive = styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+      display: ${(props:any) =>( props['data-open']? "flex": "none")};
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+  }
+`
+export const TicketResponsive= styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 1rem;
+    border-bottom: 1px dashed #FF9215;
+  }
+`
+export const ContentValueTicket= styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    h6{
+      margin: 0;
+    }
+    a{
+      color:#FF9215;
+      text-decoration: none;
+      font-size: 14px;
     }
   }
 `

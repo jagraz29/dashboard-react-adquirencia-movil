@@ -11,7 +11,17 @@ import { Content,
     NotUserImage,
     NameContent,
     BoxLink,
-    CardTransaction
+    CardTransaction,
+    ContentTickets,
+    ContainerItemTicket,
+    TitleTicket,
+    ValueTicket,
+    ContainerTableTickets,
+    ContainerTicket,
+    TableTickets,
+    ContainerTicketsResponsive,
+    TicketResponsive,
+    ContentValueTicket
   }
  from './styles'
 
@@ -22,6 +32,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import LoadingBar from '../../components/LoadingBar'
 import Avatar from '../../components/Avatar'
+import { BsChevronDown } from 'react-icons/bs';
+import { getTickets } from '../../redux/actions/captchaActions';
 
 const dataTitle = [
   'Ref.Payco',
@@ -31,6 +43,9 @@ const dataTitle = [
   'Valor',
   'Moneda',
   'Estado',
+]
+const dataTitleTickets=[
+  "Id Ticket","Fecha","Etapa","Área de atención", "Estado","Ver todos los tickets"
 ]
 
 const index = ({setBreadcrumb}:any) => {
@@ -80,10 +95,105 @@ const index = ({setBreadcrumb}:any) => {
 
   useEffect(() => {
     dispatch(getListTransactionSite('?limit=3'))
+    getTicketsOpen()
   }, [])
- 
+
+
+  const [open, setOpen]= useState(false)
+  const [ticketsOpen, setTicketsOpen] = useState([])
+  const [lastTicketOpen, setLastTicketOpen] = useState<any>({})
+
+
+  const getTicketsOpen = async () => {
+    const data = {
+      estado: 1,
+    }
+    const tickets = await getTickets(data)
+    if (typeof tickets != 'boolean') {
+      setTicketsOpen(tickets)
+      setLastTicketOpen(tickets[0])
+      console.log(tickets)
+    }
+  }
+
   return (
     <Content>
+      <>
+        <ContentTickets data-open={open}>
+          <ContainerItemTicket>
+              <TitleTicket>Último ticket:</TitleTicket>
+              <ValueTicket>{lastTicketOpen.id?`#${lastTicketOpen.id} - ${lastTicketOpen.fechaActualizacion}`:"-"}</ValueTicket>
+          </ContainerItemTicket>
+          <ContainerItemTicket>
+              <TitleTicket>Tickets en proceso:</TitleTicket>
+              <ValueTicket>-</ValueTicket>
+          </ContainerItemTicket>
+          <ContainerItemTicket>
+              <TitleTicket>Ticket abiertos:</TitleTicket>
+              <ValueTicket>{ticketsOpen.length>0? ticketsOpen.length : "-"}</ValueTicket>
+          </ContainerItemTicket>
+          <ContainerItemTicket>
+          <ValueTicket onClick={()=> setOpen(!open)}>Ver detalle <BsChevronDown/></ValueTicket>
+          </ContainerItemTicket>
+        </ContentTickets>
+        <ContainerTableTickets data-open={open}>
+          <TableTickets>
+            <thead>
+              <tr>
+                {
+                  dataTitleTickets.map((e,i)=>(
+                      <th key={i}>{e}</th>
+                  ))
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {
+                ticketsOpen.length>0 && ticketsOpen.map((e:any,i:number)=>(
+                  <tr key={i}>
+                    <td className="orangeValue">{e.id}</td>
+                    <td>{e.fechaActualizacion}</td>
+                    <td>{e.etapa}</td>
+                    <td>{e.departamento}</td>
+                    <td>{e.estado}</td>
+                    <Link className="orangeValue" to={`/soporte/detalle/${e.id}` }>Ver ticket</Link>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </TableTickets>
+        </ContainerTableTickets>
+        <ContainerTicketsResponsive data-open={open}>
+        {
+              ticketsOpen.length>0 && ticketsOpen.map((e:any,i:number)=>(
+                <TicketResponsive>
+                  <ContentValueTicket>
+                    <h6 >Id Ticket</h6>
+                    <Link  to={`/soporte/detalle/${e.id}` }>{e.id}</Link>
+                  </ContentValueTicket>
+                  <ContentValueTicket>
+                    <h6 >Fecha</h6>
+                    <h6 >{e.fechaActualizacion}</h6>
+                  </ContentValueTicket>
+                  <ContentValueTicket>
+                    <h6 >Etapa</h6>
+                    <h6>{e.etapa}</h6>
+                  </ContentValueTicket>
+                  <ContentValueTicket>
+                    <h6 >Área de atención</h6>
+                    <h6 >{e.departamento}</h6>
+                  </ContentValueTicket>
+                  <ContentValueTicket>
+                    <h6 >Estado</h6>
+                    <h6 >{e.estado}</h6>
+                  </ContentValueTicket>
+                </TicketResponsive>
+
+              ))
+          }
+        </ContainerTicketsResponsive>
+      </>
+      
       <ContentPay>
         <ConteinerUser >
           {logo?
