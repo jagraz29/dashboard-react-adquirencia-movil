@@ -25,6 +25,7 @@ const index = () => {
   const saveData = new StorageData().setData(viewState.captcha.userData.data)
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_URL_S3_IMAGES)
     dispatch(getDataUser())
   }, [saveData])
   const name = viewState.captcha.userData.data.companyName

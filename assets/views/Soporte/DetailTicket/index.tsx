@@ -29,9 +29,11 @@ import ButtonSpinner from '../../../components/Button'
 import { CardContentButton } from '../../Integraciones/styles'
 import { CardSubTitle } from '../../Cobra/Edit/styles'
 import styled from 'styled-components'
-import { Avatar, Icon, Button } from 'antd'
+import { Avatar, Button, Icon } from 'antd'
 import Dropzone from 'react-dropzone'
-import Collapse from 'react-collapse'
+import { Collapse } from 'react-collapse'
+import { config } from '../../../config/enviroment'
+import { ButtonImageLoad } from '../CreateTicket/styles'
 
 interface Document {
   id: number
@@ -88,11 +90,9 @@ const DetailTicket = () => {
   const [activeUpfil, setActiveUpfil] = useState(false)
   const [loading, setLoading] = useState(false)
   const [respuesta, setRespuesta] = useState('')
-  const img = {
-    imgLoaded: [],
-    showerror: false,
-  }
-  const urlRackespace = process.env.RACKSPACE_CONTAINER_BASE_PUBLIC_URL
+  const [imgLoaded, setImgLoaded] = useState([])
+  const [showerror, setShowerror] = useState(false)
+  const urlRackespace = config.rackspaceImages
 
   useEffect(() => {
     getTicket()
@@ -225,19 +225,21 @@ const DetailTicket = () => {
   }
 
   const deleteFile = (numero: number) => {
-    let currentfiles = [...img.imgLoaded]
+    let currentfiles = [...imgLoaded]
     currentfiles.splice(numero, 1)
-    img.imgLoaded = currentfiles
+    setImgLoaded(currentfiles)
   }
 
-  const onDropImg = (accepted: [], rejected: []) => {
+  const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
       toast.error('Solo puede subir archivos con extención .jpg, .jpeg, .png, .gif')
     } else {
-      if (accepted.length > 3 - img.imgLoaded.length) {
+      if (accepted.length > 3 - imgLoaded.length) {
         toast.error('Solo puede subir máximo 3 imágenes')
       } else {
-        img.imgLoaded.concat(accepted)
+        console.log(accepted[0])
+        setImgLoaded(imgLoaded.concat(accepted[0]))
+        console.log(imgLoaded)
       }
     }
   }
@@ -295,13 +297,13 @@ const DetailTicket = () => {
       setLoading(false)
       return false
     }
-    if (img.imgLoaded.length > 0) {
-      for (const image of img.imgLoaded) {
+    if (imgLoaded.length > 0) {
+      for (const image of imgLoaded) {
         arrImages.push(await toBase64(image))
       }
     }
     const data = {
-      idTicker: id,
+      id: id,
       respuesta: respuesta,
       files: arrImages,
     }
@@ -492,7 +494,7 @@ const DetailTicket = () => {
                     <div className={'col-12'}>
                       <div className="campo pl-0">
                         <label htmlFor="">
-                          Documentos adicionales{' '}
+                          Documentos adicionales
                           <small>
                             <i className={'cg'}>
                               Soporte su solicitud anterior con documentos o imágenes.{' '}
@@ -501,23 +503,23 @@ const DetailTicket = () => {
                         </label>
                         <p className={'description'}>Máximo hasta 3 documentos</p>
                         <div className="f01 jcfs">
-                          {img.imgLoaded.length < 3 &&
-                          loading &&
+                          {imgLoaded.length < 3 &&
+                          !loading &&
                           (estado == 'abierto' || estado == 'proceso') ? (
                             <Dropzone
                               accept="image/jpeg, image/png, image/jpg, application/pdf"
-                              onDrop={onDropImg.bind(this)}
-                              className="drop-photo"
-                              activeClassName={'drop-photo-active'}
-                              name="img"
-                              maxSize={5242880}
+                              onDrop={onDropImg}
                             >
-                              <div className="f02 drop-photo-icon">
-                                <span>
-                                  Arrastre el archivo o <i>seleccione</i> un archivo desde su equipo
-                                  <br /> (svg /jpg /pdf) que no supere 5MB
-                                </span>
-                              </div>
+                              {({ getRootProps, getInputProps }) => (
+                                <ButtonImageLoad {...getRootProps()}>
+                                  <input {...getInputProps()} />
+                                  <i style={{ fontSize: '10px' }}>
+                                    Arrastre el archivo o{' '}
+                                    <span style={{ color: 'skyblue' }}>Seleccione</span> un archivo
+                                    desde su equipo (svg, jpg o pdf) que no supere 5MB
+                                  </i>
+                                </ButtonImageLoad>
+                              )}
                             </Dropzone>
                           ) : (
                             <div className={'drop-photo disabled'}>
@@ -531,7 +533,7 @@ const DetailTicket = () => {
                           )}
 
                           <div className="drop-photo-loaded f01 jcfs">
-                            {img.imgLoaded.map((image: any, index: number) => (
+                            {imgLoaded.map((image: any, index: number) => (
                               <div className={'container-photo'}>
                                 <div className="photo" key={`${image.name}-${index}`}>
                                   {image.type == 'application/pdf' ? (
@@ -560,9 +562,8 @@ const DetailTicket = () => {
                               </div>
                             ))}
                           </div>
-
-                          <Collapse className={'wc '} isOpened={img.showerror ? true : false}>
-                            <small className={'error'}> {img.showerror}</small>
+                          <Collapse className={'wc '} isOpened={showerror ? true : false}>
+                            <small className={'error'}> {showerror}</small>
                           </Collapse>
                         </div>
                       </div>
@@ -571,12 +572,11 @@ const DetailTicket = () => {
                 </div>
                 <div className={'container-field d-flex justify-content-start align-items-end'}>
                   <Icon
-                    disabled={estado != 'abierto' && estado != 'proceso' ? true : loading}
                     className={'btn-icon-fil'}
                     type={`${!activeUpfil ? 'upload' : 'close-circle'}`}
                     onClick={() =>
                       !loading && (estado == 'abierto' || estado == 'proceso')
-                        ? setActiveUpfil(activeUpfil)
+                        ? setActiveUpfil(!activeUpfil)
                         : null
                     }
                   />

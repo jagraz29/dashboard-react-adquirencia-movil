@@ -62,7 +62,7 @@ export default function ShareLink(cobraId?: any) {
                 <FlagContainer>
                   <Flag
                     src={
-                      `${process.env.URL_S3_IMAGES}` +
+                      `${process.env.REACT_APP_URL_S3_IMAGES}` +
                       '/my-epayco/flags/' +
                       item.label.toLowerCase() +
                       '.svg'

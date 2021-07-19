@@ -316,6 +316,7 @@ export const detailTicket = async (id: number) => {
 export const createTicketResponse = async (data: any) => {
   try {
     const dataRes = await dataService.post('/api/ticket/save', data)
+    console.log(dataRes)
     return dataRes.data
   } catch (error) {
     return false

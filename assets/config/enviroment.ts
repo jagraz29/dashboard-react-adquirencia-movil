@@ -21,4 +21,5 @@ export const config = {
   modeCheckout: process.env.REACT_APP_CHECKOUT_MODE !== 'prod',
   urlResultCheckout: process.env.REACT_APP_URL_RESULT_CHECKOUT,
   apiBack: process.env.API,
+  rackspaceImages: process.env.RACKSPACE_CONTAINER_BASE_PUBLIC_URL,
 }
