@@ -1,17 +1,8 @@
 import React, { useState } from 'react'
 import { ContentInput, InputLabel, Input } from './styles'
+import { InputCostumerType } from '../../types'
 
-type Props = {
-  name: string
-  type: string
-  placeholder: string
-  width: string
-  value: string
-  onChange: any
-  returnComplete?: boolean
-}
-
-const InputCustumer: React.FC<Props> = ({
+const InputCustumer: React.FC<InputCostumerType> = ({
   name,
   type,
   placeholder,

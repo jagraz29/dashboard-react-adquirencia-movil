@@ -116,7 +116,7 @@ const CollectShow = () => {
     }
   }, [dataList])
 
-  const stateString = (value: any) => {
+  const stateString = (value: number) => {
     if (value == 1) {
       return 'Pendiente'
     } else if (value == 2) {
@@ -124,7 +124,7 @@ const CollectShow = () => {
     }
   }
 
-  const typeString = (value: any) => {
+  const typeString = (value: number) => {
     let response = ''
     switch (value) {
       case 1:
@@ -182,6 +182,9 @@ const CollectShow = () => {
 
   const duplicateCollectModal = () => {
     Swal.fire({
+      customClass: {
+        confirmButton: 'swalBtnColor',
+      },
       title: '¿Seguro que desea duplicar el link de cobro?',
       icon: 'warning',
       showCancelButton: true,
@@ -189,8 +192,8 @@ const CollectShow = () => {
       allowOutsideClick: false,
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Duplicar',
-      cancelButtonColor: '#1c0e49',
-      confirmButtonColor: '#e67e22',
+      cancelButtonColor: '#40A8E6',
+      confirmButtonColor: '#FFFFFF',
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -201,6 +204,9 @@ const CollectShow = () => {
 
   const deleteCollectModal = () => {
     Swal.fire({
+      customClass: {
+        confirmButton: 'swalBtnColor',
+      },
       title: '¿Seguro que desea eliminar el link de cobro?',
       text: 'Una vez lo elimine no podrá recuperar la URL, ni la información',
       icon: 'warning',
@@ -209,8 +215,8 @@ const CollectShow = () => {
       allowOutsideClick: false,
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Eliminar',
-      cancelButtonColor: '#1c0e49',
-      confirmButtonColor: '#e67e22',
+      cancelButtonColor: '#40A8E6',
+      confirmButtonColor: '#FFFFFF',
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
