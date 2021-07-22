@@ -164,8 +164,7 @@ export const getListCollect = (searchGeneral: any) => async (dispatch: any) => {
 export const editSellLink = (id: number) => async (dispatch: any) => {
   try {
     const { data } = await dataService.get(`http://localhost:8000/api/collect/edit/${id}`)
-    const resData = data.data
-    return resData
+    return data.data
   } catch (error) {
     return false
   }
@@ -190,8 +189,7 @@ export const getListTransactionSite = (filter: string) => async (dispatch: any) 
 export const getListTransactionSite2 = (filter: string) => async (dispatch: any) => {
   try {
     const { data } = await dataService.get(`api/transaction${filter}`)
-    const resData = data.data
-    return resData
+    return data.data
   } catch (error) {
     return false
   }
@@ -237,8 +235,6 @@ export const getPriorities = async () => {
   try {
     const { data } = await dataService.get('/api/ticket/priorities')
     return data.data
-    const resData = data.data
-    return resData
   } catch (error) {
     return false
   }
@@ -247,8 +243,7 @@ export const getPriorities = async () => {
 export const exportExcel = (filter: string) => async (dispatch: any) => {
   try {
     const { data } = await dataService.get(`api/transaction/export.xlsx/${filter}`)
-    const resData = data.data
-    return resData
+    return data.data
   } catch (error) {
     return false
   }

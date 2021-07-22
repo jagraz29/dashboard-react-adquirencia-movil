@@ -91,7 +91,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     if (!$user instanceof User) {
       throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
     }
-    $this->session->migrate();
+    $this->session->migrate(true);
     return $user;
 
     // Return a User object after making sure its data is "fresh".
