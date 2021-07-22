@@ -111,7 +111,7 @@ const CollectShow = () => {
       if (dataList.log_transactions.length > 3) {
         setData(dataList.log_transactions.slice(0, 3))
       } else {
-        setData(dataList)
+        setData(dataList.log_transactions)
       }
     }
   }, [dataList])
@@ -414,7 +414,7 @@ const CollectShow = () => {
           <CardTableTitle>Historial de pagos</CardTableTitle>
           <CardTableSubTitle>Lista de los pagos realizados con el link de cobro</CardTableSubTitle>
           {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') ? (
-            dataTable && dataTable.length > 3 ? (
+            dataTable && dataTable.length >= 3 ? (
               <>
                 <TableLogTransactions data={data} titleData={dataTitle} />
                 <ContentPagination>
