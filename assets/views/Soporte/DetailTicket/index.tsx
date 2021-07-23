@@ -2,6 +2,8 @@ import Breadcrumbs from '../../../components/Breadcrumbs/'
 import Title from '../../../components/Title'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload, faFile, faTrash } from '@fortawesome/free-solid-svg-icons'
 import {
   CardPending,
   CardTransactionTitle,
@@ -32,30 +34,9 @@ import styled from 'styled-components'
 import { Avatar, Button, Icon } from 'antd'
 import Dropzone from 'react-dropzone'
 import { Collapse } from 'react-collapse'
-import { config } from '../../../config/enviroment'
 import { ButtonImageLoad } from '../CreateTicket/styles'
+import { TicketDocument, TicketMessage } from '../../../types'
 
-interface Document {
-  id: number
-  respuestaticket_id: number
-  created_at: string
-  nombre: string
-  ruta: string
-  base64: string
-}
-interface Message {
-  id: number
-  created_at: string
-  tipo_user: number
-  creado_por: string
-  texto: string
-  firma: string
-  tiporespuesta: number
-  estadosrespuestas_id: number
-  tickets_id: 19694
-  asunto: null
-  documentos: Document[]
-}
 const breadcrumb = [
   {
     title: 'Inicio',
@@ -83,7 +64,7 @@ const DetailTicket = () => {
   const [etapa, setEtapa] = useState('')
   const [fecha, setFecha] = useState('')
   const [fechaActualizacion, setFechaActualizacion] = useState('')
-  const [respuestas, setRespuestas] = useState<Message[]>([])
+  const [respuestas, setRespuestas] = useState<TicketMessage[]>([])
   const [loadingButton, setLoadingButton] = useState(false)
   const [showSavedDocs, setShowSavedDocs] = useState(false)
   const [slideActive, setSlideActive] = useState('')
@@ -118,7 +99,7 @@ const DetailTicket = () => {
     }
   }
 
-  const ViewGalleryMessege = ({ urlBase, url, count, gallery, action, id }: any) => {
+  const ViewGalleryMessege = ({ urlBase, url, name, count, gallery, action, id }: any) => {
     // Estilo de mini vista en styleComponent
     const StyleView = styled.div`
       width: 113px;
@@ -135,7 +116,12 @@ const DetailTicket = () => {
       display: block;
       position: relative;
     `
-    return (
+    return url.substr(url.length - 3) == 'pdf' ? (
+      <p>
+        <FontAwesomeIcon icon={faDownload} onClick={() => window.open(urlBase + url, '_blank')} />
+        {name}
+      </p>
+    ) : (
       <StyleView
         className={`document-view-${count}`}
         style={{
@@ -202,6 +188,7 @@ const DetailTicket = () => {
                     <ViewGalleryMessege
                       urlBase={urlRackespace}
                       url={img.ruta}
+                      name={img.nombre}
                       count={gallery.length}
                       key={index}
                       id={index}
@@ -248,7 +235,7 @@ const DetailTicket = () => {
       reader.onerror = (error) => reject(error)
     })
 
-  const openDocSaved = (documentos: Document[], id: any) => {
+  const openDocSaved = (documentos: TicketDocument[], id: any) => {
     setShowSavedDocs(true)
     setSlideActive(id != null && typeof id == 'number' ? String(id) : String(documentos[0].id))
   }
@@ -532,7 +519,8 @@ const DetailTicket = () => {
                                 <div className="photo" key={`${image.name}-${index}`}>
                                   {image.type == 'application/pdf' ? (
                                     <p>
-                                      <i className={'fa fa-file mr-2'}></i> {image.name}
+                                      <FontAwesomeIcon icon={faFile} />
+                                      {image.name}
                                     </p>
                                   ) : (
                                     <img src={URL.createObjectURL(image)} alt="" />
@@ -550,7 +538,7 @@ const DetailTicket = () => {
                                   className="close-photo d-flex justify-content-center align-items-center"
                                   onClick={() => !loading && deleteFile(index)}
                                 >
-                                  <i className="fa fa-trash" />
+                                  <FontAwesomeIcon icon={faTrash} />
                                   {!loading ? <span>Eliminar</span> : <span>procesando</span>}
                                 </div>
                               </div>
