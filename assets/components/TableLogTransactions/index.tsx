@@ -1,10 +1,22 @@
-import React, { useEffect } from 'react'
-import { StyledTable } from './styles'
+import React from 'react'
+import { 
+  ResponsiveTableLogCobra, 
+  StyledTable, 
+  ContentItem,
+  ClaveField,
+  ValueItem,
+  ContainerBox
+} from './styles'
 type Props = {
   data: {}[]
   titleData: {}[]
 }
 
+const fields:any={
+  reference:"Referencia ePayco",
+  state:"Estado",
+  date:"Fecha",
+}
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
 
   const titles = Object.keys(titleData)
@@ -19,7 +31,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           <h1
             style={{
               textAlign: 'center',
-              fontSize: '1vw',
+              fontSize: '13px',
               color: 'green',
               textDecoration: 'none',
             }}
@@ -33,7 +45,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           <h1
             style={{
               textAlign: 'center',
-              fontSize: '1vw',
+              fontSize: '13px',
               color: 'orange',
               textDecoration: 'none',
             }}
@@ -47,7 +59,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           <h1
             style={{
               textAlign: 'center',
-              fontSize: '1vw',
+              fontSize: '13px',
               color: 'red',
               textDecoration: 'none',
             }}
@@ -61,7 +73,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           <h1
             style={{
               textAlign: 'center',
-              fontSize: '1vw',
+              fontSize: '13px',
               textDecoration: 'none',
             }}
           >
@@ -74,7 +86,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   }
 
   return (
-    <div>
+    <>
       <StyledTable>
         <colgroup>
           <col />
@@ -106,7 +118,26 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           ))}
         </tbody>
       </StyledTable>
-    </div>
+      <ResponsiveTableLogCobra>
+          {
+            data.map((item:any)=>{
+              const cajas= Object.keys(fields).map((clave:any)=>(
+                  <ContentItem>
+                    <ClaveField>{fields[clave]}</ClaveField>
+                    {fields[clave] === 'Estado' ? 
+                    <span>{addStatusClass(item[clave])}</span>
+                      :
+                      <ValueItem>{item[clave]}</ValueItem>
+                    }
+                  </ContentItem>
+              ))
+                return <ContainerBox>
+                  {cajas}
+                </ContainerBox>
+            })
+          }
+    </ResponsiveTableLogCobra>
+    </>
   )
 }
 

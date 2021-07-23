@@ -97,7 +97,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
       if (dataList.log_transactions.length > 3) {
         setData(dataList.log_transactions.slice(0, 3))
       } else {
-        setData(dataList)
+        setData(dataList.log_transactions)
       }
     }
   }, [dataList])
@@ -411,35 +411,46 @@ const CollectShow = ({setBreadcrumb}:any) => {
 
           <CardTableTitle>Historial de pagos</CardTableTitle>
           <CardTableSubTitle>Lista de los pagos realizados con el link de cobro</CardTableSubTitle>
-          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') ? (
-            dataTable && dataTable.length > 3 ? (
+          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') 
+          ? 
+          (dataTable && dataTable.length >0 
+            ? 
+            (
               <>
                 <TableLogTransactions data={data} titleData={dataTitle} />
                 <ContentPagination>
-                  {dataList.log_transactions.length > data.length ? (
+                  {dataList.log_transactions.length > data.length 
+                  ? 
+                  (
                     <ContentInputCard>
                       <ButtonsActions onClick={() => showMore()}>
                         <AiIcons.AiOutlineZoomIn />
                         Ver más
                       </ButtonsActions>
                     </ContentInputCard>
-                  ) : (
-                    ''
-                  )}
+                  ) 
+                  : 
+                  ('')
+                  }
 
-                  {data.length > 3 ? (
+                  {data.length > 3 
+                  ? 
+                  (
                     <ContentInputCard>
                       <ButtonsActions onClick={() => showLess()}>
                         <AiIcons.AiOutlineZoomOut />
                         Ver menos
                       </ButtonsActions>
                     </ContentInputCard>
-                  ) : (
-                    ''
-                  )}
+                  ) 
+                  : 
+                  ('')
+                  }
                 </ContentPagination>
               </>
-            ) : (
+            ) 
+            : 
+            (
               <h3
                 style={{
                   fontSize: '20px',
@@ -451,7 +462,9 @@ const CollectShow = ({setBreadcrumb}:any) => {
                 No se encontraron registros.
               </h3>
             )
-          ) : (
+          ) 
+          : 
+          (
             <LoadingBar text={'Cargando...'} />
           )}
 
