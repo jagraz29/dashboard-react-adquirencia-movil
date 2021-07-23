@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyledTable } from './styles'
 type Props = {
   data: {}[]
@@ -6,6 +6,7 @@ type Props = {
 }
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
+
   const titles = Object.keys(titleData)
   const datos = Object.keys(data[0])
 

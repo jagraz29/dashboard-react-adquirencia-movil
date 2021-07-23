@@ -118,7 +118,7 @@ const index = ({setBreadcrumb}:any) => {
 
   return (
     <Content>
-      <>
+      <div>
         <ContentTickets data-open={open}>
           <ContainerItemTicket>
               <TitleTicket>Último ticket:</TitleTicket>
@@ -192,7 +192,7 @@ const index = ({setBreadcrumb}:any) => {
               ))
           }
         </ContainerTicketsResponsive>
-      </>
+      </div>
       
       <ContentPay>
         <ConteinerUser >

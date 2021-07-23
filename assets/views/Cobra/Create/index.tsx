@@ -3,7 +3,6 @@ import * as BsIcons from 'react-icons/bs'
 import NumberFormat from 'react-number-format'
 
 import Title from '../../../components/Title'
-import Breadcrumbs from '../../../components/Breadcrumbs/'
 import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
@@ -39,12 +38,21 @@ import {
   DropLoaded,
   DropDocArea,
   Spinner,
+  ContainerPrincipal,
+  Labeltax,
+  InputGroupTax,
+  CardTitleSubtitle,
+  CardHeaderLink,
+  ContentCustomCollection,
+  SubtitleDropLoaded,
+  ContainerTitleCustom,
+  ContainerPhotoLoaded
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -52,6 +60,11 @@ const breadcrumb = [
   },
   {
     title: 'Cobra',
+    path: '/cobra',
+    active: true,
+  },
+  {
+    title: 'Link de cobro',
     path: '/cobra',
     active: false,
   },
@@ -72,7 +85,7 @@ interface cobroInterface {
   [key: string]: any
 }
 
-const CobraCreate = (props: any) => {
+const CobraCreate = ({setBreadcrumb}:any) => {
   const iconStyles = { color: '#d3d3d3' }
 
   const [cobro, setCobro] = useState<cobroInterface>({
@@ -111,6 +124,10 @@ const CobraCreate = (props: any) => {
   const [openCardContent, setOpenCardContent] = useState({ display: 'block' })
   const [openCardContent2, setOpenCardContent2] = useState({ display: 'none' })
   const [openCardContent3, setOpenCardContent3] = useState({ display: 'none' })
+  
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
@@ -360,19 +377,18 @@ const CobraCreate = (props: any) => {
   }, [])
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerPrincipal>
       <Title title={'Link de Cobro'}></Title>
       <Content>
         <ToastContainer />
         <ContentCard>
           <Card>
-            <CardHeader>
+            <CardHeaderLink>
               <CardTitle>Nuevo Link de Cobro</CardTitle>
               <CardSubTitle>Datos principales del link de cobro.</CardSubTitle>
-            </CardHeader>
+            </CardHeaderLink>
 
-            <CardContent1 theme={openCardContent}>
+            <CardContent1 theme={openCardContent} >
               <ContentInput>
                 <ContentInputCard>
                   <InputLabel required={true} label={'¿Qué cobra?'} />
@@ -380,7 +396,7 @@ const CobraCreate = (props: any) => {
                     name={'nombre'}
                     type={'text'}
                     placeholder={'Ej: Tennis blancos, Servicios profesionales'}
-                    width={'40vw'}
+                    width={'96%'}
                     value={cobro.nombre}
                     onChange={handleChangeInput}
                     returnComplete={true}
@@ -397,15 +413,15 @@ const CobraCreate = (props: any) => {
                     placeholder={
                       'Describa el producto o servicio, sus características y disponibilidad'
                     }
-                    width={'22.3vw'}
+                    width={'96%'}
                     value={cobro.descripcion}
                     onChange={handleChangeInput}
                   />
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-            {openCardContent && <hr />}
-            <CardContent1 theme={openCardContent}>
+
+            <CardContent1 theme={openCardContent} >
               <ContentInput>
                 <ContentInputCard>
                   <InputLabel label={'# Factura'} />
@@ -413,19 +429,19 @@ const CobraCreate = (props: any) => {
                     name={'factura'}
                     type={'text'}
                     placeholder={'Ej: P0001'}
-                    width={'40vw'}
+                    width={'96%'}
                     value={cobro.factura}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
-                  <span style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
+                  <span style={{color: '#bdbdbd' }}>
                     (Número de factura o referecia único por cobro)
                   </span>
                 </ContentInputCard>
               </ContentInput>
             </CardContent1>
-            {openCardContent && <hr />}
-            <CardContent1 theme={openCardContent}>
+
+            <CardContent1 theme={openCardContent} >
               <ContentInput>
                 <ContentInputCard>
                   <InputLabel required={true} label={'¿Cuánto vale?'} />
@@ -433,7 +449,7 @@ const CobraCreate = (props: any) => {
                     <InputSelect
                       name={'tipoMoneda'}
                       placeholder={'Seleccione Moneda'}
-                      width={'12vw'}
+                      width={'96%'}
                       dataSelect={[
                         { value: 'COP', label: 'COP' },
                         { value: 'USD', label: 'USD' },
@@ -478,38 +494,37 @@ const CobraCreate = (props: any) => {
 
             {checkTax && (
               <CardContent1 theme={openCardContent}>
-                <ContentInput
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
-                >
-                  <InputGroup>
+                <ContentInput>
+                  <InputGroupTax>
                     <ContentInputCard>
-                      <InputLabel label={'Impuesto al Consumo'} />
+                      <Labeltax >Impuesto al Consumo</Labeltax>
                       <InputCustumer
                         name={'consumo'}
                         type={'number'}
                         placeholder={'10'}
-                        width={'12vw'}
+                        width={'96%'}
                         value={impuestos.consumo}
                         onChange={handleChangeInput}
                         returnComplete={true}
                       />
                     </ContentInputCard>
                     <ContentInputCard>
-                      <InputLabel label={'Impuesto al valor agregado'} />
+                      <Labeltax>Impuesto al valor agregado</Labeltax>
                       <InputCustumer
                         name={'agregado'}
                         type={'number'}
                         placeholder={'10'}
-                        width={'12vw'}
+                        width={'96%'}
                         value={impuestos.agregado}
                         onChange={handleChangeInput}
                         returnComplete={true}
                       />
                     </ContentInputCard>
-                  </InputGroup>
-                  <span style={{ marginTop: '2vw', marginLeft: '2vw' }}>
-                    Total + Impuestos: ${total}
-                  </span>
+                    <ContentInputCard>
+                      <Labeltax > Total + Impuestos: ${total}</Labeltax>
+                    </ContentInputCard>
+                    
+                  </InputGroupTax>
                 </ContentInput>
               </CardContent1>
             )}
@@ -517,11 +532,13 @@ const CobraCreate = (props: any) => {
 
           <Card>
             <CardHeader onClick={() => openClose(2)}>
-              <CardTitle>Personalizar Cobro</CardTitle>
-              <CardSubTitle>
-                Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
-                caraterísticas, inventario, fecha de expiración del link de cobro.
-              </CardSubTitle>
+              <CardTitleSubtitle>
+                <CardTitle>Personalizar Cobro</CardTitle>
+                <CardSubTitle>
+                  Suba imágenes, especificaciones de su producto y/o servicio de un archivo de
+                  caraterísticas, inventario, fecha de expiración del link de cobro.
+                </CardSubTitle>
+              </CardTitleSubtitle>
               <CardIcon>
                 {openCard2 == true ? (
                   <BsIcons.BsFillCaretUpFill style={iconStyles} />
@@ -532,15 +549,14 @@ const CobraCreate = (props: any) => {
             </CardHeader>
 
             <CardContent2 theme={openCardContent2}>
-              <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
+
+              <ContentCustomCollection style={{ borderBottom: '1px solid #d3d3d3' }}>
                 <ContentInputImageCard>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <ContainerTitleCustom >
                     <InputLabel label={'Agregue imágenes del producto'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
-                      (Máximo 3 imágenes en formato .jpeg, .png, .jpg, .gif)
-                    </i>
-                  </div>
-                  <div style={{ display: 'flex' }}>
+                    <SubtitleDropLoaded> (Máximo 3 imágenes en formato .jpeg, .png, .jpg, .gif)</SubtitleDropLoaded>
+                  </ContainerTitleCustom>
+                  <ContainerPhotoLoaded >
                     <PhotoDropLoaded>
                       {loadImages.map((image, index) => (
                         <LoadImage key={`${image.name}-${index}`}>
@@ -569,19 +585,17 @@ const CobraCreate = (props: any) => {
                         )}
                       </Dropzone>
                     )}
-                  </div>
+                  </ContainerPhotoLoaded>
                 </ContentInputImageCard>
-              </ContentInput>
+              </ContentCustomCollection>
 
-              <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
-                <ContentInputImageCard>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ContentCustomCollection  style={{ borderBottom: '1px solid #d3d3d3' }}>
+                <ContentInputCard style={{marginTop: "0.5rem"}}>
+                  <ContainerTitleCustom >
                     <InputLabel label={'Suba indicaciones o especificaciones del producto'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
-                      (Máximo 1 archivo en formato .pdf)
-                    </i>
-                  </div>
-                  <div style={{ display: 'flex', margin: '1vw 0' }}>
+                    <SubtitleDropLoaded> (Máximo 1 archivo en formato .pdf) </SubtitleDropLoaded>
+                  </ContainerTitleCustom>
+                  <div style={{ display: 'flex', margin: '1rem 0' }}>
                     {loadFiles.map((file) => (
                       <DropLoaded key={file.name}>
                         <span>
@@ -603,7 +617,7 @@ const CobraCreate = (props: any) => {
                           <DropDocArea {...getRootProps()}>
                             <input {...getInputProps()} />
                             <BsIcons.BsCloudUpload
-                              style={{ color: '#40A8E6', marginLeft: '1vw' }}
+                              style={{ color: '#40A8E6', marginLeft: '0.5rem' }}
                             />
                             <p>Subir archivo</p>
                           </DropDocArea>
@@ -611,52 +625,52 @@ const CobraCreate = (props: any) => {
                       </Dropzone>
                     )}
                   </div>
-                </ContentInputImageCard>
-              </ContentInput>
+                </ContentInputCard>
+              </ContentCustomCollection>
 
-              <ContentInput style={{ borderBottom: '0.1vw solid #d3d3d3' }}>
-                <ContentInputCard style={{ marginBottom: '2vw' }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ContentCustomCollection style={{ borderBottom: '1px solid #d3d3d3' }}>
+                <ContentInputCard style={{margin: "0.5rem 0"}}>
+                  <ContainerTitleCustom>
                     <InputLabel label={'Cantidad'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#d3d3d3' }}>
-                      (Las veces que se hará el cobro)
-                    </i>
-                  </div>
+                    <SubtitleDropLoaded>(Las veces que se hará el cobro)</SubtitleDropLoaded>
+                  </ContainerTitleCustom>
                   <InputCustumer
                     name={'cantidad'}
                     type={'number'}
                     placeholder={'0'}
-                    width={'4vw'}
+                    width={'15rem'}
                     value={cobro.cantidad}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentCustomCollection>
 
-              <ContentInput>
-                <ContentInputCard>
+              <ContentCustomCollection>
+                <ContentInputCard style={{margin: "0.5rem 0"}}>
                   <InputLabel label={'Fecha de vencimiento'} />
                   <InputCustumer
                     name={'fechaVencimiento'}
                     type={'date'}
                     placeholder={'0'}
-                    width={'12vw'}
+                    width={'15rem'}
                     value={cobro.fechaVencimiento}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentCustomCollection>
             </CardContent2>
           </Card>
 
           <Card>
             <CardHeader onClick={() => openClose(3)}>
-              <CardTitle>URL de Confirmación</CardTitle>
-              <CardSubTitle>
-                Ingrese una página de confirmación y/o agradecimiento por la compra.
-              </CardSubTitle>
+              <CardTitleSubtitle>
+                <CardTitle>URL de Confirmación</CardTitle>
+                <CardSubTitle>
+                  Ingrese una página de confirmación y/o agradecimiento por la compra.
+                </CardSubTitle>
+              </CardTitleSubtitle>
               <CardIcon>
                 {openCard3 == true ? (
                   <BsIcons.BsFillCaretUpFill style={iconStyles} />
@@ -665,46 +679,43 @@ const CobraCreate = (props: any) => {
                 )}
               </CardIcon>
             </CardHeader>
-            <CardContent3 theme={openCardContent3}>
-              <ContentInput>
-                <ContentInputCard>
+            <CardContent3 theme={openCardContent3} >
+              <ContentInput style={{borderTop: "1px solid #d3d3d3"}}>
+                <ContentInputCard style={{padding:"1rem"}}>
                   <InputLabel label={'URL de confirmación'} />
                   <InputCustumer
                     name={'urlConfirmacion'}
                     type={'text'}
                     placeholder={'https://mi-tienda.com/page-confirmation'}
-                    width={'40vw'}
+                    width={'96%'}
                     value={cobro.urlConfirmacion}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
-                  <i style={{ fontSize: '0.7vw' }}>
-                    (URL donde se envia la confirmación de la transacción)
-                  </i>
+                  <CardSubTitle>(URL donde se envia la confirmación de la transacción) </CardSubTitle>
                 </ContentInputCard>
               </ContentInput>
+              
               <ContentInput>
-                <ContentInputCard>
+                <ContentInputCard style={{padding:"0 1rem"}}>
                   <InputLabel label={'URL de respuesta'} />
                   <InputCustumer
                     name={'urlRespuesta'}
                     type={'text'}
                     placeholder={'https://mi-tienda.com/page-response'}
-                    width={'40vw'}
+                    width={'96%'}
                     value={cobro.urlRespuesta}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
-                  <i style={{ fontSize: '0.7vw' }}>
-                    (URL donde el cliente es redireccionado al finalizar la transacción)
-                  </i>
+                  <CardSubTitle>(URL donde el cliente es redireccionado al finalizar la transacción)</CardSubTitle>
                 </ContentInputCard>
               </ContentInput>
             </CardContent3>
           </Card>
-          <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
+          
+          <CardContentButton>
             <ButtonOk
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               disabled={loadButton}
               onClick={handleSubmit}
             >
@@ -716,7 +727,7 @@ const CobraCreate = (props: any) => {
           </CardContentButton>
         </ContentCard>
       </Content>
-    </div>
+    </ContainerPrincipal>
   )
 }
 

@@ -1,31 +1,26 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Title from '../../components/Title'
 import { IconLink } from '../../config/configImages'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import TablaCobra from '../../components/TableCobra'
-import { datos } from './data'
 import {
-  Content,
+  ContentCobra,
   ContentTitle,
   ButtonLink,
   ButtonLinkTitle,
-  ButtonLinkImg,
   ButtonLinkText,
   ContentTable,
   CardTableTitle,
   ContentSearchTitle,
-  SearchTable,
+  ContainerPrincipal,
+  ContentButtonLink,
+  SearchContainer
 } from './styles'
 import { useHistory } from 'react-router-dom'
 import { getListCollect } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
-import InputSearch from '../../components/InputSearch/'
-import Paginations from '../../components/Pagination'
 import { FaSearch } from 'react-icons/fa'
-import { SearchContainer } from '../Transacciones/styles'
-import search from 'antd/lib/transfer/search'
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -34,7 +29,7 @@ const breadcrumb = [
   {
     title: 'Cobra',
     path: '/cobra',
-    active: true,
+    active: false,
   },
 ]
 
@@ -50,21 +45,7 @@ const dataTitle = [
   'Acciones',
 ]
 
-const dataInit = [
-  {
-    id: 0,
-    date: '',
-    title: '',
-    typeSell: 0,
-    reference: '',
-    currency: '',
-    amount: 0,
-    state: 0,
-    link: 0,
-  },
-]
-
-const Cobra = () => {
+const Cobra = ({setBreadcrumb}:any) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -75,6 +56,10 @@ const Cobra = () => {
   const [dataTable, setDataTable] = useState(dataList)
   const [count, setCount] = useState(0)
   const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   useEffect(() => {
     dispatch(getListCollect(search))
@@ -106,17 +91,20 @@ const Cobra = () => {
   }
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerPrincipal>
       <Title title={'Cobra'}></Title>
-      <Content>
+      <ContentCobra>
+        
         <ContentTitle>Comience a cobrar/vender.</ContentTitle>
         <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
           <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>
-          <ButtonLinkImg src={IconLink.url} />
-          <ButtonLinkText>Cree vínculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
+          <ContentButtonLink>
+            <img src={IconLink.url} />
+            <ButtonLinkText>Cree vínculos de cobro, y compártalos por donde quiera.</ButtonLinkText>
+          </ContentButtonLink>
         </ButtonLink>
-        <ContentTable style={{ marginBottom: '300px' }}>
+
+        <ContentTable >
           <ContentSearchTitle>
             <CardTableTitle>Cobros</CardTableTitle>
             <SearchContainer className="searchContainer" onSubmit={(e) => searchTable(e)}>
@@ -142,8 +130,9 @@ const Cobra = () => {
             <TablaCobra data={dataTable} titleData={dataTitle} />
           )}
         </ContentTable>
-      </Content>
-    </div>
+
+      </ContentCobra>
+    </ContainerPrincipal>
   )
 }
 

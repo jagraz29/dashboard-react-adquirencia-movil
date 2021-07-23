@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Facebook,
   Linkedin,
@@ -16,7 +16,9 @@ import {
 } from './style'
 import Selector from '../Selector'
 import { countries } from '../../utils/countries'
-export default function ShareLink(cobraId?: any) {
+
+export default function ShareLink(props:any) { 
+
   const [phonePrefixSelected, setPhonePrefixSelected] = useState('+57')
   const [copied, setCopied] = useState(false)
 
@@ -41,11 +43,11 @@ export default function ShareLink(cobraId?: any) {
         <Text>
           También puede copiar y pegar este link en su red social favorita de forma directa
         </Text>
-        <Input value={`https://link.epayco.io/${cobraId.idCobra}`} disabled />
+        <Input value={`https://link.epayco.io/${props.idCobra}`} disabled />
         <CopyButton
           disabled={copied}
           onClick={() => {
-            copyText(`https://link.epayco.io/${cobraId.idCobra}`)
+            copyText(`https://link.epayco.io/${props.idCobra}`)
           }}
         >
           {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
@@ -77,6 +79,9 @@ export default function ShareLink(cobraId?: any) {
         </PhonePrefixContainer>
         <Input />
         <CopyButton>Compartir</CopyButton>
+      </Container>
+      <Container>
+        <CopyButton onClick={()=>props.toggle()}>Cancelar</CopyButton>
       </Container>
     </Wrapper>
   )
