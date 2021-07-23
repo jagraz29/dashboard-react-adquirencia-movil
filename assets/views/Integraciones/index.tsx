@@ -770,7 +770,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
 
                   {showLogoImage == false ? (
                     <FileImage
-                      src={`${process.env.RACKSPACE_CONTAINER_BASE_PUBLIC_URL}/` + logo}
+                      src={`${process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL}/` + logo}
                     ></FileImage>
                   ) : (
                     loadImages.map((image, index) => (

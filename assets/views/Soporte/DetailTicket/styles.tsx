@@ -59,6 +59,135 @@ export const StyleDetail = styled.div`
   }
 `
 
+export const StyleContainerFild = styled.div`
+  background-color: #f1f1f1;
+  width: 100%;
+  position: relative;
+  border-top: 1px #cccccc solid;
+
+  .button-field {
+    width: 40px;
+  }
+
+  .ant-btn {
+    width: 140px;
+    height: 48px;
+    border-radius: 0 4px 4px 0;
+
+    &:hover {
+      box-shadow: none !important;
+    }
+  }
+
+  .container-field > * {
+    margin: auto 5px;
+  }
+
+  .container-field {
+    width: 100%;
+    //background-color: #00b8f5;
+    padding: 10px 20px 30px 20px;
+    background-color: #d8d8d8;
+
+    .btn-icon-fil {
+      font-size: 1.5em;
+      color: #40a8e6;
+      margin-right: -40px;
+      z-index: 1;
+      &[disabled] {
+        color: rgba(0, 0, 0, 0.25);
+      }
+    }
+    .component-textarea {
+      width: inherit;
+
+      textarea {
+        height: auto !important;
+        min-height: 40px !important;
+        border-radius: 21px !important;
+        border: 0px !important;
+        padding-left: 50px !important;
+      }
+    }
+  }
+
+  .container-file {
+    height: 0;
+    width: 100%;
+    position: relative;
+    //background-color: cornflowerblue;
+    overflow-y: hidden;
+    transition: 0.5s all;
+    opacity: 0;
+    padding: 0;
+
+    &.open {
+      display: block;
+      height: 270px;
+      opacity: 1;
+      padding: 20px 0;
+    }
+  }
+  .drop-photo {
+    width: 200px;
+    height: 150px;
+
+    border: 2px dashed #d3d3d3;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.disabled {
+      cursor: not-allowed;
+      background: #ececec;
+      box-shadow: none;
+      border: 2px dashed #9e9d9d;
+    }
+  }
+  .drop-photo-icon {
+    width: 66%;
+    height: 126px;
+    font-size: 12px;
+    border: 0px;
+    text-align: center;
+    span i {
+      color: #0e90d2;
+    }
+  }
+
+  .drop-photo-loaded {
+    .container-photo {
+      color: #0e90d2;
+      margin-left: 26px;
+      .photo {
+        width: 113px;
+        height: 113px;
+        padding: 0;
+      }
+      .close-photo {
+        padding: 10px 5px;
+        cursor: pointer;
+        i.fa {
+          margin-right: 7px;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+
+  .ticket-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    color: #ffffff;
+    background-color: rgba(90, 90, 90, 0.8);
+  }
+`
+
 export const Content = styled.div`
   position: absolute;
   margin: 7vw 60.1vw 40.2vw 19.4vw;
@@ -66,16 +195,12 @@ export const Content = styled.div`
 
 export const ContentTable = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 79vw;
-  height: auto;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 25vw;
-  left: 0vw;
-  overflow: scroll;
-  margin-bottom: 5vw;
+  top: 2vw;
+  margin-top: 400px;
 `
 
 export const CardTableTitle = styled.h2`

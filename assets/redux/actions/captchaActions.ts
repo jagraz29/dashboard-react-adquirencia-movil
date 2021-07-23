@@ -307,7 +307,16 @@ export const reOpenTicket = async (id: number) => {
 export const detailTicket = async (id: number) => {
   try {
     const dataRes = await dataService.get(`/api/ticket/detail/${id}`)
-    return dataRes.data.data.ticket
+    return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const createTicketResponse = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/save', data)
+    return dataRes.data
   } catch (error) {
     return false
   }
