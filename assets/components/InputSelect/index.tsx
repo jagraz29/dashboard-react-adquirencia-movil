@@ -1,21 +1,8 @@
 import React, { useState } from 'react'
 import { Select } from './styles'
+import { InputSelectType } from '../../types/InputSelectType'
 
-type Props = {
-  name: string
-  placeholder: string
-  width: string
-  value?: any
-  onClick: any
-  onChange: any
-  dataSelect: {
-    value: string
-    label: string
-  }[]
-  returnComplete?: boolean
-}
-
-const InputSelect: React.FC<Props> = ({
+const InputSelect: React.FC<InputSelectType> = ({
   name,
   placeholder,
   width,

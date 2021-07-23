@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Select } from './styles'
+import { InputSelectType } from '../../types/InputSelectType'
 
 type Props = {
   name: string
@@ -17,7 +18,7 @@ type Props = {
   }[]
 }
 
-const InputSelectPaisWithValue: React.FC<Props> = ({
+const InputSelectPaisWithValue: React.FC<InputSelectType> = ({
   name,
   value,
   placeholder,
