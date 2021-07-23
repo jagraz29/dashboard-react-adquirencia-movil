@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
-import DatePick from '../../components//DateRange'
+import DatePick from '../../components/DateRange'
 import { toast, ToastContainer } from 'react-toastify'
 
 import {
