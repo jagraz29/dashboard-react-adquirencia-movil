@@ -17,6 +17,8 @@ COPY . .
 ARG APP_ENV=prod
 ARG APP_WARMUP=true
 ARG APP_DEBUG=1
+ARG URL_S3_IMAGES=https://multimedia.epayco.co
+ARG REACT_APP_AMAZON_URL=https://multimedia.epayco.co
 
 
 COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
