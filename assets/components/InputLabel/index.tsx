@@ -1,12 +1,13 @@
 import React from 'react'
 import { Label } from './styles'
+import { InputLabelType } from '../../types'
 
-type Props = {
-  label: string
-}
-
-const InputLabel: React.FC<Props> = ({ label }) => {
-  return <Label>{label}</Label>
+const InputLabel: React.FC<InputLabelType> = ({ label, required }) => {
+  return (
+    <Label>
+      {label} <span style={{ color: 'red' }}>{required && '*'}</span>
+    </Label>
+  )
 }
 
 export default InputLabel

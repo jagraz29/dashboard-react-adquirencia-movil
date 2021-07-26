@@ -190,7 +190,7 @@ class User implements UserInterface
     return $this->indicative;
   }
 
-  public function setIndicative(int $indicative): self
+  public function setIndicative(?int $indicative): self
   {
     $this->indicative = $indicative;
     return $this;

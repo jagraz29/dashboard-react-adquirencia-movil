@@ -118,6 +118,24 @@ export type UserReducerType = {
   backgroundImage: any
 }
 
+export type sellLinkReducerType = {
+  links: {
+    nombre: string
+    descripcion: string
+    factura: string
+    tipoMoneda: string
+    valor: number
+    total: number
+    impuestos?: number
+    imagenes?: []
+    archivo?: any
+    cantidad?: number
+    fechaVencimiento?: any
+    urlConfirmacion?: string
+    urlRespuesta?: string
+  }[]
+}
+
 export type ClientePaisReducerType = {
   paises: {
     paises: { id: any; name: any; displayText: any; locale: any; flag: any }[]

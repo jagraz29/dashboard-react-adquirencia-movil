@@ -1,7 +1,11 @@
 body {
   margin: 0 0 0 0;
   background-color: #e6e6e6;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  overflow-x: hidden;
+  margin: 0;
 }
 
 input:focus,
@@ -11,6 +15,254 @@ button:focus {
   outline: none;
 }
 
-hr {
-  border-color: #fff;
+input,
+label {
+  display: block;
+}
+
+.numberFormat {
+  font-size: 1vw;
+  padding: 5px;
+  background: #fafafa;
+  border: 1px solid #bdbdbd;
+  border-radius: 3px;
+  width: 10vw;
+}
+
+.auth-background {
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('/public/img/fondo-davivienda-dashboard1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100vw;
+  padding-top: 10vw;
+  padding-left: 7vw;
+  height: 39.9vw;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  padding: 1vw;
+  width: 25%;
+  height: auto;
+  background: #ffffff;
+  box-shadow: 0px 10px 20px rgba(18, 38, 63, 0.0313726);
+  border-radius: 8px;
+}
+
+.auth-title {
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  width: 20vw;
+  margin-top: 2vw;
+
+  /* black 60% */
+
+  color: #5c5b5c;
+}
+
+.btn-auth {
+  background: #1c0e49;
+  cursor: pointer;
+  color: white;
+  font: bold;
+  border: 0;
+  border-radius: 0.2vw;
+  width: 8vw;
+  height: 2.5vw;
+}
+
+.input-auth {
+  background: #ffffff;
+  height: 2.5vw;
+  width: 21vw;
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  padding: 1vw;
+  border-radius: 4px;
+}
+
+.auth-input {
+  margin: 2vw 0;
+  font-weight: 500;
+}
+
+.copyright {
+  display: block;
+  width: 24vw;
+  letter-spacing: 1.5px;
+  font-size: 13px;
+  line-height: 19px;
+  text-align: center;
+
+  /* white */
+
+  color: #ffffff;
+}
+
+.reset-password {
+  color: #adadad;
+  font-size: 12px;
+  margin-left: 2vw;
+}
+
+.button-section {
+  margin-top: 2vw;
+}
+
+.img-davivienda {
+  position: absolute;
+  left: 70.21%;
+  right: 8.48%;
+  top: 5.58%;
+  bottom: 82.29%;
+}
+
+.img-send {
+  width: 112px;
+  height: 112px;
+}
+
+.img-ePayco {
+  position: absolute;
+  left: 8.19%;
+  right: 83.4%;
+  top: 5.17%;
+  bottom: 81.67%;
+}
+
+.right-side {
+  position: absolute;
+  left: 54.86%;
+  right: 11.6%;
+  top: 34.79%;
+  bottom: 37.71%;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 41px;
+  line-height: 54px;
+  /* or 132% */
+
+  text-align: center;
+
+  /* white */
+
+  color: #ffffff;
+}
+
+.to-login {
+  color: #1c0e49;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.input-checkbox {
+  background: #ffffff;
+  border: 1px solid #5c5b5c;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 21px;
+  text-align: center;
+  color: #5c5b5c;
+}
+
+.policy-check {
+  font-size: 12px;
+}
+
+.alert {
+  padding: 10px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+  margin-bottom: 15px;
+  margin-left: 3vw;
+  margin-top: 5.5vw;
+  opacity: 0.9;
+  position: absolute;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  margin-left: -127px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor {
+  color: #40a8e6;
+  border: 1px solid #40a8e6;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.swal2-styled.swal2-cancel {
+  color: #40a8e6;
+  border: 1px solid #40a8e6;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: orange !important;
+  color: orange !important;
 }

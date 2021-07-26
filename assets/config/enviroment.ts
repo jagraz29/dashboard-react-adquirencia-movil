@@ -16,7 +16,9 @@ export const config = {
   landingIdentifier: 'dashboardAdquirencia',
   api: process.env.URL_APIFY,
   amazonUrl: process.env.REACT_APP_BASE_PATH,
+  cobraUrl: process.env.REACT_APP_URL_COBRA,
   captchaKey: process.env.REACT_APP_CAPTCHA_KEY || '',
   modeCheckout: process.env.REACT_APP_CHECKOUT_MODE !== 'prod',
   urlResultCheckout: process.env.REACT_APP_URL_RESULT_CHECKOUT,
+  apiBack: process.env.API,
 }

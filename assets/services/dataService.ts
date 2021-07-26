@@ -13,7 +13,6 @@ export class DataService {
       headers: this.header(),
       body: JSON.stringify(trama),
     }
-    //const api_endpoint = config.api + endpoint
     const api_endpoint = endpoint
     return axios.get(api_endpoint, requestOptions)
   }
@@ -25,7 +24,6 @@ export class DataService {
         Accept: 'application/json',
       },
     }
-    //const api_endpoint = config.api + endpoint
     const api_endpoint = endpoint
     return axios.post(api_endpoint, body, option)
   }

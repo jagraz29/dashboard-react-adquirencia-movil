@@ -33,6 +33,8 @@ services:
         arguments:
             - '%env(URL_APIFY)%'
             - '%env(ID_ALLIED_ENTITY)%'
+            - '%env(PUBLIC_KEY_ALLIED_ENTITY)%'
+            - '%env(PRIVATE_KEY_ALLIED_ENTITY)%'
 
     App\Controller\Api\TransactionController:
         arguments:
