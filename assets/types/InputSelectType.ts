@@ -7,8 +7,9 @@ export type InputSelectType = {
   onChange: any
   dataSelect: {
     id?: number
-    value: string
-    label: string
+    name?: string
+    value?: string
+    label?: string
     displayText?: string
     locale?: string
     flag?: string
