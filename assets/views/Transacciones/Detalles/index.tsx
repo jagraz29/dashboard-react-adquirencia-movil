@@ -44,7 +44,6 @@ import {
   LoadingContent,
   CardLast,
 } from './styles'
-import axios from 'axios'
 import LoadingBar from '../../../components/LoadingBar'
 
 const breadcrumb = [

@@ -145,8 +145,9 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         </body>
                       ) : title == 'link' ? (
                         <body>
-                          <TableTextLink href={'https://link.epayco.io/' + item[title]}>
-                            https://link.epayco.io/{item[title]}
+                          <TableTextLink href={process.env.REACT_APP_URL_COBRA + item[title]}>
+                            {process.env.REACT_APP_URL_COBRA}
+                            {item[title]}
                           </TableTextLink>
                         </body>
                       ) : title == 'state' ? (

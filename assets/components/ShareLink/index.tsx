@@ -41,11 +41,11 @@ export default function ShareLink(cobraId?: any) {
         <Text>
           También puede copiar y pegar este link en su red social favorita de forma directa
         </Text>
-        <Input value={`https://link.epayco.io/${cobraId.idCobra}`} disabled />
+        <Input value={`${process.env.REACT_APP_URL_COBRA}${cobraId.idCobra}`} disabled />
         <CopyButton
           disabled={copied}
           onClick={() => {
-            copyText(`https://link.epayco.io/${cobraId.idCobra}`)
+            copyText(`${process.env.REACT_APP_URL_COBRA}${cobraId.idCobra}`)
           }}
         >
           {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
