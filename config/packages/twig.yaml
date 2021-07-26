@@ -4,4 +4,4 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     globals:
-        URL_S3_IMAGES: '%env(resolve:URL_S3_IMAGES)%'
+        REACT_APP_AMAZON_URL: '%env(resolve:REACT_APP_AMAZON_URL)%'
