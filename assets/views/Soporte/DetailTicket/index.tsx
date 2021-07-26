@@ -14,14 +14,26 @@ import {
   ContentItems,
   LabelKey,
   TitleKey,
-  ContentTable,
   StyleContainerFild,
   StyleDetail,
+  ContainerDetailTicket,
+  TitleSoporte,
+  CardTransactionTitleAction,
+  TitleDescription,
+  ContainerResponseChat,
+  FormChat,
+  ContainerField,
+  ContainerTextarea,
+  ContainerFile,
+  DateContainer,
+  MessageContainer,
+  TextMessageContainer,
+  IconMessageContainer
+
 } from './styles'
 import { useParams } from 'react-router'
 import {
   closeTicket,
-  createTicket,
   createTicketResponse,
   detailTicket,
   reOpenTicket,
@@ -37,7 +49,7 @@ import { Collapse } from 'react-collapse'
 import { ButtonImageLoad } from '../CreateTicket/styles'
 import { TicketDocument, TicketMessage } from '../../../types'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -54,7 +66,7 @@ const breadcrumb = [
     active: false,
   },
 ]
-const DetailTicket = () => {
+const DetailTicket = ({setBreadcrumb}:any) => {
   let { id }: any = useParams()
   const [prioridad, setPrioridad] = useState('')
   const [asunto, setAsunto] = useState('')
@@ -76,6 +88,7 @@ const DetailTicket = () => {
   const urlRackespace = process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL
 
   useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
     getTicket()
   }, [])
 
@@ -116,6 +129,7 @@ const DetailTicket = () => {
       display: block;
       position: relative;
     `
+    console.log("ACA",urlBase + url,process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL)
     return url.substr(url.length - 3) == 'pdf' ? (
       <p>
         <FontAwesomeIcon icon={faDownload} onClick={() => window.open(urlBase + url, '_blank')} />
@@ -132,59 +146,50 @@ const DetailTicket = () => {
     )
   }
 
-  const ListMessegeTicket = ({ id, type, name, date, text, gallery, action, floatValue }: any) => {
+  const ListMessegeTicket = ({ id, type, name, date, text, gallery, action, floatValue, typeUser }: any) => {
     const message = text.replace(/(?:\r\n|\r|\n)/g, '<br>')
     const dateRagerMessege = moment(new Date()).format('YYYY-MM-DD')
 
     const dateMessege = moment(date).format('YYYY-MM-DD h:mm A')
     const dateSystem = moment(new Date())
 
+    typeUser = typeUser===1?true:false;
+
     let years = moment.duration(dateSystem.diff(dateMessege)).asYears()
     let days = moment.duration(dateSystem.diff(dateMessege)).asDays()
     let hours = moment.duration(dateSystem.diff(dateMessege)).asHours()
     let min = moment.duration(dateSystem.diff(dateMessege)).asMinutes()
     let se = moment.duration(dateSystem.diff(dateMessege)).asSeconds()
+    useEffect(() => {
+      setTimeout(()=>{
+        const cont:any = document.getElementById("StyleContainerMessege")
+        cont.scroll({
+          top: cont.scrollHeight,
+          left: 0,
+          behavior: 'smooth'
+        })
+      },500)
+    })
     return (
-      <StyleDetail className={'container-message'} id={`ContainerMessege-${id}`}>
-        <div className={'d-flex pt-4 pb-4 justify-content-center'}>
-          {' '}
-          <small className={'range-date'}>{dateMessege}</small>
-        </div>
-        <div
-          className={`d-flex flex-wrap justify-content-${
-            typeof type == 'boolean' && type ? 'end' : 'start'
-          } align-self-stretch`}
-        >
-          <div className={`p-2 ${typeof type == 'boolean' && type ? 'order-2' : 'order-1'}`}>
-            {typeof type == 'boolean' && type ? (
-              <Avatar size="large" icon="user" />
-            ) : (
-              <Avatar
-                size="large"
-                src="https://multimedia.epayco.co/dashboard/v2/Logos/epayco-logo-gris.svg"
-              />
-            )}
-          </div>
-          <div className={`p-2 ${typeof type == 'boolean' && type ? 'order-1' : 'order-2'}`}>
-            <span
-              className={`name d-flex justify-content-${
-                typeof type == 'boolean' && type ? 'end' : 'start'
-              }`}
-            >
-              {name}
-            </span>
-            <div
-              className={`messeger messeger-${
-                typeof type == 'boolean' && type ? 'cliente' : 'soport'
-              }`}
-            >
-              {gallery != null && typeof gallery == 'object' && gallery.length > 0 && (
-                <div
-                  className={`messeger-img d-flex justify-content-${
-                    typeof type == 'boolean' && type ? 'start' : 'end'
-                  }`}
-                >
-                  {gallery.map((img: any, index: any) => (
+      <StyleDetail>
+        <DateContainer>
+          <label>
+            {dateMessege}
+          </label>
+        </DateContainer>
+        <MessageContainer data-typeUser={typeUser}>
+          <TextMessageContainer data-typeUser={typeUser}>
+            <label>{name}</label>
+            <p>{message}</p>
+            {
+            gallery != null 
+            && 
+            typeof gallery == 'object' 
+            && 
+            gallery.length > 0 
+            && 
+            gallery.map((img: any, index: any) => 
+              (
                     <ViewGalleryMessege
                       urlBase={urlRackespace}
                       url={img.ruta}
@@ -195,17 +200,23 @@ const DetailTicket = () => {
                       gallery={gallery}
                       action={action}
                     />
-                  ))}
-                </div>
-              )}
-              <span dangerouslySetInnerHTML={{ __html: message }} />
-            </div>
-            <p style={{ color: '#989898', float: floatValue }}>
-              <i>{`Hace ${diffDateMessege({ years, days, hours, min, se })}`}</i>
-            </p>
-          </div>
-        </div>
-      </StyleDetail>
+                  )
+            )}
+            <i>{`Hace ${diffDateMessege({ years, days, hours, min, se })}`}</i>
+          </TextMessageContainer>
+          <IconMessageContainer>
+          {typeof type == 'boolean' && type ? (
+              <Avatar size="large" icon="user" />
+            ) : (
+              <Avatar
+                size="large"
+                src="https://multimedia.epayco.co/dashboard/v2/Logos/epayco-logo-gris.svg"
+              />
+            )}
+          </IconMessageContainer>
+        </MessageContainer>
+      </StyleDetail> 
+      
     )
   }
 
@@ -241,6 +252,49 @@ const DetailTicket = () => {
   }
 
   const getTicket = async () => {
+
+    const dataRespuestas:any=[
+      {
+        asunto: null,
+        creado_por: "ALEXANDER",
+        created_at: "2021-07-02 10:27:14",
+        documentos: [],
+        estadosrespuestas_id: 1,
+        firma: null,
+        id: 193530,
+        texto: "El Bicho",
+        tickets_id: 19694,
+        tipo_user: 1,
+        tiporespuesta: 2
+      },
+      {
+        asunto: null,
+        creado_por: "ALEXANDER",
+        created_at: "2021-07-02 10:27:14",
+        documentos: [],
+        estadosrespuestas_id: 1,
+        firma: null,
+        id: 193530,
+        texto: "asdfasdfasd",
+        tickets_id: 19694,
+        tipo_user: 2,
+        tiporespuesta: 2
+      },
+      {
+        asunto: null,
+        creado_por: "ALEXANDER",
+        created_at: "2021-07-02 10:27:14",
+        documentos: [],
+        estadosrespuestas_id: 1,
+        firma: null,
+        id: 193530,
+        texto: "El asdf El asdf",
+        tickets_id: 19694,
+        tipo_user: 2,
+        tiporespuesta: 2
+      }
+    ]
+    //setRespuestas(dataRespuestas)
     const data = await detailTicket(id)
     const ticketDetail = data.ticket
     if (typeof ticketDetail != 'boolean') {
@@ -337,21 +391,21 @@ const DetailTicket = () => {
     }
   }
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerDetailTicket>
       <Title title={'Detalle ticket'}></Title>
       <Content>
-        <div className={'d-flex'}>
-          <div className={'col-12 pt-2 pb-4'}>
-            <p style={{ color: '#5C5B5C', width: '400px' }}>
-              Elija el tipo de ayuda y soporte que desea obtener
+        <TitleSoporte>
+            <p>
+              Seleccione una de las siguientes opciones para resolver sus dudas o recibir
+              soporte.{' '}
             </p>
-          </div>
-        </div>
+          </TitleSoporte>
+        
         <ContentItems>
-          <CardTrasactionOk>
+          <CardTrasactionOk style={{padding: "1rem"}}>
             <CardTransactionTitle>Detalle</CardTransactionTitle>
-            <ContentInput>
+            
+            <ContentInput style={{borderTop:" 1px solid #d3d3d3",paddingTop: "0.5rem"}}>
               <ContentInputCard>
                 <TitleKey>ID Ticket</TitleKey>
                 <LabelKey>{id}</LabelKey>
@@ -361,6 +415,7 @@ const DetailTicket = () => {
                 <LabelKey>{prioridad}</LabelKey>
               </ContentInputCard>
             </ContentInput>
+
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Asunto</TitleKey>
@@ -371,17 +426,18 @@ const DetailTicket = () => {
                 <LabelKey>{departamento}</LabelKey>
               </ContentInputCard>
             </ContentInput>
-            <ContentInput>
+
+            <ContentInput style={{gridTemplateColumns: "100%"}}>
               <ContentInputCard>
                 <TitleKey>Solicitud</TitleKey>
-                <LabelKey>{texto}</LabelKey>
+                <LabelKey >{texto}</LabelKey>
               </ContentInputCard>
-              <ContentInputCard></ContentInputCard>
             </ContentInput>
           </CardTrasactionOk>
-          <CardPending>
+          
+          <CardPending >
             <CardTransactionTitle>Información adicional</CardTransactionTitle>
-            <ContentInput>
+            <ContentInput style={{borderTop:" 1px solid #d3d3d3",paddingTop: "0.5rem"}}>
               <ContentInputCard>
                 <TitleKey>Estado</TitleKey>
                 <LabelKey>{estado}</LabelKey>
@@ -405,12 +461,14 @@ const DetailTicket = () => {
                 <LabelKey>{fechaActualizacion}</LabelKey>
               </ContentInputCard>
             </ContentInput>
-            <CardTransactionTitle>Acción</CardTransactionTitle>
-            <CardContentButton style={{ marginLeft: '10px', marginTop: '-10px' }}>
+
+            <CardTransactionTitleAction>Acción</CardTransactionTitleAction>
+            <CardContentButton>
               {estado == 'abierto' ? (
                 <ButtonSpinner
                   text={'Cerrar Ticket'}
                   loading={loadingButton}
+                  style={{ width: '100%' }} 
                   onClick={() => {
                     ticketClose()
                   }}
@@ -420,6 +478,7 @@ const DetailTicket = () => {
                 <ButtonSpinner
                   text={'Reabrir Ticket'}
                   loading={loadingButton}
+                  style={{ width: '100%' }} 
                   onClick={() => {
                     ticketReOpen()
                   }}
@@ -430,18 +489,13 @@ const DetailTicket = () => {
           </CardPending>
         </ContentItems>
 
-        <ContentTable>
+        <ContentItems>
           <CardTrasactionOk>
-            <CardTransactionTitle>Seguimiento del ticket</CardTransactionTitle>
-            <CardSubTitle>Respuestas de la solicitud. No es un chat online</CardSubTitle>
-            <div
-              style={{
-                padding: '0px',
-                height: '600px',
-                overflowY: 'auto',
-              }}
-              id={'StyleContainerMessege'}
-            >
+            <TitleDescription>
+              Seguimiento del ticket 
+              <i>   Respuestas de la solicitud. No es un chat online</i>
+            </TitleDescription>
+            <ContainerResponseChat id={'StyleContainerMessege'}>
               {respuestas.map((message, index) => (
                 <ListMessegeTicket
                   key={message.id}
@@ -452,11 +506,11 @@ const DetailTicket = () => {
                   id={index}
                   type={message.estadosrespuestas_id == 1}
                   action={openDocSaved}
+                  typeUser={message.tipo_user}
                 />
               ))}
-            </div>
-            <form
-              style={{ width: '100%' }}
+            </ContainerResponseChat>
+            <FormChat
               onSubmit={respuesta.length ? handleSubmit : () => {}}
               autoComplete={'off'}
             >
@@ -470,7 +524,7 @@ const DetailTicket = () => {
                     </span>
                   </div>
                 )}
-                <div className={`container-file ${activeUpfil ? 'open' : null} `}>
+                <ContainerFile className={`${activeUpfil ? 'open' : null} `}>
                   <div className={'row m-0 mb-3'}>
                     <div className={'col-12'}>
                       <div className="campo pl-0">
@@ -483,6 +537,7 @@ const DetailTicket = () => {
                           </small>{' '}
                         </label>
                         <p className={'description'}>Máximo hasta 3 documentos</p>
+                       
                         <div className="f01 jcfs">
                           {imgLoaded.length < 3 &&
                           !loading &&
@@ -551,8 +606,8 @@ const DetailTicket = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'container-field d-flex justify-content-start align-items-end'}>
+                </ContainerFile>
+                <ContainerField>
                   <Icon
                     className={'btn-icon-fil'}
                     type={`${!activeUpfil ? 'upload' : 'close-circle'}`}
@@ -562,16 +617,15 @@ const DetailTicket = () => {
                         : null
                     }
                   />
-                  <div className={'component-textarea d-flex campo p-0'}>
+                  <ContainerTextarea className={'component-textarea d-flex campo p-0'}>
                     <textarea
                       disabled={estado != 'abierto' && estado != 'proceso' ? true : loading}
                       name={'respuesta'}
                       value={respuesta}
                       onChange={(e) => handleInputChange(e)}
                     />
-                  </div>
+                  </ContainerTextarea>
                   <Button
-                    className={'btn-t mb-0 wc'}
                     type="primary"
                     icon="message"
                     disabled={estado != 'abierto' && estado != 'proceso' ? true : loading}
@@ -581,13 +635,14 @@ const DetailTicket = () => {
                   >
                     {loading ? 'Enviando' : 'Enviar'}
                   </Button>
-                </div>
+                </ContainerField>
               </StyleContainerFild>
-            </form>
+            </FormChat>
           </CardTrasactionOk>
-        </ContentTable>
+        </ContentItems>
+
       </Content>
-    </div>
+    </ContainerDetailTicket>
   )
 }
 

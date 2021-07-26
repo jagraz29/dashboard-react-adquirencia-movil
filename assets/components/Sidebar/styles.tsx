@@ -6,7 +6,15 @@ export const NavContainer = styled.div`
     grid-template-columns: 100%;
   }
   `
-  
+export const BackShadow = styled.div`
+  @media (max-width: ${TABLET}) {
+    position: absolute;
+    width: ${(props: any) => (props['data-show'] ? '100vw' : '0')};;
+    height: 100vh;
+    backdrop-filter: brightness(0.5);
+    z-index: 10;
+  }
+`
 
 export const SidebarWrap = styled.div`
   width: 100%;

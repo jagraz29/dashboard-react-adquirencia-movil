@@ -130,7 +130,6 @@ export const ContentInputTotal = styled.div`
 
 export const CardContentButton = styled.div`
   padding-top: 1rem;
-  border-top: 1px solid #d3d3d3;
   display: ${(props) => props.theme.display};
   @media (max-width: ${MOBILE}) {
     display: flex;

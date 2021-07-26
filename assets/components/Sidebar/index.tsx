@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './styles.tsx'
 import { MenuItems } from '../MenuItems'
-import { SidebarNav, SidebarWrap, NavContainer, IconLeftMenu } from './styles'
+import { SidebarNav, SidebarWrap, NavContainer, IconLeftMenu, BackShadow} from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { getDataUser } from '../../redux/actions/'
@@ -24,6 +24,7 @@ const index = ({sidebar, setSidebar}:any) => {
 
   return (
     <NavContainer>
+      <BackShadow data-show={sidebar}></BackShadow>
       <SidebarNav data-show={sidebar} >
         <SidebarWrap  data-show={sidebar}>
           {

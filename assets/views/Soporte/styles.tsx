@@ -1,56 +1,64 @@
 import styled from 'styled-components'
+import { INTERMEDIATE, MOBILE } from '../../styles/breakpoints'
 
-export const StyleContainer = styled.div`
-  /*position: absolute;*/
-  max-width: 1024px;
-  box-sizing: content-box;
-  display: block;
+export const ContainerSoporte = styled.div`
+    display: grid;
+  grid-template-rows: 3rem auto;
+  overflow: hidden;
+`
 
-  .option-support {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-bottom: -230px;
-    width: 75vw;
+export const ContentSoporte = styled.div`
+  display: flex;
+  margin: 1rem;
+  overflow: hidden;
+  overflow-x: auto;
+  flex-direction: column;
+  @media (max-width: ${INTERMEDIATE}) {
+    flex-direction: column;
+    overflow: hidden;
+  }
+`
+export const TitleSoporte = styled.div`
+  margin-bottom: 2rem;
+  p{
+    color: #5C5B5C;
+   }
+
+`
+export const OptionsSoporte = styled.div`
     display: flex;
-    justify-content: space-between;
-    padding: 2vw;
+    justify-content: space-evenly;
     align-items: center;
+  @media (max-width: ${INTERMEDIATE}) {
+    flex-direction: column;
   }
-  .card-soport-table {
-    margin-bottom: 40px;
-    .card-soport-body {
-      padding-top: 5px;
-    }
-  }
-  @media (max-width: 1024px) {
-    padding-left: 0px;
+`
+export const ContainerCardOption = styled.div`
+  
+
+`
+export const StyleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  @media (max-width: ${MOBILE}) {
+    padding: 1rem;
   }
 `
 
 export const ContentTable = styled.div`
-  position: relative;
-  width: 79vw;
   height: auto;
-  margin-top: 5vw;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 14.1vw;
-  left: 0vw;
   overflow: scroll;
+  @media (max-width: ${MOBILE}) {
+    overflow-x: hidden;
+  }
 `
 
-export const CardTableTitle = styled.h2`
-  font-size: 1.7vw;
-  line-height: 2vw;
-
-  position: relative;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 1vw;
+export const CardTableTitle = styled.h3`
+  margin: 1rem;
 `
+

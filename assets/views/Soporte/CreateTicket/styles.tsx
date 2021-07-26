@@ -1,139 +1,123 @@
 import styled from 'styled-components'
+import { INTERMEDIATE, MOBILE, TABLET } from '../../../styles/breakpoints'
 
+export const ContainerCreateTicket = styled.div`
+  display: grid;
+  grid-template-rows: 3rem auto;
+  overflow: hidden;
+`
 export const Content = styled.div`
-  position: absolute;
-  margin: 7vw 60.1vw 40.2vw 19.4vw;
+  margin: 1rem;
+  overflow: hidden;
+  overflow-x: auto;
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: 70%;
+  @media (max-width: ${TABLET}) {
+    grid-template-columns: 100%;
+    margin: 0 2rem;
+  }
 `
 
 export const ContentCard = styled.div`
-  top: 1vw;
-  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: column;
-  width: 79vw;
 `
 
 export const Card = styled.div`
-  width: 49.7vw;
-  //height: 7.5vw;
   height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 1vw;
-  margin-top: 1vw;
+  margin-top: 1rem;
+  width: 100%;
 `
 
 export const CardHeader = styled.div`
   display: flex;
-  justify-content: flex-start;
-  cursor: pointer;
-  flex-direction: column;
-  border-bottom: 1px solid #d3d3d3;
-  height: 4vw;
+  align-items: center;
+  justify-content: space-between;
 `
 
 export const CardIcon = styled.div`
-  position: relative;
-  left: 47vw;
-  top: -1.4vw;
+  margin: 1rem;
 `
 
 export const CardContent1 = styled.div`
   height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 `
 
-export const CardContent2 = styled.div`
-  height: auto;
-  display: ${(props) => props.theme.display};
-  margin: 1vw;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
+export const CardTitle = styled.h3`
+    margin: 1rem;
 `
+export const SubtitleHeader = styled.div`
+  padding: 1rem;
+  border-top: 1px solid;
+  color: #ADADAD;
 
-export const CardContent3 = styled.div`
-  height: auto;
-  display: ${(props) => props.theme.display};
-  margin: 1vw;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
 `
-
-export const CardTitle = styled.span`
-  width: 30vw;
-  font-weight: normal;
-  font-size: 1.2vw;
-  line-height: 2vw;
-  margin: 0.4vw 0 0 0.8vw;
-  color: #23272b;
-  margin-top: 1vw;
-`
-
 export const CardSubTitle = styled.div`
-  width: 40vw;
-  font-weight: normal;
-  font-size: 0.8vw;
-  line-height: 1vw;
-  margin: 0 0 0 0.8vw;
-  color: #bdbdbd;
+  color: #a9a9a9;
+  margin: 0;
+  margin-top: 0.5rem;
+  font-weight: 400;
 `
 
 export const ContentInput = styled.div`
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: row;
-  display: flex;
-  margin-bottom: 1vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 1rem;
+  @media (max-width: ${INTERMEDIATE}) {
+    grid-template-columns: 100%;
+  }
 `
 
 export const CardContentButton = styled.div`
-  height: 2vw;
-  margin: 1vw;
+  padding-top: 1rem;
   display: flex;
-  justify-content: start;
-  align-items: flex-start;
-  flex-direction: row;
-`
-
-export const CardButton = styled.div`
-  height: 3.4vw;
-  margin: 1vw;
+  @media (max-width: ${MOBILE}) {
+    flex-direction: column;
+    width: 100%;
+  }
 `
 
 export const ButtonOk = styled.button`
-  font-size: 0.8vw;
-  background: #58d3f7;
-  border: 1px solid #58d3f7;
+  background: #40a8e6;
+  border: 1px solid#40a8e6;
   cursor: pointer;
   box-sizing: border-box;
   border-radius: 4px;
-  width: 11vw;
-  height: 1.9vw;
-  top: 5vw;
   color: #ffffff;
+  height: 2rem;
+  width: 10rem;
+  text-align: -webkit-center;
+  @media (max-width: ${MOBILE}) {
+    width: 100%;
+  }
 `
 
 export const ButtonCancel = styled.button`
-  font-size: 0.8vw;
   background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
+  border: 1px solid #40a8e6;
   border-radius: 4px;
-  width: 11vw;
-  height: 1.9vw;
-  top: 5vw;
-  color: #58d3f7;
-  margin-left: 1vw;
+  color: #40a8e6;
+  height: 2rem;
+  padding: 0 1rem;
+  width: 9rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  @media (max-width: ${MOBILE}) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
 `
 
 export const ContentInputCard = styled.div`
@@ -151,11 +135,9 @@ export const ContentInputImageCard = styled.div`
 `
 
 export const Input = styled.input`
-  font-size: 1vw;
   padding: 5px;
   background: #fafafa;
   border: 1px solid #bdbdbd;
-  margin: 1vw 0;
   border-radius: 3px;
   ::placeholder {
     color: #bdbdbd;
@@ -167,8 +149,8 @@ export const Spinner = styled.div`
   border: 3px solid #f3f3f3;
   border-top: 3px solid #6d6d6d;
   border-radius: 50%;
-  width: 1vw;
-  height: 1vw;
+  width: 1rem;
+  height: 1rem;
   animation: spin 1s linear infinite;
 
   @keyframes spin {
@@ -184,7 +166,7 @@ export const Spinner = styled.div`
 export const DropLoaded = styled.div`
   line-height: 35px;
   border-radius: 4px;
-  width: 20vw;
+  width: 20rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -196,7 +178,7 @@ export const DropLoaded = styled.div`
     white-space: nowrap;
     flex: 1 1 auto;
     margin-bottom: 0;
-    padding-left: 0.75em;
+    padding-left: 0.75rem;
   }
 
   .close {
@@ -208,22 +190,26 @@ export const DropLoaded = styled.div`
 `
 
 export const LoadImage = styled.div`
-  width: 10vw;
-  height: 10vw;
+  width: 7rem;
+  height: 7rem;
   background: transparent;
   border: 1px solid #e4e4e4;
-  padding: 0.2em;
+  padding: 0.2rem;
   overflow: hidden;
   border-radius: 5px;
-  margin-right: 0.5em;
+  margin-right: 0.5rem;
   position: relative;
 
-  margin: 1vw;
+  margin: 0.5rem;
   @extend %tr;
 `
 
 export const PhotoDropLoaded = styled.div`
   display: flex;
+  align-items: center;
+  @media (max-width: ${MOBILE}) {
+    flex-direction: column;
+  }
 `
 
 export const ImageShow = styled.img`
@@ -257,18 +243,29 @@ export const ClosePhoto = styled.div`
 
 export const ButtonImageLoad = styled.button`
   cursor: pointer;
-  border: dashed 0.3vw #d3d3d3;
-  border-radius: 1vw;
-  width: 10vw;
-  height: 10vw;
+  border: dashed 5px #d3d3d3;
+  border-radius: 8px;
+  width: 7rem;
+  height: 7rem;
   background-color: white;
-  margin: 1vw 0;
+  margin: 1rem 0;
+  @media (max-width: ${MOBILE}) {
+    margin: 1rem;
+  }
 `
 
-export const InputGroup = styled.div`
+export const TitleDescription = styled.h4`
+    margin: 0.5rem 0;
+    font-weight: 500;
+    i{
+      color: #ADADAD;
+      font-Weight:initial;
+      font-size: 13px;
+    }
+`
+export const ContainerPhotoLoaded = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 26.3vw;
+  @media (max-width: ${MOBILE}) {
+    flex-direction: column;
+  }
 `
