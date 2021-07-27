@@ -1,13 +1,7 @@
 import React from 'react'
+import { ModalCompartirType } from '../../types'
 
-type Props = {
-  show: boolean
-  buttonCancel: boolean
-  buttonConfirm: boolean
-  title: string
-}
-
-const Modalcompartir: React.FC<Props> = ({ show }) => {
+const Modalcompartir: React.FC<ModalCompartirType> = ({ show }) => {
   return <div>hola</div>
 }
 

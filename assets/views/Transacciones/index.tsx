@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Title from '../../components/Title'
-import DatePick from '../../components//DateRange'
+import DatePick from '../../components/DateRange'
 import { toast, ToastContainer } from 'react-toastify'
 
 import {

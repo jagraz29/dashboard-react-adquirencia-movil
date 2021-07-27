@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Select } from './styles'
-import { InputSelectWithValueType } from '../../types/InputSelectWithValueType'
+import { InputSelectType } from '../../types/InputSelectType'
 
-const InputSelectWithValue: React.FC<InputSelectWithValueType> = ({
+const InputSelectWithValue: React.FC<InputSelectType> = ({
   name,
   value,
   placeholder,

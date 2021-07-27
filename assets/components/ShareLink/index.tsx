@@ -43,11 +43,11 @@ export default function ShareLink(props:any) {
         <Text>
           También puede copiar y pegar este link en su red social favorita de forma directa
         </Text>
-        <Input value={`https://link.epayco.io/${props.idCobra}`} disabled />
+        <Input value={`${process.env.REACT_APP_URL_COBRA}${props.idCobra}`} disabled />
         <CopyButton
           disabled={copied}
           onClick={() => {
-            copyText(`https://link.epayco.io/${props.idCobra}`)
+            copyText(`${process.env.REACT_APP_URL_COBRA}${props.idCobra}`)
           }}
         >
           {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
