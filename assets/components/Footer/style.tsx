@@ -26,6 +26,7 @@ export const Wrapper = styled.footer`
   padding: 0 0.5rem;
   border-top: 1px solid #e0e0e0;
   @media (max-width: ${MOBILE}) {
+    width: auto;
     flex-direction: column;
     align-items: center;
     ${ContainerIconsText}{

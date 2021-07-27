@@ -1,12 +1,13 @@
 import { AnyAction } from 'redux'
 import { GetListTransactionReducerType } from '../../types/GetListTransactionReducerType'
-import { GET_LIST_TRANSACTION } from '../actions/index'
+import { GET_LIST_TRANSACTION,RESET_LIST_TRANSACTION } from '../actions/index'
 
 const initialState: GetListTransactionReducerType = {
   listTransactionData: {
     transactions: [],
   },
   loading: false,
+
 }
 
 const getListTransactionReducer = (
@@ -32,6 +33,16 @@ const getListTransactionReducer = (
         loading: false,
       }
     }
+    case RESET_LIST_TRANSACTION: {
+      return {
+        ...state,
+        listTransactionData: {
+          transactions: [],
+          pagination:{},
+          aggregrations:{}
+        }
+    }
+  }
     default: {
       return state
     }

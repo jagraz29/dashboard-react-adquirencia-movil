@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TABLET, MOBILE } from '../../styles/breakpoints'
+import { TABLET, MOBILE, INTERMEDIATE } from '../../styles/breakpoints'
 
 export const Content = styled.div`
   display: grid;
@@ -104,9 +104,8 @@ export const ContentTable = styled.div`
   border-radius: 4px;
   margin: 1rem;
   margin-top: 0;
-    @media (max-width: ${MOBILE}) {
+    @media (max-width: ${INTERMEDIATE}) {
     overflow-x: hidden;
-    margin: 0;
   }
 `
 
@@ -147,10 +146,11 @@ export const CardTransaction= styled.div`
   h4,h2{
     margin: 0.5rem 0;
   }
-  a{
+  span{
     color: #40A8E6;
     text-decoration: none;
     font-size: 15px;
+    cursor: pointer;
   }
 
 `

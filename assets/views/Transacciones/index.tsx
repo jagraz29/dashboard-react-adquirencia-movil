@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
 import DatePick from '../../components//DateRange'
 import { toast, ToastContainer } from 'react-toastify'
@@ -29,8 +28,8 @@ import {
   ContentFiltro
 } from './styles'
 
-import { useHistory } from 'react-router-dom'
-import { getListTransactionSite } from '../../redux/actions'
+import { useLocation } from 'react-router-dom'
+import { getListTransactionSite, resetListTransaction } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
@@ -212,10 +211,14 @@ const Transacciones = ({setBreadcrumb}:any) => {
 
   useEffect(() => {
     setBreadcrumb(breadcrumbTitle)
+    return ()=>{
+      dispatch(resetListTransaction())
+    }
   },[])
 
-  useEffect(() => {
 
+  useEffect(() => {
+    
     const {
       listTransactionData: { aggregations, pagination },
     } = getListTransaction
@@ -232,7 +235,6 @@ const Transacciones = ({setBreadcrumb}:any) => {
         }
       })
       setStatusTransaction(dataStatus)
-
       const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
         const keyCode = getPaymentCode(key)
         return {
@@ -242,7 +244,6 @@ const Transacciones = ({setBreadcrumb}:any) => {
         }
       })
       setstatusPay(dataPay)
-
       let dataCount = 0
       const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
         dataCount += aggregations.transactionType[key].doc_count
@@ -254,6 +255,7 @@ const Transacciones = ({setBreadcrumb}:any) => {
       setTotalCount(dataCount)
       setEntorno(dataEntorno)
       setLoading(false)
+  
     }
   }, [getListTransaction])
 
@@ -284,7 +286,16 @@ const Transacciones = ({setBreadcrumb}:any) => {
     setActiveFilters({ ...activeFilters, page })
   }
 
-  const [objectQuery, setObjectQuery] = useState<any>({})
+  const location = useLocation()
+
+  const [objectQuery, setObjectQuery] = useState<any>(()=>{
+    const {state}:any= location 
+    if(state && state.statusId){
+      return {statusId:state.statusId}
+    }else{
+      return {}
+    }
+  })
 
   function handlePaymentMethod(paymentMethod: any) {
     const page = 1
@@ -363,6 +374,7 @@ const Transacciones = ({setBreadcrumb}:any) => {
     }
     setFinalQuery(final)
     dispatch(getListTransactionSite(final))
+
   }, [objectQuery])
 
   const [activeFilters, setActiveFilters] = useState({

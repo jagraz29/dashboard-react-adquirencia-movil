@@ -20,6 +20,7 @@ import { getListCollect } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { FaSearch } from 'react-icons/fa'
+import LoadingBar from '../../components/LoadingBar'
 const breadcrumbTitle = [
   {
     title: 'Inicio',
@@ -126,9 +127,12 @@ const Cobra = ({setBreadcrumb}:any) => {
             </SearchContainer>
           </ContentSearchTitle>
 
-          {dataTable && dataTable.length > 0 && (
+          {dataTable && dataTable.length > 0 
+          ?
             <TablaCobra data={dataTable} titleData={dataTitle} />
-          )}
+            :
+              <LoadingBar text={'Obteniendo informacion...'} />
+          }
         </ContentTable>
 
       </ContentCobra>

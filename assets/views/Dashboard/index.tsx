@@ -33,7 +33,7 @@ import { RootState } from '../../redux/reducers/index'
 import LoadingBar from '../../components/LoadingBar'
 import Avatar from '../../components/Avatar'
 import { BsChevronDown } from 'react-icons/bs';
-import { getTickets } from '../../redux/actions/captchaActions';
+import { getTickets, resetListTransaction } from '../../redux/actions/captchaActions';
 
 const dataTitle = [
   'Ref.Payco',
@@ -62,6 +62,9 @@ const index = ({setBreadcrumb}:any) => {
 
   useEffect(() => {
     setBreadcrumb([])
+    return ()=>{
+      dispatch(resetListTransaction())
+    }
   },[])
 
   useEffect(() => {
@@ -112,7 +115,6 @@ const index = ({setBreadcrumb}:any) => {
     if (typeof tickets != 'boolean') {
       setTicketsOpen(tickets)
       setLastTicketOpen(tickets[0])
-      console.log(tickets)
     }
   }
 
@@ -224,13 +226,23 @@ const index = ({setBreadcrumb}:any) => {
         <CardTransaction>
           <h4>Transacciones aprobadas</h4>
           <h2>{dataStatus? dataStatus.Aceptada.doc_count:"0"}</h2>
-          <Link to="#">Ver detalle</Link>
+          <span onClick={()=> {
+            history.push({
+              pathname: '/transacciones',
+              state:{statusId:1}
+            })
+            }}>Ver detalle</span>
         </CardTransaction>
 
         <CardTransaction>
           <h4>Transacciones pendientes</h4>
           <h2>{dataStatus? dataStatus.Pendiente.doc_count:"0"}</h2>
-          <Link to="#">Ver detalle</Link>
+          <span onClick={()=> {
+            history.push({
+              pathname: '/transacciones',
+              state:{statusId:3}
+            })
+            }}>Ver detalle</span>
         </CardTransaction>
       </ContentItems>
       

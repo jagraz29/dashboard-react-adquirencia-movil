@@ -22,9 +22,14 @@ const index = ({sidebar, setSidebar}:any) => {
     dispatch(getDataUser())
   }, [saveData])
 
+  const handleMenuRedirect = (item:any)=> {
+    history.push(item)
+    setSidebar(false)
+  }
+
   return (
     <NavContainer>
-      <BackShadow data-show={sidebar}></BackShadow>
+      <BackShadow data-show={sidebar} onClick={()=> setSidebar(false)}></BackShadow>
       <SidebarNav data-show={sidebar} >
         <SidebarWrap  data-show={sidebar}>
           {
@@ -40,7 +45,7 @@ const index = ({sidebar, setSidebar}:any) => {
           <ul>
             {MenuItems.map((item, index) => {
               return (
-                <li key={index} onClick={() => history.push(item.path)}>
+                <li key={index} onClick={()=>handleMenuRedirect(item.path)}>
                   <img src={item.icon} />
                   <h4>{item.title}</h4>
                 </li>

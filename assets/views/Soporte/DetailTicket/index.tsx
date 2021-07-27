@@ -129,7 +129,7 @@ const DetailTicket = ({setBreadcrumb}:any) => {
       display: block;
       position: relative;
     `
-    console.log("ACA",urlBase + url,process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL)
+  
     return url.substr(url.length - 3) == 'pdf' ? (
       <p>
         <FontAwesomeIcon icon={faDownload} onClick={() => window.open(urlBase + url, '_blank')} />

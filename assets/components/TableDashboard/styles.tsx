@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TABLET, MOBILE } from '../../styles/breakpoints'
+import { TABLET, MOBILE, INTERMEDIATE } from '../../styles/breakpoints'
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -10,11 +10,6 @@ export const StyledTable = styled.table`
     border: none;
     height: 3vw;
   }
-  /* td,
-  th {
-    border: 1px solid;
-  } */
-
   td {
     padding: 5px 10px;
   }
@@ -53,20 +48,20 @@ export const StyledTable = styled.table`
     line-height: 17px;
   }
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${INTERMEDIATE}) {
     display: none;
   }
 `
 export const ResponsiveTableDashboard = styled.div`
 display: none;
-@media (max-width: ${MOBILE}) {
+@media (max-width: ${INTERMEDIATE}) {
     display: block;
   }
 `
 export const ContainerBox = styled.div`
 display: none;
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${INTERMEDIATE}) {
       display: flex;
       flex-direction: column;
       border: 1px solid #cfcfcf;
@@ -78,7 +73,7 @@ display: none;
 `
 export const ContentItem = styled.div`
 display: none;
-   @media (max-width: ${MOBILE}) {
+   @media (max-width: ${INTERMEDIATE}) {
       display: flex;
       flex-direction: row;
       justify-content:space-between;
@@ -93,7 +88,7 @@ display: none;
 `
 export const ClaveField = styled.label`
 
-   @media (max-width: ${MOBILE}) {
+   @media (max-width: ${INTERMEDIATE}) {
     font-weight: 700;
     
   }
@@ -101,13 +96,13 @@ export const ClaveField = styled.label`
 `
 export const ValueItem = styled.label`
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${INTERMEDIATE}) {
     text-align: end;
   }
 `
 export const ValueStatus = styled.label`
 
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${INTERMEDIATE}) {
     text-align: end;
     color: ${(props: any) => 
       (props['data-estado'] === "Aceptada"? "#67C940": 
