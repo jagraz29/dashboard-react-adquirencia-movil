@@ -1,5 +1,5 @@
 const Encore = require('@symfony/webpack-encore')
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require('dotenv');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -47,13 +47,15 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     .configureBabel((config) => {
-        config.plugins.push('@babel/plugin-proposal-class-properties')
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+        // config.presets.push('env');
     })
 
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage'
         config.corejs = 3
+
     })
 
     // enables Sass/SCSS support
@@ -65,9 +67,18 @@ Encore
     // uncomment if you use React
     .enableReactPreset()
 
-    .addPlugin(new Dotenv({
-        systemvars: true
-    }))
+    // .addPlugin(new Dotenv({
+    //     systemvars: true
+    // }))
+    .configureDefinePlugin(options => {
+        const env = Dotenv.config();
+
+        if (env.error) {
+            throw env.error;
+        }
+
+        options['process.env'].REACT_APP_AMAZON_URL = JSON.stringify(env.parsed.REACT_APP_AMAZON_URL);
+    })
 
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher
