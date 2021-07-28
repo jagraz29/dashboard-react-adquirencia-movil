@@ -1,22 +1,9 @@
-FROM node:14-alpine AS builder
+FROM php:7.4-apache AS base
 
-WORKDIR /usr/src/app
+WORKDIR /var/www/app
 
 #ADD https://github.com/DataDog/dd-trace-php/releases/download/0.51.0/datadog-php-tracer_0.51.0_amd64.deb .
 #RUN dpkg -i datadog-php-tracer_0.51.0_amd64.deb
-
-COPY assets assets
-COPY package.json webpack.config.js yarn.lock ./
-
-ARG APP_ENV=prod
-ARG APP_WARMUP=true
-ARG APP_DEBUG=1
-ARG URL_S3_IMAGES=https://multimedia.epayco.co
-ARG REACT_APP_AMAZON_URL=https://multimedia.epayco.co
-
-RUN mkdir public && yarn install && yarn build
-
-FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y unzip \
     && apt-get autoremove -y \
@@ -25,19 +12,39 @@ RUN apt-get update && apt-get install -y unzip \
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 RUN install-php-extensions gd zip
 
-WORKDIR /var/www/app
-
 COPY . .
+
+ARG APP_ENV=prod
+ARG APP_WARMUP=true
+ARG APP_DEBUG=1
+ARG URL_S3_IMAGES=https://multimedia.epayco.co
+ARG REACT_APP_AMAZON_URL=https://multimedia.epayco.co
+
 
 COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 
-#RUN touch .env
+RUN touch .env
 
 RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-ansi --no-interaction \
     && composer clear-cache
 
+FROM node:14-alpine AS builder
+
+WORKDIR /usr/src/app
+
+COPY --from=base /var/www/app/assets assets
+COPY --from=base /var/www/app/public public
+COPY --from=base /var/www/app/src src
+COPY --from=base /var/www/app/tsconfig.json tsconfig.json
+COPY --from=base /var/www/app/package.json /var/www/app/webpack.config.js /var/www/app/yarn.lock ./
+
+RUN yarn install && yarn build
+
+FROM base
+
 COPY --from=builder /usr/src/app/public/build public/build
-COPY docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+
+COPY docker/000-default.conf /etc/apache2/sites-enabled/
 COPY docker/app.conf /etc/apache2/conf-enabled/z-app.conf
 COPY docker/app.ini $PHP_INI_DIR/conf.d/app.ini
 
