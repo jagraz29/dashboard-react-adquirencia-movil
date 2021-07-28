@@ -1,5 +1,5 @@
 const Encore = require('@symfony/webpack-encore')
-const Dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -67,18 +67,9 @@ Encore
     // uncomment if you use React
     .enableReactPreset()
 
-    // .addPlugin(new Dotenv({
-    //     systemvars: true
-    // }))
-    .configureDefinePlugin(options => {
-        const env = Dotenv.config();
-
-        if (env.error) {
-            throw env.error;
-        }
-
-        options['process.env'].REACT_APP_AMAZON_URL = JSON.stringify(env.parsed.REACT_APP_AMAZON_URL);
-    })
+    .addPlugin(new Dotenv({
+        systemvars: true
+    }))
 
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher
