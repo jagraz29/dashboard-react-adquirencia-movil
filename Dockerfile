@@ -38,6 +38,7 @@ COPY --from=base /var/www/app/package.json /var/www/app/webpack.config.js /var/w
 
 ARG URL_S3_IMAGES=https://multimedia.epayco.co
 ARG REACT_APP_AMAZON_URL=https://multimedia.epayco.co
+ARG REACT_APP_URL_COBRA=https://payco.link
 
 RUN yarn install && yarn build
 
