@@ -165,6 +165,7 @@ class TicketController extends BaseController
   public function saveResponse(Request $request)
   {
     $content = $request->getContent();
+    $content = json_decode($content, true);
     $createTicketResponseDto = new CreateTicketResponseDto();
     $createTicketResponseDto->setIdTicket($content['id']);
     $createTicketResponseDto->setRespuesta($content['respuesta'] ? $content['respuesta'] : '');

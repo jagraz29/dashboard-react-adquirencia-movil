@@ -7,7 +7,6 @@ export const Select = styled.select`
   border: 1px solid #bdbdbd;
   border-radius: 3px;
   padding: 5px;
-  font-size: 1vw;
 
   option {
     color: black;

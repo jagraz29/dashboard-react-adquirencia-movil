@@ -105,5 +105,5 @@ export const MenuItems = [
         icon: <IoIcons.IoIosPaper />,
       },
     ],
-  },
+  }
 ]

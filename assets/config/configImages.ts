@@ -67,3 +67,7 @@ export const CardsIcons: any = {
   PSE: process.env.REACT_APP_AMAZON_URL + '/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
   DEFAULT: process.env.REACT_APP_AMAZON_URL + '/dashboard/cards/N/A.png',
 }
+export const LogoDaviviendaEpayco = {
+  name: 'LogoDaviviendaEpayco',
+  url: process.env.REACT_APP_AMAZON_URL + '/Logos/logos.png',
+}

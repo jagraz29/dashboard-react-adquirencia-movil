@@ -12,8 +12,7 @@ export const InputLabel = styled.span`
 `
 
 export const Input = styled.input`
-  font-size: 1vw;
-  padding: 5px;
+  padding: 7px;
   background: #fafafa;
   border: 1px solid #bdbdbd;
   border-radius: 3px;

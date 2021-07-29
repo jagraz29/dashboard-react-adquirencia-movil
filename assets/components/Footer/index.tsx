@@ -1,18 +1,18 @@
 import React from 'react'
-import { ContentWrapper, Wrapper, WrapperLogo, WrapperLogoEpeyco, WrapperText } from './style'
+import {  Wrapper, ContainerIconsText, ContainerLogoEpayco } from './style'
 import { IconEpeycoFooter, IconVigilado } from '../../config/configImages'
 
 const Footer = () => {
   return (
-    <div>
       <Wrapper>
-        <ContentWrapper>
-          <WrapperLogo src={IconVigilado.url} />
-          <WrapperText>Davivienda S.A. todos los Derechos reservados 2021</WrapperText>
-          <WrapperLogoEpeyco src={IconEpeycoFooter.url} />
-        </ContentWrapper>
+          <ContainerIconsText>
+            <img src={IconVigilado.url} />
+            <h6>Davivienda S.A. todos los Derechos reservados 2021</h6>
+          </ContainerIconsText>
+          <ContainerLogoEpayco>
+            <img src={IconEpeycoFooter.url} />
+          </ContainerLogoEpayco>
       </Wrapper>
-    </div>
   )
 }
 

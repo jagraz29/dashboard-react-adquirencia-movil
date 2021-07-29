@@ -3,4 +3,5 @@ export type ButtonType = {
   loading: boolean
   text: string
   disabled: boolean
+  style?: any 
 }

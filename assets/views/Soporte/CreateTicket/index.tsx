@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { AiFillFilePdf } from 'react-icons/ai'
 
 import Title from '../../../components/Title'
-import Breadcrumbs from '../../../components/Breadcrumbs/'
 import InputCustumer from '../../../components/InputCostumer'
 import TextareaCustomer from '../../../components/TextareaCustomer'
 import InputLabel from '../../../components/InputLabel'
@@ -30,12 +29,15 @@ import {
   ContentInputImageCard,
   PhotoDropLoaded,
   Spinner,
+  ContainerCreateTicket,
+  SubtitleHeader,
+  TitleDescription,
+  ContainerPhotoLoaded
 } from './styles'
 import { toast, ToastContainer } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -43,6 +45,11 @@ const breadcrumb = [
   },
   {
     title: 'Soporte',
+    path: '/soporte',
+    active: true,
+  },
+  {
+    title: 'Crear ticket de soporte',
     path: '/soporte',
     active: false,
   },
@@ -63,8 +70,7 @@ interface ticketInterface {
   [key: string]: any
 }
 
-const CreateTicket = (props: any) => {
-  const iconStyles = { color: '#ADADAD' }
+const CreateTicket = ({setBreadcrumb}:any) => {
 
   const [ticket, setTicket] = useState<ticketInterface>({
     area: '',
@@ -75,14 +81,16 @@ const CreateTicket = (props: any) => {
   })
 
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const [departamentos, setDepartamentos] = useState([])
   const [prioridades, setPrioridades] = useState([])
 
   const [loadButton, setLoadButton] = useState(false)
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
-  const [loadFiles, setLoadFiles] = useState<arrayFileInterface[]>([])
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   const onDropImg = async (accepted: any, rejected: any) => {
     if (rejected.length > 0) {
@@ -227,24 +235,23 @@ const CreateTicket = (props: any) => {
   }, [])
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerCreateTicket>
       <Title title={'Crear ticket de soporte'}></Title>
       <Content>
         <ToastContainer />
         <ContentCard>
-          <Card style={{ padding: '0 2vw' }}>
+          <Card >
             <CardHeader>
               <CardTitle>
                 <b>Datos y descripción</b>
               </CardTitle>
             </CardHeader>
-            <span style={{ margin: '2vw 1vw', display: 'block', color: '#ADADAD' }}>
+            <SubtitleHeader >
               <i>
                 Por favor diligencie el siguiente formulario y proporciónenos los datos más precisos
                 y detallados de su solicitud, para que podamos atender su solicitud efectivamente.
               </i>
-            </span>
+            </SubtitleHeader>
             <CardContent1>
               <ContentInput>
                 <ContentInputCard>
@@ -252,7 +259,7 @@ const CreateTicket = (props: any) => {
                   <InputSelect
                     name={'area'}
                     placeholder={'Servicio al cliente'}
-                    width={'12vw'}
+                    width={'96%'}
                     dataSelect={departamentos}
                     onChange={handleChangeInput}
                     onClick={handleChangeInput}
@@ -263,16 +270,14 @@ const CreateTicket = (props: any) => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <InputLabel label={'Nivel de Impacto'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#ADADAD' }}>
-                      De acuerdo al grado de aceptación de su actividad operativa.
-                    </i>
-                  </div>
+                    <TitleDescription>
+                      Nivel de Impacto 
+                      <i> De acuerdo al grado de aceptación de su actividad operativa.</i>
+                    </TitleDescription>
                   <InputSelect
                     name={'impacto'}
                     placeholder={'Nivel de Impacto'}
-                    width={'15vw'}
+                    width={'96%'}
                     dataSelect={prioridades}
                     onChange={handleChangeInput}
                     onClick={handleChangeInput}
@@ -283,17 +288,15 @@ const CreateTicket = (props: any) => {
 
               <ContentInput>
                 <ContentInputCard>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <InputLabel label={'Asunto'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#ADADAD' }}>
-                      Especifique el tema de su solicitud.
-                    </i>
-                  </div>
+                  <TitleDescription>
+                    Asunto 
+                    <i> Especifique el tema de su solicitud.</i>
+                  </TitleDescription>
                   <InputCustumer
                     name={'asunto'}
                     type={'text'}
                     placeholder={''}
-                    width={'17vw'}
+                    width={'96%'}
                     value={ticket.asunto}
                     onChange={handleChangeInput}
                     returnComplete={true}
@@ -304,20 +307,18 @@ const CreateTicket = (props: any) => {
                 </ContentInputCard>
               </ContentInput>
 
-              <ContentInput>
+              <ContentInput style={{gridTemplateColumns:"100%"}}>
                 <ContentInputCard>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <InputLabel label={'Solicitud'} />
-                    <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#ADADAD' }}>
-                      Describa la solicitud o requerimiento.
-                    </i>
-                  </div>
+                    <TitleDescription>
+                      Solicitud 
+                      <i> Describa la solicitud o requerimiento.</i>
+                    </TitleDescription>
                   <TextareaCustomer
                     name={'solicitud'}
                     type={'text'}
                     placeholder={''}
-                    style={{ height: '8vw' }}
-                    width={'22.3vw'}
+                    style={{ minHeight: '7rem' }}
+                    width={'96%'}
                     value={ticket.solicitud}
                     onChange={handleChangeInput}
                   />
@@ -325,18 +326,16 @@ const CreateTicket = (props: any) => {
               </ContentInput>
             </CardContent1>
 
-            <ContentInput style={{ marginLeft: '1vw' }}>
+            <ContentInput >
               <ContentInputImageCard>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <InputLabel label={'Documentos adicionales'} />
-                  <i style={{ fontSize: '0.7vw', marginLeft: '1vw', color: '#ADADAD' }}>
-                    Soporte su solicitud con documentos o imágenes.
-                  </i>
-                </div>
-                <span style={{ fontSize: '0.9vw', marginLeft: '1vw', color: '#ADADAD' }}>
+                  <TitleDescription>
+                    Documentos adicionales 
+                    <i> Soporte su solicitud con documentos o imágenes.</i>
+                  </TitleDescription>
+                <span style={{color: '#ADADAD' }}>
                   Máximo hasta 3 documentos
                 </span>
-                <div style={{ display: 'flex' }}>
+                <ContainerPhotoLoaded>
                   <PhotoDropLoaded>
                     {loadImages.map((image, index) => (
                       <LoadImage key={`${image.name}-${index}`}>
@@ -378,15 +377,14 @@ const CreateTicket = (props: any) => {
                       )}
                     </Dropzone>
                   )}
-                </div>
+                </ContainerPhotoLoaded>
               </ContentInputImageCard>
             </ContentInput>
           </Card>
 
           {/*---------------------BUTTON SECTION-----------------*/}
-          <CardContentButton style={{ marginBottom: '5vw', marginTop: '2vw' }}>
+          <CardContentButton >
             <ButtonOk
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               disabled={loadButton}
               onClick={handleSubmit}
             >
@@ -398,7 +396,7 @@ const CreateTicket = (props: any) => {
           </CardContentButton>
         </ContentCard>
       </Content>
-    </div>
+    </ContainerCreateTicket>
   )
 }
 

@@ -141,41 +141,45 @@ const AuthComponent = () => {
   }
 
   return (
-    <div>
+    <>
       <ToastContainer />
       <div className="auth-background">
-        <img className="img-davivienda" src="/img/davivienda.png" alt="" />
-        <img className="img-ePayco" src="/img/epayco-white.png" alt="" />
+        <div className="logo-container">
+          <img className="img-ePayco" src="/img/epayco-white.png" alt="" />
+          <img className="img-davivienda" src="/img/davivienda.png" alt="" />
+        </div>
+
+        <div className="container-princ">
 
         {location.pathname === '/password/reset' && (
-          <div className="auth-container">
+          <div className="auth-copyrigth-container">
             {showSuccess ? (
-              <div>
+              <div className="auth-container">
                 <h1 className="auth-title">
                   Si existe una cuenta con su correo electrónico, recibirá un mensaje de
                   recuperación de contraseña.
                 </h1>
-                <div style={{ display: 'flex', marginTop: '4vw', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <img className="img-send" src="/img/icon-correo.png" alt="" />
                 </div>
                 <div className="button-section">
                   <button
                     onClick={() => window.location.assign('/login')}
                     disabled={disableButton}
-                    style={{ width: '21vw' }}
                     className="btn-auth"
+                    style={{width:"100%"}}
                   >
                     Regresar
                   </button>
                 </div>
               </div>
             ) : (
-              <form method="post">
+              <form method="post" className="auth-container">
                 <h1 className="auth-title">
                   Ingrese su e-mail y le serán enviadas las instrucciones para cambiar la
                   contraseña.
                 </h1>
-                <div className="auth-input" style={{ marginTop: '4vw' }}>
+                <div className="auth-input">
                   <label>Correo</label>
                   <input
                     disabled={disableInput}
@@ -193,10 +197,10 @@ const AuthComponent = () => {
                     onClick={handleSubmit}
                     disabled={disableButton}
                     style={{
-                      width: '21vw',
                       justifyContent: 'center',
                       alignItems: 'center',
                       display: 'flex',
+                      width: "100%"
                     }}
                     className="btn-auth"
                   >
@@ -210,12 +214,13 @@ const AuthComponent = () => {
                 </div>
               </form>
             )}
+            <span className="copyright">Banco Davivienda S.A. todos los derechos reservados 2020.</span>
           </div>
         )}
 
         {location.pathname === '/password/change/' + id && (
-          <div className="auth-container">
-            <form method="post" style={{ padding: '0 2vw' }}>
+          <div className="auth-copyrigth-container">
+            <form method="post" className="auth-container" >
               <h1 className="auth-title">Cree su nueva contraseña</h1>
               <h2 className="auth-subtitle">
                 Se recomienda para mayor seguridad de su cuenta, la contraseña debe contener mínino
@@ -268,10 +273,10 @@ const AuthComponent = () => {
                   disabled={disableButton}
                   onClick={handleSubmitPassword}
                   style={{
-                    width: '21vw',
                     justifyContent: 'center',
                     alignItems: 'center',
                     display: 'flex',
+                    width: "100%"
                   }}
                   className="btn-auth"
                   type="submit"
@@ -280,23 +285,17 @@ const AuthComponent = () => {
                 </button>
               </div>
             </form>
+            <span className="copyright">Banco Davivienda S.A. todos los derechos reservados 2020.</span>
           </div>
         )}
         <div className="right-side">
           Con <b>Mi Negocio</b> puede administrar sus cobros y transacciones de forma rápida y
           segura
         </div>
-        {location.pathname === '/password/change/' + id ? (
-          <span className="copyright" style={{ top: '88.44%' }}>
-            Banco Davivienda S.A. todos los derechos reservados 2020.
-          </span>
-        ) : (
-          <span className="copyright">
-            Banco Davivienda S.A. todos los derechos reservados 2020.
-          </span>
-        )}
+        
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
