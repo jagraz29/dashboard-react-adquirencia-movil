@@ -578,9 +578,7 @@ const CobraCreate = ({setBreadcrumb}:any) => {
                             <input {...getInputProps()} />
                             <img
                               style={{ width: '2vw' }}
-                              src={
-                                `${process.env.REACT_APP_URL_S3_IMAGES}/` + 'dashboard/image.png'
-                              }
+                              src={`${process.env.REACT_APP_AMAZON_URL}/` + 'dashboard/image.png'}
                               alt=""
                             />
                           </ButtonImageLoad>

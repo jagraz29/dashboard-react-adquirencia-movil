@@ -64,7 +64,7 @@ export default function ShareLink(props:any) {
                 <FlagContainer>
                   <Flag
                     src={
-                      `${process.env.REACT_APP_URL_S3_IMAGES}` +
+                      `${process.env.REACT_APP_AMAZON_URL}` +
                       '/my-epayco/flags/' +
                       item.label.toLowerCase() +
                       '.svg'

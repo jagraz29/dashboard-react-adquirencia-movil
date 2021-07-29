@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+  build:
+    commands:
+      - docker build --build-arg REACT_APP_AMAZON_URL --build-arg REACT_APP_URL_COBRA --build-arg REACT_APP_CAPTCHA_KEY --build-arg REACT_APP_CHECKOUT_MODE --build-arg REACT_APP_URL_RESULT_CHECKOUT --build-arg REACT_APP_BASE_PATH --build-arg REACT_APP_S3_IMAGES -t $IMAGE_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_NAME .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $REPOSITORY_URI
+
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI
+      - printf '[{"name":"%s","imageUri":"%s"}]' $IMAGE_REPO_NAME $REPOSITORY_URI > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
