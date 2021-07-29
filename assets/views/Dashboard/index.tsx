@@ -104,7 +104,7 @@ const index = () => {
             <TitleLink>Herramienta de cobro</TitleLink>
             <ButtonLink onClick={() => redirectRoute('/cobra')}>
               <ButtonImg src={IconLink.url} />
-              <ButtonText>Crear y comparti un link de cobro</ButtonText>
+              <ButtonText>Crear y compartir un link de cobro</ButtonText>
             </ButtonLink>
           </ContentLink>
         </ContentPay>

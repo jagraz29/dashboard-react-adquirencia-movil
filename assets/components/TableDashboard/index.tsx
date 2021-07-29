@@ -43,7 +43,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                 <td key={index}>
                   {index == 0 ? (
                     <body>
-                      <TableTextLink href={'https://epayco.link/' + item[title]}>
+                      <TableTextLink href={'/transacciones/detalles/' + item[title]}>
                         {item[title]}
                       </TableTextLink>
                     </body>
