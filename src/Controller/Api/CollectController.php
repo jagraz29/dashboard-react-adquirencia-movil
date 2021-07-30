@@ -54,15 +54,15 @@ class CollectController extends BaseController
 
     $collectTableDto = new CollectTableDto();
 
-    $collectTableDto->setQuantity($content['cantidad']);
-    $collectTableDto->setReference($content['factura']);
-    $collectTableDto->setOnePayment($content['cantidad'] > 1 ? 0 : true);
-    $collectTableDto->setAmount($content['valor']);
-    $collectTableDto->setCurrency($content['tipoMoneda']);
+    $collectTableDto->setQuantity($content['quantity']);
+    $collectTableDto->setReference($content['invoice']);
+    $collectTableDto->setOnePayment($content['quantity'] > 1 ? 0 : true);
+    $collectTableDto->setAmount($content['value']);
+    $collectTableDto->setCurrency($content['currencyType']);
     $collectTableDto->setId(isset($content['id']) ? $content['id'] : 0);
-    $collectTableDto->setBase($content['valor']);
-    $collectTableDto->setDescription($content['descripcion']);
-    $collectTableDto->setTitle($content['nombre']);
+    $collectTableDto->setBase($content['value']);
+    $collectTableDto->setDescription($content['description']);
+    $collectTableDto->setTitle($content['name']);
     $collectTableDto->setTypeSell(self::TYPE_LINK);
     $collectTableDto->setTax($content['iva']);
 
@@ -77,18 +77,18 @@ class CollectController extends BaseController
       'amount' => $collectTableDto->getAmount(),
       'currency' => $collectTableDto->getCurrency(),
       'id' => $collectTableDto->getId(),
-      'base' => $collectTableDto->getBase(),
+      //'base' => $collectTableDto->getBase(),
       'description' => $collectTableDto->getDescription(),
       'title' => $collectTableDto->getTitle(),
       'typeSell' => $collectTableDto->getTypeSell(),
       'tax' => $collectTableDto->getTax(),
       'icoTax' => $content['ico'],
-      'img' => count($content['imagenes']) > 0 ? $content['imagenes'] : null,
-      'document' => $content['archivo'],
-      'urlConfirmation' => $content['urlConfirmacion'],
-      'urlResponse' => $content['urlRespuesta'],
-      'expirationDate' => $content['fechaVencimiento'],
-      'noCalculate' => true,
+      'img' => count($content['images']) > 0 ? $content['images'] : null,
+      'document' => $content['file'],
+      'urlConfirmation' => $content['urlConfirmation'],
+      'urlResponse' => $content['urlResponse'],
+      'expirationDate' => $content['expirationDate'],
+      //'noCalculate' => true,
     ];
 
     $response =

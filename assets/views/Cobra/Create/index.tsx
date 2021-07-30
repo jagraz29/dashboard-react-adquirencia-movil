@@ -263,20 +263,20 @@ const CobraCreate = (props: any) => {
     }
 
     const data = {
-      nombre: cobro.nombre,
-      descripcion: cobro.descripcion,
-      factura: cobro.factura,
-      tipoMoneda: cobro.tipoMoneda,
-      valor: cobro.valor,
+      name: cobro.nombre,
+      description: cobro.descripcion,
+      invoice: cobro.factura,
+      currencyType: cobro.tipoMoneda,
+      value: cobro.valor,
       iva: impuestos.agregado,
       ico: impuestos.consumo,
-      cantidad: cobro.cantidad > 0 ? cobro.cantidad : 1,
-      fechaVencimiento: cobro.fechaVencimiento,
-      urlConfirmacion: cobro.urlConfirmacion,
-      urlRespuesta: cobro.urlRespuesta,
-      imagenes: arrImages,
-      archivo: file,
-      total,
+      quantity: cobro.cantidad > 0 ? cobro.cantidad : 1,
+      expirationDate: cobro.fechaVencimiento,
+      urlConfirmation: cobro.urlConfirmacion,
+      urlResponse: cobro.urlRespuesta,
+      images: arrImages,
+      file,
+      amount:total,
     }
 
     const res = await dispatch(createSellLink(data))
