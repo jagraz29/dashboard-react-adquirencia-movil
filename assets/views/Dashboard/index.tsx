@@ -104,7 +104,7 @@ const index = ({setBreadcrumb}:any) => {
 
   const [open, setOpen]= useState(false)
   const [ticketsOpen, setTicketsOpen] = useState([])
-  const [lastTicketOpen, setLastTicketOpen] = useState<any>({})
+  const [lastTicketOpen, setLastTicketOpen] = useState<any>(false)
 
 
   const getTicketsOpen = async () => {
@@ -124,7 +124,7 @@ const index = ({setBreadcrumb}:any) => {
         <ContentTickets data-open={open}>
           <ContainerItemTicket>
               <TitleTicket>Último ticket:</TitleTicket>
-              <ValueTicket>{lastTicketOpen.id?`#${lastTicketOpen.id} - ${lastTicketOpen.fechaActualizacion}`:"-"}</ValueTicket>
+              <ValueTicket>{lastTicketOpen?`#${lastTicketOpen.id} - ${lastTicketOpen.fechaActualizacion}`:"-"}</ValueTicket>
           </ContainerItemTicket>
           <ContainerItemTicket>
               <TitleTicket>Tickets en proceso:</TitleTicket>
