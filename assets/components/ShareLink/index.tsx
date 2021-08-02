@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Facebook,
   Linkedin,
@@ -13,9 +13,14 @@ import {
   Flag,
   FlagLabel,
   Text,
+  CancelButton
 } from './style'
 import Selector from '../Selector'
 import { countries } from '../../utils/countries'
+import { AiFillFacebook } from 'react-icons/ai';
+import { AiOutlineTwitter } from 'react-icons/ai';
+import { FaWhatsapp } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
 
 export default function ShareLink(props:any) { 
 
@@ -31,13 +36,35 @@ export default function ShareLink(props:any) {
     setCopied(true)
   }
 
+
+const socialMediaMessage="Link de pago. Paga ahora con ePayco"
   return (
     <Wrapper>
-      <Container>
-        <Facebook>Facebook</Facebook>
-        <Twitter>Twitter</Twitter>
-        <Whatsapp>Whatsapp</Whatsapp>
-        <Linkedin>Linkedin</Linkedin>
+      <Container style={{paddingTop: 0}}>
+        <Facebook
+        href={`https://www.facebook.com/sharer.php?u=${process.env.REACT_APP_URL_COBRA}${props.idCobra}`}
+        target="_blank"
+        > 
+          <AiFillFacebook/> Facebook
+        </Facebook>
+        <Twitter
+        href={`https://twitter.com/share?text=${socialMediaMessage}:&amp;url=${process.env.REACT_APP_URL_COBRA}${props.idCobra}`}
+        target="_blank"
+         >
+           <AiOutlineTwitter/> Twitter
+        </Twitter>
+        <Whatsapp
+        href={`https://wa.me?text=${process.env.REACT_APP_URL_COBRA}${props.idCobra}`}
+        target="_blank"
+        >
+          <FaWhatsapp/> Whatsapp
+        </Whatsapp>
+        <Linkedin
+        href={`https://www.linkedin.com/shareArticle?mini=true&url=${process.env.REACT_APP_URL_COBRA}${props.idCobra}&title=LinkRegistro&summary=&source=epayco.co`}
+        target="_blank"
+        >
+          <FaLinkedin/> Linkedin
+          </Linkedin>
       </Container>
       <Container>
         <Text>
@@ -52,6 +79,13 @@ export default function ShareLink(props:any) {
         >
           {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
         </CopyButton>
+      </Container>
+      <Container>
+        <Text>
+          Ingrese un email y haga clic en el botón compartir.
+        </Text>
+        <Input placeholder="Email del cliente"/>
+        <CopyButton>Compartir</CopyButton>
       </Container>
       <Container>
         <Text>Ingrese un número de celular y haga clic en el botón compartir.</Text>
@@ -77,11 +111,11 @@ export default function ShareLink(props:any) {
             onSelect={onPhonePrefixSelected}
           />
         </PhonePrefixContainer>
-        <Input />
+        <Input placeholder="Número de celular del cliente"/>
         <CopyButton>Compartir</CopyButton>
       </Container>
-      <Container>
-        <CopyButton onClick={()=>props.toggle()}>Cancelar</CopyButton>
+      <Container  style={{border:"none"}}>
+        <CancelButton onClick={()=>props.toggle()}>Cancelar</CancelButton>
       </Container>
     </Wrapper>
   )

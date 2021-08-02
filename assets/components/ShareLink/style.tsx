@@ -1,29 +1,28 @@
 import styled from 'styled-components'
 
-export const Facebook = styled.button`
+export const Facebook = styled.a`
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
-  line-height: 35px;
   font-weight: 700;
+  line-height: 35px;
   background-color: #3b5998;
   border: none;
-  padding: 0px 30px;
   text-decoration: none;
   margin: 4px 5px;
   cursor: pointer;
   width: 120px;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  svg{
+    padding-right: 5px;
+  }
 `
 
-export const Twitter = styled.button`
+export const Twitter = styled.a`
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -31,18 +30,18 @@ export const Twitter = styled.button`
   font-weight: 700;
   background-color: #55acee;
   border: none;
-  padding: 0px 30px;
   text-decoration: none;
   margin: 4px 5px;
   cursor: pointer;
   width: 120px;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 0 1rem;
 `
 
-export const Whatsapp = styled.button`
+export const Whatsapp = styled.a`
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -50,17 +49,16 @@ export const Whatsapp = styled.button`
   font-weight: 700;
   background-color: #4dc247;
   border: none;
-  padding: 0px 30px;
   text-decoration: none;
   margin: 4px 5px;
   cursor: pointer;
   width: 120px;
-`
-export const Linkedin = styled.button`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  font-size: 16px;
+`
+export const Linkedin = styled.a`
+  display: flex;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -68,11 +66,13 @@ export const Linkedin = styled.button`
   font-weight: 700;
   background-color: #007bb5;
   border: none;
-  padding: 0px 30px;
   text-decoration: none;
   margin: 4px 5px;
   cursor: pointer;
   width: 120px;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
 `
 
 export const Wrapper = styled.div`
@@ -95,10 +95,12 @@ export const Input = styled.input`
   line-height: 35px;
   padding: 0 0.5em;
   border-color: #c5c5c8;
-  min-height: 32px;
-  height: 32px;
+  min-height: 34px;
+  height: 34px;
   margin-right: -1px;
   flex: 1 1 auto;
+  border: 1px solid #c5c5c8;
+  ::-webkit-input-placeholder { color: #D1D1D1; } 
 `
 
 export const CopyButton = styled.button`
@@ -110,8 +112,24 @@ export const CopyButton = styled.button`
   height: 36px;
   background: #fff;
   display: block;
-  text-align: center;
+
 `
+export const CancelButton = styled.button`
+  border-radius: 0 4px 4px 0 !important;
+  flex: 0 1 auto;
+  color: #40A8E6;
+  cursor: pointer;
+  border: 1px solid #c5c5c8;
+  height: 36px;
+  background: #fff;
+  display: block;
+  width: 9rem;
+  :hover {
+    color: white;
+    background: #40A8E6;
+  }
+`
+
 export const FlagContainer = styled.div`
   display: flex;
   flex-direction: row;

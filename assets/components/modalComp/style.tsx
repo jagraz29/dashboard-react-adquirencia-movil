@@ -67,6 +67,7 @@ export const HeaderText = styled.div`
   position: relative;
   width: 100%;
   flex: 0 0 auto;
+  font-weight: bold;
 `
 export const CloseButton = styled.button`
   cursor: pointer;
