@@ -1,5 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
+import React, { useState } from 'react'
+import { 
+  StyledTable, 
+  TableTextMoneda, 
+  TableTextLink, 
+  ResponsiveTableCobra,
+  ContentItem,
+  ClaveField,
+  ContentAction,
+  ValueItem,
+  ContainerBox
+} from './styles'
 import TableCollectAction from '../TableCollectAction'
 import { useModal } from '../../components/hooks/useModal'
 import { ModalComp } from '../../components/modalComp'
@@ -7,16 +17,29 @@ import ShareLink from '../../components/ShareLink'
 import { getDeleteCollect } from '../../redux/actions'
 import Swal from 'sweetalert2'
 import { getListCollect } from '../../redux/actions'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../redux/reducers/index'
+import { useDispatch } from 'react-redux'
 
 import NumberFormat from 'react-number-format'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { config } from '../../config/enviroment'
 
 type Props = {
   data: {}[]
   titleData: {}[]
 }
+
+const fields:any={
+  id:"Id",
+  date: "Fecha",
+  title:"Title",
+  reference:"Referencia",
+  amount:"Valor",
+  currency:"Moneda",
+  state:"Estado",
+  link:"Link",
+  acciones:"Acciones"
+}
+
 
 const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const titles = Object.keys(titleData)
@@ -31,8 +54,6 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
     'state',
     'link',
   ]
-  const [alert, setAlert] = useState(false)
-  const [buttonLoadModal, setButtonLoadModal] = useState(false)
   const [idCobra, setIdCobra] = useState(null)
   const history = useHistory()
   const { isShown, toggle } = useModal()
@@ -43,7 +64,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
 
   const content = (
     <React.Fragment>
-      <ShareLink idCobra={idCobra} />
+      <ShareLink idCobra={idCobra} toggle={toggle} />
     </React.Fragment>
   )
 
@@ -145,8 +166,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         </body>
                       ) : title == 'link' ? (
                         <body>
-                          <TableTextLink href={process.env.REACT_APP_URL_COBRA + item[title]}>
-                            {process.env.REACT_APP_URL_COBRA}
+                          <TableTextLink href={config.cobraUrl + item[title]}>
+                            {config.cobraUrl}
                             {item[title]}
                           </TableTextLink>
                         </body>
@@ -197,12 +218,77 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
           ))}
         </tbody>
       </StyledTable>
+      <ResponsiveTableCobra>
+          {
+            data.map((item:any)=>{
+              const cajas= Object.keys(fields).map((clave:any)=>(
+                  <ContentItem>
+                    <ClaveField>{fields[clave]}</ClaveField>
+                    {
+                      fields[clave] === "Ref.Payco"?
+                      <Link to={`/transacciones/detalles/${item[clave]}`}>{item[clave]}</Link>
+                      :
+                      fields[clave] === "Valor"?
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[clave]}
+                          displayType={'text'}
+                        />
+                      :
+                      fields[clave] === "Link"?
+                        <TableTextLink href={config.cobraUrl + item[clave]}>
+                           {config.cobraUrl}
+                           {item[clave]}
+                        </TableTextLink>
+                      :
+                      fields[clave] === "Acciones"?
+                      <ContentAction>
+                          <TableCollectAction
+                            actions={[
+                              {
+                                name: 'Detalle de cobro',
+                                funcion: () => {
+                                  redirectRoute(`/collect/show/${item['id']}`)
+                                },
+                                validarEstado: true,
+                              },
+                              {
+                                name: 'Compartir cobro',
+                                funcion: () => {
+                                  setIdCobra(item['id'])
+                                  toggle()
+                                },
+                                validarEstado: true,
+                              },
+                              {
+                                name: 'Eliminar cobro',
+                                funcion: () => {
+                                  deleteCollectModal(item['id'])
+                                },
+                                validarEstado: true,
+                              },
+                            ]}
+                          ></TableCollectAction>
+                      </ContentAction>
+                     :
+                      <ValueItem>{item[clave]}</ValueItem>
+                    }
+                  </ContentItem>
+              ))
+                return <ContainerBox>
+                  {cajas}
+                </ContainerBox>
+            })
+          }
+    </ResponsiveTableCobra>
       <ModalComp
         isShown={isShown}
         hide={toggle}
         modalContent={content}
         headerText={'Compartir link de Cobro'}
       />
+
     </div>
   )
 }

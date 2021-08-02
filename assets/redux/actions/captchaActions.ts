@@ -16,6 +16,7 @@ export const GET_LIST_COLLECT = 'GET_LIST_COLLECT'
 export const GET_LIST_TRANSACTION = 'GET_LIST_TRANSACTION'
 export const GET_TRANSACTION_DETAIL = 'GET_TRANSACTION_DETAIL'
 export const GET_SHOW_COLLECT = 'GET_SHOW_COLLECT'
+export const RESET_LIST_TRANSACTION= 'RESET_LIST_TRANSACTION'
 
 const dataService = new DataService()
 
@@ -307,7 +308,16 @@ export const reOpenTicket = async (id: number) => {
 export const detailTicket = async (id: number) => {
   try {
     const dataRes = await dataService.get(`/api/ticket/detail/${id}`)
-    return dataRes.data.data.ticket
+    return dataRes.data.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const createTicketResponse = async (data: any) => {
+  try {
+    const dataRes = await dataService.post('/api/ticket/save', data)
+    return dataRes.data
   } catch (error) {
     return false
   }
@@ -326,6 +336,17 @@ export const getDuplicateCollect = async (id: any) => {
   try {
     const dataRes = await dataService.get(`/api/collect/duplicate/${id}`)
     return dataRes.data
+  } catch (error) {
+    return false
+  }
+}
+
+export const resetListTransaction = () => async (dispatch: any) => {
+  try {
+    dispatch({
+      type: RESET_LIST_TRANSACTION,
+
+    })
   } catch (error) {
     return false
   }

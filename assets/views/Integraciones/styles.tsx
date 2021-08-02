@@ -1,257 +1,228 @@
 import styled from 'styled-components'
+import { INTERMEDIATE, MOBILE, TABLET } from '../../styles/breakpoints'
+
+export const ContainerIntegracion = styled.div`
+  display: grid;
+  grid-template-rows: 3rem auto;
+  overflow: hidden;
+`
 
 export const Content = styled.div`
-  position: absolute;
-  margin: 7vw 60.1vw 40.2vw 19.4vw;
+  margin: 1rem;
+  overflow: hidden;
+  overflow-x: auto;
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: 70%;
+  @media (max-width: ${TABLET}) {
+    grid-template-columns: 100%;
+    margin: 0 2rem;
+  }
+
 `
 
 export const ContentCard = styled.div`
-  top: 1vw;
-  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: column;
-  width: 79vw;
 `
 
 export const Card = styled.div`
-  width: 49.7vw;
-  //height: 7.5vw;
   height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 1vw;
-  margin-top: 1vw;
+  margin-top: 1rem;
+  width: 100%;
 `
 
 export const CardHeader = styled.div`
-  display: flex;
   cursor: pointer;
-  justify-content: flex-start;
-  flex-direction: column;
-  border-bottom: 1px solid #d3d3d3;
-  height: 3.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
-
+export const CardHeaderTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+`
 export const CardIcon = styled.div`
-  position: relative;
-  left: 47vw;
-  top: -1.4vw;
-  width: 1vw;
+  margin: 1rem;
+
+`
+export const CardTitleSubtitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
 `
 
 export const CardContent1 = styled.div`
-  height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  border-top: 1px solid #d3d3d3;
+  margin: 1rem;
+  margin-top: 0;
 `
 
 export const CardContent2 = styled.div`
-  height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  border-top: 1px solid #d3d3d3;
+  margin: 1rem;
+  margin-top: 0;
 `
 
 export const CardContent3 = styled.div`
-  height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  border-top: 1px solid #d3d3d3;
+  margin: 1rem;
+  margin-top: 0;
 `
 
 export const CardContent4 = styled.div`
-  height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  border-top: 1px solid #d3d3d3;
+  margin: 1rem;
+  margin-top: 0;
+  overflow: hidden;
 `
 
-export const CardTitle = styled.h2`
-  width: 30vw;
-  font-size: 1.2vw;
-  line-height: 2vw;
-  margin: 0.4vw 0 0 0.8vw;
+export const CardTitle = styled.h3`
+  margin: 0;
   color: #23272b;
+  font-weight: 500;
 `
 
-export const CardSubTitle = styled.h3`
-  width: 40vw;
-  font-size: 0.8vw;
-  line-height: 0.3vw;
-  margin: 0 0 0 0.8vw;
-  color: #bdbdbd;
+export const CardSubTitle = styled.h5`
+  color: #a9a9a9;
+  margin: 0;
+  margin-top: 0.5rem;
+  font-weight: 400;
 `
 
 export const ContentInput = styled.div`
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: row;
-  display: flex;
-  margin-bottom: 1vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 0.5rem;
+  @media (max-width: ${MOBILE}) {
+    grid-template-columns: 100%;
+  }
+`
+export const ContentInputTotal = styled.div`
+  display: grid;
+  grid-template-columns: 100%;
+  margin-bottom: 0.5rem;
 `
 
 export const CardContentButton = styled.div`
-  height: 2vw;
+  padding-top: 1rem;
+  display: ${(props) => props.theme.display};
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`
+export const CardContentButtonSeguridad = styled.div`
   padding: 1rem;
-  margin: 0vw;
-  display: flex;
-  justify-content: start;
-  align-items: flex-start;
-  flex-direction: row;
+  border-top: 1px solid #d3d3d3;
   display: ${(props) => props.theme.display};
 `
 
-export const CardButton = styled.div`
-  height: 3.4vw;
-  margin: 1vw;
-`
 
-export const ButtonOk = styled.button`
-  font-size: 0.8vw;
-  background: #58d3f7;
-  border: 1px solid #58d3f7;
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 11vw;
-  height: 1.9vw;
-  top: 5vw;
-  color: #ffffff;
-`
 
 export const ButtonCancel = styled.button`
-  font-size: 0.8vw;
   background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
+  border: 1px solid #40a8e6;
   border-radius: 4px;
-  width: 11vw;
-  height: 1.9vw;
-  top: 5vw;
-  color: #58d3f7;
-  margin-left: 1vw;
+  color: #40a8e6;
+  height: 2rem;
+  padding: 0 1rem;
+  width: 9rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  @media (max-width: ${MOBILE}) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
 `
 
 export const ContentInputCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  width: 100%;
 `
 
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  width: 94%;
   justify-content: space-between;
-  width: 23.3vw;
 `
 
 export const ContentKeys = styled.div`
-  width: 47.6vw;
-  height: 2.6vw;
   background: #bdbdbd;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
-  padding: 0.5vw;
+  align-items: center;
+  padding: 0 0.5rem;
 `
-export const LabelKey = styled.h2`
-  font-size: 1vw;
-  margin-left: 0.5vw;
+export const LabelKey = styled.h5`
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+  overflow-wrap: break-word;
+  width: 100%;
+  white-space: initial;
 `
-export const TitleKey = styled.h3`
-  font-size: 1vw;
-  top: 0vw;
+export const TitleKey = styled.h4`
+  margin: 0.5rem 0;
 `
 export const ContentKeysItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 5.7vw;
+  width: 100%;
 `
 
 export const FileImage = styled.img`
-  width: 18.5vw;
-  height: 6.5vw;
   background: transparent;
   border: 7px solid #e4e4e4;
-  padding: 1vw;
   overflow: hidden;
   border-radius: 5px;
-  margin-right: 0.5em;
-  position: relative;
-  margin: 1vw;
+  width: 5rem;
+  height: 5rem;
 `
 export const ContentItemCard = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem;
 `
 
 export const ButtonImageLoad = styled.button`
   cursor: pointer;
-  border: dashed 0.3vw #d3d3d3;
-  border-radius: 1vw;
-  width: 22vw;
-  height: 9.5vw;
+  border: dashed 2px #d3d3d3;
+  border-radius: 8px;
   background-color: white;
-  margin: 1vw 0;
-`
-
-export const DropDocArea = styled.div`
-  border-radius: 5px;
-  width: 22.3vw;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #e4e4e4;
-  display: flex;
-  color: #40a8e6;
-  @extend %tr;
-  transform: scale(1);
-  p {
-    font-size: 0.7vw;
-    font-weight: bolder;
-    margin-left: 1vw;
-  }
-`
-
-export const DropLoaded = styled.div`
-  line-height: 35px;
-  border-radius: 4px;
-  width: 20vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: #e4e4e4;
-  span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    flex: 1 1 auto;
-    margin-bottom: 0;
-    padding-left: 0.75em;
-  }
-  .close {
-    flex: 0 0 30px;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-  }
 `
 
 export const LoadImage = styled.div`
@@ -293,8 +264,4 @@ export const ClosePhoto = styled.div`
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
   z-index: 2;
-`
-
-export const Alert = styled.div`
-  color: red;
 `

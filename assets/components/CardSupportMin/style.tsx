@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { INTERMEDIATE } from '../../styles/breakpoints'
 
 export const StyleCard = styled.div`
   /*position: absolute;*/
@@ -41,8 +42,7 @@ export const StyleCard = styled.div`
     cursor: pointer;
   }
 
-  @media only screen and (max-width: 768px) {
-    width: 90%;
-    margin-bottom: 10px;
+  @media (max-width: ${INTERMEDIATE}) {
+    width: 100%;
   }
 `

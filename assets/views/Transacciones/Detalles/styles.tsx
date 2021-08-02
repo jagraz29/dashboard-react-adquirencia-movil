@@ -1,124 +1,160 @@
 import styled from 'styled-components'
+import { INTERMEDIATE, MOBILE } from '../../../styles/breakpoints'
 
+export const ContainerTransactionDetail = styled.div`
+  display: grid;
+  grid-template-rows: 3rem auto;
+  overflow: hidden;
+`
 export const Content = styled.div`
-  position: absolute;
-  margin: 7vw 60.1vw 40.2vw 19.4vw;
-`
+  display: grid;
+  grid-template-columns: 70% auto;
+  margin: 0 1rem;
+  overflow: hidden;
+  @media (max-width: ${INTERMEDIATE}) {
+    grid-template-columns: 100%;
 
-export const ContentCard = styled.div`
-  top: 1vw;
-  position: absolute;
+  }
+`
+export const ContentCardDetails = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: row;
-  width: 79vw;
+  flex-direction: column;
 `
 
-export const CardGroup = styled.div``
+export const ContentCardActions = styled.div`
+  margin-left: 1rem;
+  margin-top: 1rem;
+  @media (max-width: ${INTERMEDIATE}) {
+    margin-left: 0;
+  }
+`
+
 
 export const Card = styled.div`
-  width: 55.7vw;
-  //height: 7.5vw;
-  height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 1vw;
-  margin-top: 1vw;
+  margin-top: 1rem;
+  
+
 `
 export const CardLast = styled.div`
-  width: 55.7vw;
-  //height: 7.5vw;
-  height: auto;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 1vw;
-  margin-top: 1vw;
-  margin-bottom: 3rem;
+  margin: 1rem 0;
+
 `
 
+
 export const Card2 = styled.div`
-  width: 21.7vw;
-  //height: 7.5vw;
-  height: auto;
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   border-radius: 4px;
-  top: 1vw;
-  margin-top: 1vw;
 `
 
 export const CardHeader = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const CardHeaderAcciones = styled.div`
   flex-direction: column;
-  border-bottom: 1px solid #d3d3d3;
-  height: 3.5vw;
+  display: flex;
+
 `
 
 export const CardIcon = styled.div`
-  position: relative;
-  left: 53vw;
-  top: -1.4vw;
-  width: 1vw;
+  margin: 1rem;
 `
 
 export const CardContent1 = styled.div`
-  height: auto;
-  display: ${(props) => props.theme.display};
-  margin: 1vw;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: ${(props) => props.theme.display}; 
+  padding: 1rem;
+  border-top: 1px solid #d3d3d3;
+  
+  /* max-height:${(props:any) => props["data-nuevo"]?"300px": "0"};
+  -webkit-transition: max-height 1s; 
+  -moz-transition: max-height 1s; 
+  -ms-transition: max-height 1s; 
+  -o-transition: max-height 1s; 
+  transition: max-height 1s; 
+ */
+  /* transform: ${(props:any) => props["data-nuevo"]?"scaleY(0)": "scaleY(1)"};    
+  transform-origin: top;
+  transition: transform 0.26s ease; */
+
+
+  @media (max-width: ${INTERMEDIATE}) {
+    overflow: hidden;
+    overflow-x: auto;
+  }
 `
 
 export const CardContent2 = styled.div`
   height: auto;
   display: ${(props) => props.theme.display};
-  margin: 1vw;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  max-height: 30rem;
-  margin-bottom: 3rem;
+  max-height: 35rem;
+  border-top: 1px solid #d3d3d3;
+  @media (max-width: ${MOBILE}) {
+    max-height: none;
+  }
 `
 
 export const CardContent3 = styled.div`
-  height: 4vw;
-  margin: 0vw;
   display: flex;
   border-bottom: 1px solid #d3d3d3;
   justify-content: center;
   align-items: center;
+  margin: 1rem;  
+  margin-bottom: 0;
 `
 
-export const CardTitle = styled.h2`
-  width: 30vw;
-  font-size: 1.2vw;
-  line-height: 2vw;
-  margin: 0.4vw 0 0 0.8vw;
+
+export const CardTitle = styled.h4`
   color: #23272b;
+  margin: 1rem;
 `
 
-export const CardSubTitle = styled.h3`
-  width: 40vw;
-  font-size: 0.8vw;
-  line-height: 0.3vw;
-  margin: 0 0 0 0.8vw;
+export const CardSubTitle = styled.p`
+  margin: 0 1rem;
   color: #bdbdbd;
 `
 
 export const ContentItem = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  border-bottom: 1px dotted #d6d6d6;
+  padding: 0.5rem 0;
+  @media (max-width: ${MOBILE}) {
+    grid-template-columns: 100%;
+  }
+`
+
+export const ContentItemUrl = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.7vw;
+  border-bottom: 1px dotted #d6d6d6;
+  padding: 0.5rem 0;
+
+`
+
+export const ContentItemDescription = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+  border-bottom: 1px dotted #d6d6d6;
+  padding: 0.5rem 0;
+  @media (max-width: ${MOBILE}) {
+    grid-template-columns: 100%;
+  }
 `
 
 export const ItemGroup = styled.div`
@@ -126,8 +162,7 @@ export const ItemGroup = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 12vw;
-  span {
+  span{
     font-weight: bold;
     font-size: 0.8rem;
   }
@@ -138,31 +173,35 @@ export const ItemGroup2 = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 24vw;
+  width: 100%;
+`
+export const ItemValueUrl = styled.h5`
+  margin: 0;
+  overflow-wrap: break-word;
+  width: 100%;
+  white-space: initial;
+`
+export const ItemTitle = styled.h5`
+  font-weight: 600;
+  margin: 0;
 `
 
-export const ItemTitle = styled.h2`
-  font-size: 0.8vw;
-`
-
-export const ItemValue = styled.h3`
-  font-size: 1vw;
+export const ItemValue = styled.h5`
+  margin: 0;
 `
 
 export const ButtonExportar = styled.button`
-  font-size: 1vw;
   background: white;
   border: 1px solid #58d3f7;
   box-sizing: border-box;
   border-radius: 4px;
-  width: 19.4vw;
-  height: 2.1vw;
-  top: 5vw;
   color: #bdbdbd;
   justify-content: center;
   align-items: center;
   display: flex;
-
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
   :hover,
   :focus {
     background: hsl(200, 90%, 45%);
@@ -171,35 +210,31 @@ export const ButtonExportar = styled.button`
 `
 
 export const ButtonTransacciones = styled.button`
-  font-size: 1vw;
   background: white;
   border: 0px solid;
   box-sizing: border-box;
   border-radius: 4px;
-  width: 19.4vw;
-  height: 2.1vw;
-  top: 5vw;
   color: #58d3f7;
   justify-content: center;
   align-items: center;
   display: flex;
   cursor: pointer;
-
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 16px;
+  margin: 0.5rem 0;
   :hover,
   :focus {
     color: #bdbdbd;
   }
 `
 
-export const ButtonImg = styled.img``
-
 export const CardContentButton = styled.div`
-  height: 2vw;
-  margin: 1vw;
   display: flex;
   justify-content: start;
   align-items: flex-start;
   flex-direction: row;
+
 `
 
 export const ContentLog = styled.div`
@@ -207,88 +242,114 @@ export const ContentLog = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 50% 50%;
+  @media (max-width: ${MOBILE}) {
+    grid-template-columns: 100%;
+  }
 `
 
 export const LogGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   flex-direction: row;
   align-self: self-start;
-  max-height: 24rem;
-  max-width: 21rem;
+  max-height: 27rem;
   width: 100%;
+  height: 100%;
   padding-top: 0.5rem;
-  overflow: hidden auto;
+  overflow: hidden ;
+  overflow-y: auto;
+  align-items: start;
 `
+
 export const LogGroupDivider = styled.div`
   display: flex;
   flex-flow: column;
-  max-width: 22rem;
   border-left: 1px solid #bfbfbf;
-  padding: 0 1rem;
-  .info {
-    display: flex;
-    flex-direction: column;
-    max-width: 20rem;
-    word-break: break-all;
-    padding: 0.4rem 0;
-    table {
-      width: 100%;
-      tr {
-        padding: 0.4rem 0;
-        display: flex;
-        th {
-          text-align: left;
-          width: 173px;
-        }
-        td {
-          width: 173px;
-        }
-        .estadoSuccess {
-          color: #67c940;
-          font-weight: bold;
-        }
-        .estadoFailed {
-          color: red;
-          font-weight: bold;
-        }
+  padding: 0 0.5rem;
+
+  @media (max-width: ${MOBILE}) {
+    border-left: none;
+    border-top: 1px solid #bfbfbf;
+  }
+  
+`
+export const InfoConfirmation = styled.div`
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+  padding: 0.2rem 0;
+  table {
+    width: 100%;
+    tr {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      font-size: 15px;
+      th {
+        text-align: left;
+      }
+      td {
+      }
+      .estadoSuccess {
+        color: #67c940;
+        font-weight: bold;
+      }
+      .estadoFailed {
+        color: red;
+        font-weight: bold;
       }
     }
   }
-  .infoToSend {
-    display: flex;
-    flex-direction: column;
-    max-width: 20rem;
-    border-top: 1px solid #bfbfbf;
-    h3 {
-      margin: 1rem 0;
-      font-size: 16px;
-    }
 
-    .infoComplete {
-      overflow: scroll;
-      max-height: 10rem;
+`
+export const InfoSent = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #bfbfbf;
+  margin-bottom: 0.5rem;
+  h3 {
+    margin: 1rem 0;
+    font-size: 15px;
+  }
 
-      .boxInfo {
-        display: grid;
-        grid-template-columns: 1rem auto;
-        div {
-          .number {
-            color: #80808070;
-            margin: 0 0 0 1rem;
-          }
-          p {
-            margin: 0 0 0 1rem;
-          }
-        }
+`
+export const InfoSentComplete = styled.div`
+  overflow: scroll;
+  max-height: 6rem;
+  label{
+    margin-bottom: 1rem;
+    font-size: 14px;
+  }
+
+  .boxInfo {
+    display: grid;
+    grid-template-columns: 1rem auto;
+    div {
+      .number {
+        color: #80808070;
+        margin: 0 0 0 1rem;
+      }
+      p {
+        margin: 0 0 0 1.5rem;
       }
     }
+  }
+  @media (max-width: ${MOBILE}) {
+    max-height: 10rem;
   }
 `
+
 export const Log = styled.div`
-  width: 28vw;
+  width: 100%;
   overflow-x: hidden;
+  margin: 0 1rem;
+  label{
+    margin-bottom: 1rem;
+    font-size: 14px;
+  }
+  @media (max-width: ${MOBILE}) {
+    overflow-y: auto;
+    max-height: 25rem;
+  }
 `
 export const LogItem = styled.div`
   display: flex;
@@ -296,35 +357,30 @@ export const LogItem = styled.div`
   align-items: center;
   flex-direction: row;
   cursor: pointer;
+  margin: 0.5rem 0;
   :hover {
     background-color: #80808021;
   }
 `
-export const LogStatusSuccess = styled.h1`
-  font-size: 1vw;
+export const LogStatusSuccess = styled.h5`
+  margin: 0;
   color: #67c940;
 `
-export const LogStatusFailed = styled.h1`
-  font-size: 1vw;
+export const LogStatusFailed = styled.h5`
+  margin: 0;
   color: red;
 `
-export const LogMetodo = styled.h2`
-  padding: 4px 0px;
+export const LogMetodo = styled.h5`
+  padding: 4px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 0.8vw;
-  width: 15.8vw;
+  margin: 0;
+  font-weight: 400;
 `
-export const LogHora = styled.h2`
-  font-size: 11px;
-  font-weight: 600;
+export const LogHora = styled.h5`
+  margin: 0;
+  font-weight: 400;
+  min-width: 5rem;
 `
 
-export const LoadingContent = styled.div`
-  display: flex;
-  width: 100vw;
-  position: absolute;
-  top: 10rem;
-  left: 7rem;
-`

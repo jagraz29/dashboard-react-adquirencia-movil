@@ -1,41 +1,42 @@
 import styled from 'styled-components'
+import { MOBILE } from '../../styles/breakpoints'
 
-export const Wrapper = styled.div`
-  position: fixed;
-  left: 18vw;
-  bottom: 0;
-  width: 82vw;
+export const ContainerIconsText = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  h6{
+    margin: 0 0 0 0.8rem;
+  }
+`
+  
+export const ContainerLogoEpayco = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 1rem 0 0;
+`
 
+export const Wrapper = styled.footer`
+  display: flex;
+  width: 100%;
   background-color: #ffffff;
   color: #343a40;
   text-align: center;
-`
-
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  background: #ffffff;
-  height: 3vw;
-`
+  padding: 0 0.5rem;
+  border-top: 1px solid #e0e0e0;
+  @media (max-width: ${MOBILE}) {
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    ${ContainerIconsText}{
+      flex-direction: column;
+      height: 100%;
+      margin-top: 0.2rem;
+      }
+      ${ContainerLogoEpayco}{
+        height: 100%;
+      }
+    }
 
-export const WrapperLogo = styled.img`
-  width: 12vw;
-  margin: 1vw;
-`
-
-export const WrapperLogoEpeyco = styled.img`
-  width: 12vw;
-  margin: 1vw;
-`
-
-export const WrapperText = styled.h2`
-  width: 31.7vw;
-  left: 7.4vw;
-  top: 0.8vw;
-
-  font-size: 0.9vw;
-  line-height: 1vw;
-  position: absolute;
 `

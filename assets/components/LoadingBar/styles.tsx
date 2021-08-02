@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 
 export const Loading = styled.div`
-  position: relative;
   width: 100%;
-  padding: 3em 1em;
-  margin: 1em 0;
+  padding: 3rem 0;
+  margin: 1rem 0;
   text-align: center;
 
   span {
@@ -29,8 +28,8 @@ export const Loading = styled.div`
       border-radius: 5px;
       z-index: 0;
       will-change: transform;
-      left: 0;
-      top: 2px;
+      /* left: 0;
+      top: 2px; */
       width: 10%;
       height: 10px;
       background: #ff5700;

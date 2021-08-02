@@ -1,216 +1,270 @@
 import styled from 'styled-components'
+import { TABLET, MOBILE, INTERMEDIATE } from '../../styles/breakpoints'
 
 export const Content = styled.div`
-  position: absolute;
-  margin: 5vw 60.1vw 40.2vw 19.4vw;
+  display: grid;
+  grid-template-rows: auto 3.5fr 2.5fr auto;
+  overflow: hidden;
+
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: column;
+
+}
 `
+export const ContainerCobro = styled.div`
+   display: grid;
+   grid-template-rows: 20% 70%;
+   align-content: center;
+   justify-items: center;
+   border-left: 1px dotted #d9d9d9;
+   align-items: center;
+   text-align: center;
+    h1 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    @media (max-width: ${MOBILE}) {
+      grid-template-rows: auto;
+      padding: 1rem 0;
+      border-top: 1px dotted #d9d9d9;
+      border-left: none;
+  }
+    
+`
+
+export const BoxLink = styled.div`
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+  align-items: center;
+  text-align: -webkit-center;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  cursor: pointer;
+  img {
+    padding: 0.5rem 0;
+  }
+  p {
+    margin: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+  @media (max-width: ${TABLET}) {
+    width: 85%;
+
+}
+` 
+
+export const ConteinerUser = styled.div`
+   display: flex;
+    flex-direction: row;
+    align-self: center;
+    .notImage{
+      margin: 1rem;
+      align-self: center;
+      img {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+      }
+    }
+    @media (max-width: ${MOBILE}) {
+      flex-direction: column;
+      width: 100%;
+  }
+    
+` 
 
 export const ContentPay = styled.div`
-  position: relative;
-  width: 79vw;
-  height: ${(height) => (height ? '11.5vw' : '')};
+  height: 100%;
   background: #ffffff;
   border: 1px solid #d3d3d3;
-  box-sizing: border-box;
   border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-export const ContentAvatar = styled.div`
-  margin: 1vw;
-`
-
-export const ContentLink = styled.div`
-  margin: 2.1vw;
-  border-left: 1px dashed #d3d3d3;
-`
-
-export const TextWolcome = styled.span`
-  position: absolute;
-  left: 9vw;
-  right: 12vw;
-  top: 2vw;
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 2vw;
-  line-height: 2vw;
-  color: #000000;
-`
-
-export const TextItem1 = styled.span`
-  position: absolute;
-  left: 9vw;
-  right: 12vw;
-  top: 5vw;
-  width: 13vw;
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1vw;
-  line-height: 1.5vw;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.035em;
-
-  color: #000000;
-`
-
-export const ButtonLink = styled.button`
-  display: inline-block;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  cursor: pointer;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  display: block;
-  width: 13vw;
-  height: 7.2vw;
-  align-items: baseline;
-  justify-content: flex-start;
   display: grid;
-`
+  grid-template-columns: auto 15rem;
+  margin: 1rem;
+  margin-top: 0;
 
-export const TitleLink = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  position: absolute;
-  right: 6.1vw;
-  width: 10vw;
-  top: 1vw;
-  font-size: 1vw;
-  line-height: 1vw;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.035em;
-  color: #000000;
-`
-
-export const ButtonImg = styled.img`
-  width: 4.1vw;
-  left: 3.3vw;
-  top: 0.6vw;
-  position: relative;
-`
-
-export const ButtonText = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1vw;
-  line-height: 1vw;
-
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #343a40;
-`
-
-export const ContentItems = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 79vw;
-`
-
-export const CardTrasactionOk = styled.div`
-  position: absolute;
-  width: 38.7vw;
-  height: 7.5vw;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 1vw;
-  left: 0vw;
-`
-
-export const CardPending = styled.div`
-  position: absolute;
-  width: 38.7vw;
-  height: 7.5vw;
-  background: #ffffff;
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  border-radius: 4px;
-  top: 1vw;
-  right: 0vw;
-`
-
-export const CardTransactionTitle = styled.h2`
-  font-size: 1vw;
-  line-height: 1vw;
-  margin: 1vw;
-  position: relative;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`
-
-export const CardTransactionCount = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.6vw;
-  line-height: 1.5vw;
-  margin: 1vw;
-  position: relative;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`
-
-export const CardTransactionDetails = styled.span`
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1vw;
-  line-height: 1vw;
-  margin: 1vw;
-  position: relative;
-  color: #40a8e6;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  @media (max-width: ${TABLET}) {
+    grid-template-columns: 2fr 1fr;
+  }
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: column;
+  }
+  
 `
 
 export const ContentTable = styled.div`
-  position: relative;
-  width: 79vw;
-  height: 19vw;
-  background: #ffffff;
+  overflow: hidden;
+  overflow-x: auto;
+  background-color: white;
   border: 1px solid #d3d3d3;
-  box-sizing: border-box;
   border-radius: 4px;
-  top: 9.5vw;
-  left: 0vw;
-  overflow: scroll;
+  margin: 1rem;
+  margin-top: 0;
+    @media (max-width: ${INTERMEDIATE}) {
+    overflow-x: hidden;
+  }
 `
 
-export const CardTableTitle = styled.h2`
-  font-size: 1.7vw;
-  line-height: 2vw;
-  position: relative;
-  color: #000000;
+export const CardTableTitle = styled.h3`
+    margin: 1rem;
+`
+
+export const NotUserImage = styled.div`
+  width:75px;
+  height:75px;
+  margin: 1rem;
+`
+export const NameContent = styled.div`
+  margin: 0;
+  h1 {
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+  .typePerson {
+    margin: 0;
+    p {
+      margin: 0;
+    }
+  }
+  @media (max-width: ${MOBILE}) {
+    padding: 1rem;
+    padding-top: 0;
+  }
+`
+export const CardTransaction= styled.div`
+  background: white;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  height: 7rem;
+  h4,h2{
+    margin: 0.5rem 0;
+  }
+  span{
+    color: #40A8E6;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+`
+
+export const ContentItems = styled.div`
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  margin: 1rem;
+  @media (max-width: ${MOBILE}){
+    grid-template-columns: 100%;
+    ${CardTransaction}{
+      margin: 0.5rem 0;
+    }
+  }
+`
+
+export const ContentTickets = styled.div`
+  background: white;
+  margin-bottom: ${(props:any) =>( props['data-open']? "0": "1rem")};
+  border-bottom: 1px solid #FF9215;
+  border-top: 2px solid #FF9215;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 1vw;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 2.5rem;
+  @media (max-width: ${MOBILE}) {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem;
+  }
 `
 
-export const Ref = styled.span``
+export const ContainerItemTicket = styled.div`
+  display: flex;
+    flex-direction: row;
+    align-items: center;
 
-export const SpanTitle = styled.span`
-  color: red;
-  font-size: 2vw;
+`
+export const TitleTicket = styled.h5`
+  margin: 0;
+  color:#3E3E3E;
+  margin-right: 0.2rem;
+`
+export const ValueTicket = styled.h5`
+  margin: 0;
+  color:#FF9215;
+
+`
+export const ContainerTableTickets = styled.div`
+  width: 100%;
+  display: ${(props:any) =>( props['data-open']? "block": "none")};
+  margin-bottom: 1rem;
+  @media (max-width: ${MOBILE}) {
+      display:none;
+  }
+`
+export const ContainerTicket = styled.div`
+
+`
+export const TableTickets = styled.table`
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #FF9215;
+    background: white;
+    thead{
+      tr{
+        font-size: 13px;
+      }
+    }
+    tbody{
+      tr{
+        font-size: 15px;
+        .orangeValue{
+          color:#FF9215;
+          text-decoration: none;
+        }
+      }
+    }
+
+`
+export const ContainerTicketsResponsive = styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+      display: ${(props:any) =>( props['data-open']? "flex": "none")};
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+  }
+`
+export const TicketResponsive= styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 1rem;
+    border-bottom: 1px dashed #FF9215;
+  }
+`
+export const ContentValueTicket= styled.div`
+display: none;
+  @media (max-width: ${MOBILE}) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    h6{
+      margin: 0;
+    }
+    a{
+      color:#FF9215;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  }
 `

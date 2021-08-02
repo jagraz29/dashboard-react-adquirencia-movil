@@ -9,7 +9,6 @@ type Props = {
 const Title: React.FC<Props> = ({ title }) => {
   return (
     <Content>
-      <GlobalStyle />
       <ContentTitle>{title}</ContentTitle>
     </Content>
   )

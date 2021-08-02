@@ -1,14 +1,20 @@
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
 import React, { useEffect, useState } from 'react'
-import { StyleContainer, CardTableTitle, ContentTable } from './styles'
+import { 
+  StyleContainer, 
+  CardTableTitle, 
+  ContentTable,
+  ContainerSoporte, 
+  ContentSoporte,
+  OptionsSoporte,
+  TitleSoporte,
+} from './styles'
 import { toast, ToastContainer } from 'react-toastify'
-import { Content } from '../Integraciones/styles'
 import CardSupportMin from '../../components/CardSupportMin'
-import { getDepartments, getPriorities, getTickets } from '../../redux/actions'
-import TablaCobra from '../../components/TableCobra'
+import { getTickets } from '../../redux/actions'
 import TableSoporte from '../../components/TableSoporte'
-const breadcrumb = [
+import { config } from '../../config/enviroment'
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -22,25 +28,25 @@ const breadcrumb = [
 ]
 const optionsSoport = [
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/ticket-2.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/ticket-2.svg',
     text: 'Crear ticket de soporte',
     history: true,
     url: 'soporte/nuevo',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/conocimiento.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/conocimiento.svg',
     text: 'Base de conocimiento',
     target: true,
     url: 'https://docs.epayco.co/',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/reunion-soporte.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/reunion-soporte.svg',
     text: 'Agendar reunión con soporte',
     target: true,
     url: 'https://calendly.com/epayco/',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/contacto.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/contacto.svg',
     text: 'Contacto telefónico: +57 (4) 448 4952',
     phone: '+57 (4) 448 4952',
   },
@@ -67,9 +73,13 @@ const ticketsBodyTitle = [
   'fechaActualizacion',
 ]
 
-const Soporte = () => {
+const Soporte = ({setBreadcrumb}:any) => {
   const [ticketsOpen, setTicketsOpen] = useState([])
   const [ticketsClose, setTicketsClose] = useState([])
+  
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -106,71 +116,60 @@ const Soporte = () => {
     }
   }
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerSoporte>
       <Title title={'Soporte'}></Title>
-      <Content>
+      <ContentSoporte>
         <ToastContainer />
-        <div className={'row m-0 animated fadeIn wc p-2 p-lg-3 p-xl-4 '}>
-          <div className="container m-lg-0" style={{ maxWidth: '100%' }}>
-            <StyleContainer className={'wc'}>
-              <div className={'wc pt-5'}>
-                <p style={{ color: '#5C5B5C' }}>
-                  Seleccione una de las siguientes opciones para resolver sus dudas o recibir
-                  soporte.{' '}
-                </p>
-              </div>
-              <div className={'row option-support '}>
-                {optionsSoport.map((ticket, key) => {
-                  return (
-                    <div
-                      key={key}
-                      className={'col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center'}
-                    >
-                      <CardSupportMin {...ticket} className={'shadow-hover'} />
-                    </div>
-                  )
-                })}
-              </div>
-              <ContentTable>
-                <CardTableTitle>Tickets de soporte Abiertos / En proceso</CardTableTitle>
-                {ticketsOpen && ticketsOpen.length > 0 ? (
-                  <TableSoporte
-                    data={ticketsOpen}
-                    titleData={ticketsTitle}
-                    bodyTitle={ticketsBodyTitle}
-                    ticketsOpen={true}
-                  />
-                ) : (
-                  <p style={{ textAlign: 'center' }}>
-                    <i>
-                      {' '}
-                      No tiene tickets pendientes, si tiene alguna inquietud o algo qué resolver
-                      puede <strong>crear ticket de soporte</strong>
-                    </i>
-                  </p>
-                )}
-              </ContentTable>
-              <ContentTable style={{ marginBottom: '20vw' }}>
-                <CardTableTitle>Tickets de soporte cerrados</CardTableTitle>
-                {ticketsClose && ticketsClose.length > 0 ? (
-                  <TableSoporte
-                    data={ticketsClose}
-                    titleData={ticketsTitle}
-                    bodyTitle={ticketsBodyTitle}
-                    ticketsOpen={false}
-                  />
-                ) : (
-                  <p style={{ textAlign: 'center' }}>
-                    <i> No tiene tickets cerrados</i>
-                  </p>
-                )}
-              </ContentTable>
-            </StyleContainer>
-          </div>
-        </div>
-      </Content>
-    </div>
+        <StyleContainer>
+          <TitleSoporte>
+            <p>
+              Seleccione una de las siguientes opciones para resolver sus dudas o recibir
+              soporte.{' '}
+            </p>
+          </TitleSoporte>
+          <OptionsSoporte >
+            {optionsSoport.map((ticket, key) => {
+              return <CardSupportMin key={key} {...ticket} className={'shadow-hover'} />
+            })}
+          </OptionsSoporte>
+          </StyleContainer>
+
+        <ContentTable>
+          <CardTableTitle>Tickets de soporte Abiertos / En proceso</CardTableTitle>
+          {ticketsOpen && ticketsOpen.length > 0 ? (
+            <TableSoporte
+              data={ticketsOpen}
+              titleData={ticketsTitle}
+              bodyTitle={ticketsBodyTitle}
+              ticketsOpen={true}
+            />
+          ) : (
+            <p style={{ textAlign: 'center' }}>
+              <i>
+                No tiene tickets pendientes, si tiene alguna inquietud o algo qué resolver
+                puede <strong>crear ticket de soporte</strong>
+              </i>
+            </p>
+          )}
+        </ContentTable>
+        
+        <ContentTable style={{marginTop:"1rem"}}>
+            <CardTableTitle>Tickets de soporte cerrados</CardTableTitle>
+            {ticketsClose && ticketsClose.length > 0 ? (
+              <TableSoporte
+                data={ticketsClose}
+                titleData={ticketsTitle}
+                bodyTitle={ticketsBodyTitle}
+                ticketsOpen={false}
+              />
+            ) : (
+              <p style={{ textAlign: 'center' }}>
+                <i> No tiene tickets cerrados</i>
+              </p>
+            )}
+          </ContentTable>
+      </ContentSoporte>
+    </ContainerSoporte>
   )
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, ReactNode } from 'react'
 import Title from '../../components/Title'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
@@ -36,7 +35,6 @@ import {
   CardIcon,
   ContentInput,
   CardContentButton,
-  ButtonOk,
   ButtonCancel,
   ContentInputCard,
   InputGroup,
@@ -50,11 +48,12 @@ import {
   LoadImage,
   ImageShow,
   ClosePhoto,
-  Alert,
+  ContainerIntegracion,
+  CardTitleSubtitle
 } from './styles'
 import Dropzone from 'react-dropzone'
-
-const breadcrumb = [
+import { config } from '../../config/enviroment'
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -88,8 +87,6 @@ const dataIdioma = [
     label: 'Inglés',
   },
 ]
-//BsFillCaretUpFill
-//BsFillCaretDownFill
 
 interface arrayFileInterface {
   lastModified: number
@@ -114,7 +111,7 @@ const baja = cssTransition({
   exit: 'sube',
 })
 
-const Integraciones = () => {
+const Integraciones = ({setBreadcrumb}:any) => {
   let iconStyles = { color: '#d3d3d3' }
 
   const dispatch = useDispatch()
@@ -174,6 +171,10 @@ const Integraciones = () => {
   const [type, settype] = useState('info')
 
   const [loadImages, setLoadImages] = useState<arrayFileInterface[]>([])
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   useEffect(() => {
     setTypeTelCel(telefono != '0' ? 'Teléfono' : celular != '0' ? 'Celular' : '')
@@ -470,8 +471,7 @@ const Integraciones = () => {
   }
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerIntegracion>
       <Title title={'Integración'}></Title>
 
       <Content>
@@ -480,11 +480,13 @@ const Integraciones = () => {
         <ContentCard>
           <Card>
             <CardHeader onClick={() => openClose()}>
-              <CardTitle>Propiedades del sitio</CardTitle>
-              <CardSubTitle>
-                Utilice esta propiedad para configurar el checkout con su marca e información del
-                contacto.
-              </CardSubTitle>
+              <CardTitleSubtitle>
+                <CardTitle>Propiedades del sitio</CardTitle>
+                <CardSubTitle>
+                  Utilice esta propiedad para configurar el checkout con su marca e información del
+                  contacto.
+                </CardSubTitle>
+              </CardTitleSubtitle>
               <CardIcon>
                 {openCard == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
@@ -505,7 +507,7 @@ const Integraciones = () => {
                       name={'razon_social'}
                       type={'text'}
                       placeholder={'Razon social'}
-                      width={'22.3vw'}
+                      width={'90%'}
                       value={razonSocial}
                       onChange={(e: any) => {
                         changeRazonSocial(e)
@@ -519,7 +521,7 @@ const Integraciones = () => {
                       name={'nombre_mostrar'}
                       type={'text'}
                       placeholder={'Nombre a mostrar'}
-                      width={'22.3vw'}
+                      width={'90%'}
                       value={nombreMostrar}
                       onChange={(e: any) => {
                         changeNombreMostrar(e)
@@ -539,8 +541,8 @@ const Integraciones = () => {
                     <InputGroup>
                       <InputSelect
                         name={'type_telefono'}
-                        placeholder={telefono != '0' ? 'Teléfono' : celular != '0' ? 'Celular' : ''}
-                        width={'6vw'}
+                        placeholder={telefono != '0' ? 'Teléfono' : celular != '0' ? 'Celular' : '' }
+                        width={'30%'}
                         dataSelect={dataSelect}
                         onClick={() => {}}
                         onChange={(e: any) => {
@@ -552,32 +554,31 @@ const Integraciones = () => {
                           name={'indicativo'}
                           type={'number'}
                           placeholder={'Indicativo'}
-                          width={'5vw'}
+                          width={'30%'}
                           value={indicaTel}
                           onChange={(e: any) => {
                             changeTelefonoind(e)
                           }}
                         />
-                      ) : typeTelCel == 'Celular' ? (
+                      ) : (
                         <InputSelectPais
                           name={'indicativo'}
                           placeholder={indicativo}
-                          width={'5vw'}
+                          width={'30%'}
                           dataSelect={datos}
                           onClick={() => {}}
                           onChange={(e: any) => {
                             changeIndicativo(e)
                           }}
                         />
-                      ) : (
-                        ''
-                      )}
+                      ) 
+                      }
 
                       <InputCustumer
                         name={'telefono'}
                         type={'number'}
                         placeholder={'Teléfono'}
-                        width={'9vw'}
+                        width={'30%'}
                         value={telCel}
                         onChange={(e: any) => {
                           changeTelefono(e)
@@ -589,43 +590,47 @@ const Integraciones = () => {
               ) : (
                 ''
               )}
+
+
+              {showLoadingProperty == false ? (
+                ''
+              ) : showLoadingProperty == true ? (
+                <CardContentButton theme={openCardContent}>
+                  <ButtonSpinner
+                    text={'Guardar Información'}
+                    loading={loadingButton1}
+                    onClick={() => {
+                      savePropiedad()
+                    }}
+                    disabled={false}
+                  />
+                  {loadingButton1 == false ? (
+                    <ButtonCancel
+                      onClick={() => {
+                        openClose()
+                      }}
+                    >
+                      Cancelar
+                    </ButtonCancel>
+                  ) : (
+                    ''
+                  )}
+                </CardContentButton>
+              ) : (
+                ''
+              )}
             </CardContent1>
 
-            {showLoadingProperty == false ? (
-              ''
-            ) : showLoadingProperty == true ? (
-              <CardContentButton theme={openCardContent}>
-                <ButtonSpinner
-                  text={'Guardar Información'}
-                  loading={loadingButton1}
-                  onClick={() => {
-                    savePropiedad()
-                  }}
-                  disabled={false}
-                />
-                {loadingButton1 == false ? (
-                  <ButtonCancel
-                    onClick={() => {
-                      openClose()
-                    }}
-                  >
-                    Cancelar
-                  </ButtonCancel>
-                ) : (
-                  ''
-                )}
-              </CardContentButton>
-            ) : (
-              ''
-            )}
           </Card>
 
           <Card>
             <CardHeader onClick={() => openClose2()}>
+            <CardTitleSubtitle>
               <CardTitle>Opciones pasarela</CardTitle>
               <CardSubTitle>
                 Configure y/o predetermine parámetros para personalizar la experiencia de pago.
               </CardSubTitle>
+              </CardTitleSubtitle>
               <CardIcon>
                 {openCard2 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
@@ -646,7 +651,7 @@ const Integraciones = () => {
                       name={'url_respuesta'}
                       type={'text'}
                       placeholder={'Url donde el cliente es redireccionado al finalizar'}
-                      width={'22.3vw'}
+                      width={'90%'}
                       value={urlResp}
                       onChange={(e: any) => {
                         changeUrlRespuesta(e)
@@ -660,7 +665,7 @@ const Integraciones = () => {
                       name={'url_confirmacion'}
                       type={'text'}
                       placeholder={'Url donde se envia la confirmación de la transacción'}
-                      width={'22.3vw'}
+                      width={'90%'}
                       value={urlConfir}
                       onChange={(e: any) => {
                         changeUrlConfirmar(e)
@@ -683,7 +688,7 @@ const Integraciones = () => {
                         placeholder={
                           typeIdioma == 'ES' ? 'Español' : typeIdioma == 'EN' ? 'Ingles' : ''
                         }
-                        width={'23.3vw'}
+                        width={'90%'}
                         dataSelect={dataIdioma}
                         onClick={() => {}}
                         onChange={() => {}}
@@ -694,7 +699,6 @@ const Integraciones = () => {
               ) : (
                 ''
               )}
-            </CardContent2>
             {showLoadingGateWay == false ? (
               ''
             ) : showLoadingGateWay == true ? (
@@ -722,15 +726,18 @@ const Integraciones = () => {
             ) : (
               ''
             )}
+            </CardContent2>
           </Card>
 
           <Card>
             <CardHeader onClick={() => openClose3()}>
+            <CardTitleSubtitle>
               <CardTitle>Personalización página de pagos</CardTitle>
               <CardSubTitle>
                 Utilice nuestro administrador para personalizar y adaptar la página de pagos al
                 diseño de su sitio web.
               </CardSubTitle>
+              </CardTitleSubtitle>
               <CardIcon>
                 {openCard3 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
@@ -759,9 +766,10 @@ const Integraciones = () => {
                       </ButtonImageLoad>
                     )}
                   </Dropzone>
+
                   {showLogoImage == false ? (
                     <FileImage
-                      src={`${process.env.RACKSPACE_CONTAINER_BASE_PUBLIC_URL}/` + logo}
+                      src={`${config.rackspaceImages}/${logo}`}
                     ></FileImage>
                   ) : (
                     loadImages.map((image, index) => (
@@ -777,7 +785,6 @@ const Integraciones = () => {
               ) : (
                 ''
               )}
-            </CardContent3>
             {showLoadingLogo == false ? (
               ''
             ) : showLoadingLogo == true ? (
@@ -805,14 +812,17 @@ const Integraciones = () => {
             ) : (
               ''
             )}
+            </CardContent3>
           </Card>
 
-          <Card style={{ marginBottom: '100px' }}>
+          <Card style={{marginBottom:"1rem"}} >
             <CardHeader onClick={() => openClose4()}>
-              <CardTitle>Llaves secretas</CardTitle>
-              <CardSubTitle>
-                Utilice estas llaves para la integración personalizada desde su página web.
-              </CardSubTitle>
+              <CardTitleSubtitle>
+                <CardTitle>Llaves secretas</CardTitle>
+                <CardSubTitle>
+                  Utilice estas llaves para la integración personalizada desde su página web.
+                </CardSubTitle>
+                </CardTitleSubtitle>
               <CardIcon>
                 {openCard4 == false ? (
                   <BsIcons.BsFillCaretDownFill style={iconStyles} />
@@ -847,11 +857,9 @@ const Integraciones = () => {
               ) : (
                 ''
               )}
-            </CardContent4>
             {showLoadingKey == false ? (
               ''
             ) : showLoadingKey == true ? (
-              <CardContent4 theme={openCardContent4}>
                 <ContentInputCard>
                   <InputLabelTitle
                     label={'Llaves secretas Api Rest, Onpage Checkout, Satandart Checkout'}
@@ -872,14 +880,15 @@ const Integraciones = () => {
                     </ContentKeys>
                   </ContentKeysItem>
                 </ContentInputCard>
-              </CardContent4>
             ) : (
               ''
-            )}
+              )}
+            </CardContent4>
+
           </Card>
         </ContentCard>
       </Content>
-    </div>
+    </ContainerIntegracion>
   )
 }
 

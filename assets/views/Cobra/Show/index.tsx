@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Title from '../../../components/Title'
-import Breadcrumbs from '../../../components/Breadcrumbs/'
 import TableLogTransactions from '../../../components/TableLogTransactions'
 import { useHistory } from 'react-router-dom'
 import { getShowCollect, getDeleteCollect, getDuplicateCollect } from '../../../redux/actions'
@@ -20,8 +19,6 @@ import {
   ContentItems,
   CardInfoCollect,
   CardTitleConten,
-  CardTransactionCount,
-  CardTransactionDetails,
   CardAction,
   ContentInput,
   ContentInputCard,
@@ -32,27 +29,14 @@ import {
   ContentPagination,
   CarTitle,
   ButtonsEdit,
+  ContainerPrincipal,
+  CardContentInfo,
 } from './styles'
 import { TableTextLink } from '../../../components/TableCobra/styles'
-import { string } from 'prop-types'
 import NumberFormat from 'react-number-format'
-import TablaTransaction from '../../../components/TableTransaction'
-import { toast } from 'react-toastify'
-import Paginations from '../../../components/Pagination'
 import * as AiIcons from 'react-icons/ai'
-import {
-  AiOutlineAlignLeft,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-  AiOutlineDelete,
-  AiOutlineVerticalRight,
-  AiTwotoneCopy,
-  AiTwotoneHeart,
-  AiOutlineZoomIn,
-  AiOutlineZoomOut,
-} from 'react-icons/ai'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -72,7 +56,7 @@ const breadcrumb = [
 
 const dataTitle = ['Referencia. ePayco', 'Estado', 'Fecha de pago']
 
-const CollectShow = () => {
+const CollectShow = ({setBreadcrumb}:any) => {
   let { id }: any = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -85,8 +69,6 @@ const CollectShow = () => {
   const [dataTable, setDataTable] = useState(dataList.log_transactions)
   let [data, setData] = useState(viewState.getShowCollect.showCollectData.data.log_transactions)
   const [count, setCount] = useState(0)
-  const [loadingButton, setLoadingButton] = useState(false)
-  const [paginate, setPaginate] = useState(0)
 
   const idCollect = viewState.getShowCollect.showCollectData.data.id
   const title = viewState.getShowCollect.showCollectData.data.title
@@ -97,6 +79,10 @@ const CollectShow = () => {
     typeof viewState.getShowCollect.showCollectData.data.link !== 'undefined'
       ? 'https://payco.link/' + viewState.getShowCollect.showCollectData.data.link
       : ''
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   useEffect(() => {
     dispatch(getShowCollect(id))
@@ -172,7 +158,7 @@ const CollectShow = () => {
 
   const content = (
     <React.Fragment>
-      <ShareLink idCobra={id} />
+      <ShareLink idCobra={id} toggle={toggle}/>
     </React.Fragment>
   )
 
@@ -322,11 +308,12 @@ const CollectShow = () => {
   }
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerPrincipal> 
       <Title title={'Detalle Cobro'}></Title>
       <Content>
+
         <ContentItems>
+
           <CardInfoCollect>
             <CarTitle>
               <CardTitleConten>Id cobro: {idCollect}</CardTitleConten>
@@ -335,24 +322,27 @@ const CollectShow = () => {
                 Editar
               </ButtonsEdit>
             </CarTitle>
+            <CardContentInfo>
+
+           
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Titulo del cobro</TitleKey>
-                <LabelKey>{title}</LabelKey>
+                <LabelKey>{title? title:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
                 <TitleKey>Referencia</TitleKey>
-                <LabelKey>{reference}</LabelKey>
+                <LabelKey>{reference? reference:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
                 <TitleKey>Tipo</TitleKey>
-                <LabelKey>{typeSell}</LabelKey>
+                <LabelKey>{typeSell?typeSell:"-"}</LabelKey>
               </ContentInputCard>
             </ContentInput>
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Estado</TitleKey>
-                <LabelKey>{state}</LabelKey>
+                <LabelKey>{state?state:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
                 <TitleKey>Valor</TitleKey>
@@ -360,47 +350,53 @@ const CollectShow = () => {
                   <NumberFormat
                     thousandSeparator={true}
                     prefix={'$'}
-                    value={amount}
+                    value={amount? amount:"0"}
                     displayType={'text'}
                   />
                 </LabelKey>
               </ContentInputCard>
               <ContentInputCard>
                 <TitleKey>Moneda</TitleKey>
-                <LabelKey>{currency}</LabelKey>
+                <LabelKey>{currency?currency:"-"}</LabelKey>
               </ContentInputCard>
             </ContentInput>
             <ContentInput>
               <ContentInputCard>
                 <TitleKey>Fecha de creacion</TitleKey>
-                <LabelKey>{date}</LabelKey>
+                <LabelKey>{date?date:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
                 <TitleKey>Link del cobro</TitleKey>
                 <LabelKey>
-                  <TableTextLink href={link}>{link}</TableTextLink>
+                  <TableTextLink href={link}>{link? link:"-"}</TableTextLink>
                 </LabelKey>
               </ContentInputCard>
               <ContentInputCard></ContentInputCard>
             </ContentInput>
+            </CardContentInfo>
           </CardInfoCollect>
+
+
           <CardAction>
             <CarTitle>
               <CardTitleConten>Acciones</CardTitleConten>
             </CarTitle>
+
+              
             <CardContentButtonAction>
-              <div></div>
               <ButtonsActions onClick={() => shareCollect()}>
                 <AiIcons.AiOutlineLink />
                 Compartir cobro
               </ButtonsActions>
             </CardContentButtonAction>
+
             <CardContentButtonAction>
               <ButtonsActions onClick={() => duplicateCollectModal()}>
                 <AiIcons.AiTwotoneCopy />
                 Duplicar cobro
               </ButtonsActions>
             </CardContentButtonAction>
+
             <CardContentButtonAction>
               <ButtonsActions onClick={() => deleteCollectModal()}>
                 <AiIcons.AiOutlineDelete />
@@ -408,40 +404,47 @@ const CollectShow = () => {
               </ButtonsActions>
             </CardContentButtonAction>
           </CardAction>
+
         </ContentItems>
 
         <ContentTable>
+
           <CardTableTitle>Historial de pagos</CardTableTitle>
           <CardTableSubTitle>Lista de los pagos realizados con el link de cobro</CardTableSubTitle>
-          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') ? (
-            dataTable && dataTable.length >= 3 ? (
+          {(dataTable && dataTable.length > 0) || (dataTable && dataTable.length == '') 
+          ? 
+          (dataTable && dataTable.length >0 
+            ? 
+            (
               <>
                 <TableLogTransactions data={data} titleData={dataTitle} />
                 <ContentPagination>
-                  {dataList.log_transactions.length > data.length ? (
-                    <ContentInputCard>
-                      <ButtonsActions onClick={() => showMore()}>
-                        <AiIcons.AiOutlineZoomIn />
-                        Ver más
-                      </ButtonsActions>
-                    </ContentInputCard>
-                  ) : (
-                    ''
-                  )}
+                  {dataList.log_transactions.length > data.length &&
+                    (
+                      <ContentInputCard>
+                        <ButtonsActions onClick={() => showMore()}>
+                          <AiIcons.AiOutlineZoomIn />
+                          Ver más
+                        </ButtonsActions>
+                      </ContentInputCard>
+                    ) 
+                  }
 
-                  {data.length > 3 ? (
-                    <ContentInputCard>
-                      <ButtonsActions onClick={() => showLess()}>
-                        <AiIcons.AiOutlineZoomOut />
-                        Ver menos
-                      </ButtonsActions>
-                    </ContentInputCard>
-                  ) : (
-                    ''
-                  )}
+                  {data.length > 3 && 
+                    (
+                      <ContentInputCard>
+                        <ButtonsActions onClick={() => showLess()}>
+                          <AiIcons.AiOutlineZoomOut />
+                          Ver menos
+                        </ButtonsActions>
+                      </ContentInputCard>
+                    ) 
+                  }
                 </ContentPagination>
               </>
-            ) : (
+            ) 
+            : 
+            (
               <h3
                 style={{
                   fontSize: '20px',
@@ -453,10 +456,14 @@ const CollectShow = () => {
                 No se encontraron registros.
               </h3>
             )
-          ) : (
+          ) 
+          : 
+          (
             <LoadingBar text={'Cargando...'} />
           )}
+
         </ContentTable>
+
       </Content>
       <ModalComp
         isShown={isShown}
@@ -464,7 +471,7 @@ const CollectShow = () => {
         modalContent={content}
         headerText={'Compartir link del catálogo'}
       />
-    </div>
+    </ContainerPrincipal>
   )
 }
 

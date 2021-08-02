@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Title from '../../components/Title'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,23 +12,23 @@ import {
   Content,
   ContentCard,
   Card,
-  CardHeader,
   CardContent1,
   CardContent2,
   CardContent3,
   CardTitle,
   ContentInput,
-  CardContentButton,
-  ButtonCancel,
   ContentInputCard,
   InputGroup,
+  ContentInputTotal,
+  CardHeaderTitle,
+  CardContentButtonSeguridad
 } from '../Integraciones/styles'
 import InputNoEditable from '../../components/InputNoEditable'
 import InputSelectWithValue from '../../components/InputSelectWithValue'
 import InputSelectPaisWithValue from '../../components/InputSelectPaisWithValue'
 import ButtonSpinner from '../../components/Button'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -52,7 +51,7 @@ const dataSelect = [
     label: 'fijo',
   },
 ]
-const Seguridad = () => {
+const Seguridad = ({setBreadcrumb}:any) => {
   const dispatch = useDispatch()
 
   const myStore: any = useSelector((state) => state)
@@ -86,6 +85,10 @@ const Seguridad = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loadingButton1, setLoadingButton1] = useState(false)
   const [loadingButton2, setLoadingButton2] = useState(false)
+
+  useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+  },[])
 
   useEffect(() => {
     setNombre(nombreGuardado)
@@ -225,58 +228,57 @@ const Seguridad = () => {
 
   return (
     <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
       <Title title={'Perfil'}></Title>
 
       <Content>
         <ToastContainer />
         <ContentCard>
-          <Card>
-            <CardContent1 theme={openCardContent}>
-              <ContentInput>
+          <Card >
+            <CardContent1 theme={openCardContent} style={{border:"none"}} >
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Nombre'} />
-                  <InputNoEditable name={'nombre'} type={'text'} width={'44.6vw'} value={nombre} />
+                  <InputNoEditable name={'nombre'} type={'text'} width={'96%'} value={nombre} />
                 </ContentInputCard>
-              </ContentInput>
-              <ContentInput>
+              </ContentInputTotal>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Email'} />
-                  <InputNoEditable name={'email'} type={'text'} width={'44.6vw'} value={email} />
+                  <InputNoEditable name={'email'} type={'text'} width={'96%'} value={email} />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentInputTotal>
             </CardContent1>
           </Card>
           <Card>
-            <CardHeader>
+            <CardHeaderTitle>
               <CardTitle>Datos de contacto</CardTitle>
-            </CardHeader>
+            </CardHeaderTitle>
 
             <CardContent2 theme={openCardContent2}>
-              <ContentInput>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Nombre empresa'} />
                   <InputCustumer
                     name={'nombreEmpresa'}
                     type={'text'}
                     placeholder={'Nombre de la Empresa'}
-                    width={'44.6vw'}
+                    width={'96%'}
                     value={nombreEmpresa}
                     onChange={(e: any) => {
                       changeNombreEmpresa(e)
                     }}
                   />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentInputTotal>
 
-              <ContentInput>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Teléfono'} />
                   <InputGroup>
                     <InputSelectWithValue
                       name={'type_telefono'}
                       placeholder={tipoTelefono != null ? tipoTelefono : 'movil'}
-                      width={'12vw'}
+                      width={'30%'}
                       dataSelect={dataSelect}
                       value={tipoTelefono}
                       onClick={() => {}}
@@ -289,75 +291,73 @@ const Seguridad = () => {
                         name={'indicativoCiudad'}
                         type={'number'}
                         placeholder={'Indicativo'}
-                        width={'10vw'}
+                        width={'30%'}
                         value={indicativoCiudad}
                         onChange={(e: any) => {
                           changeIndCiudad(e)
                         }}
                       />
-                    ) : tipoTelefono == 'movil' ? (
+                    ): (
                       <InputSelectPaisWithValue
                         name={'indicativoPais'}
                         value={indicativoPais}
                         placeholder={'Indicativo'}
-                        width={'10vw'}
+                        width={'30%'}
                         dataSelect={datos}
                         onClick={() => {}}
                         onChange={(e: any) => {
                           changeIndPais(e)
                         }}
                       />
-                    ) : (
-                      ''
-                    )}
+                    )
+                    }
 
                     {tipoTelefono == 'fijo' ? (
                       <InputCustumer
                         name={'telefono'}
                         type={'number'}
                         placeholder={'Telefono'}
-                        width={'18vw'}
+                        width={'30%'}
                         value={numFijo}
                         onChange={(e: any) => {
                           changeNumFijo(e)
                         }}
                       />
-                    ) : tipoTelefono == 'movil' ? (
+                    ) : (
                       <InputCustumer
                         name={'telefono'}
                         type={'number'}
                         placeholder={'Telefono'}
-                        width={'18vw'}
+                        width={'30%'}
                         value={numMovil}
                         onChange={(e: any) => {
                           changeNumMovil(e)
                         }}
                       />
-                    ) : (
-                      ''
-                    )}
+                    ) 
+                    }
                   </InputGroup>
                 </ContentInputCard>
-              </ContentInput>
+              </ContentInputTotal>
 
-              <ContentInput>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Sitio web'} />
                   <InputCustumer
                     name={'web'}
                     type={'text'}
                     placeholder={'Sitio Web'}
-                    width={'44.6vw'}
+                    width={'96%'}
                     value={web}
                     onChange={(e: any) => {
                       changeWeb(e)
                     }}
                   />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentInputTotal>
             </CardContent2>
 
-            <CardContentButton theme={openCardContent2}>
+            <CardContentButtonSeguridad theme={openCardContent2}>
               <ButtonSpinner
                 text={'Guardar Información'}
                 loading={loadingButton1}
@@ -366,64 +366,63 @@ const Seguridad = () => {
                 }}
                 disabled={loadingButton1}
               ></ButtonSpinner>
-            </CardContentButton>
+            </CardContentButtonSeguridad>
           </Card>
 
-          <Card style={{ marginBottom: '100px' }}>
-            <CardHeader>
+          <Card style={{ marginBottom: '1rem' }}>
+            <CardHeaderTitle>
               <CardTitle>Actualizar Contraseña</CardTitle>
-            </CardHeader>
+            </CardHeaderTitle>
 
             <CardContent3 theme={openCardContent3}>
-              <ContentInput>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Contraseña Actual'} />
                   <InputCustumer
                     name={'password'}
                     type={'password'}
                     placeholder={''}
-                    width={'44.6vw'}
+                    width={'96%'}
                     value={password}
                     onChange={(e: any) => {
                       changePassword(e)
                     }}
                   />
                 </ContentInputCard>
-              </ContentInput>
-              <ContentInput>
+              </ContentInputTotal>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Nueva Contraseña'} />
                   <InputCustumer
                     name={'newPassword'}
                     type={'password'}
                     placeholder={''}
-                    width={'44.6vw'}
+                    width={'96%'}
                     value={newPassword}
                     onChange={(e: any) => {
                       changeNewPassword(e)
                     }}
                   />
                 </ContentInputCard>
-              </ContentInput>
-              <ContentInput>
+              </ContentInputTotal>
+              <ContentInputTotal>
                 <ContentInputCard>
                   <InputLabel label={'Confirmar Contraseña'} />
                   <InputCustumer
                     name={'confirmPassword'}
                     type={'password'}
                     placeholder={''}
-                    width={'44.6vw'}
+                    width={'96%'}
                     value={confirmPassword}
                     onChange={(e: any) => {
                       changeConfirmPassword(e)
                     }}
                   />
                 </ContentInputCard>
-              </ContentInput>
+              </ContentInputTotal>
             </CardContent3>
-            <CardContentButton
+            <CardContentButtonSeguridad
               theme={openCardContent2}
-              style={{ marginBottom: '5vw', marginTop: '2vw' }}
             >
               <ButtonSpinner
                 text={'Cambiar Contraseña'}
@@ -433,7 +432,7 @@ const Seguridad = () => {
                 }}
                 disabled={loadingButton2}
               ></ButtonSpinner>
-            </CardContentButton>
+            </CardContentButtonSeguridad>
           </Card>
         </ContentCard>
       </Content>

@@ -1,20 +1,13 @@
 import styled from 'styled-components'
 
 export const Content = styled.div`
-  position: absolute;
-  background: #ffffff;
-  width: 82vw;
-  top: 3.6vw;
-  left: 18vw;
-  height: 4vw;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    background-color: white;
+    height: 3rem;
 `
 
-export const ContentTitle = styled.h1`
-  left: 1vw;
-
+export const ContentTitle = styled.h3`
   font-weight: 500;
-  font-size: 1.6vw;
-  line-height: 2vw;
-  color: #000000;
-  position: absolute;
 `

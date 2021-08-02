@@ -1,8 +1,19 @@
 import React, { useState } from 'react'
-import { StyledTable, TableTextMoneda, TableTextLink } from './styles'
+import { 
+  StyledTable,
+  TableTextMoneda, 
+  TableTextLink,
+  ResponsiveTableSoporte,
+  ContentItem,
+  ClaveField,
+  ContentAction,
+  ValueItem,
+  ContainerBox
+} from './styles'
 import TableCollectAction from '../TableCollectAction'
 import { closeTicket, reOpenTicket } from '../../redux/actions'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 type Props = {
   data: {}[]
@@ -11,10 +22,18 @@ type Props = {
   ticketsOpen: boolean
 }
 
+const fields:any={
+  id:"ID Ticket",
+  asunto: "Asunto",
+  departamento:"Área de atención",
+  estado:"Estado",
+  etapa:"Etapa",
+  fecha:"Fecha de creación",
+  fechaActualizacion:"Última actualización",
+  acciones:"Acciones"
+}
+
 const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen }) => {
-  const datos = Object.keys(data[0])
-  const [alert, setAlert] = useState(false)
-  const [buttonLoadModal, setButtonLoadModal] = useState(false)
 
   const ticketClose = async (id: number) => {
     const res = await closeTicket(id)
@@ -68,9 +87,9 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
                 <td key={index}>
                   {index == 0 ? (
                     <body>
-                      <TableTextLink href={'soporte/detalle/' + item[title]}>
+                      <Link to={'soporte/detalle/' + item[title]}>
                         {item[title]}
-                      </TableTextLink>
+                      </Link>
                     </body>
                   ) : index == 3 ? (
                     <body>
@@ -124,6 +143,67 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
           ))}
         </tbody>
       </StyledTable>
+      <ResponsiveTableSoporte>
+          {
+            data.map((item:any)=>{
+              const cajas= Object.keys(fields).map((clave:any)=>(
+                  <ContentItem>
+                    <ClaveField>{fields[clave]}</ClaveField>
+                    {
+                      fields[clave] === "ID Ticket"?
+                      <Link to={'soporte/detalle/' + item[clave]}>{item[clave]}</Link>
+                      :
+                      fields[clave] === "Acciones"?
+                      <ContentAction>
+                          <TableCollectAction
+                              actions={
+                                ticketsOpen
+                                  ? [
+                                      {
+                                        name: 'Detalle',
+                                        funcion: () => {
+                                          navToDetail(item.id)
+                                        },
+                                        validarEstado: true,
+                                      },
+                                      {
+                                        name: 'Cerrar',
+                                        funcion: () => {
+                                          ticketClose(item.id)
+                                        },
+                                        validarEstado: true,
+                                      },
+                                    ]
+                                  : [
+                                      {
+                                        name: 'Detalle',
+                                        funcion: () => {
+                                          navToDetail(item.id)
+                                        },
+                                        validarEstado: true,
+                                      },
+                                      {
+                                        name: 'Reabrir',
+                                        funcion: () => {
+                                          ticketReOpen(item.id)
+                                        },
+                                        validarEstado: true,
+                                      },
+                                    ]
+                              }
+                            ></TableCollectAction>
+                      </ContentAction>
+                     :
+                      <ValueItem>{item[clave]}</ValueItem>
+                    }
+                  </ContentItem>
+              ))
+                return <ContainerBox>
+                  {cajas}
+                </ContainerBox>
+            })
+          }
+    </ResponsiveTableSoporte>
     </div>
   )
 }

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 import {
   StyledTable,
   TableTextMoneda,
@@ -10,6 +9,12 @@ import {
   ModalButtons,
   ModalInput,
   TableTextStatusOther,
+  ResponsiveTableDashboard,
+  ContentItem,
+  ClaveField,
+  ValueItem,
+  ValueStatus,
+  ContainerBox
 } from './styles'
 import MedioPago from '../../components/MedioPago/'
 import TableTransaccionesAction from '../TableTransaccionesAction'
@@ -22,6 +27,15 @@ type Props = {
   data: {}[]
   titleData: {}[]
   toast: any
+}
+
+const fields:any={
+  referencePayco:"Ref.Payco",
+  transactionDateTime: "Fecha Trx",
+  paymentMethod:"Medio de pago",
+  amount:"Valor",
+  status:"Estado",
+  acciones:"Acciones"
 }
 
 const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
@@ -78,7 +92,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
   )
 
   return (
-    <div>
+    <>
       <StyledTable>
         <colgroup>
           <col />
@@ -105,7 +119,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                         to={'/transacciones/detalles/' + item[title]}
                         style={{
                           fontWeight: 'normal',
-                          fontSize: '1vw',
+                          fontSize: '14px',
                           color: '#40a8e6',
                           textDecoration: 'none',
                         }}
@@ -170,13 +184,71 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
           ))}
         </tbody>
       </StyledTable>
+
+      <ResponsiveTableDashboard>
+          {
+            data.map((item:any)=>{
+              const cajas= Object.keys(fields).map((clave:any)=>(
+                  <ContentItem>
+                    <ClaveField>{fields[clave]}</ClaveField>
+                    {
+                      fields[clave] === "Ref.Payco"?
+                      <Link to={`/transacciones/detalles/${item[clave]}`}>{item[clave]}</Link>
+                      :
+                      fields[clave] === "Valor"?
+                      <NumberFormat
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          value={item[clave]}
+                          displayType={'text'}
+                        />
+                      :
+                      fields[clave] === "Estado"?
+                      <ValueStatus data-estado={item[clave]}>{item[clave]}</ValueStatus>
+                      :
+                      fields[clave] === "Medio de pago"?
+                      <MedioPago type={item[clave]}></MedioPago>
+                      :
+                      fields[clave] === "Acciones"?
+                      <ContentAction>
+                          <TableTransaccionesAction
+                            setTrx={setTrx}
+                            item={item.referencePayco}
+                            actions={[
+                              {
+                                name: 'Detalle',
+                                funcion: () =>
+                                  history.push(`/transacciones/detalles/${item.referencePayco}`),
+                                validarEstado: true,
+                              },
+                              {
+                                name: 'Enviar comprobante',
+                                funcion: () => toggle(),
+                                validarEstado: true,
+                              }
+                            ]}
+                          ></TableTransaccionesAction>
+                      </ContentAction>
+                     :
+                      <ValueItem>{item[clave]}</ValueItem>
+                    }
+                  </ContentItem>
+              ))
+                return <ContainerBox>
+                  {cajas}
+                </ContainerBox>
+            })
+          }
+    </ResponsiveTableDashboard>
+
+
       <ModalComp
         isShown={isShown}
         hide={toggle}
         modalContent={modalConfirmacionTrx}
         headerText="Enviar confirmación transacción"
       ></ModalComp>
-    </div>
+    </>
   )
 }
 

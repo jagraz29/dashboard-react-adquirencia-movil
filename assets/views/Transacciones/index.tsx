@@ -1,48 +1,42 @@
 import React, { useEffect, useState } from 'react'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import Title from '../../components/Title'
 import DatePick from '../../components/DateRange'
 import { toast, ToastContainer } from 'react-toastify'
 
 import {
   ContentTransaction,
-  ContentCard,
   Card1,
   Card2,
   CardHeader,
   CardTitle,
   CardContent1,
   CardContent2,
-  ContentFecha,
-  ContentFecha2,
-  ContentFecha3,
-  ContentFecha4,
-  ContentFecha5,
   ButtonFecha,
   ContentImputs,
   ContentItem,
   ItemTitle,
   ItemValue,
-  ContentImputsItems,
-  ContentImputsItems2,
-  ContentImputsItems3,
+  ContentInputsItems,
   ContentButonCard,
   ContentPagination,
   ItemResultTotal,
   InputLabelTitle,
   SearchContainer,
   LoadingContent,
+  ContainerTransaction,
+  ContainerButtonFecha,
+  ContentFiltro
 } from './styles'
 
-import { useHistory } from 'react-router-dom'
-import { getListTransactionSite } from '../../redux/actions'
+import { useLocation } from 'react-router-dom'
+import { getListTransactionSite, resetListTransaction } from '../../redux/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import TablaTransaction from '../../components/TableTransaction'
 import Paginations from '../../components/Pagination'
 import LoadingBar from '../../components/LoadingBar'
 import { FaSearch } from 'react-icons/fa'
 
-const breadcrumb = [
+const breadcrumbTitle = [
   {
     title: 'Inicio',
     path: '/dashboard',
@@ -187,9 +181,9 @@ export function getPaymentCode(key: any) {
   return payurl
 }
 
-const Transacciones = () => {
+const Transacciones = ({setBreadcrumb}:any) => {
+
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const getListTransaction: any = useSelector(({ getListTransaction }: any) => getListTransaction)
   const dataList = getListTransaction.listTransactionData.transactions
@@ -216,6 +210,15 @@ const Transacciones = () => {
   const [paginas, setPaginas] = useState({})
 
   useEffect(() => {
+    setBreadcrumb(breadcrumbTitle)
+    return ()=>{
+      dispatch(resetListTransaction())
+    }
+  },[])
+
+
+  useEffect(() => {
+    
     const {
       listTransactionData: { aggregations, pagination },
     } = getListTransaction
@@ -232,7 +235,6 @@ const Transacciones = () => {
         }
       })
       setStatusTransaction(dataStatus)
-
       const dataPay = Object.keys(aggregations.transactionFranchises).map((key) => {
         const keyCode = getPaymentCode(key)
         return {
@@ -242,7 +244,6 @@ const Transacciones = () => {
         }
       })
       setstatusPay(dataPay)
-
       let dataCount = 0
       const dataEntorno = Object.keys(aggregations.transactionType).map((key) => {
         dataCount += aggregations.transactionType[key].doc_count
@@ -254,6 +255,7 @@ const Transacciones = () => {
       setTotalCount(dataCount)
       setEntorno(dataEntorno)
       setLoading(false)
+  
     }
   }, [getListTransaction])
 
@@ -284,7 +286,16 @@ const Transacciones = () => {
     setActiveFilters({ ...activeFilters, page })
   }
 
-  const [objectQuery, setObjectQuery] = useState<any>({})
+  const location = useLocation()
+
+  const [objectQuery, setObjectQuery] = useState<any>(()=>{
+    const {state}:any= location 
+    if(state && state.statusId){
+      return {statusId:state.statusId}
+    }else{
+      return {}
+    }
+  })
 
   function handlePaymentMethod(paymentMethod: any) {
     const page = 1
@@ -363,6 +374,7 @@ const Transacciones = () => {
     }
     setFinalQuery(final)
     dispatch(getListTransactionSite(final))
+
   }, [objectQuery])
 
   const [activeFilters, setActiveFilters] = useState({
@@ -373,23 +385,17 @@ const Transacciones = () => {
   })
 
   return (
-    <div>
-      <Breadcrumbs breadcrumb={breadcrumb} />
+    <ContainerTransaction>
       <Title title={'Transacciones'}></Title>
       {loading ? (
-        <LoadingContent>
           <LoadingBar text={'Generando filtros...'} />
-        </LoadingContent>
       ) : (
         <ContentTransaction>
-          <ContentCard>
             <ToastContainer />
             <Card1>
-              <CardHeader>
-                <CardTitle>Filtros</CardTitle>
-              </CardHeader>
+              <CardTitle>Filtros</CardTitle>
               <CardContent1>
-                <ContentFecha>
+                <ContentFiltro>
                   <InputLabelTitle>Rango de fecha</InputLabelTitle>
                   <ContentImputs>
                     <DatePick
@@ -398,12 +404,13 @@ const Transacciones = () => {
                       handleDates={handleDates}
                     />
                   </ContentImputs>
-                  {/* <ButtonFecha>Seleccionar fecha</ButtonFecha> */}
-                  <ButtonFecha onClick={() => handleDates(0, 0)}>Restablecer Fechas</ButtonFecha>
-                </ContentFecha>
-                <ContentFecha2>
+                  <ContainerButtonFecha>
+                    <ButtonFecha onClick={() => handleDates(0, 0)}>Restablecer Fechas</ButtonFecha>
+                  </ContainerButtonFecha>
+                </ContentFiltro>
+                <ContentFiltro>
                   <InputLabelTitle>Estado de las transacciones</InputLabelTitle>
-                  <ContentImputsItems>
+                  <ContentInputsItems>
                     <ContentItem
                       className={activeFilters.statusIds === 0 ? 'active' : ''}
                       onClick={() => {
@@ -426,11 +433,12 @@ const Transacciones = () => {
                         <ItemValue>{item.doc_count}</ItemValue>
                       </ContentItem>
                     ))}
-                  </ContentImputsItems>
-                </ContentFecha2>
-                <ContentFecha4>
+                  </ContentInputsItems>
+                </ContentFiltro>
+
+                <ContentFiltro>
                   <InputLabelTitle>Entorno</InputLabelTitle>
-                  <ContentImputsItems>
+                  <ContentInputsItems>
                     <ContentItem
                       className={activeFilters.environments === 0 ? 'active' : ''}
                       onClick={() => {
@@ -454,11 +462,11 @@ const Transacciones = () => {
                         <ItemValue>{item.doc_count}</ItemValue>
                       </ContentItem>
                     ))}
-                  </ContentImputsItems>
-                </ContentFecha4>
-                <ContentFecha3>
+                  </ContentInputsItems>
+                </ContentFiltro>
+                <ContentFiltro>
                   <InputLabelTitle>Medios de pago</InputLabelTitle>
-                  <ContentImputsItems2>
+                  <ContentInputsItems>
                     <ContentItem
                       className={activeFilters.paymentMethods === 0 ? 'active' : ''}
                       onClick={() => {
@@ -480,11 +488,12 @@ const Transacciones = () => {
                         <ItemValue>{item.doc_count}</ItemValue>
                       </ContentItem>
                     ))}
-                  </ContentImputsItems2>
-                </ContentFecha3>
-                <ContentFecha5>
+                  </ContentInputsItems>
+                </ContentFiltro>
+                
+                <ContentFiltro>
                   <InputLabelTitle>Acciones</InputLabelTitle>
-                  <ContentImputsItems3>
+                  <ContentInputsItems>
                     <ButtonFecha
                       onClick={() => {
                         exportFile('xlsx')
@@ -499,12 +508,12 @@ const Transacciones = () => {
                     >
                       Exportar csv
                     </ButtonFecha>
-                  </ContentImputsItems3>
-                </ContentFecha5>
+                  </ContentInputsItems>
+                </ContentFiltro>
+                <ContentButonCard>
+                 <ButtonFecha onClick={handleReset}>Borrar filtros</ButtonFecha>
+                </ContentButonCard>
               </CardContent1>
-              <ContentButonCard>
-                <ButtonFecha onClick={handleReset}>Borrar filtros</ButtonFecha>
-              </ContentButonCard>
             </Card1>
 
             <Card2>
@@ -563,10 +572,9 @@ const Transacciones = () => {
                 )}
               </CardContent2>
             </Card2>
-          </ContentCard>
         </ContentTransaction>
       )}
-    </div>
+    </ContainerTransaction>
   )
 }
 
