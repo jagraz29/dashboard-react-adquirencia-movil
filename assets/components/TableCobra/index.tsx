@@ -237,8 +237,9 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         />
                       :
                       fields[clave] === "Link"?
-                        <TableTextLink href={'https://link.epayco.io/' + item[clave]}>
-                          https://link.epayco.io/{item[clave]}
+                        <TableTextLink href={config.cobraUrl + item[clave]}>
+                           {config.cobraUrl}
+                           {item[clave]}
                         </TableTextLink>
                       :
                       fields[clave] === "Acciones"?

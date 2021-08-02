@@ -210,7 +210,7 @@ const DetailTicket = ({setBreadcrumb}:any) => {
             ) : (
               <Avatar
                 size="large"
-                src="https://multimedia.epayco.co/dashboard/v2/Logos/epayco-logo-gris.svg"
+                src={`${config.amazonUrl}/dashboard/v2/Logos/epayco-logo-gris.svg`}
               />
             )}
           </IconMessageContainer>
