@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, ReactNode } from 'react'
 import Title from '../../components/Title'
-import Breadcrumbs from '../../components/Breadcrumbs/'
 import * as BsIcons from 'react-icons/bs'
 import InputCustumer from '../../components/InputCostumer'
 import InputLabel from '../../components/InputLabel'
@@ -53,7 +52,7 @@ import {
   CardTitleSubtitle
 } from './styles'
 import Dropzone from 'react-dropzone'
-
+import { config } from '../../config/enviroment'
 const breadcrumbTitle = [
   {
     title: 'Inicio',
@@ -770,7 +769,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
 
                   {showLogoImage == false ? (
                     <FileImage
-                      src={`${process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL}/` + logo}
+                      src={`${config.rackspaceImages}/${logo}`}
                     ></FileImage>
                   ) : (
                     loadImages.map((image, index) => (

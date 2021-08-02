@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux'
 
 import NumberFormat from 'react-number-format'
 import { Link, useHistory } from 'react-router-dom'
+import { config } from '../../config/enviroment'
 
 type Props = {
   data: {}[]
@@ -165,8 +166,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                         </body>
                       ) : title == 'link' ? (
                         <body>
-                          <TableTextLink href={process.env.REACT_APP_URL_COBRA + item[title]}>
-                            {process.env.REACT_APP_URL_COBRA}
+                          <TableTextLink href={config.cobraUrl + item[title]}>
+                            {config.cobraUrl}
                             {item[title]}
                           </TableTextLink>
                         </body>

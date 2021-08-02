@@ -419,32 +419,26 @@ const CollectShow = ({setBreadcrumb}:any) => {
               <>
                 <TableLogTransactions data={data} titleData={dataTitle} />
                 <ContentPagination>
-                  {dataList.log_transactions.length > data.length 
-                  ? 
-                  (
-                    <ContentInputCard>
-                      <ButtonsActions onClick={() => showMore()}>
-                        <AiIcons.AiOutlineZoomIn />
-                        Ver más
-                      </ButtonsActions>
-                    </ContentInputCard>
-                  ) 
-                  : 
-                  ('')
+                  {dataList.log_transactions.length > data.length &&
+                    (
+                      <ContentInputCard>
+                        <ButtonsActions onClick={() => showMore()}>
+                          <AiIcons.AiOutlineZoomIn />
+                          Ver más
+                        </ButtonsActions>
+                      </ContentInputCard>
+                    ) 
                   }
 
-                  {data.length > 3 
-                  ? 
-                  (
-                    <ContentInputCard>
-                      <ButtonsActions onClick={() => showLess()}>
-                        <AiIcons.AiOutlineZoomOut />
-                        Ver menos
-                      </ButtonsActions>
-                    </ContentInputCard>
-                  ) 
-                  : 
-                  ('')
+                  {data.length > 3 && 
+                    (
+                      <ContentInputCard>
+                        <ButtonsActions onClick={() => showLess()}>
+                          <AiIcons.AiOutlineZoomOut />
+                          Ver menos
+                        </ButtonsActions>
+                      </ContentInputCard>
+                    ) 
                   }
                 </ContentPagination>
               </>

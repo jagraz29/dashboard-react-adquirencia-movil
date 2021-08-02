@@ -16,6 +16,7 @@ import {
 } from './style'
 import Selector from '../Selector'
 import { countries } from '../../utils/countries'
+import { config } from '../../config/enviroment'
 
 export default function ShareLink(props:any) { 
 
@@ -43,11 +44,11 @@ export default function ShareLink(props:any) {
         <Text>
           También puede copiar y pegar este link en su red social favorita de forma directa
         </Text>
-        <Input value={`${process.env.REACT_APP_URL_COBRA}${props.idCobra}`} disabled />
+        <Input value={`${config.cobraUrl}${props.idCobra}`} disabled />
         <CopyButton
           disabled={copied}
           onClick={() => {
-            copyText(`${process.env.REACT_APP_URL_COBRA}${props.idCobra}`)
+            copyText(`${config.cobraUrl}${props.idCobra}`)
           }}
         >
           {copied ? 'Copiado en el portapapeles' : 'Copiar enlace'}
@@ -64,7 +65,7 @@ export default function ShareLink(props:any) {
                 <FlagContainer>
                   <Flag
                     src={
-                      `${process.env.REACT_APP_AMAZON_URL}` +
+                      `${config.amazonUrl}` +
                       '/my-epayco/flags/' +
                       item.label.toLowerCase() +
                       '.svg'

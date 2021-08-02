@@ -13,6 +13,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import CardSupportMin from '../../components/CardSupportMin'
 import { getTickets } from '../../redux/actions'
 import TableSoporte from '../../components/TableSoporte'
+import { config } from '../../config/enviroment'
 const breadcrumbTitle = [
   {
     title: 'Inicio',
@@ -27,25 +28,25 @@ const breadcrumbTitle = [
 ]
 const optionsSoport = [
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/ticket-2.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/ticket-2.svg',
     text: 'Crear ticket de soporte',
     history: true,
     url: 'soporte/nuevo',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/conocimiento.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/conocimiento.svg',
     text: 'Base de conocimiento',
     target: true,
     url: 'https://docs.epayco.co/',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/reunion-soporte.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/reunion-soporte.svg',
     text: 'Agendar reunión con soporte',
     target: true,
     url: 'https://calendly.com/epayco/',
   },
   {
-    icon: process.env.REACT_APP_AMAZON_URL + '/dashboard/iconos-soporte/contacto.svg',
+    icon: config.amazonUrl + '/dashboard/iconos-soporte/contacto.svg',
     text: 'Contacto telefónico: +57 (4) 448 4952',
     phone: '+57 (4) 448 4952',
   },
