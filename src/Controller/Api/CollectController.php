@@ -238,12 +238,6 @@ class CollectController extends BaseController
             ];
         }
 
-        $dataShare = [
-            'id' => $content['id'],
-            'tipo' => $content['type'],
-            'value' => $content['value'],
-        ];
-
         $collectShare = $this->apify->consult('collection/link/share/smsEmail', Requests::POST, $dataShare);
 
         if (
