@@ -214,4 +214,51 @@ class CollectController extends BaseController
       : 'Error apify consult';
     return $this->jsonResponse(false, [], $message, 400);
   }
+
+    /**
+     * @Route("/share", name="api_collect_share", methods={"POST"})
+     */
+    public function share(Request $request)
+    {
+        $content = $request->getContent();
+        $content = json_decode($content, true);
+
+        if($content['tipo'] == 'email'){
+            $dataShare = [
+                'id' => $content['id'],
+                'tipo' => $content['type'],
+                'value' => $content['value'],
+            ]
+        } else {
+            $dataShare = [
+                'id' => $content['id'],
+                'tipo' => $content['type'],
+                'value' => $content['value'],
+                'indicativo' => $content['indicative'],
+            ];
+        }
+
+        $dataShare = [
+            'id' => $content['id'],
+            'tipo' => $content['type'],
+            'value' => $content['value'],
+        ];
+
+        $collectShare = $this->apify->consult('collection/link/share/smsEmail', Requests::POST, $dataShare);
+
+        if (
+            isset($collectShare[TextResponsesCommon::SUCCESS]) &&
+            $collectShare[TextResponsesCommon::SUCCESS] === true
+        ) {
+            $message = isset($collectShare[TextResponsesCommon::TEXT_RESPONSE])
+                ? $collectShare[TextResponsesCommon::TEXT_RESPONSE]
+                : 'Collect share';
+            return $this->jsonResponse(true, $collectShare[TextResponsesCommon::DATA], $message);
+        }
+
+        $message = isset($collectShare[TextResponsesCommon::TEXT_RESPONSE])
+            ? $collectShare[TextResponsesCommon::TEXT_RESPONSE]
+            : 'Error apify consult';
+        return $this->jsonResponse(false, [], $message, 400);
+    }
 }
