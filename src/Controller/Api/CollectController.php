@@ -228,7 +228,7 @@ class CollectController extends BaseController
                 'id' => $content['id'],
                 'tipo' => $content['type'],
                 'value' => $content['value'],
-            ]
+            ];
         } else {
             $dataShare = [
                 'id' => $content['id'],
