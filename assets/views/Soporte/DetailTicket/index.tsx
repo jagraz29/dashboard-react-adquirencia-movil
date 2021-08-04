@@ -48,7 +48,7 @@ import Dropzone from 'react-dropzone'
 import { Collapse } from 'react-collapse'
 import { ButtonImageLoad } from '../CreateTicket/styles'
 import { TicketDocument, TicketMessage } from '../../../types'
-
+import { config } from '../../../config/enviroment'
 const breadcrumbTitle = [
   {
     title: 'Inicio',
@@ -85,7 +85,7 @@ const DetailTicket = ({setBreadcrumb}:any) => {
   const [respuesta, setRespuesta] = useState('')
   const [imgLoaded, setImgLoaded] = useState([])
   const [showerror, setShowerror] = useState(false)
-  const urlRackespace = process.env.REACT_APP_RACKSPACE_CONTAINER_BASE_PUBLIC_URL
+  const urlRackespace = config.rackspaceImages
 
   useEffect(() => {
     setBreadcrumb(breadcrumbTitle)
@@ -210,7 +210,7 @@ const DetailTicket = ({setBreadcrumb}:any) => {
             ) : (
               <Avatar
                 size="large"
-                src="https://multimedia.epayco.co/dashboard/v2/Logos/epayco-logo-gris.svg"
+                src={`${config.amazonUrl}/dashboard/v2/Logos/epayco-logo-gris.svg`}
               />
             )}
           </IconMessageContainer>

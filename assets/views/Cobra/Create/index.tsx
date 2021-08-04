@@ -9,7 +9,7 @@ import InputLabel from '../../../components/InputLabel'
 import CustomSwitch from '../../../components/Switch'
 import InputSelect from '../../../components/InputSelect'
 import { createSellLink } from '../../../redux/actions/'
-
+import { config } from '../../../config/enviroment'
 import Dropzone from 'react-dropzone'
 
 import {
@@ -578,7 +578,7 @@ const CobraCreate = ({setBreadcrumb}:any) => {
                             <input {...getInputProps()} />
                             <img
                               style={{ width: '2vw' }}
-                              src={`${process.env.REACT_APP_AMAZON_URL}/` + 'dashboard/image.png'}
+                              src={`${config.amazonUrl}/` + 'dashboard/image.png'}
                               alt=""
                             />
                           </ButtonImageLoad>
