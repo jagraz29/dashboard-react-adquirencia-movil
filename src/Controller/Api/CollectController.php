@@ -223,7 +223,7 @@ class CollectController extends BaseController
         $content = $request->getContent();
         $content = json_decode($content, true);
 
-        if($content['tipo'] == 'email'){
+        if($content['type'] == 'email'){
             $dataShare = [
                 'id' => $content['id'],
                 'tipo' => $content['type'],

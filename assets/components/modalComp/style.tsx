@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { keyframes } from 'styled-components'
+import { TABLET } from '../../styles/breakpoints'
 
 export const Wrapper = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 700;
+  z-index: 1000;
   width: 100%;
   outline: 0;
 `
@@ -54,7 +55,10 @@ export const StyledModal = styled.div`
   animation-fill-mode: both;
   backface-visibility: visible !important;
   animation-name: ${breatheAnimation};
-`
+  @media (max-width: ${TABLET}) {
+    overflow-y: auto;
+  }
+` 
 export const Header = styled.div`
   border-radius: 8px 8px 0 0;
   display: flex;

@@ -35,6 +35,7 @@ import {
 import { TableTextLink } from '../../../components/TableCobra/styles'
 import NumberFormat from 'react-number-format'
 import * as AiIcons from 'react-icons/ai'
+import { ToastContainer } from 'react-toastify'
 
 const breadcrumbTitle = [
   {
@@ -311,7 +312,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
     <ContainerPrincipal> 
       <Title title={'Detalle Cobro'}></Title>
       <Content>
-
+      <ToastContainer/>
         <ContentItems>
 
           <CardInfoCollect>
