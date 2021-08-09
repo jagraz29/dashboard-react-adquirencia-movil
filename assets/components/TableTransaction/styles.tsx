@@ -61,21 +61,25 @@ export const TableTextMoneda = styled.h2`
 `
 
 export const TableTextStatusOK = styled.h1`
+  text-transform: uppercase;
   color: green;
   font-size: 14px;
 `
 
 export const TableTextStatusPending = styled.h1`
+  text-transform: uppercase;
   color: orange;
   font-size: 14px;
 `
 
 export const TableTextStatusCancel = styled.h1`
+  text-transform: uppercase;
   font-size: 14px;
   color: #ff6660;
 `
 
 export const TableTextStatusOther = styled.h1`
+ text-transform: uppercase;
  font-size: 14px;
 `
 
@@ -174,6 +178,7 @@ export const ValueStatus = styled.label`
 
   @media (max-width: ${INTERMEDIATE}) {
     text-align: end;
+    text-transform: uppercase;
     color: ${(props: any) => 
       (props['data-estado'] === "Aceptada"? "#67C940": 
       props['data-estado'] === "Rechazada"? "#ff6660":

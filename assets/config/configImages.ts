@@ -56,7 +56,7 @@ export const IconService = {
 }
 export const IconSoporte = {
   name: 'IconSoporte',
-  url: config.amazonUrl + '/dashboard/support.png',
+  url: config.amazonUrl + '/adquirencia-movil/support.png',
 }
 
 export const CardsIcons: any = {
@@ -67,7 +67,7 @@ export const CardsIcons: any = {
     config.amazonUrl +
     '/adquirencia-movil/Medios+de+pago/MS+Cr%E2%80%9Adito+Mastercard.png',
   PSE: config.amazonUrl + '/adquirencia-movil/Medios+de+pago/PSE+PSE.png',
-  DEFAULT: config.amazonUrl + '/dashboard/cards/N/A.png',
+  DEFAULT: config.amazonUrl + '/adquirencia-movil/A.png',
 }
 export const LogoDaviviendaEpayco = {
   name: 'LogoDaviviendaEpayco',

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const DropDownMenu = styled.div`
-  display: ${(props) => props.theme.display};
+  display: ${(props:any) => props["data-visible"] ? "flex": "none"};
   width: '2px';
   flex-direction: column;
   background-color: #fff;

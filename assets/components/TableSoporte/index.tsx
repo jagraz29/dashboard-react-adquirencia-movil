@@ -13,7 +13,7 @@ import {
 import TableCollectAction from '../TableCollectAction'
 import { closeTicket, reOpenTicket } from '../../redux/actions'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 type Props = {
   data: {}[]
@@ -35,6 +35,9 @@ const fields:any={
 
 const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen }) => {
 
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false)
+
+  const history = useHistory()
   const ticketClose = async (id: number) => {
     const res = await closeTicket(id)
     if (typeof res != 'boolean') {
@@ -60,7 +63,7 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
   }
 
   const navToDetail = async (id: number) => {
-    window.location.href = 'soporte/detalle/' + id
+    history.push(`/soporte/detalle/${id}`)
   }
 
   return (
@@ -98,13 +101,15 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
                   ) : (
                     <body>{item[title]}</body>
                   )}
-                </td>
+                </td>    
               ))}
               <td>
                 <TableCollectAction
+                  visible={dropdownVisible===item['id']}
+                  setDropdownVisible={()=> setDropdownVisible(item['id']) }
                   actions={
                     ticketsOpen
-                      ? [
+                      ? [ 
                           {
                             name: 'Detalle',
                             funcion: () => {
@@ -156,6 +161,8 @@ const TableSoporte: React.FC<Props> = ({ data, titleData, bodyTitle, ticketsOpen
                       fields[clave] === "Acciones"?
                       <ContentAction>
                           <TableCollectAction
+                              visible={dropdownVisible===item.id}
+                              setDropdownVisible={()=> setDropdownVisible(item.id) }
                               actions={
                                 ticketsOpen
                                   ? [

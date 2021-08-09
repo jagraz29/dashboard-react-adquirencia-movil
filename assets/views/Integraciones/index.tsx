@@ -49,7 +49,8 @@ import {
   ImageShow,
   ClosePhoto,
   ContainerIntegracion,
-  CardTitleSubtitle
+  CardTitleSubtitle,
+  ContentInputTelefono
 } from './styles'
 import Dropzone from 'react-dropzone'
 import { config } from '../../config/enviroment'
@@ -207,7 +208,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
       setProperty.clienData.message == 'Save data successfully' &&
       (setProperty.clienData.status = true)
     ) {
-      toast.success(setProperty.clienData.message)
+      toast.success("Datos guardados exitosamente.")
 
       setLoadingButton1(false)
     } else {
@@ -220,7 +221,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
       setGateWay.gateWayData.message == 'Save data successfully' &&
       (setGateWay.gateWayData.status = true)
     ) {
-      toast.success(setGateWay.gateWayData.message)
+      toast.success("Datos guardados exitosamente.")
       setLoadingButton2(false)
     } else {
       setLoadingButton2(false)
@@ -230,7 +231,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
       setGateWay.gateWayData.message == 'Update Logo Successfully' &&
       (setGateWay.gateWayData.status = true)
     ) {
-      toast.success(setGateWay.gateWayData.message)
+      toast.success("Logo guardado exitosamente.")
       setLoadingButton3(false)
     } else {
       setLoadingButton3(false)
@@ -242,7 +243,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
       setGateWay.gateWayData.message == 'Save data successfully' &&
       (setGateWay.gateWayData.status = true)
     ) {
-      toast.success(setGateWay.gateWayData.message)
+      toast.success("Datos guardados exitosamente.")
       setLoadingButton3(false)
     } else {
       setLoadingButton3(false)
@@ -535,7 +536,7 @@ const Integraciones = ({setBreadcrumb}:any) => {
               {showLoadingProperty == false ? (
                 ''
               ) : showLoadingProperty == true ? (
-                <ContentInput>
+                <ContentInputTelefono>
                   <ContentInputCard>
                     <InputLabel label={'Teléfono negocio'} />
                     <InputGroup>
@@ -586,8 +587,8 @@ const Integraciones = ({setBreadcrumb}:any) => {
                       />
                     </InputGroup>
                   </ContentInputCard>
-                </ContentInput>
-              ) : (
+                </ContentInputTelefono>
+              ) : ( 
                 ''
               )}
 

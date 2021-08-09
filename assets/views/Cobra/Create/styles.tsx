@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {  MOBILE, TABLET } from '../../../styles/breakpoints'
+import {  INTERMEDIATE, MOBILE, TABLET } from '../../../styles/breakpoints'
 
 export const ContainerPrincipal = styled.div`
   display: grid;
@@ -176,6 +176,14 @@ export const ContentInputCard = styled.div`
   align-items: flex-start;
   justify-content: center;
   width: 100%;
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance:textfield;
+  }
 `
 
 export const ContentInputImageCard = styled.div`
@@ -319,7 +327,7 @@ export const InputGroupTax = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 1rem;
-  @media (max-width: ${MOBILE}) {
+  @media (max-width: ${INTERMEDIATE}) {
     grid-template-columns:  100%;
     width: 100%;
     grid-column-gap: 0;

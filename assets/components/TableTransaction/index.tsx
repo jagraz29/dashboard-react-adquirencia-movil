@@ -49,6 +49,7 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
   const [input, setInput] = useState({
     email: '',
   })
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false)
 
   const handleInputChange = (e: any) => {
     setInput({
@@ -162,6 +163,8 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
               <td>
                 <ContentAction>
                   <TableTransaccionesAction
+                    visible={dropdownVisible===item.referencePayco}
+                    setDropdownVisible={()=> setDropdownVisible(item.referencePayco) }
                     setTrx={setTrx}
                     item={item.referencePayco}
                     actions={[
@@ -212,6 +215,8 @@ const TableTransaction: React.FC<Props> = ({ data, titleData, toast }) => {
                       fields[clave] === "Acciones"?
                       <ContentAction>
                           <TableTransaccionesAction
+                            visible={dropdownVisible===item.referencePayco}
+                            setDropdownVisible={()=> setDropdownVisible(item.referencePayco) }
                             setTrx={setTrx}
                             item={item.referencePayco}
                             actions={[

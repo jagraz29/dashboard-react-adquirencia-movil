@@ -31,6 +31,10 @@ export const ContainerButtonMenu = styled.div`
         font-size: 25px;
         border: 1px solid #e4e4e4;
         padding-top: 0.3rem;
+        cursor: pointer;
+        :hover {
+          background-color: #e6e6e6;
+        }
       }
     }
 `

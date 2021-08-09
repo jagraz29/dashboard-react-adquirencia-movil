@@ -493,7 +493,7 @@ const DetailTicket = ({setBreadcrumb}:any) => {
           <CardTrasactionOk>
             <TitleDescription>
               Seguimiento del ticket 
-              <i>   Respuestas de la solicitud. No es un chat online</i>
+              <i> Respuestas de la solicitud. No es un chat online.</i>
             </TitleDescription>
             <ContainerResponseChat id={'StyleContainerMessege'}>
               {respuestas.map((message, index) => (

@@ -9,6 +9,7 @@ const InputCustumer: React.FC<InputCostumerType> = ({
   width,
   value,
   onChange,
+  maxLength,
   returnComplete = false,
 }) => {
   const [valor, setValor] = useState('')
@@ -28,6 +29,7 @@ const InputCustumer: React.FC<InputCostumerType> = ({
       name={name}
       width={width}
       value={value}
+      maxLength={maxLength}
       onChange={(e) => {
         handlerOnChange(e)
       }}

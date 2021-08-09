@@ -90,7 +90,7 @@ export const ClaveField = styled.label`
 
    @media (max-width: ${INTERMEDIATE}) {
     font-weight: 700;
-    
+    margin-right: 0.2rem;
   }
 
 `
@@ -98,11 +98,13 @@ export const ValueItem = styled.label`
 
   @media (max-width: ${INTERMEDIATE}) {
     text-align: end;
+    word-break: break-all;
   }
 `
 export const ValueStatus = styled.label`
 
   @media (max-width: ${INTERMEDIATE}) {
+    text-transform: uppercase;
     text-align: end;
     color: ${(props: any) => 
       (props['data-estado'] === "Aceptada"? "#67C940": 
@@ -128,19 +130,23 @@ export const TableTextLink = styled.body`
   }
 `
 export const TableTextStatusOK = styled.h1`
+  text-transform: uppercase;
   color: green;
   font-size: 13px;
 `
 
 export const TableTextStatusPending = styled.h1`
+  text-transform: uppercase;
   color: orange;
   font-size: 13px;
 `
 
 export const TableTextStatusCancel = styled.h1`
+  text-transform: uppercase;
   color: red;
   font-size: 13px;
 `
 export const TableTextStatusOther = styled.h1`
+  text-transform: uppercase;
   font-size: 13px;
 `

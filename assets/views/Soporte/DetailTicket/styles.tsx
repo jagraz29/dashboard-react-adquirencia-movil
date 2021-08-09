@@ -327,6 +327,7 @@ export const ContainerTextarea = styled.div`
       border: 0px ;
       padding-left: 50px;
       width: 85%;
+      margin-right: 0.5rem;
     }
 `
 export const ContainerFile = styled.div`

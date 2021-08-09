@@ -57,6 +57,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
   const [idCobra, setIdCobra] = useState(null)
   const history = useHistory()
   const { isShown, toggle } = useModal()
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false)
 
   const redirectRoute = (path: string) => {
     history.push(path)
@@ -150,7 +151,19 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                   return (
                     <td key={index}>
                       {title == 'id' ? (
-                        <body>{item[title]}</body>
+                        <body>
+                          <Link
+                            to={'/collect/show/' + item[title]}
+                            style={{
+                              fontWeight: 500,
+                              fontSize: '14px',
+                              color: '#40a8e6',
+                              textDecoration: 'none',
+                            }}
+                          >
+                            {item[title]}
+                        </Link>
+                      </body>
                       ) : title == 'amount' ? (
                         <body>
                           <NumberFormat
@@ -188,6 +201,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
               })}
               <td>
                 <TableCollectAction
+                  visible={dropdownVisible===item['id']}
+                  setDropdownVisible={()=> setDropdownVisible(item['id']) }
                   actions={[
                     {
                       name: 'Detalle de cobro',
@@ -225,8 +240,18 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                   <ContentItem>
                     <ClaveField>{fields[clave]}</ClaveField>
                     {
-                      fields[clave] === "Ref.Payco"?
-                      <Link to={`/transacciones/detalles/${item[clave]}`}>{item[clave]}</Link>
+                      fields[clave] === "Id"?
+                      <Link 
+                        to={`/collect/show/${item[clave]}`}
+                        style={{
+                          fontWeight: 500,
+                          fontSize: '14px',
+                          color: '#40a8e6',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {item[clave]}
+                      </Link>
                       :
                       fields[clave] === "Valor"?
                       <NumberFormat
@@ -245,6 +270,8 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
                       fields[clave] === "Acciones"?
                       <ContentAction>
                           <TableCollectAction
+                            visible={dropdownVisible===item.referencePayco}
+                            setDropdownVisible={()=> setDropdownVisible(item.referencePayco) }
                             actions={[
                               {
                                 name: 'Detalle de cobro',

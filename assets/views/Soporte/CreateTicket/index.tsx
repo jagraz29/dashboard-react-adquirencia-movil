@@ -297,13 +297,12 @@ const CreateTicket = ({setBreadcrumb}:any) => {
                     type={'text'}
                     placeholder={''}
                     width={'96%'}
+                    maxLength={60}
                     value={ticket.asunto}
                     onChange={handleChangeInput}
                     returnComplete={true}
                   />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', width: '17.5vw' }}>
-                    <span style={{ fontSize: '0.7vw', color: '#ADADAD' }}>60 caracteres</span>
-                  </div>
+                    <span style={{ fontSize: '13px', color: '#ADADAD',alignSelf:"flex-end"}}>60 caracteres</span>
                 </ContentInputCard>
               </ContentInput>
 

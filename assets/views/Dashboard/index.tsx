@@ -135,7 +135,7 @@ const index = ({setBreadcrumb}:any) => {
               <ValueTicket>{ticketsOpen.length>0? ticketsOpen.length : "-"}</ValueTicket>
           </ContainerItemTicket>
           <ContainerItemTicket>
-          <ValueTicket onClick={()=> setOpen(!open)}>Ver detalle <BsChevronDown/></ValueTicket>
+          <ValueTicket onClick={()=> setOpen(!open)} style={{cursor:"pointer"}}>Ver detalle <BsChevronDown/></ValueTicket>
           </ContainerItemTicket>
         </ContentTickets>
         <ContainerTableTickets data-open={open}>

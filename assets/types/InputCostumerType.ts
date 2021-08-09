@@ -6,4 +6,5 @@ export type InputCostumerType = {
   value: string
   onChange: any
   returnComplete?: boolean
+  maxLength?: any
 }
