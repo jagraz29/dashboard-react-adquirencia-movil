@@ -28,25 +28,25 @@ const breadcrumbTitle = [
 ]
 const optionsSoport = [
   {
-    icon: config.amazonUrl + '/dashboard/iconos-soporte/ticket-2.svg',
+    icon: config.amazonUrl + '/adquirencia-movil/ticket-2.svg',
     text: 'Crear ticket de soporte',
     history: true,
     url: 'soporte/nuevo',
   },
   {
-    icon: config.amazonUrl + '/dashboard/iconos-soporte/conocimiento.svg',
+    icon: config.amazonUrl + '/adquirencia-movil/conocimiento.svg',
     text: 'Base de conocimiento',
     target: true,
     url: 'https://docs.epayco.co/',
   },
   {
-    icon: config.amazonUrl + '/dashboard/iconos-soporte/reunion-soporte.svg',
+    icon: config.amazonUrl + '/adquirencia-movil/reunion-soporte.svg',
     text: 'Agendar reunión con soporte',
     target: true,
     url: 'https://calendly.com/epayco/',
   },
   {
-    icon: config.amazonUrl + '/dashboard/iconos-soporte/contacto.svg',
+    icon: config.amazonUrl + '/adquirencia-movil/contacto.svg',
     text: 'Contacto telefónico: +57 (4) 448 4952',
     phone: '+57 (4) 448 4952',
   },

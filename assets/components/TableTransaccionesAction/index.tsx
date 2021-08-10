@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DropDownMenu, DropDownContent, DropdownItem } from './styles'
 import * as RiIcons from 'react-icons/ri'
 
@@ -6,29 +6,22 @@ type Props = {
   actions: {}[]
   setTrx: any
   item: number
+  setDropdownVisible:any
+  visible:boolean
 }
 
-const TableTransaccionesAction: React.FC<Props> = ({ actions, setTrx, item }) => {
-  const [visible, setVisible] = useState(false)
-  const [showItem, setShowItem] = useState({ display: 'none' })
+const TableTransaccionesAction: React.FC<Props> = ({ actions, setTrx, item, visible, setDropdownVisible }) => {
 
   const handleDropdownClick = () => {
-    setVisible(!visible)
-    if (!visible) {
-      setShowItem({ display: 'flex' })
-    } else {
-      setShowItem({ display: 'none' })
-    }
+    setDropdownVisible()
+    setTrx(item)
   }
   return (
     <DropDownContent
-      onClick={() => {
-        handleDropdownClick()
-        setTrx(item)
-      }}
+      onClick={handleDropdownClick}
     >
       <RiIcons.RiArrowDownSFill />
-      <DropDownMenu theme={showItem}>
+      <DropDownMenu data-visible={visible}>
         {actions.map((item: any, key: any) => (
           <DropdownItem key={key} onClick={() => item.funcion(item.value)}>
             {item.name}

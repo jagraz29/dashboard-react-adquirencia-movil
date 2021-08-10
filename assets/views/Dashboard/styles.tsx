@@ -178,8 +178,13 @@ export const ContentTickets = styled.div`
   flex-direction: row;
   justify-content: space-around;
   height: 2.5rem;
+  @media (max-width: ${INTERMEDIATE}) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+  }
   @media (max-width: ${MOBILE}) {
-    flex-direction: column;
+    grid-template-columns: 100%;
     height: auto;
     padding: 0.5rem;
   }

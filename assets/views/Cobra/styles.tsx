@@ -57,6 +57,7 @@ export const ContentTable = styled.div`
   overflow: scroll;
   @media (max-width: ${INTERMEDIATE}) {
     overflow: hidden;
+    padding-bottom: 3rem;
   }
 `
 
@@ -90,13 +91,15 @@ export const SearchContainer = styled.form`
   div {
     display: grid;
     grid-template-columns: 5fr 1fr;
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
     }
+    input[type=number] { -moz-appearance:textfield; }
+
     input {
-      border: 1px solid #b7b6b6;
+      border: 1px solid #c5c5c8;
       border-radius: 4px 0px 0px 4px;
       line-height: 35px;
       padding: 0px 0.5em 0px;
@@ -123,6 +126,9 @@ export const SearchContainer = styled.form`
     color: #bababa;
     background: #0000000d;
     cursor: pointer;
+    :hover {
+        color: #5e5e5e;
+      }
   }
   @media (max-width: ${MOBILE}) {
     margin: 0;

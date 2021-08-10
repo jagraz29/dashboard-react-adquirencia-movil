@@ -122,6 +122,14 @@ export const ContentInput = styled.div`
     grid-template-columns: 100%;
   }
 `
+export const ContentInputTelefono = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 0.5rem;
+  @media (max-width: ${INTERMEDIATE}) {
+    grid-template-columns: 100%;
+  }
+`
 export const ContentInputTotal = styled.div`
   display: grid;
   grid-template-columns: 100%;
@@ -167,6 +175,14 @@ export const ContentInputCard = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance:textfield;
+  }
 `
 
 export const InputGroup = styled.div`
@@ -188,9 +204,9 @@ export const ContentKeys = styled.div`
 export const LabelKey = styled.h5`
   margin: 0.5rem 0;
   padding-left: 0.5rem;
-  overflow-wrap: break-word;
   width: 100%;
   white-space: initial;
+  word-break: break-all;
 `
 export const TitleKey = styled.h4`
   margin: 0.5rem 0;

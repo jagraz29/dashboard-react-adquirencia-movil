@@ -11,8 +11,9 @@ export const BackShadow = styled.div`
     position: absolute;
     width: ${(props: any) => (props['data-show'] ? '100vw' : '0')};;
     height: 100vh;
-    backdrop-filter: brightness(0.5);
+    /* backdrop-filter: brightness(0.5); */
     z-index: 10;
+    background: rgba(0,0,0,.3);
   }
 `
 
@@ -72,8 +73,8 @@ export const SidebarNav = styled.nav`
     width: 16rem;
     transition: left 0.5s;
     left: ${(props: any) => (props['data-show'] ? '0' : '-100%')};
-    //z-index: ${(props: any) => (props['data-show'] ? '200' : '0')};
     z-index:2000;
+    overflow-y: auto;
     ${SidebarWrap}{
       margin-top:1rem;
     }

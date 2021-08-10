@@ -1,12 +1,16 @@
+html, body {
+  text-rendering: geometricPrecision;
+}
+
 body {
   margin: 0 0 0 0;
   background-color: #e6e6e6;
-  font-family: Segoe UI;
   font-style: normal;
   font-weight: normal;
   overflow-x: hidden;
   margin: 0;
   overflow: hidden;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 input:focus,
@@ -36,6 +40,7 @@ label {
   background-size: cover;
   padding: 1rem;
   height: 100vh;
+  overflow-y: auto;
 }
 .container-princ{
   display: flex;
