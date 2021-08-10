@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { Spinner } from './styles'
 import { sendEmail, sendPasswords } from '../../redux/actions'
 
 const AuthComponent = () => {
-  const { id }: any = useParams()
+
   const history = useHistory()
   const location = useLocation()
 
+  const id= location.pathname.slice(17)
+  
   const [email, setEmail] = useState('')
   const [check, setCheck] = useState(false)
   const [password, setPassword] = useState({ password: '', passwordConfirm: '' })
@@ -109,7 +111,6 @@ const AuthComponent = () => {
       confirmPassword: password.passwordConfirm,
       token: id,
     }
-
     const res = await sendPasswords(data)
     if (res.status == true) {
       toast.success('Se ha actualizado correctamente la contraseña.')
@@ -221,12 +222,12 @@ const AuthComponent = () => {
         {location.pathname === '/password/change/' + id && (
           <div className="auth-copyrigth-container">
             <form method="post" className="auth-container" >
-              <h1 className="auth-title">Cree su nueva contraseña</h1>
+              <h1 className="auth-title" style={{padding:0}} >Cree su nueva contraseña</h1>
               <h2 className="auth-subtitle">
                 Se recomienda para mayor seguridad de su cuenta, la contraseña debe contener mínino
                 8 caracteres entre letras y números
               </h2>
-              <div className="auth-input">
+              <div className="auth-input" style={{padding:"0.5rem 0"}} >
                 <label>Ingrese su nueva contraseña</label>
                 <input
                   className="input-auth"
@@ -238,7 +239,7 @@ const AuthComponent = () => {
                   required
                 />
               </div>
-              <div className="auth-input">
+              <div className="auth-input" style={{padding:"0.5rem 0"}}>
                 <label>Confirme su nueva contraseña</label>
                 <input
                   className="input-auth"
@@ -250,7 +251,7 @@ const AuthComponent = () => {
                   required
                 />
               </div>
-              <div className="button-section" style={{ display: 'flex' }}>
+              <div className="button-section" style={{ display: 'flex', marginTop:'1rem'}}>
                 <input
                   className="input-checkbox"
                   type="checkbox"
@@ -268,7 +269,7 @@ const AuthComponent = () => {
                   de ePayco.
                 </span>
               </div>
-              <div className="button-section">
+              <div className="button-section" style={{marginTop:"1rem"}}>
                 <button
                   disabled={disableButton}
                   onClick={handleSubmitPassword}

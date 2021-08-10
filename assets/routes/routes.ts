@@ -6,7 +6,6 @@ import { RouteCobraCreate, RouteCobraEdit, RouteCobraShow, RoutesCobra } from '.
 import { RoutesIntegraciones } from './routesIntegraciones'
 import { RoutesCreateTicket, RoutesDetailTicket, RoutesSoporte } from './routesSoporte'
 import { RoutesSeguridad } from './routesSeguridad'
-import { RoutesPasswordChange, RoutesSendEmail } from './routesAuth'
 import { RoutesTransacciones, RoutesTransaccionesDetalles } from './routesTransacciones'
 
 const routes: RouteConfig[] = [
@@ -17,10 +16,8 @@ const routes: RouteConfig[] = [
   RouteCobraCreate,
   RoutesSoporte,
   RouteCobraEdit,
-  RoutesSendEmail,
   RoutesCreateTicket,
   RoutesDetailTicket,
-  RoutesPasswordChange,
   RoutesTransacciones,
   RoutesTransaccionesDetalles,
   RouteCobraShow,
