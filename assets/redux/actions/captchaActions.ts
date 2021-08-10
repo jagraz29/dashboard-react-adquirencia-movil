@@ -351,3 +351,12 @@ export const resetListTransaction = () => async (dispatch: any) => {
     return false
   }
 }
+
+export const sendEmailSmsCollect = async (data:any) =>{
+  try {
+    const res = await dataService.post('/api/collect/share', data)
+    return res.data
+  } catch (error) {
+    return false
+  }
+}

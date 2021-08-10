@@ -71,4 +71,14 @@ final class ReactRouterCobraController extends AbstractController
   {
     return $this->render('base.html.twig');
   }
+
+    /**
+     *
+     * @Route("/collect/share", name="collect_share")
+     *
+     */
+    public function routerCobraShare(Request $request)
+    {
+        return $this->render('base.html.twig');
+    }
 }

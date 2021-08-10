@@ -35,6 +35,7 @@ import {
 import { TableTextLink } from '../../../components/TableCobra/styles'
 import NumberFormat from 'react-number-format'
 import * as AiIcons from 'react-icons/ai'
+import { ToastContainer } from 'react-toastify'
 
 const breadcrumbTitle = [
   {
@@ -311,7 +312,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
     <ContainerPrincipal> 
       <Title title={'Detalle Cobro'}></Title>
       <Content>
-
+      <ToastContainer/>
         <ContentItems>
 
           <CardInfoCollect>
@@ -327,7 +328,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
            
             <ContentInput>
               <ContentInputCard>
-                <TitleKey>Titulo del cobro</TitleKey>
+                <TitleKey>Título del cobro</TitleKey>
                 <LabelKey>{title? title:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
@@ -362,7 +363,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
             </ContentInput>
             <ContentInput>
               <ContentInputCard>
-                <TitleKey>Fecha de creacion</TitleKey>
+                <TitleKey>Fecha de creación</TitleKey>
                 <LabelKey>{date?date:"-"}</LabelKey>
               </ContentInputCard>
               <ContentInputCard>
@@ -469,7 +470,7 @@ const CollectShow = ({setBreadcrumb}:any) => {
         isShown={isShown}
         hide={toggle}
         modalContent={content}
-        headerText={'Compartir link del catálogo'}
+        headerText={'Compartir por:'}
       />
     </ContainerPrincipal>
   )

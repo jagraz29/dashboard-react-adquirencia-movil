@@ -21,6 +21,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/reducers/index'
 import { FaSearch } from 'react-icons/fa'
 import LoadingBar from '../../components/LoadingBar'
+import { ToastContainer } from 'react-toastify'
+
 const breadcrumbTitle = [
   {
     title: 'Inicio',
@@ -95,7 +97,7 @@ const Cobra = ({setBreadcrumb}:any) => {
     <ContainerPrincipal>
       <Title title={'Cobra'}></Title>
       <ContentCobra>
-        
+      <ToastContainer/>
         <ContentTitle>Comience a cobrar/vender.</ContentTitle>
         <ButtonLink onClick={() => redirectRoute('/cobra/create')}>
           <ButtonLinkTitle>Link de cobro</ButtonLinkTitle>

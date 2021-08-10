@@ -286,7 +286,7 @@ const TableDashboard: React.FC<Props> = ({ data, titleData }) => {
         isShown={isShown}
         hide={toggle}
         modalContent={content}
-        headerText={'Compartir link de Cobro'}
+        headerText={'Compartir por:'}
       />
 
     </div>
